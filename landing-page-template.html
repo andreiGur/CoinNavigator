@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinNavigator - Real-Time Crypto Spread Comparison</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #fff;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom right, #667eea, #764ba2, #667eea);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        /* Spreads Section */
+        .spreads-section {
+            padding: 96px 24px;
+            background: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2d3748;
+        }
+        
+        /* Data Table Placeholder */
+        .data-table-placeholder {
+            background: #f7fafc;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 48px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        
+        .data-table-placeholder p {
+            color: #718096;
+            font-size: 1.125rem;
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 96px 24px;
+            background: #f7fafc;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .feature-card p {
+            color: #718096;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 96px 24px;
+            background: white;
+            text-align: center;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a202c;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.125rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <h1>Find the Best Crypto Prices Instantly</h1>
+            <p>Compare real-time spreads between Binance and ByBit. Make smarter trading decisions with up-to-date price comparisons.</p>
+        </div>
+    </section>
+    
+    <!-- Spreads Section -->
+    <section id="spreads" class="spreads-section">
+        <div class="container">
+            <h2 class="section-title">Cryptocurrency Spread Comparison</h2>
+            
+            <!-- PLACEHOLDER FOR WORDPRESS SHORTCODE -->
+            <!-- Replace this div with WordPress shortcode: [coinnavigator_spread] -->
+            <div class="data-table-placeholder">
+                <p>[coinnavigator_spread]</p>
+                <p style="font-size: 0.875rem; margin-top: 8px; color: #a0aec0;">
+                    This will be replaced with the live data table
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Use CoinNavigator?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Real-Time Data</h3>
+                    <p>Updated every 15 minutes automatically. Always have the latest prices at your fingertips.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multiple Exchanges</h3>
+                    <p>Compare Binance vs ByBit prices in one place. Find the best deals instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Free & No Signup</h3>
+                    <p>Access all data instantly without registration. No credit card required.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Easy to Use</h3>
+                    <p>Simple, clean interface. No learning curve. Just compare and trade smarter.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Accurate Spreads</h3>
+                    <p>Precise percentage calculations. Know exactly how much you can save.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multiple Cryptocurrencies</h3>
+                    <p>Compare BTC, ETH, and more. All major coins in one place.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title">Start Trading Smarter Today</h2>
+            <p style="font-size: 1.125rem; color: #718096; margin-bottom: 32px;">
+                Bookmark this page to stay updated with the latest crypto spreads.
+            </p>
+            <a href="#spreads" class="cta-button">View Live Spreads</a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CoinNavigator. All rights reserved.</p>
+        <p style="margin-top: 8px; font-size: 0.875rem; opacity: 0.8;">
+            Data is updated automatically every 15 minutes. Prices may vary slightly between exchanges.
+        </p>
+    </footer>
+</body>
+</html>
+
+
+
