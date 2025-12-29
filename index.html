@@ -262,8 +262,9 @@
     <script>
         async function fetchSpreads() {
             try {
-                // Fetch the JSON file from the data directory
-                const response = await fetch('data/spread_data.json');
+                // Try fetching with cache busting to ensure fresh data
+                const response = await fetch('data/spread_data.json?v=' + Date.now());
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 
                 const tbody = document.getElementById('spread-body');
