@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinNavigator - Real-Time Crypto Spread Comparison</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #fff;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom right, #667eea, #764ba2, #667eea);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        /* Spreads Section */
+        .spreads-section {
+            padding: 60px 24px;
+            background: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2d3748;
+        }
+        
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .symbol-name {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .price-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .spread-badge {
+            background-color: #f0fdf4;
+            color: #166534;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .last-update {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-top: 12px;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 96px 24px;
+            background: #f7fafc;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .feature-card p {
+            color: #718096;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a202c;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.125rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <h1>CoinNavigator</h1>
+            <p>Real-time crypto spreads between Binance and ByBit.</p>
+        </div>
+    </section>
+    
+    <!-- Spreads Section -->
+    <section id="spreads" class="spreads-section">
+        <div class="container">
+            <h2 class="section-title">Live Market Spreads</h2>
+            
+            <div class="table-container">
+                <table id="spread-table">
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Binance Price</th>
+                            <th>ByBit Price</th>
+                            <th>Spread (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spread-body">
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 40px;">Loading live data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="timestamp" class="last-update"></div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Use CoinNavigator?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Real-Time Data</h3>
+                    <p>Updated automatically every 15 minutes. Always have the latest prices.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>No Signup Required</h3>
+                    <p>Access all data instantly without registration. Free forever.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Accurate Spreads</h3>
+                    <p>Precise percentage calculations to help you find the best trading opportunities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CoinNavigator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function fetchSpreads() {
+            try {
+                // Fetch the JSON file from the data directory
+                const response = await fetch('data/spread_data.json');
+                const data = await response.json();
+                
+                const tbody = document.getElementById('spread-body');
+                const timestampDiv = document.getElementById('timestamp');
+                
+                tbody.innerHTML = '';
+                
+                for (const [symbol, info] of Object.entries(data.symbols)) {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td class="symbol-name">${symbol}</td>
+                        <td><span class="price-badge">$${info.binance_price.toLocaleString()}</span></td>
+                        <td><span class="price-badge">$${info.bybit_price.toLocaleString()}</span></td>
+                        <td><span class="spread-badge">${(info.spread_percent * 100).toFixed(4)}%</span></td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                }
+                
+                const date = new Date(data.timestamp);
+                timestampDiv.innerText = `Last updated: ${date.toLocaleString()}`;
+                
+            } catch (error) {
+                console.error('Error fetching spread data:', error);
+                document.getElementById('spread-body').innerHTML = 
+                    '<tr><td colspan="4" style="text-align: center; color: red; padding: 40px;">Error loading data. Please try again later.</td></tr>';
+            }
+        }
+
+        // Initial fetch
+        fetchSpreads();
+        // Refresh every 5 minutes
+        setInterval(fetchSpreads, 5 * 60 * 1000);
+    </script>
+</body>
+</html>

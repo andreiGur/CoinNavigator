@@ -141,3 +141,5 @@ def save_to_json(self, data: Dict, filename: str = "spread_data.json"):
 
 
 
+
+
