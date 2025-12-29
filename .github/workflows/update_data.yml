@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # CRITICAL: Allows the action to push data back to repo
+  contents: write
 
 jobs:
   update-data:
