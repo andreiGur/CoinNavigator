@@ -3,218 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoinNavigator - Crypto Spread Comparison</title>
+    <title>CoinNavigator | Professional Crypto Arbitrage Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #64748b;
-            --bg: #f8fafc;
-            --text: #1e293b;
-            --white: #ffffff;
+            --primary-light: #818cf8;
+            --secondary: #0f172a;
+            --accent: #10b981;
+            --bg: #0b0f1a;
+            --card-bg: #161b2a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #2d334a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
 
         /* Navigation */
         nav {
-            background: var(--white);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: rgba(11, 15, 26, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 1.25rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid var(--border);
         }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--secondary); font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--primary); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+        .logo i { color: var(--primary); }
+        
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
+        .nav-links a:hover { color: var(--primary-light); }
 
-        /* Hero */
+        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
             text-align: center;
+            position: relative;
         }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.25rem; opacity: 0.9; max-width: 600px; margin: 0 auto 2rem; }
-        .cta-group { display: flex; justify-content: center; gap: 1rem; }
-        .btn { padding: 0.8rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s; cursor: pointer; border: none; }
-        .btn-primary { background: white; color: var(--primary); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .btn-outline { border: 2px solid white; color: white; }
-        .btn-outline:hover { background: white; color: var(--primary); }
+        .hero h1 { 
+            font-size: 4rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: var(--text-muted); font-size: 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; }
 
-        /* Main Content */
-        .container { max-width: 1000px; margin: 3rem auto; padding: 0 1rem; }
-        .card { background: var(--white); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); padding: 2rem; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        /* Stats Cards */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem; max-width: 1200px; margin: -3rem auto 3rem; padding: 0 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            padding: 1.5rem; border-radius: 16px; text-align: center;
+        }
+        .stat-card h4 { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .stat-card .value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+
+        /* Main Dashboard */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         
-        /* Table */
-        .table-wrapper { overflow-x: auto; }
+        .dashboard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .live-indicator { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--accent); font-weight: 600; }
+        .dot { height: 8px; width: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 1rem; color: var(--secondary); font-size: 0.875rem; border-bottom: 1px solid #e2e8f0; }
-        td { padding: 1.2rem 1rem; border-bottom: 1px solid #f1f5f9; }
-        .symbol { font-weight: 700; color: #0f172a; }
-        .price { font-family: 'Monaco', monospace; font-weight: 600; }
-        .spread-badge { background: #dcfce7; color: #166534; padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.875rem; }
+        th { text-align: left; padding: 1.25rem; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+        td { padding: 1.5rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        .trade-btn { 
-            background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 6px; 
-            text-decoration: none; font-size: 0.875rem; font-weight: 600;
+        .symbol-box { display: flex; align-items: center; gap: 12px; }
+        .symbol-box .name { font-weight: 700; font-size: 1.1rem; }
+        
+        .price-val { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .spread-val { 
+            background: rgba(16, 185, 129, 0.1); color: var(--accent); 
+            padding: 0.5rem 1rem; border-radius: 12px; font-weight: 700; 
         }
 
-        .last-update { text-align: center; margin-top: 1rem; color: var(--secondary); font-size: 0.875rem; }
+        .btn-trade {
+            background: var(--primary); color: white; text-decoration: none;
+            padding: 0.6rem 1.2rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600;
+            transition: all 0.2s; display: inline-block;
+        }
+        .btn-trade:hover { background: var(--primary-light); transform: translateY(-2px); }
 
-        /* Info Section */
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 4rem; }
-        .info-item i { font-size: 2rem; color: var(--primary); margin-bottom: 1rem; }
-        .info-item h3 { margin-bottom: 0.5rem; }
+        /* News Section */
+        .news-section { margin-top: 6rem; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .news-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 16px; overflow: hidden; transition: transform 0.3s;
+        }
+        .news-card:hover { transform: translateY(-5px); }
+        .news-content { padding: 1.5rem; }
+        .news-tag { color: var(--primary-light); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .news-title { font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0 1rem; }
+        .news-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
 
-        footer { text-align: center; padding: 4rem 2rem; color: var(--secondary); border-top: 1px solid #e2e8f0; margin-top: 4rem; }
+        footer { text-align: center; padding: 6rem 2rem; color: var(--text-muted); font-size: 0.9rem; }
 
-        @media (max-width: 640px) {
-            .hero h1 { font-size: 2rem; }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
             .nav-links { display: none; }
+            th:nth-child(2), td:nth-child(2) { display: none; }
         }
     </style>
 </head>
 <body>
+    <div class="bg-glow"></div>
 
     <nav>
-        <a href="#" class="logo"><i class="fas fa-compass"></i> CoinNavigator</a>
+        <a href="#" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
         <ul class="nav-links">
-            <li><a href="#spreads">Live Spreads</a></li>
-            <li><a href="https://www.binance.com" target="_blank">Binance</a></li>
-            <li><a href="https://www.bybit.com" target="_blank">ByBit</a></li>
+            <li><a href="#dashboard">Market Spreads</a></li>
+            <li><a href="#news">Market News</a></li>
+            <li><a href="https://www.binance.com" target="_blank">Binance API</a></li>
+            <li><a href="https://www.bybit.com" target="_blank">ByBit API</a></li>
         </ul>
-        <a href="https://www.binance.com" class="btn btn-primary" style="padding: 0.5rem 1rem;">Get Started</a>
+        <a href="https://www.binance.com" class="btn-trade">Launch Dashboard</a>
     </nav>
 
-    <section class="hero">
-        <h1>Maximize Your Crypto Profits</h1>
-        <p>Real-time price difference detection between world-leading exchanges. Trade where it's cheaper, sell where it's higher.</p>
-        <div class="cta-group">
-            <a href="#spreads" class="btn btn-primary">View Live Spreads</a>
-            <a href="https://www.binance.com" class="btn btn-outline" target="_blank">Join Binance</a>
-        </div>
-    </section>
+    <header class="hero">
+        <h1>Institutional Grade Arbitrage</h1>
+        <p>Real-time spread detection across Binance and ByBit. Identify market inefficiencies in milliseconds.</p>
+    </header>
 
-    <div class="container">
-        <div class="card" id="spreads">
-            <div class="section-header">
-                <h2>Live Market Spreads</h2>
-                <span id="status-dot" style="height: 10px; width: 10px; background: #22c55e; border-radius: 50%; display: inline-block;"></span>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h4>Total Assets</h4>
+            <div class="value" id="asset-count">9</div>
+        </div>
+        <div class="stat-card">
+            <h4>Highest Spread</h4>
+            <div class="value" id="max-spread">--</div>
+        </div>
+        <div class="stat-card">
+            <h4>Update Frequency</h4>
+            <div class="value">15m</div>
+        </div>
+        <div class="stat-card">
+            <h4>API Status</h4>
+            <div class="value" style="color: var(--accent)">ONLINE</div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="dashboard-card" id="dashboard">
+            <div class="table-header">
+                <h2>Live Spread Monitor</h2>
+                <div class="live-indicator">
+                    <div class="dot"></div>
+                    LIVE DATA
+                </div>
             </div>
 
-            <div class="table-wrapper">
+            <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
-                            <th>ASSET</th>
-                            <th>BINANCE PRICE</th>
-                            <th>BYBIT PRICE</th>
-                            <th>SPREAD (%)</th>
-                            <th>ACTION</th>
+                            <th>Asset</th>
+                            <th>Binance Price</th>
+                            <th>ByBit Price</th>
+                            <th>Spread</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="spread-body">
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 3rem;">
-                                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
-                                <p>Syncing with exchange APIs...</p>
+                            <td colspan="5" style="text-align: center; padding: 4rem;">
+                                <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div id="timestamp" class="last-update"></div>
+            <div id="timestamp" style="text-align: right; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.8rem;"></div>
         </div>
 
-        <div class="info-grid">
-            <div class="info-item">
-                <i class="fas fa-bolt"></i>
-                <h3>Lightning Fast</h3>
-                <p>Our detector scans Binance and ByBit every 15 minutes to find the best trading gaps for you.</p>
+        <section class="news-section" id="news">
+            <div class="table-header">
+                <h2>Market Intelligence</h2>
             </div>
-            <div class="info-item">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Verified Data</h3>
-                <p>We use official public APIs from top-tier exchanges to ensure price accuracy and reliability.</p>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-content">
+                        <div class="news-tag">Market Analysis</div>
+                        <h3 class="news-title">Bitcoin Consolidation: Key Levels to Watch in Q1 2026</h3>
+                        <a href="#" class="news-link">Read Analysis <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-content">
+                        <div class="news-tag">Arbitrage Tips</div>
+                        <h3 class="news-title">How to minimize slippage during high-spread events</h3>
+                        <a href="#" class="news-link">View Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-content">
+                        <div class="news-tag">Ecosystem</div>
+                        <h3 class="news-title">ByBit increases liquidity for SOL/USDT trading pairs</h3>
+                        <a href="#" class="news-link">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="info-item">
-                <i class="fas fa-chart-line"></i>
-                <h3>Free Forever</h3>
-                <p>CoinNavigator is a free tool designed for traders by traders. No subscription, no hidden fees.</p>
-            </div>
-        </div>
+        </section>
     </div>
 
     <footer>
-        <p>&copy; 2025 CoinNavigator.net | Professional Crypto Comparison Tools</p>
+        <p>&copy; 2025 CoinNavigator | Professional Grade Crypto Tools</p>
+        <p style="margin-top: 1rem; opacity: 0.5;">Trading cryptocurrency involves risk. Our data is for informational purposes only.</p>
     </footer>
 
     <script>
-        async function fetchSpreads() {
-            console.log("Starting to fetch spreads...");
+        async function updateDashboard() {
             try {
-                // Try to fetch the data
                 const response = await fetch('data/spread_data.json?v=' + Date.now());
-                console.log("Response status:", response.status);
-                
-                if (!response.ok) {
-                    throw new Error('Could not find spread_data.json. Make sure the script ran and pushed the file.');
-                }
-
+                if (!response.ok) throw new Error('Data sync error');
                 const data = await response.json();
-                console.log("Data loaded successfully:", data);
 
                 const tbody = document.getElementById('spread-body');
                 const timestampDiv = document.getElementById('timestamp');
+                const maxSpreadDiv = document.getElementById('max-spread');
                 
                 tbody.innerHTML = '';
-                
+                let highestSpread = 0;
+
                 for (const [symbol, info] of Object.entries(data.symbols)) {
+                    const spreadPercent = info.spread_percent * 100;
+                    if (spreadPercent > highestSpread) highestSpread = spreadPercent;
+
                     const row = document.createElement('tr');
-                    
-                    // Affiliate link placeholder - replace with your actual links
-                    const tradeUrl = info.higher_exchange === "Binance" 
-                        ? "https://www.bybit.com" // Buy on ByBit if Binance is higher
-                        : "https://www.binance.com"; // Buy on Binance if ByBit is higher
+                    const tradeUrl = info.higher_exchange === "Binance" ? "https://www.bybit.com" : "https://www.binance.com";
 
                     row.innerHTML = `
-                        <td><span class="symbol">${symbol}</span></td>
-                        <td class="price">$${info.binance_price.toLocaleString()}</td>
-                        <td class="price">$${info.bybit_price.toLocaleString()}</td>
-                        <td><span class="spread-badge">${(info.spread_percent * 100).toFixed(4)}%</span></td>
-                        <td><a href="${tradeUrl}" target="_blank" class="trade-btn">Trade Now</a></td>
+                        <td>
+                            <div class="symbol-box">
+                                <i class="fab fa-bitcoin" style="color: #f7931a"></i>
+                                <span class="name">${symbol.replace('USDT', '')}</span>
+                            </div>
+                        </td>
+                        <td class="price-val">$${info.binance_price.toLocaleString()}</td>
+                        <td class="price-val">$${info.bybit_price.toLocaleString()}</td>
+                        <td><span class="spread-val">${spreadPercent.toFixed(4)}%</span></td>
+                        <td><a href="${tradeUrl}" target="_blank" class="btn-trade">Trade Spread</a></td>
                     `;
-                    
                     tbody.appendChild(row);
                 }
-                
+
+                maxSpreadDiv.innerText = highestSpread.toFixed(3) + '%';
                 const date = new Date(data.timestamp);
                 timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
                 
             } catch (error) {
-                console.error('Detailed Error:', error);
-                document.getElementById('spread-body').innerHTML = 
-                    `<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 3rem;">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                        <p>Error loading data: ${error.message}</p>
-                        <p style="font-size: 0.8rem; margin-top: 10px;">Check browser console for details.</p>
-                    </td></tr>`;
+                console.error('Error:', error);
+                document.getElementById('spread-body').innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 4rem;">Sync Error: ${error.message}</td></tr>`;
             }
         }
 
-        fetchSpreads();
-        setInterval(fetchSpreads, 60000); // Check every minute
+        updateDashboard();
+        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>

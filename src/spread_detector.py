@@ -6,7 +6,12 @@ from typing import Dict, Optional
 
 class SpreadDetector:
     def __init__(self):
-        self.symbols = ["BTCUSDT", "ETHUSDT"]
+        # Expanded list of popular coins
+        self.symbols = [
+            "BTCUSDT", "ETHUSDT", "SOLUSDT", 
+            "XRPUSDT", "ADAUSDT", "DOGEUSDT", 
+            "DOTUSDT", "LINKUSDT", "MATICUSDT"
+        ]
         self.data_dir = "data"
         os.makedirs(self.data_dir, exist_ok=True)
 
@@ -34,10 +39,11 @@ class SpreadDetector:
 
     def run(self):
         results = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.utcnow().isoformat() + "Z", # Ensure ISO format with Z
             "symbols": {}
         }
 
+        print(f"--- Starting Update: {results['timestamp']} ---")
         for symbol in self.symbols:
             binance_price = self.get_binance_price(symbol)
             bybit_price = self.get_bybit_price(symbol)
@@ -49,7 +55,7 @@ class SpreadDetector:
                 results["symbols"][symbol] = {
                     "binance_price": binance_price,
                     "bybit_price": bybit_price,
-                    "absolute_diff": round(abs_diff, 2),
+                    "absolute_diff": round(abs_diff, 4),
                     "spread_percent": round(spread_pct, 6),
                     "higher_exchange": "Binance" if binance_price > bybit_price else "ByBit"
                 }
@@ -59,9 +65,8 @@ class SpreadDetector:
         output_path = os.path.join(self.data_dir, "spread_data.json")
         with open(output_path, "w") as f:
             json.dump(results, f, indent=2)
-        print(f"Results saved to {output_path}")
+        print(f"Successfully saved {len(results['symbols'])} symbols to {output_path}")
 
 if __name__ == "__main__":
     detector = SpreadDetector()
     detector.run()
-

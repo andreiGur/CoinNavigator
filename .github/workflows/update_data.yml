@@ -2,8 +2,11 @@ name: Update Spread Data
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # Every 15 minutes
-  workflow_dispatch: # Allows manual trigger
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write # CRITICAL: Allows the action to push data back to repo
 
 jobs:
   update-data:
@@ -18,8 +21,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: |
-          pip install requests
+        run: pip install requests
 
       - name: Run spread detector
         run: python src/spread_detector.py
@@ -29,6 +31,5 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add data/spread_data.json
-          git commit -m "Update spread data [skip ci]" || echo "No changes to commit"
+          git commit -m "Automated update: $(date -u)" || echo "No changes to commit"
           git push
-
