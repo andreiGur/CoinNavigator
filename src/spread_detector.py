@@ -6,7 +6,6 @@ from typing import Dict, Optional
 
 class SpreadDetector:
     def __init__(self):
-        # Expanded list of popular coins
         self.symbols = [
             "BTCUSDT", "ETHUSDT", "SOLUSDT", 
             "XRPUSDT", "ADAUSDT", "DOGEUSDT", 
@@ -22,7 +21,6 @@ class SpreadDetector:
             data = response.json()
             return float(data["price"])
         except Exception as e:
-            print(f"Error fetching Binance price for {symbol}: {e}")
             return None
 
     def get_bybit_price(self, symbol: str) -> Optional[float]:
@@ -34,16 +32,14 @@ class SpreadDetector:
                 return float(data["result"]["list"][0]["lastPrice"])
             return None
         except Exception as e:
-            print(f"Error fetching ByBit price for {symbol}: {e}")
             return None
 
     def run(self):
         results = {
-            "timestamp": datetime.utcnow().isoformat() + "Z", # Ensure ISO format with Z
+            "timestamp": datetime.utcnow().isoformat() + "Z",
             "symbols": {}
         }
 
-        print(f"--- Starting Update: {results['timestamp']} ---")
         for symbol in self.symbols:
             binance_price = self.get_binance_price(symbol)
             bybit_price = self.get_bybit_price(symbol)
@@ -59,13 +55,11 @@ class SpreadDetector:
                     "spread_percent": round(spread_pct, 6),
                     "higher_exchange": "Binance" if binance_price > bybit_price else "ByBit"
                 }
-                print(f"Processed {symbol}: Spread {round(spread_pct * 100, 4)}%")
 
-        # Save to JSON
         output_path = os.path.join(self.data_dir, "spread_data.json")
         with open(output_path, "w") as f:
             json.dump(results, f, indent=2)
-        print(f"Successfully saved {len(results['symbols'])} symbols to {output_path}")
+        print(f"Updated {len(results['symbols'])} symbols")
 
 if __name__ == "__main__":
     detector = SpreadDetector()
