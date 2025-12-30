@@ -158,3 +158,4 @@ cd /home/cointasu/CoinNavigator && bash /home/cointasu/CoinNavigator/run_spread_
 
 
 
+

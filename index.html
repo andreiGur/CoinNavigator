@@ -246,20 +246,44 @@
     <script>
         async function updateDashboard() {
             try {
+                console.log('Fetching data...');
                 const response = await fetch('data/spread_data.json?v=' + Date.now());
-                if (!response.ok) throw new Error('Data sync error');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Data received:', data);
 
                 const tbody = document.getElementById('spread-body');
                 const timestampDiv = document.getElementById('timestamp');
                 const maxSpreadDiv = document.getElementById('max-spread');
+                const assetCountDiv = document.getElementById('asset-count');
                 
+                if (!data.symbols || Object.keys(data.symbols).length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 4rem;">No live symbols detected. Check script status.</td></tr>';
+                    return;
+                }
+
                 tbody.innerHTML = '';
                 let highestSpread = 0;
+                let count = 0;
 
                 for (const [symbol, info] of Object.entries(data.symbols)) {
-                    const spreadPercent = info.spread_percent * 100;
-                    if (spreadPercent > highestSpread) highestSpread = spreadPercent;
+                    count++;
+                    // spread_percent in JSON is now a decimal (e.g. 0.0012) 
+                    // or if it's the old script, it might be 0.12.
+                    // We will handle both, but primarily assume decimal now.
+                    let spreadPercent = info.spread_percent;
+                    
+                    // If it's a very small decimal, it's likely the new script's output (0.01 = 1%)
+                    // But actually, let's just use what's in the JSON.
+                    // If spread_detector.py does: abs_diff / min_price, it's 0.001 for 0.1%.
+                    // So we multiply by 100.
+                    let displaySpread = spreadPercent * 100;
+                    
+                    if (displaySpread > highestSpread) highestSpread = displaySpread;
 
                     const row = document.createElement('tr');
                     const tradeUrl = info.higher_exchange === "Binance" ? "https://www.bybit.com" : "https://www.binance.com";
@@ -267,25 +291,32 @@
                     row.innerHTML = `
                         <td>
                             <div class="symbol-box">
-                                <i class="fab fa-bitcoin" style="color: #f7931a"></i>
+                                <i class="fas fa-coins" style="color: #f7931a"></i>
                                 <span class="name">${symbol.replace('USDT', '')}</span>
                             </div>
                         </td>
-                        <td class="price-val">$${info.binance_price.toLocaleString()}</td>
-                        <td class="price-val">$${info.bybit_price.toLocaleString()}</td>
-                        <td><span class="spread-val">${spreadPercent.toFixed(4)}%</span></td>
-                        <td><a href="${tradeUrl}" target="_blank" class="btn-trade">Trade Spread</a></td>
+                        <td class="price-val">$${info.binance_price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                        <td class="price-val">$${info.bybit_price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                        <td><span class="spread-val">${displaySpread.toFixed(4)}%</span></td>
+                        <td><a href="${tradeUrl}" target="_blank" class="btn-trade">Trade Now</a></td>
                     `;
                     tbody.appendChild(row);
                 }
 
+                assetCountDiv.innerText = count;
                 maxSpreadDiv.innerText = highestSpread.toFixed(3) + '%';
-                const date = new Date(data.timestamp);
-                timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
+                
+                if (data.timestamp) {
+                    const date = new Date(data.timestamp);
+                    timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
+                }
                 
             } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('spread-body').innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 4rem;">Sync Error: ${error.message}</td></tr>`;
+                console.error('Detailed Error:', error);
+                document.getElementById('spread-body').innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 4rem;">
+                    <div style="margin-bottom: 10px;">Sync Error: ${error.message}</div>
+                    <div style="font-size: 0.7rem; opacity: 0.7;">Make sure data/spread_data.json exists on GitHub</div>
+                </td></tr>`;
             }
         }
 
