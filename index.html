@@ -133,7 +133,12 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .nav-links { display: none; }
-            th:nth-child(2), td:nth-child(2) { display: none; }
+            /* On mobile, keep the table compact: show Asset, Binance, Best Spread, Action */
+            th:nth-child(3), td:nth-child(3),
+            th:nth-child(4), td:nth-child(4),
+            th:nth-child(5), td:nth-child(5),
+            th:nth-child(6), td:nth-child(6),
+            th:nth-child(7), td:nth-child(7) { display: none; }
         }
     </style>
 </head>
@@ -190,15 +195,19 @@
                     <thead>
                         <tr>
                             <th>Asset</th>
-                            <th>Binance Price</th>
-                            <th>ByBit Price</th>
-                            <th>Spread</th>
+                            <th>Binance</th>
+                            <th>OKX</th>
+                            <th>KuCoin</th>
+                            <th>Gate</th>
+                            <th>MEXC</th>
+                            <th>Bybit</th>
+                            <th>Best Spread</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="spread-body">
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 4rem;">
+                            <td colspan="9" style="text-align: center; padding: 4rem;">
                                 <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
                             </td>
                         </tr>
@@ -288,23 +297,43 @@
                 let highestSpread = 0;
                 let count = 0;
 
+                const exchangeOrder = Array.isArray(data.exchanges) && data.exchanges.length
+                    ? data.exchanges
+                    : ['Binance', 'OKX', 'KuCoin', 'Gate', 'MEXC', 'Bybit'];
+
+                const exchangeUrls = {
+                    Binance: 'https://www.binance.com',
+                    OKX: 'https://www.okx.com',
+                    KuCoin: 'https://www.kucoin.com',
+                    Gate: 'https://www.gate.io',
+                    MEXC: 'https://www.mexc.com',
+                    Bybit: 'https://www.bybit.com',
+                };
+
                 for (const [symbol, info] of Object.entries(data.symbols)) {
                     count++;
-                    const hasBinance = typeof info.binance_price === 'number';
-                    const hasBybit = typeof info.bybit_price === 'number';
-                    const hasSpread = typeof info.spread_percent === 'number';
+                    const prices = info.prices || {};
+                    const hasSpread = typeof info.spread_percent === 'number' && info.best_buy && info.best_sell;
 
                     let displaySpreadText = 'N/A';
+                    let spreadDetails = '';
                     if (hasSpread) {
                         const displaySpread = info.spread_percent * 100;
                         displaySpreadText = displaySpread.toFixed(4) + '%';
                         if (displaySpread > highestSpread) highestSpread = displaySpread;
+                        spreadDetails = `Buy ${info.best_buy.exchange} / Sell ${info.best_sell.exchange}`;
                     }
 
                     const row = document.createElement('tr');
-                    const tradeUrl = info.higher_exchange === "Binance" ? "https://www.bybit.com" : "https://www.binance.com";
-                    const binanceText = hasBinance ? `$${info.binance_price.toLocaleString(undefined, {minimumFractionDigits: 2})}` : 'N/A';
-                    const bybitText = hasBybit ? `$${info.bybit_price.toLocaleString(undefined, {minimumFractionDigits: 2})}` : 'N/A';
+                    const fmt = (v) => (typeof v === 'number')
+                        ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
+                        : 'N/A';
+
+                    const cells = exchangeOrder.map((ex) => `<td class="price-val">${fmt(prices[ex])}</td>`).join('');
+
+                    const actionHtml = hasSpread
+                        ? `<a href="${exchangeUrls[info.best_buy.exchange] || '#'}" target="_blank" class="btn-trade" title="${spreadDetails}">View Trade</a>`
+                        : `<span style="color: var(--text-muted); font-size: 0.85rem;">Partial data</span>`;
 
                     row.innerHTML = `
                         <td>
@@ -313,10 +342,9 @@
                                 <span class="name">${symbol.replace('USDT', '')}</span>
                             </div>
                         </td>
-                        <td class="price-val">${binanceText}</td>
-                        <td class="price-val">${bybitText}</td>
-                        <td><span class="spread-val">${displaySpreadText}</span></td>
-                        <td>${hasSpread ? `<a href="${tradeUrl}" target="_blank" class="btn-trade">Trade Now</a>` : `<span style="color: var(--text-muted); font-size: 0.85rem;">Waiting for Bybit</span>`}</td>
+                        ${cells}
+                        <td><span class="spread-val" title="${spreadDetails}">${displaySpreadText}</span></td>
+                        <td>${actionHtml}</td>
                     `;
                     tbody.appendChild(row);
                 }
