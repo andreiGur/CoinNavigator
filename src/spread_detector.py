@@ -108,23 +108,30 @@ class SpreadDetector:
             binance_price, binance_err = self.get_binance_price_info(symbol)
             bybit_price, bybit_err = self.get_bybit_price_info(symbol)
 
+            # Always emit a row so the website can show partial data (e.g. Binance-only).
+            row: Dict[str, Any] = {
+                "binance_price": binance_price,
+                "bybit_price": bybit_price,
+                "absolute_diff": None,
+                "spread_percent": None,
+                "higher_exchange": None,
+            }
+
             if binance_price is None or bybit_price is None:
                 results["errors"][symbol] = {
                     "binance": binance_err if binance_price is None else "ok",
                     "bybit": bybit_err if bybit_price is None else "ok",
                 }
+                results["symbols"][symbol] = row
                 continue
 
             abs_diff = abs(binance_price - bybit_price)
             spread_pct = abs_diff / min(binance_price, bybit_price)
 
-            results["symbols"][symbol] = {
-                "binance_price": binance_price,
-                "bybit_price": bybit_price,
-                "absolute_diff": round(abs_diff, 4),
-                "spread_percent": round(spread_pct, 6),
-                "higher_exchange": "Binance" if binance_price > bybit_price else "ByBit",
-            }
+            row["absolute_diff"] = round(abs_diff, 4)
+            row["spread_percent"] = round(spread_pct, 6)
+            row["higher_exchange"] = "Binance" if binance_price > bybit_price else "ByBit"
+            results["symbols"][symbol] = row
 
         # Write to /data/spread_data.json (for local/dev) AND /spread_data.json (for simple static hosting)
         output_path = os.path.join(self.data_dir, "spread_data.json")

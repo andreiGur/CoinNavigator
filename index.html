@@ -284,32 +284,27 @@
                 const maxSpreadDiv = document.getElementById('max-spread');
                 const assetCountDiv = document.getElementById('asset-count');
                 
-                if (!data.symbols || Object.keys(data.symbols).length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 4rem;">No live symbols detected. Check script status.</td></tr>';
-                    return;
-                }
-
                 tbody.innerHTML = '';
                 let highestSpread = 0;
                 let count = 0;
 
                 for (const [symbol, info] of Object.entries(data.symbols)) {
                     count++;
-                    // spread_percent in JSON is now a decimal (e.g. 0.0012) 
-                    // or if it's the old script, it might be 0.12.
-                    // We will handle both, but primarily assume decimal now.
-                    let spreadPercent = info.spread_percent;
-                    
-                    // If it's a very small decimal, it's likely the new script's output (0.01 = 1%)
-                    // But actually, let's just use what's in the JSON.
-                    // If spread_detector.py does: abs_diff / min_price, it's 0.001 for 0.1%.
-                    // So we multiply by 100.
-                    let displaySpread = spreadPercent * 100;
-                    
-                    if (displaySpread > highestSpread) highestSpread = displaySpread;
+                    const hasBinance = typeof info.binance_price === 'number';
+                    const hasBybit = typeof info.bybit_price === 'number';
+                    const hasSpread = typeof info.spread_percent === 'number';
+
+                    let displaySpreadText = 'N/A';
+                    if (hasSpread) {
+                        const displaySpread = info.spread_percent * 100;
+                        displaySpreadText = displaySpread.toFixed(4) + '%';
+                        if (displaySpread > highestSpread) highestSpread = displaySpread;
+                    }
 
                     const row = document.createElement('tr');
                     const tradeUrl = info.higher_exchange === "Binance" ? "https://www.bybit.com" : "https://www.binance.com";
+                    const binanceText = hasBinance ? `$${info.binance_price.toLocaleString(undefined, {minimumFractionDigits: 2})}` : 'N/A';
+                    const bybitText = hasBybit ? `$${info.bybit_price.toLocaleString(undefined, {minimumFractionDigits: 2})}` : 'N/A';
 
                     row.innerHTML = `
                         <td>
@@ -318,16 +313,16 @@
                                 <span class="name">${symbol.replace('USDT', '')}</span>
                             </div>
                         </td>
-                        <td class="price-val">$${info.binance_price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                        <td class="price-val">$${info.bybit_price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                        <td><span class="spread-val">${displaySpread.toFixed(4)}%</span></td>
-                        <td><a href="${tradeUrl}" target="_blank" class="btn-trade">Trade Now</a></td>
+                        <td class="price-val">${binanceText}</td>
+                        <td class="price-val">${bybitText}</td>
+                        <td><span class="spread-val">${displaySpreadText}</span></td>
+                        <td>${hasSpread ? `<a href="${tradeUrl}" target="_blank" class="btn-trade">Trade Now</a>` : `<span style="color: var(--text-muted); font-size: 0.85rem;">Waiting for Bybit</span>`}</td>
                     `;
                     tbody.appendChild(row);
                 }
 
                 assetCountDiv.innerText = count;
-                maxSpreadDiv.innerText = highestSpread.toFixed(3) + '%';
+                maxSpreadDiv.innerText = highestSpread > 0 ? (highestSpread.toFixed(3) + '%') : '--';
                 
                 if (data.timestamp) {
                     const date = new Date(data.timestamp);
