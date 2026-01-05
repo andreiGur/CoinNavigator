@@ -19,6 +19,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          # Force checkout of the latest main so workflow_dispatch "re-runs" don't use an old SHA.
+          ref: main
           fetch-depth: 0
 
       - name: Set up Python
