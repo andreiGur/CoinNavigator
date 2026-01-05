@@ -244,16 +244,33 @@
     </footer>
 
     <script>
+        async function fetchJsonWithFallback() {
+            const candidates = [
+                new URL('/spread_data.json', window.location.origin).toString(),
+                new URL('/data/spread_data.json', window.location.origin).toString(),
+            ];
+
+            let lastError = null;
+            for (const baseUrl of candidates) {
+                const url = baseUrl + '?v=' + Date.now();
+                try {
+                    const res = await fetch(url, { cache: 'no-store' });
+                    if (!res.ok) {
+                        lastError = new Error(`HTTP ${res.status} for ${baseUrl}`);
+                        continue;
+                    }
+                    return await res.json();
+                } catch (e) {
+                    lastError = e;
+                }
+            }
+            throw lastError ?? new Error('Failed to fetch spread data');
+        }
+
         async function updateDashboard() {
             try {
                 console.log('Fetching data...');
-                const response = await fetch('data/spread_data.json?v=' + Date.now());
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
+                const data = await fetchJsonWithFallback();
                 console.log('Data received:', data);
 
                 const tbody = document.getElementById('spread-body');

@@ -56,9 +56,14 @@ class SpreadDetector:
                     "higher_exchange": "Binance" if binance_price > bybit_price else "ByBit"
                 }
 
+        # Write to /data/spread_data.json (for local/dev) AND /spread_data.json (for simple static hosting)
         output_path = os.path.join(self.data_dir, "spread_data.json")
-        with open(output_path, "w") as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2)
+        root_output_path = "spread_data.json"
+        with open(root_output_path, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2)
+
         print(f"Updated {len(results['symbols'])} symbols")
 
 if __name__ == "__main__":
