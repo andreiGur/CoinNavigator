@@ -17,6 +17,7 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border: #2d334a;
+            --danger: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,6 +28,7 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
+        html { scroll-behavior: smooth; }
 
         /* Animated Background */
         .bg-glow {
@@ -35,6 +37,25 @@
             background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+              linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.15;
+            z-index: -2;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+        }
+
+        /* Subtle entrance animation */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Navigation */
@@ -53,6 +74,28 @@
         .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
         .nav-links a:hover { color: var(--primary-light); }
 
+        .nav-cta { display: flex; gap: 0.75rem; align-items: center; }
+
+        .btn {
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 0.75rem 1.1rem;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+            will-change: transform;
+            cursor: pointer;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-light); }
+        .btn-ghost { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: var(--text-main); }
+        .btn-ghost:hover { border-color: rgba(129, 140, 248, 0.7); }
+
         /* Hero Section */
         .hero {
             padding: 6rem 2rem;
@@ -66,6 +109,35 @@
         }
         .hero p { color: var(--text-muted); font-size: 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; }
 
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+            animation: fadeUp 700ms ease-out 120ms both;
+        }
+
+        .trust-row {
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0.9;
+        }
+        .pill {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            padding: 0.4rem 0.75rem;
+            border-radius: 999px;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .pill i { color: var(--accent); }
+
         /* Stats Cards */
         .stats-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -74,7 +146,10 @@
         .stat-card {
             background: var(--card-bg); border: 1px solid var(--border);
             padding: 1.5rem; border-radius: 16px; text-align: center;
+            animation: fadeUp 650ms ease-out both;
+            transition: transform 0.2s, border-color 0.2s;
         }
+        .stat-card:hover { transform: translateY(-3px); border-color: rgba(129, 140, 248, 0.55); }
         .stat-card h4 { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
         .stat-card .value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
 
@@ -87,6 +162,7 @@
             border-radius: 24px;
             padding: 2rem;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: fadeUp 650ms ease-out 50ms both;
         }
 
         .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
@@ -95,7 +171,7 @@
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
         th { text-align: left; padding: 1.25rem; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
         td { padding: 1.5rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
@@ -115,6 +191,78 @@
         }
         .btn-trade:hover { background: var(--primary-light); transform: translateY(-2px); }
 
+        .btn-mini {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-main);
+            padding: 0.55rem 0.9rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
+            white-space: nowrap;
+        }
+        .btn-mini:hover { transform: translateY(-2px); border-color: rgba(129, 140, 248, 0.7); }
+        .btn-mini-primary { background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.35); }
+
+        .row-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .details-row td { padding-top: 0; }
+        .details {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 0.75rem 0 1.25rem;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+        .details-item {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            border-radius: 14px;
+            padding: 0.75rem 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+        .details-item .ex { color: var(--text-muted); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
+        .details-item .val { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+        .muted { color: var(--text-muted); }
+        .err { color: var(--danger); font-weight: 700; }
+
+        /* Affiliate CTA section */
+        .cta-section { margin-top: 2.5rem; }
+        .cta-card {
+            background: linear-gradient(135deg, rgba(99,102,241,0.16), rgba(16,185,129,0.08));
+            border: 1px solid rgba(129,140,248,0.35);
+            border-radius: 24px;
+            padding: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .cta-card:before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background: radial-gradient(circle at 10% 10%, rgba(129,140,248,0.22), transparent 40%),
+                        radial-gradient(circle at 90% 30%, rgba(16,185,129,0.18), transparent 45%);
+            filter: blur(10px);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+        .cta-inner { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 1.5rem; align-items: center; }
+        .cta-inner h3 { font-size: 1.8rem; letter-spacing: -0.02em; }
+        .cta-inner p { color: var(--text-muted); margin-top: 0.6rem; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: flex-end; }
+
         /* News Section */
         .news-section { margin-top: 6rem; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
@@ -133,16 +281,24 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .nav-links { display: none; }
-            /* On mobile, keep the table compact: show Asset, Binance, Best Spread, Action */
-            th:nth-child(3), td:nth-child(3),
-            th:nth-child(4), td:nth-child(4),
-            th:nth-child(5), td:nth-child(5),
-            th:nth-child(6), td:nth-child(6),
-            th:nth-child(7), td:nth-child(7) { display: none; }
+            nav { padding: 1rem 1rem; }
+            .nav-cta { gap: 0.5rem; }
+            .btn { padding: 0.7rem 0.95rem; }
+            .stats-grid { margin-top: -2rem; }
+            .dashboard-card { padding: 1.25rem; }
+            th, td { padding: 1rem 0.75rem; }
+            .details-grid { grid-template-columns: 1fr; }
+            .cta-inner { grid-template-columns: 1fr; }
+            .cta-buttons { justify-content: flex-start; }
+
+            /* On mobile: compact table (no horizontal scroll) */
+            th:nth-child(2), td:nth-child(2) { display: none; } /* Buy */
+            th:nth-child(3), td:nth-child(3) { display: none; } /* Sell */
         }
     </style>
 </head>
 <body>
+    <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
     <nav>
@@ -153,12 +309,27 @@
             <li><a href="https://www.binance.com" target="_blank">Binance API</a></li>
             <li><a href="https://www.bybit.com" target="_blank">ByBit API</a></li>
         </ul>
-        <a href="https://www.binance.com" class="btn-trade">Launch Dashboard</a>
+        <div class="nav-cta">
+            <a href="#dashboard" class="btn btn-ghost"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="#start" class="btn btn-primary"><i class="fas fa-rocket"></i> Start</a>
+        </div>
     </nav>
 
     <header class="hero">
-        <h1>Institutional Grade Arbitrage</h1>
-        <p>Real-time spread detection across Binance and ByBit. Identify market inefficiencies in milliseconds.</p>
+        <h1>Crypto Spreads Made Simple</h1>
+        <p>Compare live prices across top exchanges. Get a clear “buy low / sell high” signal and learn the basics — built for beginners, loved by traders.</p>
+
+        <div class="hero-cta" id="start">
+            <a class="btn btn-primary" href="#dashboard"><i class="fas fa-bolt"></i> See Live Opportunities</a>
+            <a class="btn btn-ghost" href="#learn"><i class="fas fa-graduation-cap"></i> Learn Arbitrage (Free)</a>
+            <a class="btn btn-ghost" href="#bonuses"><i class="fas fa-gift"></i> Claim Bonuses</a>
+        </div>
+
+        <div class="trust-row">
+            <span class="pill"><i class="fas fa-shield-halved"></i> No login required</span>
+            <span class="pill"><i class="fas fa-clock"></i> Updates every 15 minutes</span>
+            <span class="pill"><i class="fas fa-list-check"></i> Beginner-friendly guides</span>
+        </div>
     </header>
 
     <div class="stats-grid">
@@ -195,19 +366,15 @@
                     <thead>
                         <tr>
                             <th>Asset</th>
-                            <th>Binance</th>
-                            <th>OKX</th>
-                            <th>KuCoin</th>
-                            <th>Gate</th>
-                            <th>MEXC</th>
-                            <th>Bybit</th>
+                            <th>Best Buy</th>
+                            <th>Best Sell</th>
                             <th>Best Spread</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="spread-body">
                         <tr>
-                            <td colspan="9" style="text-align: center; padding: 4rem;">
+                            <td colspan="5" style="text-align: center; padding: 4rem;">
                                 <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
                             </td>
                         </tr>
@@ -216,6 +383,52 @@
             </div>
             <div id="timestamp" style="text-align: right; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.8rem;"></div>
         </div>
+
+        <section class="cta-section" id="bonuses">
+            <div class="cta-card">
+                <div class="cta-inner">
+                    <div>
+                        <h3>Start trading smarter — grab exchange bonuses</h3>
+                        <p>These buttons are built for affiliate links. You can replace the URLs later with your tracking links.</p>
+                    </div>
+                    <div class="cta-buttons">
+                        <a class="btn btn-primary" href="#" target="_blank"><i class="fas fa-user-plus"></i> Open Binance Account</a>
+                        <a class="btn btn-ghost" href="#" target="_blank"><i class="fas fa-user-plus"></i> Open OKX Account</a>
+                        <a class="btn btn-ghost" href="#" target="_blank"><i class="fas fa-user-plus"></i> Open KuCoin Account</a>
+                        <a class="btn btn-ghost" href="#" target="_blank"><i class="fas fa-gift"></i> Claim Welcome Bonus</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="news-section" id="learn">
+            <div class="table-header">
+                <h2>Beginner Hub</h2>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-content">
+                        <div class="news-tag">Getting Started</div>
+                        <h3 class="news-title">What is a spread — and why it matters</h3>
+                        <a href="#" class="news-link">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-content">
+                        <div class="news-tag">Safety</div>
+                        <h3 class="news-title">How to avoid common beginner mistakes</h3>
+                        <a href="#" class="news-link">Open Checklist <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-content">
+                        <div class="news-tag">Tools</div>
+                        <h3 class="news-title">Best exchanges for new traders (fees, UX, support)</h3>
+                        <a href="#" class="news-link">Compare <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section class="news-section" id="news">
             <div class="table-header">
@@ -297,10 +510,6 @@
                 let highestSpread = 0;
                 let count = 0;
 
-                const exchangeOrder = Array.isArray(data.exchanges) && data.exchanges.length
-                    ? data.exchanges
-                    : ['Binance', 'OKX', 'KuCoin', 'Gate', 'MEXC', 'Bybit'];
-
                 const exchangeUrls = {
                     Binance: 'https://www.binance.com',
                     OKX: 'https://www.okx.com',
@@ -320,8 +529,8 @@
                             Bybit: info.bybit_price,
                         };
 
-                    const hasSpread = typeof info.spread_percent === 'number'
-                        && (info.best_buy && info.best_sell || info.higher_exchange);
+                    const hasBest = info.best_buy && info.best_sell;
+                    const hasSpread = typeof info.spread_percent === 'number' && (hasBest || info.higher_exchange);
 
                     let displaySpreadText = 'N/A';
                     let spreadDetails = '';
@@ -336,21 +545,25 @@
                         }
                     }
 
-                    const row = document.createElement('tr');
                     const fmt = (v) => (typeof v === 'number')
                         ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
                         : 'N/A';
 
-                    const cells = exchangeOrder.map((ex) => `<td class="price-val">${fmt(prices[ex])}</td>`).join('');
+                    const buyText = hasBest ? `${info.best_buy.exchange} • ${fmt(info.best_buy.price)}` : 'N/A';
+                    const sellText = hasBest ? `${info.best_sell.exchange} • ${fmt(info.best_sell.price)}` : 'N/A';
 
-                    const actionUrl = (info.best_buy && info.best_buy.exchange && exchangeUrls[info.best_buy.exchange])
-                        ? exchangeUrls[info.best_buy.exchange]
-                        : (exchangeUrls.Binance || '#');
+                    const buyUrl = hasBest ? (exchangeUrls[info.best_buy.exchange] || '#') : '#';
+                    const sellUrl = hasBest ? (exchangeUrls[info.best_sell.exchange] || '#') : '#';
 
-                    const actionHtml = hasSpread
-                        ? `<a href="${actionUrl}" target="_blank" class="btn-trade" title="${spreadDetails}">View Trade</a>`
-                        : `<span style="color: var(--text-muted); font-size: 0.85rem;">Partial data</span>`;
+                    const actionHtml = hasBest
+                        ? `<div class="row-actions">
+                             <a class="btn-mini btn-mini-primary" href="${buyUrl}" target="_blank" title="Buy on ${info.best_buy.exchange}"><i class="fas fa-cart-shopping"></i> Buy</a>
+                             <a class="btn-mini" href="${sellUrl}" target="_blank" title="Sell on ${info.best_sell.exchange}"><i class="fas fa-right-left"></i> Sell</a>
+                             <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
+                           </div>`
+                        : `<span class="muted">Partial data</span>`;
 
+                    const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>
                             <div class="symbol-box">
@@ -358,11 +571,39 @@
                                 <span class="name">${symbol.replace('USDT', '')}</span>
                             </div>
                         </td>
-                        ${cells}
+                        <td class="price-val">${buyText}</td>
+                        <td class="price-val">${sellText}</td>
                         <td><span class="spread-val" title="${spreadDetails}">${displaySpreadText}</span></td>
                         <td>${actionHtml}</td>
                     `;
                     tbody.appendChild(row);
+
+                    // Details row (all exchange prices + any errors)
+                    const detailsRow = document.createElement('tr');
+                    detailsRow.className = 'details-row';
+                    detailsRow.style.display = 'none';
+                    const errMap = (data.errors && data.errors[symbol]) ? data.errors[symbol] : null;
+                    const exchangeKeys = Object.keys(prices);
+                    const detailsItems = exchangeKeys.map((ex) => {
+                        const v = prices[ex];
+                        const err = errMap && errMap[ex] && typeof v !== 'number' ? errMap[ex] : null;
+                        const right = (typeof v === 'number') ? fmt(v) : (err ? `<span class="err">${err}</span>` : 'N/A');
+                        return `<div class="details-item"><span class="ex">${ex}</span><span class="val">${right}</span></div>`;
+                    }).join('');
+                    detailsRow.innerHTML = `<td colspan="5">
+                        <div class="details">
+                            <div class="muted" style="margin-bottom: 0.75rem;">All observed prices (some exchanges may be temporarily blocked).</div>
+                            <div class="details-grid">${detailsItems}</div>
+                        </div>
+                    </td>`;
+                    tbody.appendChild(detailsRow);
+
+                    const toggleBtn = row.querySelector('button[data-toggle="details"]');
+                    if (toggleBtn) {
+                        toggleBtn.addEventListener('click', () => {
+                            detailsRow.style.display = (detailsRow.style.display === 'none') ? '' : 'none';
+                        });
+                    }
                 }
 
                 assetCountDiv.innerText = count;
@@ -375,7 +616,7 @@
                 
             } catch (error) {
                 console.error('Detailed Error:', error);
-                document.getElementById('spread-body').innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 4rem;">
+                document.getElementById('spread-body').innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 4rem;">
                     <div style="margin-bottom: 10px;">Sync Error: ${error.message}</div>
                     <div style="font-size: 0.7rem; opacity: 0.7;">Make sure data/spread_data.json exists on GitHub</div>
                 </td></tr>`;
