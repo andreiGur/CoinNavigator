@@ -48,11 +48,25 @@ jobs:
           git add data/spread_data.json spread_data.json
           git commit -m "Automated update: $(date -u)" || (echo "No changes to commit" && exit 0)
 
-          # Prefer normal push; if the branch advanced due to another run, force-with-lease
-          # (safe here because only this workflow should be writing these JSON artifacts).
-          if git push; then
-            exit 0
-          fi
+          # The JSON files are regenerated each run; if main advanced (another run pushed),
+          # rebase our commit on top and auto-resolve JSON conflicts by keeping the newly generated files.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              exit 0
+            fi
 
-          echo "Normal push failed; attempting force-with-lease..."
-          git push --force-with-lease
+            echo "Push failed (attempt $i). Fetching and rebasing onto origin/main..."
+            git fetch origin main
+            if git rebase origin/main; then
+              continue
+            fi
+
+            echo "Rebase conflict. Keeping freshly generated JSON and continuing rebase..."
+            git checkout --theirs data/spread_data.json spread_data.json || true
+            git add data/spread_data.json spread_data.json
+            git rebase --continue || true
+            sleep $((i * 2))
+          done
+
+          echo "Failed to push after retries."
+          exit 1
