@@ -29,21 +29,28 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      - name: Sync to latest main
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Run spread detector
         run: python src/spread_detector.py
 
       - name: Commit and push changes
         run: |
+          set -euo pipefail
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          # If another run pushed while we were executing, rebase before pushing.
-          git pull --rebase origin main || true
           git add data/spread_data.json spread_data.json
-          git commit -m "Automated update: $(date -u)" || echo "No changes to commit"
-          # Retry push in case the remote advanced between pull and push.
-          for i in 1 2 3; do
-            git push && break
-            echo "Push failed (attempt $i). Rebasing and retrying..."
-            git pull --rebase origin main || true
-            sleep $((i * 2))
-          done
+          git commit -m "Automated update: $(date -u)" || (echo "No changes to commit" && exit 0)
+
+          # Prefer normal push; if the branch advanced due to another run, force-with-lease
+          # (safe here because only this workflow should be writing these JSON artifacts).
+          if git push; then
+            exit 0
+          fi
+
+          echo "Normal push failed; attempting force-with-lease..."
+          git push --force-with-lease
