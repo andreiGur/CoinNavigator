@@ -8,12 +8,18 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-spread-data-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -30,6 +36,14 @@ jobs:
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
+          # If another run pushed while we were executing, rebase before pushing.
+          git pull --rebase origin main || true
           git add data/spread_data.json spread_data.json
           git commit -m "Automated update: $(date -u)" || echo "No changes to commit"
-          git push
+          # Retry push in case the remote advanced between pull and push.
+          for i in 1 2 3; do
+            git push && break
+            echo "Push failed (attempt $i). Rebasing and retrying..."
+            git pull --rebase origin main || true
+            sleep $((i * 2))
+          done
