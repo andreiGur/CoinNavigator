@@ -238,6 +238,74 @@
         .muted { color: var(--text-muted); }
         .err { color: var(--danger); font-weight: 700; }
 
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            z-index: 2000;
+        }
+        .modal.open { display: block; }
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+        }
+        .modal-card {
+            position: relative;
+            max-width: 720px;
+            margin: 8vh auto;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 20px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+            padding: 1.25rem;
+            animation: fadeUp 240ms ease-out;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 0.9rem;
+            margin-bottom: 0.9rem;
+        }
+        .modal-title { font-weight: 800; letter-spacing: -0.02em; }
+        .modal-close {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.10);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 0.55rem 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .modal-body { color: var(--text-muted); }
+        .modal-steps { margin-top: 0.75rem; display: grid; gap: 0.6rem; }
+        .step {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            border-radius: 14px;
+            padding: 0.85rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+        .step .num {
+            width: 28px; height: 28px;
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            border-radius: 10px;
+            background: rgba(99,102,241,0.20);
+            border: 1px solid rgba(99,102,241,0.35);
+            color: white;
+            font-weight: 800;
+            flex: 0 0 auto;
+        }
+        .step .txt { color: var(--text-main); font-weight: 600; }
+        .modal-footer { margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
         /* Affiliate CTA section */
         .cta-section { margin-top: 2.5rem; }
         .cta-card {
@@ -465,6 +533,53 @@
         <p style="margin-top: 1rem; opacity: 0.5;">Trading cryptocurrency involves risk. Our data is for informational purposes only.</p>
     </footer>
 
+    <!-- How-To modal (beginner-friendly) -->
+    <div class="modal" id="how-modal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="how"></div>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="how-title">
+            <div class="modal-header">
+                <div>
+                    <div class="muted" style="font-weight: 800; letter-spacing: 0.06em; font-size: 0.75rem; text-transform: uppercase;">Beginner Mode</div>
+                    <div class="modal-title" id="how-title">How to execute this spread</div>
+                </div>
+                <button class="modal-close" type="button" data-close="how">Close</button>
+            </div>
+            <div class="modal-body">
+                <div class="muted" id="how-summary">—</div>
+                <div class="modal-steps">
+                    <div class="step">
+                        <div class="num">1</div>
+                        <div>
+                            <div class="txt">Open accounts on both exchanges</div>
+                            <div class="muted">Use the “Open Account” buttons (affiliate links can be added later).</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="num">2</div>
+                        <div>
+                            <div class="txt">Buy on the cheaper exchange</div>
+                            <div class="muted">Place a market/limit order and confirm your filled price.</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="num">3</div>
+                        <div>
+                            <div class="txt">Sell on the more expensive exchange</div>
+                            <div class="muted">Keep an eye on fees, slippage, and transfer time.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="muted" style="margin-top: 0.9rem; font-size: 0.85rem;">
+                    Disclaimer: spreads can disappear fast. Always do your own research.
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" href="#bonuses"><i class="fas fa-gift"></i> Claim Bonuses</a>
+                    <a class="btn btn-ghost" href="#learn"><i class="fas fa-graduation-cap"></i> Read Beginner Guides</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         async function fetchJsonWithFallback() {
             const origins = [
@@ -519,6 +634,43 @@
                     Bybit: 'https://www.bybit.com',
                 };
 
+                // Affiliate link placeholders — replace values later with your tracking links.
+                const AFFILIATE = {
+                    signup: {
+                        Binance: '#',
+                        OKX: '#',
+                        KuCoin: '#',
+                        Gate: '#',
+                        MEXC: '#',
+                        Bybit: '#',
+                    },
+                    bonus: '#bonuses',
+                    guide: '#learn',
+                };
+
+                function openHowModal(payload) {
+                    const modal = document.getElementById('how-modal');
+                    const summary = document.getElementById('how-summary');
+                    if (!modal || !summary) return;
+                    summary.textContent = payload;
+                    modal.classList.add('open');
+                    modal.setAttribute('aria-hidden', 'false');
+                }
+
+                function closeHowModal() {
+                    const modal = document.getElementById('how-modal');
+                    if (!modal) return;
+                    modal.classList.remove('open');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
+
+                document.querySelectorAll('[data-close="how"]').forEach((el) => {
+                    el.addEventListener('click', closeHowModal);
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeHowModal();
+                });
+
                 for (const [symbol, info] of Object.entries(data.symbols)) {
                     count++;
                     // Backwards-compatible fallback (older JSON only had binance_price/bybit_price).
@@ -554,12 +706,19 @@
 
                     const buyUrl = hasBest ? (exchangeUrls[info.best_buy.exchange] || '#') : '#';
                     const sellUrl = hasBest ? (exchangeUrls[info.best_sell.exchange] || '#') : '#';
+                    const buySignupUrl = hasBest ? (AFFILIATE.signup[info.best_buy.exchange] || '#') : '#';
+                    const sellSignupUrl = hasBest ? (AFFILIATE.signup[info.best_sell.exchange] || '#') : '#';
 
                     const actionHtml = hasBest
                         ? `<div class="row-actions">
                              <a class="btn-mini btn-mini-primary" href="${buyUrl}" target="_blank" title="Buy on ${info.best_buy.exchange}"><i class="fas fa-cart-shopping"></i> Buy</a>
                              <a class="btn-mini" href="${sellUrl}" target="_blank" title="Sell on ${info.best_sell.exchange}"><i class="fas fa-right-left"></i> Sell</a>
+                             <a class="btn-mini" href="${buySignupUrl}" target="_blank" title="Open account on ${info.best_buy.exchange}" data-aff="signup-buy"><i class="fas fa-user-plus"></i> Open ${info.best_buy.exchange}</a>
+                             <a class="btn-mini" href="${sellSignupUrl}" target="_blank" title="Open account on ${info.best_sell.exchange}" data-aff="signup-sell"><i class="fas fa-user-plus"></i> Open ${info.best_sell.exchange}</a>
+                             <a class="btn-mini" href="${AFFILIATE.bonus}" title="Bonuses" data-aff="bonus"><i class="fas fa-gift"></i> Bonus</a>
+                             <a class="btn-mini" href="${AFFILIATE.guide}" title="Beginner guides" data-aff="guide"><i class="fas fa-graduation-cap"></i> Guide</a>
                              <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
+                             <button class="btn-mini" type="button" data-open="how"><i class="fas fa-wand-magic-sparkles"></i> How</button>
                            </div>`
                         : `<span class="muted">Partial data</span>`;
 
@@ -602,6 +761,15 @@
                     if (toggleBtn) {
                         toggleBtn.addEventListener('click', () => {
                             detailsRow.style.display = (detailsRow.style.display === 'none') ? '' : 'none';
+                        });
+                    }
+
+                    const howBtn = row.querySelector('button[data-open="how"]');
+                    if (howBtn && hasBest) {
+                        howBtn.addEventListener('click', () => {
+                            const asset = symbol.replace('USDT', '');
+                            const msg = `${asset}: Buy on ${info.best_buy.exchange} at ${fmt(info.best_buy.price)} • Sell on ${info.best_sell.exchange} at ${fmt(info.best_sell.price)} • Spread ${displaySpreadText}`;
+                            openHowModal(msg);
                         });
                     }
                 }
