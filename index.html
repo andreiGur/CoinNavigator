@@ -312,8 +312,16 @@
 
                 for (const [symbol, info] of Object.entries(data.symbols)) {
                     count++;
-                    const prices = info.prices || {};
-                    const hasSpread = typeof info.spread_percent === 'number' && info.best_buy && info.best_sell;
+                    // Backwards-compatible fallback (older JSON only had binance_price/bybit_price).
+                    const prices = (info.prices && Object.keys(info.prices).length)
+                        ? info.prices
+                        : {
+                            Binance: info.binance_price,
+                            Bybit: info.bybit_price,
+                        };
+
+                    const hasSpread = typeof info.spread_percent === 'number'
+                        && (info.best_buy && info.best_sell || info.higher_exchange);
 
                     let displaySpreadText = 'N/A';
                     let spreadDetails = '';
@@ -321,7 +329,11 @@
                         const displaySpread = info.spread_percent * 100;
                         displaySpreadText = displaySpread.toFixed(4) + '%';
                         if (displaySpread > highestSpread) highestSpread = displaySpread;
-                        spreadDetails = `Buy ${info.best_buy.exchange} / Sell ${info.best_sell.exchange}`;
+                        if (info.best_buy && info.best_sell) {
+                            spreadDetails = `Buy ${info.best_buy.exchange} / Sell ${info.best_sell.exchange}`;
+                        } else if (info.higher_exchange) {
+                            spreadDetails = `Higher: ${info.higher_exchange}`;
+                        }
                     }
 
                     const row = document.createElement('tr');
@@ -331,8 +343,12 @@
 
                     const cells = exchangeOrder.map((ex) => `<td class="price-val">${fmt(prices[ex])}</td>`).join('');
 
+                    const actionUrl = (info.best_buy && info.best_buy.exchange && exchangeUrls[info.best_buy.exchange])
+                        ? exchangeUrls[info.best_buy.exchange]
+                        : (exchangeUrls.Binance || '#');
+
                     const actionHtml = hasSpread
-                        ? `<a href="${exchangeUrls[info.best_buy.exchange] || '#'}" target="_blank" class="btn-trade" title="${spreadDetails}">View Trade</a>`
+                        ? `<a href="${actionUrl}" target="_blank" class="btn-trade" title="${spreadDetails}">View Trade</a>`
                         : `<span style="color: var(--text-muted); font-size: 0.85rem;">Partial data</span>`;
 
                     row.innerHTML = `
