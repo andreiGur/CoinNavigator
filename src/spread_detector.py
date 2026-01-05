@@ -115,6 +115,8 @@ class SpreadDetector:
             json.dump(results, f, indent=2)
 
         print(f"Updated {len(results['symbols'])} symbols")
+        if results.get("errors"):
+            print(f"Errors: {len(results['errors'])} symbols had missing data")
 
 if __name__ == "__main__":
     detector = SpreadDetector()
