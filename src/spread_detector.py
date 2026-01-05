@@ -29,6 +29,12 @@ class SpreadDetector:
             "https://data-api.binance.vision",
         ]
 
+        # Bybit can also block certain data-center IP ranges. Try a fallback domain as well.
+        self.bybit_endpoints = [
+            "https://api.bybit.com",
+            "https://api.bytick.com",
+        ]
+
     def _get_json(self, url: str, timeout_s: int = 10, retries: int = 3) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         last_err: Optional[str] = None
         for attempt in range(1, retries + 1):
@@ -50,32 +56,46 @@ class SpreadDetector:
                 time.sleep(0.6 * attempt)
         return None, last_err
 
-    def get_binance_price(self, symbol: str) -> Optional[float]:
+    def get_binance_price_info(self, symbol: str) -> Tuple[Optional[float], Optional[str]]:
+        last_err: Optional[str] = None
         for base in self.binance_endpoints:
             url = f"{base}/api/v3/ticker/price?symbol={symbol}"
             data, err = self._get_json(url)
             if data and "price" in data:
                 try:
-                    return float(data["price"])
+                    return float(data["price"]), None
                 except Exception:
+                    last_err = "Invalid price format"
                     continue
-            # keep trying next endpoint
-            _ = err
-        return None
+            last_err = err or "Unknown error"
+        return None, last_err
+
+    def get_binance_price(self, symbol: str) -> Optional[float]:
+        price, _err = self.get_binance_price_info(symbol)
+        return price
+
+    def get_bybit_price_info(self, symbol: str) -> Tuple[Optional[float], Optional[str]]:
+        last_err: Optional[str] = None
+        for base in self.bybit_endpoints:
+            url = f"{base}/v5/market/tickers?category=spot&symbol={symbol}"
+            data, err = self._get_json(url)
+            if not data:
+                last_err = err or "Unknown error"
+                continue
+            try:
+                if data.get("retCode") == 0:
+                    items = (((data.get("result") or {}).get("list")) or [])
+                    if items:
+                        return float(items[0]["lastPrice"]), None
+                # Bybit sometimes returns JSON with an error message.
+                last_err = f"retCode={data.get('retCode')} retMsg={data.get('retMsg')}"
+            except Exception as e:
+                last_err = f"{type(e).__name__}: {e}"
+        return None, last_err
 
     def get_bybit_price(self, symbol: str) -> Optional[float]:
-        url = f"https://api.bybit.com/v5/market/tickers?category=spot&symbol={symbol}"
-        data, _err = self._get_json(url)
-        if not data:
-            return None
-        try:
-            if data.get("retCode") == 0:
-                items = (((data.get("result") or {}).get("list")) or [])
-                if items:
-                    return float(items[0]["lastPrice"])
-        except Exception:
-            return None
-        return None
+        price, _err = self.get_bybit_price_info(symbol)
+        return price
 
     def run(self):
         results = {
@@ -85,13 +105,13 @@ class SpreadDetector:
         }
 
         for symbol in self.symbols:
-            binance_price = self.get_binance_price(symbol)
-            bybit_price = self.get_bybit_price(symbol)
+            binance_price, binance_err = self.get_binance_price_info(symbol)
+            bybit_price, bybit_err = self.get_bybit_price_info(symbol)
 
             if binance_price is None or bybit_price is None:
                 results["errors"][symbol] = {
-                    "binance": "unavailable" if binance_price is None else "ok",
-                    "bybit": "unavailable" if bybit_price is None else "ok",
+                    "binance": binance_err if binance_price is None else "ok",
+                    "bybit": bybit_err if bybit_price is None else "ok",
                 }
                 continue
 

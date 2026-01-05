@@ -245,10 +245,16 @@
 
     <script>
         async function fetchJsonWithFallback() {
-            const candidates = [
-                new URL('/spread_data.json', window.location.origin).toString(),
-                new URL('/data/spread_data.json', window.location.origin).toString(),
+            const origins = [
+                window.location.origin,
+                'https://www.coinnavigator.net',
             ];
+
+            const candidates = [];
+            for (const origin of origins) {
+                candidates.push(new URL('/spread_data.json', origin).toString());
+                candidates.push(new URL('/data/spread_data.json', origin).toString());
+            }
 
             let lastError = null;
             for (const baseUrl of candidates) {
