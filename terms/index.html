@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Use | CoinNavigator</title>
+  <meta name="description" content="CoinNavigator Terms of Use." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#6366f1;--primary-light:#818cf8;--bg:#0b0f1a;--card-bg:#161b2a;--text-main:#f8fafc;--text-muted:#94a3b8;--border:#2d334a}
+    *{margin:0;padding:0;box-sizing:border-box} body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text-main);line-height:1.6;overflow-x:hidden}
+    .bg-grid{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:80px 80px;opacity:.15;z-index:-2;pointer-events:none;mask-image:radial-gradient(circle at 50% 30%,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 65%)}
+    .bg-glow{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,rgba(99,102,241,.15) 0%,transparent 50%);z-index:-1;pointer-events:none}
+    nav{background:rgba(11,15,26,.8);backdrop-filter:blur(12px);padding:1.1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border)}
+    .logo{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}
+    .logo i{color:var(--primary)}
+    .nav-links{display:flex;gap:1.25rem;list-style:none}
+    .nav-links a{color:var(--text-muted);text-decoration:none;font-weight:700;font-size:.9rem}
+    .nav-links a:hover{color:var(--primary-light)}
+    .btn{border:1px solid transparent;border-radius:12px;font-weight:800;padding:.7rem 1rem;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:transform .2s,background .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-light)}
+    .container{max-width:920px;margin:0 auto;padding:2.25rem 1.25rem}
+    .card{background:var(--card-bg);border:1px solid var(--border);border-radius:22px;padding:1.6rem;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+    h1{font-size:2rem;letter-spacing:-.02em;margin-bottom:.75rem}
+    h2{font-size:1.1rem;margin-top:1.1rem}
+    p,li{color:var(--text-muted);margin-top:.6rem}
+    ul{margin-top:.5rem;padding-left:1.1rem}
+    footer{text-align:center;padding:3.5rem 1.25rem;color:var(--text-muted);font-size:.9rem}
+    .footer-links{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;justify-content:center}
+    .footer-links a{color:var(--text-muted);text-decoration:none;font-weight:800}
+    .footer-links a:hover{color:var(--primary-light)}
+    @media (max-width:768px){.nav-links{display:none}}
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <ul class="nav-links">
+      <li><a href="/#dashboard">Market Spreads</a></li>
+      <li><a href="/#how-it-works">Learn</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+    <a class="btn btn-primary" href="/#dashboard"><i class="fas fa-rocket"></i> Start</a>
+  </nav>
+
+  <main class="container">
+    <div class="card">
+      <h1>Terms of Use</h1>
+      <p>Last updated: 2026-01-06</p>
+
+      <h2>Not financial advice</h2>
+      <p>CoinNavigator provides information for educational purposes only. Nothing on this site constitutes financial advice, investment advice, or a solicitation to trade.</p>
+
+      <h2>Data accuracy</h2>
+      <p>Prices are sourced from third-party exchange APIs. Data may be inaccurate, delayed, incomplete, or unavailable. You are responsible for verifying prices and fees before acting.</p>
+
+      <h2>Risk disclosure</h2>
+      <p>Crypto trading involves significant risk, including the risk of losing all funds. Arbitrage opportunities can disappear quickly due to fees, slippage, latency, and transfer delays.</p>
+
+      <h2>Affiliate disclosure</h2>
+      <p>Some exchange links on review pages may be affiliate links. We attempt to provide context and explain why an exchange is recommended for specific users.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about these terms? Contact <a href="mailto:hello@coinnavigator.net" style="color:var(--primary-light);font-weight:800;text-decoration:none;">hello@coinnavigator.net</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div>&copy; 2026 CoinNavigator</div>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+    </div>
+    <div style="margin-top:1rem;opacity:.75;">Not financial advice. Crypto trading involves risk.</div>
+  </footer>
+</body>
+</html>
+
+

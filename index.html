@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoinNavigator | Professional Crypto Arbitrage Dashboard</title>
+    <title>CoinNavigator | Crypto Arbitrage Opportunities in Real Time</title>
+    <meta name="description" content="Compare crypto prices across top exchanges, learn how arbitrage works, and choose the right exchange with trustworthy, transparent recommendations." />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -345,6 +346,59 @@
         .news-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
 
         footer { text-align: center; padding: 6rem 2rem; color: var(--text-muted); font-size: 0.9rem; }
+        .footer-links {
+            margin-top: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.25rem;
+            justify-content: center;
+        }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--primary-light); }
+
+        /* Education block (Phase 1) */
+        .edu-section { margin-top: 2.5rem; }
+        .edu-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 1.75rem;
+        }
+        .edu-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 1.25rem; align-items: start; margin-top: 1rem; }
+        .flow {
+            display: grid;
+            gap: 0.75rem;
+        }
+        .flow-step {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.85rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+        }
+        .flow-step .badge {
+            width: 34px; height: 34px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            background: rgba(99,102,241,0.18);
+            border: 1px solid rgba(99,102,241,0.35);
+            color: white;
+            font-weight: 900;
+            flex: 0 0 auto;
+        }
+        .flow-step .title { font-weight: 900; letter-spacing: -0.01em; }
+        .flow-step .sub { color: var(--text-muted); font-size: 0.9rem; }
+        .example {
+            border: 1px solid rgba(16,185,129,0.25);
+            background: rgba(16,185,129,0.06);
+            border-radius: 18px;
+            padding: 1rem 1.1rem;
+        }
+        .example h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -362,6 +416,8 @@
             /* On mobile: compact table (no horizontal scroll) */
             th:nth-child(2), td:nth-child(2) { display: none; } /* Buy */
             th:nth-child(3), td:nth-child(3) { display: none; } /* Sell */
+
+            .edu-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -370,33 +426,31 @@
     <div class="bg-glow"></div>
 
     <nav>
-        <a href="#" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+        <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
         <ul class="nav-links">
             <li><a href="#dashboard">Market Spreads</a></li>
-            <li><a href="#news">Market News</a></li>
-            <li><a href="https://www.binance.com" target="_blank">Binance API</a></li>
-            <li><a href="https://www.bybit.com" target="_blank">ByBit API</a></li>
+            <li><a href="#learn">Learn</a></li>
+            <li><a href="/binance-review/">Exchanges</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
         </ul>
         <div class="nav-cta">
-            <a href="#dashboard" class="btn btn-ghost"><i class="fas fa-chart-line"></i> Dashboard</a>
-            <a href="#start" class="btn btn-primary"><i class="fas fa-rocket"></i> Start</a>
+            <a href="#dashboard" class="btn btn-primary"><i class="fas fa-rocket"></i> Start Exploring Spreads</a>
         </div>
     </nav>
 
     <header class="hero">
-        <h1>Crypto Spreads Made Simple</h1>
-        <p>Compare live prices across top exchanges. Get a clear “buy low / sell high” signal and learn the basics — built for beginners, loved by traders.</p>
+        <h1>Find Crypto Arbitrage Opportunities in Real Time</h1>
+        <p>Compare prices across top exchanges and profit from market inefficiencies — with transparent data, beginner-friendly explanations, and trusted exchange recommendations.</p>
 
         <div class="hero-cta" id="start">
-            <a class="btn btn-primary" href="#dashboard"><i class="fas fa-bolt"></i> See Live Opportunities</a>
-            <a class="btn btn-ghost" href="#learn"><i class="fas fa-graduation-cap"></i> Learn Arbitrage (Free)</a>
-            <a class="btn btn-ghost" href="#bonuses"><i class="fas fa-gift"></i> Claim Bonuses</a>
+            <a class="btn btn-primary" href="#dashboard"><i class="fas fa-bolt"></i> Start Exploring Spreads</a>
         </div>
 
         <div class="trust-row">
-            <span class="pill"><i class="fas fa-shield-halved"></i> No login required</span>
+            <span class="pill"><i class="fas fa-shield-halved"></i> Transparent methodology</span>
+            <span class="pill"><i class="fas fa-database"></i> Data sourced from exchange APIs</span>
             <span class="pill"><i class="fas fa-clock"></i> Updates every 15 minutes</span>
-            <span class="pill"><i class="fas fa-list-check"></i> Beginner-friendly guides</span>
         </div>
     </header>
 
@@ -420,6 +474,56 @@
     </div>
 
     <main class="container">
+        <section class="edu-section" id="how-it-works">
+            <div class="edu-card">
+                <div class="table-header" style="margin-bottom: 0.75rem;">
+                    <h2>How Arbitrage Works (Simple)</h2>
+                    <div class="live-indicator" style="color: var(--text-muted);">
+                        <i class="fas fa-circle-info"></i> Education first. Not financial advice.
+                    </div>
+                </div>
+                <div class="edu-grid">
+                    <div class="flow">
+                        <div class="flow-step">
+                            <div class="badge">1</div>
+                            <div>
+                                <div class="title">Buy</div>
+                                <div class="sub">Buy the asset on the cheaper exchange.</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="badge">2</div>
+                            <div>
+                                <div class="title">Transfer</div>
+                                <div class="sub">Move the asset (or use the same venue if possible). Watch fees & time.</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="badge">3</div>
+                            <div>
+                                <div class="title">Sell</div>
+                                <div class="sub">Sell on the more expensive exchange. Spreads can disappear quickly.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="example">
+                        <h4>Numeric Example</h4>
+                        <div class="muted" style="margin-bottom: 0.5rem;">A spread is only useful if it survives fees + slippage + transfer time.</div>
+                        <div class="mono" style="line-height: 1.8;">
+                            Buy BTC at <b>$40,000</b><br/>
+                            Sell BTC at <b>$40,600</b><br/>
+                            Gross spread: <b>$600</b> (1.50%)<br/>
+                            Fees + slippage (example): <b>$180</b><br/>
+                            Estimated net: <b>$420</b>
+                        </div>
+                        <div class="muted" style="margin-top: 0.6rem; font-size: 0.9rem;">
+                            Tip: start small, track withdrawals, and understand KYC/limits.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="dashboard-card" id="dashboard">
             <div class="table-header">
                 <h2>Live Spread Monitor</h2>
@@ -456,14 +560,13 @@
             <div class="cta-card">
                 <div class="cta-inner">
                     <div>
-                        <h3>Start trading smarter — grab exchange bonuses</h3>
-                        <p>These buttons are built for affiliate links. You can replace the URLs later with your tracking links.</p>
+                        <h3>Recommended exchanges (with context)</h3>
+                        <p>We don’t drop raw affiliate links. First, read a short review explaining who the exchange is for and why it’s recommended.</p>
                     </div>
                     <div class="cta-buttons">
-                        <a class="btn btn-primary" href="#" target="_blank"><i class="fas fa-user-plus"></i> Open Binance Account</a>
-                        <a class="btn btn-ghost" href="#" target="_blank"><i class="fas fa-user-plus"></i> Open OKX Account</a>
-                        <a class="btn btn-ghost" href="#" target="_blank"><i class="fas fa-user-plus"></i> Open KuCoin Account</a>
-                        <a class="btn btn-ghost" href="#" target="_blank"><i class="fas fa-gift"></i> Claim Welcome Bonus</a>
+                        <a class="btn btn-primary" href="/binance-review/"><i class="fas fa-building-columns"></i> Binance Review</a>
+                        <a class="btn btn-ghost" href="/okx-for-beginners/"><i class="fas fa-building-columns"></i> OKX for Beginners</a>
+                        <a class="btn btn-ghost" href="/bybit-arbitrage/"><i class="fas fa-building-columns"></i> Bybit & Arbitrage</a>
                     </div>
                 </div>
             </div>
@@ -529,8 +632,16 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 CoinNavigator | Professional Grade Crypto Tools</p>
-        <p style="margin-top: 1rem; opacity: 0.5;">Trading cryptocurrency involves risk. Our data is for informational purposes only.</p>
+        <p>&copy; 2026 CoinNavigator | Built for trust-first crypto education & tools</p>
+        <div class="footer-links">
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/terms/">Terms of Use</a>
+        </div>
+        <p style="margin-top: 1rem; opacity: 0.75;">
+            Disclaimer: Not financial advice. Crypto trading involves risk. Data is informational and may be delayed.
+        </p>
     </footer>
 
     <!-- How-To modal (beginner-friendly) -->
@@ -634,18 +745,15 @@
                     Bybit: 'https://www.bybit.com',
                 };
 
-                // Affiliate link placeholders — replace values later with your tracking links.
-                const AFFILIATE = {
-                    signup: {
-                        Binance: '#',
-                        OKX: '#',
-                        KuCoin: '#',
-                        Gate: '#',
-                        MEXC: '#',
-                        Bybit: '#',
-                    },
-                    bonus: '#bonuses',
-                    guide: '#learn',
+                // Separation rule: no direct affiliate URLs from homepage.
+                // Homepage should link to internal review pages; review pages contain contextual CTA + (optional) affiliate link.
+                const REVIEW_PAGES = {
+                    Binance: '/binance-review/',
+                    OKX: '/okx-for-beginners/',
+                    KuCoin: '/kucoin-review/',
+                    Gate: '/gate-review/',
+                    MEXC: '/mexc-review/',
+                    Bybit: '/bybit-arbitrage/',
                 };
 
                 function openHowModal(payload) {
@@ -704,19 +812,18 @@
                     const buyText = hasBest ? `${info.best_buy.exchange} • ${fmt(info.best_buy.price)}` : 'N/A';
                     const sellText = hasBest ? `${info.best_sell.exchange} • ${fmt(info.best_sell.price)}` : 'N/A';
 
-                    const buyUrl = hasBest ? (exchangeUrls[info.best_buy.exchange] || '#') : '#';
-                    const sellUrl = hasBest ? (exchangeUrls[info.best_sell.exchange] || '#') : '#';
-                    const buySignupUrl = hasBest ? (AFFILIATE.signup[info.best_buy.exchange] || '#') : '#';
-                    const sellSignupUrl = hasBest ? (AFFILIATE.signup[info.best_sell.exchange] || '#') : '#';
+                    const buyUrl = hasBest ? (REVIEW_PAGES[info.best_buy.exchange] || '/binance-review/') : '#';
+                    const sellUrl = hasBest ? (REVIEW_PAGES[info.best_sell.exchange] || '/binance-review/') : '#';
+                    const buySignupUrl = buyUrl;
+                    const sellSignupUrl = sellUrl;
 
                     const actionHtml = hasBest
                         ? `<div class="row-actions">
-                             <a class="btn-mini btn-mini-primary" href="${buyUrl}" target="_blank" title="Buy on ${info.best_buy.exchange}"><i class="fas fa-cart-shopping"></i> Buy</a>
-                             <a class="btn-mini" href="${sellUrl}" target="_blank" title="Sell on ${info.best_sell.exchange}"><i class="fas fa-right-left"></i> Sell</a>
-                             <a class="btn-mini" href="${buySignupUrl}" target="_blank" title="Open account on ${info.best_buy.exchange}" data-aff="signup-buy"><i class="fas fa-user-plus"></i> Open ${info.best_buy.exchange}</a>
-                             <a class="btn-mini" href="${sellSignupUrl}" target="_blank" title="Open account on ${info.best_sell.exchange}" data-aff="signup-sell"><i class="fas fa-user-plus"></i> Open ${info.best_sell.exchange}</a>
-                             <a class="btn-mini" href="${AFFILIATE.bonus}" title="Bonuses" data-aff="bonus"><i class="fas fa-gift"></i> Bonus</a>
-                             <a class="btn-mini" href="${AFFILIATE.guide}" title="Beginner guides" data-aff="guide"><i class="fas fa-graduation-cap"></i> Guide</a>
+                             <a class="btn-mini btn-mini-primary" href="${buyUrl}" title="Recommended exchange for buy leg: ${info.best_buy.exchange}"><i class="fas fa-cart-shopping"></i> Buy (review)</a>
+                             <a class="btn-mini" href="${sellUrl}" title="Recommended exchange for sell leg: ${info.best_sell.exchange}"><i class="fas fa-right-left"></i> Sell (review)</a>
+                             <a class="btn-mini" href="${buySignupUrl}" title="Why ${info.best_buy.exchange} is recommended" data-aff="signup-buy"><i class="fas fa-user-plus"></i> ${info.best_buy.exchange}</a>
+                             <a class="btn-mini" href="${sellSignupUrl}" title="Why ${info.best_sell.exchange} is recommended" data-aff="signup-sell"><i class="fas fa-user-plus"></i> ${info.best_sell.exchange}</a>
+                             <a class="btn-mini" href="#how-it-works" title="Learn how arbitrage works"><i class="fas fa-graduation-cap"></i> Learn</a>
                              <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
                              <button class="btn-mini" type="button" data-open="how"><i class="fas fa-wand-magic-sparkles"></i> How</button>
                            </div>`
