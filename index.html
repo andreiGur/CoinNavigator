@@ -75,7 +75,19 @@
         .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
         .nav-links a:hover { color: var(--primary-light); }
 
-        .nav-cta { display: flex; gap: 0.75rem; align-items: center; }
+        .nav-cta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+
+        .select {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.10);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 0.65rem 0.85rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
 
         .btn {
             border: 1px solid transparent;
@@ -106,6 +118,7 @@
         .hero h1 { 
             font-size: 4rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.5rem;
             background: linear-gradient(to right, #fff, #94a3b8);
+            background-clip: text;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .hero p { color: var(--text-muted); font-size: 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; }
@@ -435,6 +448,12 @@
             <li><a href="/contact/">Contact</a></li>
         </ul>
         <div class="nav-cta">
+            <select class="select" id="region-select" aria-label="Select region">
+                <option value="EU">Europe</option>
+                <option value="RU">Russia</option>
+                <option value="US">USA</option>
+                <option value="ASIA">Asia</option>
+            </select>
             <a href="#dashboard" class="btn btn-primary"><i class="fas fa-rocket"></i> Start Exploring Spreads</a>
         </div>
     </nav>
@@ -560,13 +579,13 @@
             <div class="cta-card">
                 <div class="cta-inner">
                     <div>
-                        <h3>Recommended exchanges (with context)</h3>
-                        <p>We don’t drop raw affiliate links. First, read a short review explaining who the exchange is for and why it’s recommended.</p>
+                        <h3>Recommended exchanges for your region (with context)</h3>
+                        <p>We don’t drop raw affiliate links. First, read a short review explaining who the exchange is for and why it’s recommended. Region: <b id="region-label">—</b></p>
                     </div>
                     <div class="cta-buttons">
-                        <a class="btn btn-primary" href="/binance-review/"><i class="fas fa-building-columns"></i> Binance Review</a>
-                        <a class="btn btn-ghost" href="/okx-for-beginners/"><i class="fas fa-building-columns"></i> OKX for Beginners</a>
-                        <a class="btn btn-ghost" href="/bybit-arbitrage/"><i class="fas fa-building-columns"></i> Bybit & Arbitrage</a>
+                        <a class="btn btn-primary" id="rec-1" href="/binance-review/"><i class="fas fa-building-columns"></i> Binance Review</a>
+                        <a class="btn btn-ghost" id="rec-2" href="/okx-for-beginners/"><i class="fas fa-building-columns"></i> OKX for Beginners</a>
+                        <a class="btn btn-ghost" id="rec-3" href="/bybit-arbitrage/"><i class="fas fa-building-columns"></i> Bybit & Arbitrage</a>
                     </div>
                 </div>
             </div>
@@ -692,6 +711,74 @@
     </div>
 
     <script>
+        function getRegionFromQuery() {
+            const p = new URLSearchParams(window.location.search);
+            const r = p.get('region');
+            return r && ['EU','RU','US','ASIA'].includes(r) ? r : null;
+        }
+
+        function guessRegion() {
+            try {
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+                if (tz.startsWith('Europe/')) return 'EU';
+                if (tz.startsWith('Asia/')) return 'ASIA';
+                if (tz.startsWith('America/')) return 'US';
+            } catch {}
+            return 'EU';
+        }
+
+        function getRegion() {
+            const q = getRegionFromQuery();
+            if (q) return q;
+            const saved = localStorage.getItem('coinnavigator_region');
+            if (saved && ['EU','RU','US','ASIA'].includes(saved)) return saved;
+            return guessRegion();
+        }
+
+        function setRegion(region) {
+            localStorage.setItem('coinnavigator_region', region);
+            const lbl = document.getElementById('region-label');
+            if (lbl) lbl.textContent = region;
+
+            const recMap = {
+                EU: [
+                    { href: '/binance-review/', text: 'Binance Review' },
+                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
+                ],
+                RU: [
+                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
+                    { href: '/binance-review/', text: 'Binance Review' },
+                ],
+                US: [
+                    { href: '/binance-review/', text: 'Binance Review' },
+                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
+                ],
+                ASIA: [
+                    { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
+                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/binance-review/', text: 'Binance Review' },
+                ],
+            };
+
+            const btns = [
+                document.getElementById('rec-1'),
+                document.getElementById('rec-2'),
+                document.getElementById('rec-3'),
+            ];
+            const recs = recMap[region] || recMap.EU;
+            btns.forEach((btn, i) => {
+                if (!btn) return;
+                const base = recs[i] || recs[0];
+                const url = new URL(base.href, window.location.origin);
+                url.searchParams.set('region', region);
+                btn.href = url.pathname + url.search;
+                btn.innerHTML = `<i class="fas fa-building-columns"></i> ${base.text}`;
+            });
+        }
+
         async function fetchJsonWithFallback() {
             const origins = [
                 window.location.origin,
@@ -735,15 +822,6 @@
                 tbody.innerHTML = '';
                 let highestSpread = 0;
                 let count = 0;
-
-                const exchangeUrls = {
-                    Binance: 'https://www.binance.com',
-                    OKX: 'https://www.okx.com',
-                    KuCoin: 'https://www.kucoin.com',
-                    Gate: 'https://www.gate.io',
-                    MEXC: 'https://www.mexc.com',
-                    Bybit: 'https://www.bybit.com',
-                };
 
                 // Separation rule: no direct affiliate URLs from homepage.
                 // Homepage should link to internal review pages; review pages contain contextual CTA + (optional) affiliate link.
@@ -814,13 +892,21 @@
 
                     const buyUrl = hasBest ? (REVIEW_PAGES[info.best_buy.exchange] || '/binance-review/') : '#';
                     const sellUrl = hasBest ? (REVIEW_PAGES[info.best_sell.exchange] || '/binance-review/') : '#';
-                    const buySignupUrl = buyUrl;
-                    const sellSignupUrl = sellUrl;
+                    const region = getRegion();
+                    const buildReviewUrl = (path) => {
+                        const u = new URL(path, window.location.origin);
+                        u.searchParams.set('region', region);
+                        return u.pathname + u.search;
+                    };
+                    const buyReviewUrl = hasBest ? buildReviewUrl(buyUrl) : '#';
+                    const sellReviewUrl = hasBest ? buildReviewUrl(sellUrl) : '#';
+                    const buySignupUrl = buyReviewUrl;
+                    const sellSignupUrl = sellReviewUrl;
 
                     const actionHtml = hasBest
                         ? `<div class="row-actions">
-                             <a class="btn-mini btn-mini-primary" href="${buyUrl}" title="Recommended exchange for buy leg: ${info.best_buy.exchange}"><i class="fas fa-cart-shopping"></i> Buy (review)</a>
-                             <a class="btn-mini" href="${sellUrl}" title="Recommended exchange for sell leg: ${info.best_sell.exchange}"><i class="fas fa-right-left"></i> Sell (review)</a>
+                             <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Recommended exchange for buy leg: ${info.best_buy.exchange}"><i class="fas fa-cart-shopping"></i> Buy (review)</a>
+                             <a class="btn-mini" href="${sellReviewUrl}" title="Recommended exchange for sell leg: ${info.best_sell.exchange}"><i class="fas fa-right-left"></i> Sell (review)</a>
                              <a class="btn-mini" href="${buySignupUrl}" title="Why ${info.best_buy.exchange} is recommended" data-aff="signup-buy"><i class="fas fa-user-plus"></i> ${info.best_buy.exchange}</a>
                              <a class="btn-mini" href="${sellSignupUrl}" title="Why ${info.best_sell.exchange} is recommended" data-aff="signup-sell"><i class="fas fa-user-plus"></i> ${info.best_sell.exchange}</a>
                              <a class="btn-mini" href="#how-it-works" title="Learn how arbitrage works"><i class="fas fa-graduation-cap"></i> Learn</a>
@@ -900,6 +986,19 @@
 
         updateDashboard();
         setInterval(updateDashboard, 60000);
+
+        // Region selector init
+        (function initRegionSelector() {
+            const select = document.getElementById('region-select');
+            const region = getRegion();
+            if (select) {
+                select.value = region;
+                select.addEventListener('change', () => {
+                    setRegion(select.value);
+                });
+            }
+            setRegion(region);
+        })();
     </script>
 </body>
 </html>
