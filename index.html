@@ -22,7 +22,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
+        body {
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg); 
             color: var(--text-main);
@@ -108,7 +108,7 @@
         .btn-primary:hover { background: var(--primary-light); }
         .btn-ghost { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: var(--text-main); }
         .btn-ghost:hover { border-color: rgba(129, 140, 248, 0.7); }
-
+        
         /* Hero Section */
         .hero {
             padding: 6rem 2rem;
@@ -164,8 +164,33 @@
             transition: transform 0.2s, border-color 0.2s;
         }
         .stat-card:hover { transform: translateY(-3px); border-color: rgba(129, 140, 248, 0.55); }
+        a.stat-card { text-decoration: none; color: inherit; display: block; }
         .stat-card h4 { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
         .stat-card .value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+
+        /* Clickable affordance */
+        .clickable { cursor: pointer; }
+        .clickable:hover { border-color: rgba(129, 140, 248, 0.65); }
+        .focus-ring:focus-visible {
+            outline: 2px solid rgba(129, 140, 248, 0.85);
+            outline-offset: 3px;
+            border-radius: 14px;
+        }
+        .link-mini {
+            color: var(--text-main);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.35rem 0.55rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
+            width: fit-content;
+            max-width: 100%;
+        }
+        .link-mini:hover { transform: translateY(-2px); border-color: rgba(129, 140, 248, 0.7); }
 
         /* Main Dashboard */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
@@ -353,6 +378,7 @@
             border-radius: 16px; overflow: hidden; transition: transform 0.3s;
         }
         .news-card:hover { transform: translateY(-5px); }
+        a.card-link { display: block; text-decoration: none; color: inherit; }
         .news-content { padding: 1.5rem; }
         .news-tag { color: var(--primary-light); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
         .news-title { font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0 1rem; }
@@ -391,6 +417,7 @@
             border: 1px solid rgba(255,255,255,0.08);
             background: rgba(255,255,255,0.02);
         }
+        a.flow-step { text-decoration: none; color: inherit; }
         .flow-step .badge {
             width: 34px; height: 34px;
             border-radius: 12px;
@@ -474,22 +501,22 @@
     </header>
 
     <div class="stats-grid">
-        <div class="stat-card">
+        <a class="stat-card clickable focus-ring" href="#dashboard" title="Open dashboard">
             <h4>Total Assets</h4>
             <div class="value" id="asset-count">9</div>
-        </div>
-        <div class="stat-card">
+        </a>
+        <a class="stat-card clickable focus-ring" href="#dashboard" title="See current top spreads">
             <h4>Highest Spread</h4>
             <div class="value" id="max-spread">--</div>
-        </div>
-        <div class="stat-card">
+        </a>
+        <a class="stat-card clickable focus-ring" href="#dashboard" title="View update cadence and latest timestamp">
             <h4>Update Frequency</h4>
             <div class="value">15m</div>
-        </div>
-        <div class="stat-card">
+        </a>
+        <a class="stat-card clickable focus-ring" href="/about/" title="How the data works (transparency)">
             <h4>API Status</h4>
             <div class="value" style="color: var(--accent)">ONLINE</div>
-        </div>
+        </a>
     </div>
 
     <main class="container">
@@ -503,27 +530,27 @@
                 </div>
                 <div class="edu-grid">
                     <div class="flow">
-                        <div class="flow-step">
+                        <a class="flow-step clickable focus-ring" href="#bonuses" title="See recommended exchanges">
                             <div class="badge">1</div>
                             <div>
                                 <div class="title">Buy</div>
                                 <div class="sub">Buy the asset on the cheaper exchange.</div>
                             </div>
-                        </div>
-                        <div class="flow-step">
+                        </a>
+                        <a class="flow-step clickable focus-ring" href="/terms/" title="Understand fees, risks and limits">
                             <div class="badge">2</div>
                             <div>
                                 <div class="title">Transfer</div>
                                 <div class="sub">Move the asset (or use the same venue if possible). Watch fees & time.</div>
                             </div>
-                        </div>
-                        <div class="flow-step">
+                        </a>
+                        <a class="flow-step clickable focus-ring" href="#dashboard" title="Open live opportunities">
                             <div class="badge">3</div>
                             <div>
                                 <div class="title">Sell</div>
                                 <div class="sub">Sell on the more expensive exchange. Spreads can disappear quickly.</div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="example">
                         <h4>Numeric Example</h4>
@@ -540,9 +567,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
+        </div>
+    </section>
+    
         <div class="dashboard-card" id="dashboard">
             <div class="table-header">
                 <h2>Live Spread Monitor</h2>
@@ -587,35 +614,41 @@
                         <a class="btn btn-ghost" id="rec-2" href="/okx-for-beginners/"><i class="fas fa-building-columns"></i> OKX for Beginners</a>
                         <a class="btn btn-ghost" id="rec-3" href="/bybit-arbitrage/"><i class="fas fa-building-columns"></i> Bybit & Arbitrage</a>
                     </div>
-                </div>
             </div>
-        </section>
-
+        </div>
+    </section>
+    
         <section class="news-section" id="learn">
             <div class="table-header">
                 <h2>Beginner Hub</h2>
             </div>
             <div class="news-grid">
                 <div class="news-card">
-                    <div class="news-content">
-                        <div class="news-tag">Getting Started</div>
-                        <h3 class="news-title">What is a spread — and why it matters</h3>
-                        <a href="#" class="news-link">Read Guide <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <a class="card-link focus-ring" href="#how-it-works" title="Learn the basics">
+                        <div class="news-content">
+                            <div class="news-tag">Getting Started</div>
+                            <h3 class="news-title">What is a spread — and why it matters</h3>
+                            <div class="news-link">Read Guide <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
                 </div>
                 <div class="news-card">
-                    <div class="news-content">
-                        <div class="news-tag">Safety</div>
-                        <h3 class="news-title">How to avoid common beginner mistakes</h3>
-                        <a href="#" class="news-link">Open Checklist <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <a class="card-link focus-ring" href="/terms/" title="Safety checklist and risk notes">
+                        <div class="news-content">
+                            <div class="news-tag">Safety</div>
+                            <h3 class="news-title">How to avoid common beginner mistakes</h3>
+                            <div class="news-link">Open Checklist <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
                 </div>
                 <div class="news-card">
-                    <div class="news-content">
-                        <div class="news-tag">Tools</div>
-                        <h3 class="news-title">Best exchanges for new traders (fees, UX, support)</h3>
-                        <a href="#" class="news-link">Compare <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <a class="card-link focus-ring" href="/binance-review/" data-regionize="1" title="Compare exchanges (with context)">
+                        <div class="news-content">
+                            <div class="news-tag">Tools</div>
+                            <h3 class="news-title">Best exchanges for new traders (fees, UX, support)</h3>
+                            <div class="news-link">Compare <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -626,30 +659,36 @@
             </div>
             <div class="news-grid">
                 <div class="news-card">
-                    <div class="news-content">
-                        <div class="news-tag">Market Analysis</div>
-                        <h3 class="news-title">Bitcoin Consolidation: Key Levels to Watch in Q1 2026</h3>
-                        <a href="#" class="news-link">Read Analysis <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <a class="card-link focus-ring" href="/binance-review/" data-regionize="1" title="Recommended exchange context (Binance)">
+                        <div class="news-content">
+                            <div class="news-tag">Market Analysis</div>
+                            <h3 class="news-title">Bitcoin Consolidation: Key Levels to Watch in Q1 2026</h3>
+                            <div class="news-link">Read Analysis <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
                 </div>
                 <div class="news-card">
-                    <div class="news-content">
-                        <div class="news-tag">Arbitrage Tips</div>
-                        <h3 class="news-title">How to minimize slippage during high-spread events</h3>
-                        <a href="#" class="news-link">View Guide <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <a class="card-link focus-ring" href="/okx-for-beginners/" data-regionize="1" title="Arbitrage tips + beginner-friendly exchange">
+                        <div class="news-content">
+                            <div class="news-tag">Arbitrage Tips</div>
+                            <h3 class="news-title">How to minimize slippage during high-spread events</h3>
+                            <div class="news-link">View Guide <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
                 </div>
                 <div class="news-card">
-                    <div class="news-content">
-                        <div class="news-tag">Ecosystem</div>
-                        <h3 class="news-title">ByBit increases liquidity for SOL/USDT trading pairs</h3>
-                        <a href="#" class="news-link">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <a class="card-link focus-ring" href="/bybit-arbitrage/" data-regionize="1" title="Ecosystem update + exchange context">
+                        <div class="news-content">
+                            <div class="news-tag">Ecosystem</div>
+                            <h3 class="news-title">ByBit increases liquidity for SOL/USDT trading pairs</h3>
+                            <div class="news-link">Read More <i class="fas fa-arrow-right"></i></div>
                 </div>
+                    </a>
             </div>
-        </section>
-    </div>
-
+        </div>
+    </section>
+        </div>
+    
     <footer>
         <p>&copy; 2026 CoinNavigator | Built for trust-first crypto education & tools</p>
         <div class="footer-links">
@@ -776,6 +815,16 @@
                 url.searchParams.set('region', region);
                 btn.href = url.pathname + url.search;
                 btn.innerHTML = `<i class="fas fa-building-columns"></i> ${base.text}`;
+            });
+
+            // Any link marked with data-regionize="1" gets the region param (internal pages only).
+            document.querySelectorAll('a[data-regionize="1"]').forEach((a) => {
+                try {
+                    const u = new URL(a.getAttribute('href'), window.location.origin);
+                    if (u.origin !== window.location.origin) return;
+                    u.searchParams.set('region', region);
+                    a.setAttribute('href', u.pathname + u.search + (u.hash || ''));
+                } catch {}
             });
         }
 
@@ -918,14 +967,14 @@
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>
-                            <div class="symbol-box">
+                            <div class="symbol-box clickable" data-open="details" title="Click to open price details">
                                 <i class="fas fa-coins" style="color: #f7931a"></i>
                                 <span class="name">${symbol.replace('USDT', '')}</span>
                             </div>
                         </td>
-                        <td class="price-val">${buyText}</td>
-                        <td class="price-val">${sellText}</td>
-                        <td><span class="spread-val" title="${spreadDetails}">${displaySpreadText}</span></td>
+                        <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${buyReviewUrl}" title="Go to ${info.best_buy.exchange} review (region-aware)"><i class="fas fa-store"></i> ${buyText}</a>` : buyText}</td>
+                        <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${sellReviewUrl}" title="Go to ${info.best_sell.exchange} review (region-aware)"><i class="fas fa-store"></i> ${sellText}</a>` : sellText}</td>
+                        <td><span class="spread-val clickable" data-open="how" title="${spreadDetails} (click for how)">${displaySpreadText}</span></td>
                         <td>${actionHtml}</td>
                     `;
                     tbody.appendChild(row);
@@ -957,14 +1006,24 @@
                         });
                     }
 
+                    const openDetails = () => {
+                        detailsRow.style.display = (detailsRow.style.display === 'none') ? '' : 'none';
+                    };
+                    const symbolBox = row.querySelector('[data-open="details"]');
+                    if (symbolBox) symbolBox.addEventListener('click', openDetails);
+
+                    const openHow = () => {
+                        if (!hasBest) return;
+                        const asset = symbol.replace('USDT', '');
+                        const msg = `${asset}: Buy on ${info.best_buy.exchange} at ${fmt(info.best_buy.price)} • Sell on ${info.best_sell.exchange} at ${fmt(info.best_sell.price)} • Spread ${displaySpreadText}`;
+                        openHowModal(msg);
+                    };
+
                     const howBtn = row.querySelector('button[data-open="how"]');
-                    if (howBtn && hasBest) {
-                        howBtn.addEventListener('click', () => {
-                            const asset = symbol.replace('USDT', '');
-                            const msg = `${asset}: Buy on ${info.best_buy.exchange} at ${fmt(info.best_buy.price)} • Sell on ${info.best_sell.exchange} at ${fmt(info.best_sell.price)} • Spread ${displaySpreadText}`;
-                            openHowModal(msg);
-                        });
-                    }
+                    if (howBtn) howBtn.addEventListener('click', openHow);
+
+                    const spreadBadge = row.querySelector('.spread-val[data-open="how"]');
+                    if (spreadBadge) spreadBadge.addEventListener('click', openHow);
                 }
 
                 assetCountDiv.innerText = count;
