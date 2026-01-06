@@ -384,6 +384,34 @@
         .news-title { font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0 1rem; }
         .news-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
 
+        /* Polymarket module */
+        .pm-section { margin-top: 4rem; }
+        .pm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+        .pm-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 1.1rem;
+            transition: transform 0.25s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            min-height: 210px;
+        }
+        .pm-card:hover { transform: translateY(-4px); border-color: rgba(129, 140, 248, 0.55); }
+        .pm-q { font-weight: 900; letter-spacing: -0.01em; line-height: 1.25; }
+        .pm-meta { color: var(--text-muted); font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; }
+        .pm-chips { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .pm-chip {
+            padding: 0.35rem 0.55rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            font-weight: 900;
+            font-size: 0.85rem;
+        }
+        .pm-actions { margin-top: auto; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
         footer { text-align: center; padding: 6rem 2rem; color: var(--text-muted); font-size: 0.9rem; }
         .footer-links {
             margin-top: 1.25rem;
@@ -470,6 +498,7 @@
         <ul class="nav-links">
             <li><a href="#dashboard">Market Spreads</a></li>
             <li><a href="#learn">Learn</a></li>
+            <li><a href="/polymarket/">Polymarket</a></li>
             <li><a href="/binance-review/">Exchanges</a></li>
             <li><a href="/about/">About</a></li>
             <li><a href="/contact/">Contact</a></li>
@@ -487,7 +516,7 @@
 
     <header class="hero">
         <h1>Find Crypto Arbitrage Opportunities in Real Time</h1>
-        <p>Compare prices across top exchanges and profit from market inefficiencies — with transparent data, beginner-friendly explanations, and trusted exchange recommendations.</p>
+        <p>Compare prices across top exchanges and track crowd-based probabilities (Polymarket) — with transparent data, beginner-friendly explanations, and trusted recommendations.</p>
 
         <div class="hero-cta" id="start">
             <a class="btn btn-primary" href="#dashboard"><i class="fas fa-bolt"></i> Start Exploring Spreads</a>
@@ -601,6 +630,29 @@
             </div>
             <div id="timestamp" style="text-align: right; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.8rem;"></div>
         </div>
+
+        <section class="pm-section" id="polymarket">
+            <div class="table-header">
+                <h2>Polymarket Hot Events (High 24h Volume)</h2>
+                <div class="live-indicator" style="color: var(--text-muted);">
+                    <i class="fas fa-chart-pie"></i> Market sentiment — not gambling content
+                </div>
+            </div>
+            <div class="muted" style="margin-top: -0.75rem;">
+                We highlight high-attention events so you can understand what the crowd expects. Informational only.
+            </div>
+            <div class="pm-grid" id="pm-grid">
+                <div class="pm-card">
+                    <div class="pm-q">Loading Polymarket events…</div>
+                    <div class="pm-meta">If this takes too long, the data file may still be updating.</div>
+                </div>
+            </div>
+            <div class="muted" id="pm-updated" style="text-align: right; margin-top: 0.75rem; font-size: 0.85rem;"></div>
+            <div style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <a class="btn btn-primary" href="/polymarket/"><i class="fas fa-fire"></i> Open Polymarket Hub</a>
+                <a class="btn btn-ghost" href="/terms/"><i class="fas fa-shield-halved"></i> Disclosures & risk</a>
+            </div>
+        </section>
 
         <section class="cta-section" id="bonuses">
             <div class="cta-card">
@@ -857,6 +909,102 @@
             throw lastError ?? new Error('Failed to fetch spread data');
         }
 
+        async function fetchPolymarketWithFallback() {
+            const origins = [
+                window.location.origin,
+                'https://www.coinnavigator.net',
+            ];
+
+            const candidates = [];
+            for (const origin of origins) {
+                candidates.push(new URL('/polymarket_hot.json', origin).toString());
+                candidates.push(new URL('/data/polymarket_hot.json', origin).toString());
+            }
+
+            let lastError = null;
+            for (const baseUrl of candidates) {
+                const url = baseUrl + '?v=' + Date.now();
+                try {
+                    const res = await fetch(url, { cache: 'no-store' });
+                    if (!res.ok) {
+                        lastError = new Error(`HTTP ${res.status} for ${baseUrl}`);
+                        continue;
+                    }
+                    return await res.json();
+                } catch (e) {
+                    lastError = e;
+                }
+            }
+            throw lastError ?? new Error('Failed to fetch polymarket data');
+        }
+
+        function fmtUsdShort(v) {
+            if (typeof v !== 'number' || Number.isNaN(v)) return '—';
+            if (v >= 1_000_000) return '$' + (v / 1_000_000).toFixed(2) + 'M';
+            if (v >= 1_000) return '$' + (v / 1_000).toFixed(1) + 'K';
+            return '$' + v.toFixed(0);
+        }
+
+        function fmtProb(p) {
+            if (typeof p !== 'number' || Number.isNaN(p)) return '—';
+            return (p * 100).toFixed(1) + '%';
+        }
+
+        function buildPolymarketUrl(url, sourceTag) {
+            try {
+                const u = new URL(url);
+                u.searchParams.set('utm_source', 'coinnavigator');
+                u.searchParams.set('utm_medium', 'referral');
+                u.searchParams.set('utm_campaign', 'polymarket_hot');
+                u.searchParams.set('utm_content', sourceTag || 'homepage');
+                return u.toString();
+            } catch {
+                return url;
+            }
+        }
+
+        function renderPolymarketModule(payload) {
+            const grid = document.getElementById('pm-grid');
+            const updated = document.getElementById('pm-updated');
+            if (!grid) return;
+
+            const markets = (payload && payload.markets) ? payload.markets : [];
+            const top = Array.isArray(markets) ? markets.slice(0, 4) : [];
+
+            if (payload && payload.timestamp && updated) {
+                const d = new Date(payload.timestamp);
+                updated.innerHTML = `<i class="far fa-clock"></i> Polymarket updated: ${d.toLocaleString()}`;
+            }
+
+            if (!top.length) {
+                grid.innerHTML = `<div class="pm-card"><div class="pm-q">No hot events available right now.</div><div class="pm-meta">Try again in a few minutes.</div></div>`;
+                return;
+            }
+
+            grid.innerHTML = '';
+            top.forEach((m) => {
+                const url = buildPolymarketUrl(m.url, 'home_card');
+                const card = document.createElement('div');
+                card.className = 'pm-card';
+                card.innerHTML = `
+                    <div class="pm-q">${m.question}</div>
+                    <div class="pm-meta">
+                        <span><b>${fmtUsdShort(m.volume24hr)}</b> 24h volume</span>
+                        <span class="muted">Market probability</span>
+                    </div>
+                    <div class="pm-chips">
+                        <span class="pm-chip">YES: ${fmtProb(m.yes)}</span>
+                        <span class="pm-chip">NO: ${fmtProb(m.no)}</span>
+                    </div>
+                    <div class="pm-actions">
+                        <a class="btn-mini btn-mini-primary" href="${url}" target="_blank" rel="noopener noreferrer" title="Analyze this event on Polymarket"><i class="fas fa-arrow-up-right-from-square"></i> View market</a>
+                        <a class="btn-mini" href="/polymarket/" title="See more hot events"><i class="fas fa-fire"></i> More events</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
         async function updateDashboard() {
             try {
                 console.log('Fetching data...');
@@ -1045,6 +1193,16 @@
 
         updateDashboard();
         setInterval(updateDashboard, 60000);
+
+        // Polymarket module init (best-effort)
+        (async function initPolymarketModule() {
+            try {
+                const pm = await fetchPolymarketWithFallback();
+                renderPolymarketModule(pm);
+            } catch (e) {
+                console.warn('Polymarket module failed:', e);
+            }
+        })();
 
         // Region selector init
         (function initRegionSelector() {

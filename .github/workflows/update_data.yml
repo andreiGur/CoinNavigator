@@ -40,12 +40,15 @@ jobs:
       - name: Run spread detector
         run: python src/spread_detector.py
 
+      - name: Run Polymarket hot markets
+        run: python src/polymarket_hot.py
+
       - name: Commit and push changes
         run: |
           set -euo pipefail
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add data/spread_data.json spread_data.json
+          git add data/spread_data.json spread_data.json data/polymarket_hot.json polymarket_hot.json
           git commit -m "Automated update: $(date -u)" || (echo "No changes to commit" && exit 0)
 
           # The JSON files are regenerated each run; if main advanced (another run pushed),
@@ -62,8 +65,8 @@ jobs:
             fi
 
             echo "Rebase conflict. Keeping freshly generated JSON and continuing rebase..."
-            git checkout --theirs data/spread_data.json spread_data.json || true
-            git add data/spread_data.json spread_data.json
+            git checkout --theirs data/spread_data.json spread_data.json data/polymarket_hot.json polymarket_hot.json || true
+            git add data/spread_data.json spread_data.json data/polymarket_hot.json polymarket_hot.json
             git rebase --continue || true
             sleep $((i * 2))
           done

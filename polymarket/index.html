@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoinNavigator | Polymarket Hot Events</title>
+  <meta name="description" content="Market sentiment & probability analysis from Polymarket. Track hot prediction markets by volume, see YES/NO prices, and learn what the crowd expects." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15;
+      z-index: -2;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+    }
+
+    nav {
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--primary-light); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+    .hero { padding: 4.5rem 0 2.25rem; }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { color: var(--text-muted); max-width: 820px; margin-top: 1rem; font-size: 1.05rem; }
+
+    .pill-row { margin-top: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .pill i { color: var(--accent); }
+
+    .disclaimer {
+      margin-top: 1.2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+      padding: 0.9rem 1rem;
+    }
+
+    .grid {
+      margin: 2rem 0 4rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-height: 230px;
+    }
+    .card-head { display: flex; gap: 0.85rem; align-items: flex-start; }
+    .thumb {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      overflow: hidden;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: var(--primary-light);
+      font-weight: 900;
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .q { font-weight: 900; letter-spacing: -0.01em; line-height: 1.25; }
+    .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; color: var(--text-muted); font-size: 0.86rem; }
+    .meta b { color: var(--text-main); }
+
+    .prices { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .chip {
+      padding: 0.45rem 0.65rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-weight: 900;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .chip .lbl { color: var(--text-muted); font-weight: 900; letter-spacing: 0.02em; }
+
+    .actions { margin-top: auto; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 800;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+      will-change: transform;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-ghost { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: var(--text-main); }
+    .btn-ghost:hover { border-color: rgba(129, 140, 248, 0.7); }
+
+    .muted { color: var(--text-muted); }
+    .err { color: var(--danger); font-weight: 900; }
+    .small { font-size: 0.85rem; }
+
+    footer { text-align: center; padding: 4rem 2rem; color: var(--text-muted); font-size: 0.9rem; }
+    .footer-links {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      justify-content: center;
+    }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+    .footer-links a:hover { color: var(--primary-light); }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      nav { padding: 1rem 1rem; }
+      .hero h1 { font-size: 2.25rem; }
+      .grid { grid-template-columns: 1fr; }
+      .container { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <ul class="nav-links">
+      <li><a href="/#dashboard">Market Spreads</a></li>
+      <li><a href="/polymarket/">Prediction Markets</a></li>
+      <li><a href="/binance-review/">Exchanges</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Polymarket Hot Events</h1>
+      <p>
+        This is <b>market sentiment</b> and crowd-based probability — not gambling content.
+        We surface high-volume events so you can understand what the market expects and why.
+      </p>
+      <div class="pill-row">
+        <span class="pill"><i class="fas fa-fire"></i> Sorted by 24h volume</span>
+        <span class="pill"><i class="fas fa-chart-line"></i> YES/NO probabilities</span>
+        <span class="pill"><i class="fas fa-shield-halved"></i> Trust-first framing</span>
+      </div>
+      <div class="disclaimer">
+        <b>Disclaimer:</b> informational only, not financial advice. Some links may become partner links later and support the project at no extra cost.
+      </div>
+      <div class="muted small" id="pm-updated" style="margin-top: 0.9rem;"></div>
+    </section>
+
+    <section>
+      <div class="grid" id="pm-grid">
+        <div class="card">
+          <div class="q">Loading live Polymarket events…</div>
+          <div class="muted small">If this takes too long, the data file may still be generating.</div>
+        </div>
+      </div>
+      <div class="muted small" id="pm-error" style="margin-top: -2.25rem;"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator | Built for trust-first crypto education & tools</p>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+    </div>
+    <p style="margin-top: 1rem; opacity: 0.75;">
+      Disclaimer: Not financial advice. Prediction markets involve risk. Data is informational and may be delayed.
+    </p>
+  </footer>
+
+  <script>
+    function fmtUsd(v) {
+      if (typeof v !== 'number' || Number.isNaN(v)) return '—';
+      if (v >= 1_000_000) return '$' + (v / 1_000_000).toFixed(2) + 'M';
+      if (v >= 1_000) return '$' + (v / 1_000).toFixed(1) + 'K';
+      return '$' + v.toFixed(0);
+    }
+
+    function fmtProb(p) {
+      if (typeof p !== 'number' || Number.isNaN(p)) return '—';
+      return (p * 100).toFixed(1) + '%';
+    }
+
+    function timeRemaining(endDateIso) {
+      if (!endDateIso) return null;
+      const t = Date.parse(endDateIso);
+      if (Number.isNaN(t)) return null;
+      const ms = t - Date.now();
+      const days = Math.floor(ms / (24 * 3600 * 1000));
+      if (days < 0) return 'Ended';
+      if (days === 0) return 'Ends soon';
+      return days + 'd remaining';
+    }
+
+    async function fetchPolymarketJsonWithFallback() {
+      const origins = [window.location.origin, 'https://www.coinnavigator.net'];
+      const candidates = [];
+      for (const origin of origins) {
+        candidates.push(new URL('/polymarket_hot.json', origin).toString());
+        candidates.push(new URL('/data/polymarket_hot.json', origin).toString());
+      }
+
+      let lastError = null;
+      for (const baseUrl of candidates) {
+        const url = baseUrl + '?v=' + Date.now();
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) { lastError = new Error(`HTTP ${res.status} for ${baseUrl}`); continue; }
+          return await res.json();
+        } catch (e) { lastError = e; }
+      }
+      throw lastError ?? new Error('Failed to fetch polymarket data');
+    }
+
+    function buildMarketUrl(url, sourceTag) {
+      try {
+        const u = new URL(url);
+        u.searchParams.set('utm_source', 'coinnavigator');
+        u.searchParams.set('utm_medium', 'referral');
+        u.searchParams.set('utm_campaign', 'polymarket_hot');
+        u.searchParams.set('utm_content', sourceTag || 'polymarket_page');
+        return u.toString();
+      } catch {
+        return url;
+      }
+    }
+
+    function renderMarkets(markets) {
+      const grid = document.getElementById('pm-grid');
+      grid.innerHTML = '';
+
+      if (!Array.isArray(markets) || markets.length === 0) {
+        grid.innerHTML = `<div class="card"><div class="q">No events available right now.</div><div class="muted small">Try again in a few minutes.</div></div>`;
+        return;
+      }
+
+      for (const m of markets) {
+        const yes = m.yes;
+        const no = m.no;
+        const vol = m.volume24hr;
+        const endTxt = timeRemaining(m.endDate);
+        const url = buildMarketUrl(m.url, 'card');
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-head">
+            <div class="thumb">${m.image ? `<img src="${m.image}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : `<i class="fas fa-chart-pie"></i>`}</div>
+            <div>
+              <div class="q">${m.question}</div>
+              <div class="meta">
+                <span><b>${fmtUsd(vol)}</b> 24h volume</span>
+                ${endTxt ? `<span class="muted">${endTxt}</span>` : ``}
+              </div>
+            </div>
+          </div>
+          <div class="prices">
+            <span class="chip"><span class="lbl">YES</span> ${fmtProb(yes)}</span>
+            <span class="chip"><span class="lbl">NO</span> ${fmtProb(no)}</span>
+          </div>
+          <div class="muted small">Why it’s hot: unusually high 24h volume suggests elevated attention + disagreement.</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="${url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-arrow-up-right-from-square"></i> View on Polymarket</a>
+            <a class="btn btn-ghost" href="/terms/"><i class="fas fa-shield-halved"></i> Risk & disclosure</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    (async function init() {
+      const updated = document.getElementById('pm-updated');
+      const err = document.getElementById('pm-error');
+
+      try {
+        const data = await fetchPolymarketJsonWithFallback();
+        if (data && data.timestamp) {
+          const d = new Date(data.timestamp);
+          updated.innerHTML = `<i class="far fa-clock"></i> Updated: ${d.toLocaleString()}`;
+        }
+        renderMarkets((data && data.markets) || []);
+      } catch (e) {
+        err.innerHTML = `<span class="err">Failed to load Polymarket data:</span> ${e.message}`;
+        renderMarkets([]);
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
