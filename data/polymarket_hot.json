@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-08T21:34:34.154028Z",
+  "timestamp": "2026-01-08T21:52:00.464784Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
     {
@@ -10,19 +10,19 @@
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/earth+on+fire.png",
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 15211.657261999999,
-      "volume": 2123596.271235,
-      "liquidity": 31811.71799,
-      "yes": 0.004,
-      "no": 0.996,
+      "volume": 2123612.391235,
+      "liquidity": 31813.70159,
+      "yes": 0.0045,
+      "no": 0.9955,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.004
+          "price": 0.0045
         },
         {
           "name": "No",
-          "price": 0.996
+          "price": 0.9955
         }
       ]
     },
@@ -35,18 +35,18 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 14344.742015,
       "volume": 1032900.7717,
-      "liquidity": 10309.79884,
-      "yes": 0.922,
-      "no": 0.078,
-      "oneDayPriceChange": -0.0025,
+      "liquidity": 10456.16863,
+      "yes": 0.924,
+      "no": 0.076,
+      "oneDayPriceChange": 0.0035,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.922
+          "price": 0.924
         },
         {
           "name": "No",
-          "price": 0.078
+          "price": 0.076
         }
       ]
     },
@@ -59,7 +59,7 @@
       "endDate": "2026-01-06T12:00:00Z",
       "volume24hr": 1411.6130000000003,
       "volume": 175963.294043,
-      "liquidity": 5490.27873,
+      "liquidity": 5490.19459,
       "yes": 0.9955,
       "no": 0.0045,
       "oneDayPriceChange": null,
@@ -83,18 +83,18 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1153.0205080000003,
       "volume": 302398.469099,
-      "liquidity": 18002.62203,
-      "yes": 0.0115,
-      "no": 0.9885,
-      "oneDayPriceChange": 0.0095,
+      "liquidity": 17993.96032,
+      "yes": 0.012,
+      "no": 0.988,
+      "oneDayPriceChange": 0.01,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0115
+          "price": 0.012
         },
         {
           "name": "No",
-          "price": 0.9885
+          "price": 0.988
         }
       ]
     },
@@ -107,10 +107,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1041.51475,
       "volume": 895710.702072,
-      "liquidity": 3335.03907,
+      "liquidity": 3330.69431,
       "yes": 0.036,
       "no": 0.964,
-      "oneDayPriceChange": 0.0095,
+      "oneDayPriceChange": 0.012,
       "outcomes": [
         {
           "name": "Yes",
@@ -131,34 +131,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 544.920049,
       "volume": 941178.003182,
-      "liquidity": 6045.13312,
-      "yes": 0.0115,
-      "no": 0.9885,
-      "oneDayPriceChange": -0.005,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0115
-        },
-        {
-          "name": "No",
-          "price": 0.9885
-        }
-      ]
-    },
-    {
-      "id": "517316",
-      "slug": "will-trump-deport-1250000-1500000-people",
-      "question": "Will Trump deport 1,250,000-1,500,000 people?",
-      "url": "https://polymarket.com/event/will-trump-deport-1250000-1500000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 437.34,
-      "volume": 315724.558777,
-      "liquidity": 7906.94751,
+      "liquidity": 5949.6118,
       "yes": 0.012,
       "no": 0.988,
-      "oneDayPriceChange": 0.0085,
+      "oneDayPriceChange": -0.0045,
       "outcomes": [
         {
           "name": "Yes",
@@ -171,6 +147,30 @@
       ]
     },
     {
+      "id": "517316",
+      "slug": "will-trump-deport-1250000-1500000-people",
+      "question": "Will Trump deport 1,250,000-1,500,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-1250000-1500000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 437.34,
+      "volume": 315724.558777,
+      "liquidity": 8136.28051,
+      "yes": 0.0115,
+      "no": 0.9885,
+      "oneDayPriceChange": 0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0115
+        },
+        {
+          "name": "No",
+          "price": 0.9885
+        }
+      ]
+    },
+    {
       "id": "517313",
       "slug": "will-trump-deport-500000-750000-people",
       "question": "Will Trump deport 500,000-750,000- people?",
@@ -179,10 +179,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 410.37915100000004,
       "volume": 435276.61135,
-      "liquidity": 6570.29363,
+      "liquidity": 5652.00439,
       "yes": 0.0475,
       "no": 0.9525,
-      "oneDayPriceChange": -0.001,
+      "oneDayPriceChange": -0.0005,
       "outcomes": [
         {
           "name": "Yes",
@@ -203,10 +203,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 403.24857099999997,
       "volume": 301185.883182,
-      "liquidity": 9141.55235,
+      "liquidity": 8036.17111,
       "yes": 0.0055,
       "no": 0.9945,
-      "oneDayPriceChange": -0.003,
+      "oneDayPriceChange": -0.0025,
       "outcomes": [
         {
           "name": "Yes",
@@ -227,18 +227,18 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 344.52,
       "volume": 380621.216748,
-      "liquidity": 9223.57091,
-      "yes": 0.0085,
-      "no": 0.9915,
+      "liquidity": 9179.68495,
+      "yes": 0.009,
+      "no": 0.991,
       "oneDayPriceChange": -0.0015,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0085
+          "price": 0.009
         },
         {
           "name": "No",
-          "price": 0.9915
+          "price": 0.991
         }
       ]
     },
@@ -251,18 +251,18 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 315.47,
       "volume": 323452.23251,
-      "liquidity": 9012.94123,
-      "yes": 0.005,
-      "no": 0.995,
-      "oneDayPriceChange": -0.002,
+      "liquidity": 8954.77395,
+      "yes": 0.0055,
+      "no": 0.9945,
+      "oneDayPriceChange": -0.0025,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.005
+          "price": 0.0055
         },
         {
           "name": "No",
-          "price": 0.995
+          "price": 0.9945
         }
       ]
     },
@@ -275,7 +275,7 @@
       "endDate": "2026-01-06T12:00:00Z",
       "volume24hr": 266.022856,
       "volume": 160497.50564,
-      "liquidity": 6845.00581,
+      "liquidity": 5594.52005,
       "yes": 0.004,
       "no": 0.996,
       "oneDayPriceChange": 0.0015,
