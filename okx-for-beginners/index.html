@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OKX for Beginners | CoinNavigator</title>
   <meta name="description" content="OKX beginner-focused overview for arbitrage: who it's for, pros/cons, and a contextual CTA." />
+  <!-- Optional analytics: add your GA4 Measurement ID (e.g. G-XXXXXXX) to enable tracking -->
+  <meta name="coinnavigator-ga4" content="" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/okx-for-beginners/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="OKX for Beginners | CoinNavigator" />
+  <meta property="og:description" content="OKX beginner-focused overview for arbitrage: who it's for, pros/cons, and a contextual CTA." />
+  <meta property="og:url" content="https://www.coinnavigator.net/okx-for-beginners/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -65,8 +79,8 @@
       <div class="sub" style="margin-top:0.6rem;"><b>Region:</b> <span id="region-label">—</span> <span style="opacity:0.8;">(saved on this device)</span></div>
       <div class="pill"><i class="fas fa-shield-halved"></i> Recommendation with context (not a raw affiliate link)</div>
       <div class="cta" id="cta">
-        <a class="btn btn-primary" id="open-btn" href="#" target="_blank" rel="nofollow sponsored"><i class="fas fa-user-plus"></i> Open OKX Account</a>
-        <a class="btn btn-ghost" href="/#how-it-works"><i class="fas fa-graduation-cap"></i> Learn Arbitrage Basics</a>
+        <a class="btn btn-primary" id="open-btn" href="#" target="_blank" rel="nofollow" data-track="review_open_exchange" data-ex="OKX"><i class="fas fa-user-plus"></i> Open OKX Account</a>
+        <a class="btn btn-ghost" href="/#how-it-works" data-track="review_learn"><i class="fas fa-graduation-cap"></i> Learn Arbitrage Basics</a>
       </div>
     </section>
 
@@ -107,6 +121,37 @@
   </main>
 
   <script>
+    function getGa4MeasurementId() {
+      const meta = document.querySelector('meta[name="coinnavigator-ga4"]');
+      const fromMeta = (meta && meta.getAttribute('content')) ? meta.getAttribute('content').trim() : '';
+      const p = new URLSearchParams(window.location.search);
+      const fromQuery = (p.get('ga4') || '').trim();
+      if (fromQuery && fromQuery.startsWith('G-')) {
+        localStorage.setItem('coinnavigator_ga4', fromQuery);
+      }
+      const saved = (localStorage.getItem('coinnavigator_ga4') || '').trim();
+      return fromMeta || saved || null;
+    }
+
+    function initAnalytics() {
+      const id = getGa4MeasurementId();
+      if (!id) return;
+      const s1 = document.createElement('script');
+      s1.async = true;
+      s1.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+      document.head.appendChild(s1);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', id, { anonymize_ip: true });
+    }
+
+    function track(name, params) {
+      try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch {}
+    }
+
+    initAnalytics();
+
     (function initRegion() {
       const allowed = ['EU','RU','US','ASIA'];
       const p = new URLSearchParams(window.location.search);
@@ -118,16 +163,29 @@
       const label = document.getElementById('region-label');
       if (label) label.textContent = region;
 
-      // Placeholder affiliate links per region — replace later.
+      // Real link now (placeholder for future affiliate link). Keep it functional today.
       const AFF = {
-        EU: '#',
-        RU: '#',
-        US: '#',
-        ASIA: '#',
+        EU: 'https://www.okx.com/',
+        RU: 'https://www.okx.com/',
+        US: 'https://www.okx.com/',
+        ASIA: 'https://www.okx.com/',
       };
       const btn = document.getElementById('open-btn');
-      if (btn) btn.href = AFF[region] || '#';
+      if (btn) btn.href = AFF[region] || 'https://www.okx.com/';
+
+      track('review_loaded', { page: 'okx-for-beginners', region });
     })();
+    document.addEventListener('click', (e) => {
+      const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+      if (!el) return;
+      const name = el.getAttribute('data-track');
+      track(name, {
+        region: localStorage.getItem('coinnavigator_region') || undefined,
+        ex: el.getAttribute('data-ex') || undefined,
+        href: (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : undefined,
+        page: 'okx-for-beginners',
+      });
+    });
   </script>
 
   <footer>

@@ -1,0 +1,25 @@
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual env
+venv/
+.venv/
+
+# Secrets
+.env
+.env.*
+
+# Archives / exports
+*.zip
+
+# OS / editor
+.idea/
+.vscode/
+

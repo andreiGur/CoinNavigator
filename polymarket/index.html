@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CoinNavigator | Polymarket Hot Events</title>
   <meta name="description" content="Market sentiment & probability analysis from Polymarket. Track hot prediction markets by volume, see YES/NO prices, and learn what the crowd expects." />
+  <!-- Optional analytics: add your GA4 Measurement ID (e.g. G-XXXXXXX) to enable tracking -->
+  <meta name="coinnavigator-ga4" content="" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/polymarket/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CoinNavigator | Polymarket Hot Events" />
+  <meta property="og:description" content="Market sentiment & probability analysis from Polymarket. Track hot prediction markets by volume, see YES/NO prices, and learn what the crowd expects." />
+  <meta property="og:url" content="https://www.coinnavigator.net/polymarket/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -257,6 +271,35 @@
   </footer>
 
   <script>
+    function getGa4MeasurementId() {
+      const meta = document.querySelector('meta[name="coinnavigator-ga4"]');
+      const fromMeta = (meta && meta.getAttribute('content')) ? meta.getAttribute('content').trim() : '';
+      const p = new URLSearchParams(window.location.search);
+      const fromQuery = (p.get('ga4') || '').trim();
+      if (fromQuery && fromQuery.startsWith('G-')) {
+        localStorage.setItem('coinnavigator_ga4', fromQuery);
+      }
+      const saved = (localStorage.getItem('coinnavigator_ga4') || '').trim();
+      return fromMeta || saved || null;
+    }
+
+    function initAnalytics() {
+      const id = getGa4MeasurementId();
+      if (!id) return;
+      const s1 = document.createElement('script');
+      s1.async = true;
+      s1.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+      document.head.appendChild(s1);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', id, { anonymize_ip: true });
+    }
+
+    function track(name, params) {
+      try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch {}
+    }
+
     function fmtUsd(v) {
       if (typeof v !== 'number' || Number.isNaN(v)) return '—';
       if (v >= 1_000_000) return '$' + (v / 1_000_000).toFixed(2) + 'M';
@@ -348,13 +391,25 @@
           </div>
           <div class="muted small">Why it’s hot: unusually high 24h volume suggests elevated attention + disagreement.</div>
           <div class="actions">
-            <a class="btn btn-primary" href="${url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-arrow-up-right-from-square"></i> View on Polymarket</a>
-            <a class="btn btn-ghost" href="/terms/"><i class="fas fa-shield-halved"></i> Risk & disclosure</a>
+            <a class="btn btn-primary" href="${url}" target="_blank" rel="noopener noreferrer" data-track="pm_view_market" data-slug="${m.slug || ''}"><i class="fas fa-arrow-up-right-from-square"></i> View on Polymarket</a>
+            <a class="btn btn-ghost" href="/terms/" data-track="open_terms"><i class="fas fa-shield-halved"></i> Risk & disclosure</a>
           </div>
         `;
         grid.appendChild(card);
       }
     }
+
+    initAnalytics();
+    document.addEventListener('click', (e) => {
+      const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+      if (!el) return;
+      const name = el.getAttribute('data-track');
+      track(name, {
+        slug: el.getAttribute('data-slug') || undefined,
+        href: (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : undefined,
+        page: 'polymarket',
+      });
+    });
 
     (async function init() {
       const updated = document.getElementById('pm-updated');
