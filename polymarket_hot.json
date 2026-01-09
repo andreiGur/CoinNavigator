@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-09T08:17:09.964762Z",
+  "timestamp": "2026-01-09T08:52:23.688587Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
     {
@@ -9,9 +9,9 @@
       "url": "https://polymarket.com/event/will-2025-be-the-hottest-year-on-record",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/earth+on+fire.png",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 13937.242403999999,
-      "volume": 2125231.410735,
-      "liquidity": 41658.93571,
+      "volume24hr": 14795.229904000002,
+      "volume": 2125531.410735,
+      "liquidity": 41410.23571,
       "yes": 0.0005,
       "no": 0.9995,
       "oneDayPriceChange": -0.0025,
@@ -27,42 +27,18 @@
       ]
     },
     {
-      "id": "517311",
-      "slug": "will-trump-deport-250000-500000-people",
-      "question": "Will Trump deport 250,000-500,000 people?",
-      "url": "https://polymarket.com/event/will-trump-deport-250000-500000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 7370.703045,
-      "volume": 1033334.889461,
-      "liquidity": 9176.5993,
-      "yes": 0.91,
-      "no": 0.09,
-      "oneDayPriceChange": -0.031,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.91
-        },
-        {
-          "name": "No",
-          "price": 0.09
-        }
-      ]
-    },
-    {
       "id": "517316",
       "slug": "will-trump-deport-1250000-1500000-people",
       "question": "Will Trump deport 1,250,000-1,500,000 people?",
       "url": "https://polymarket.com/event/will-trump-deport-1250000-1500000-people",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 2496.22,
+      "volume24hr": 2801.432405,
       "volume": 316161.451182,
-      "liquidity": 8080.0837,
+      "liquidity": 8249.82567,
       "yes": 0.0065,
       "no": 0.9935,
-      "oneDayPriceChange": 0.006,
+      "oneDayPriceChange": -0.004,
       "outcomes": [
         {
           "name": "Yes",
@@ -75,26 +51,50 @@
       ]
     },
     {
-      "id": "522145",
-      "slug": "will-inflation-reach-more-than-3-in-2025",
-      "question": "Will inflation reach more than 3% in 2025?",
-      "url": "https://polymarket.com/event/will-inflation-reach-more-than-3-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-high-will-inflation-get-in-2025-uvsYb27mqBpZ.jpg",
+      "id": "517311",
+      "slug": "will-trump-deport-250000-500000-people",
+      "question": "Will Trump deport 250,000-500,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-250000-500000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 782.2761800000001,
-      "volume": 895750.800072,
-      "liquidity": 4770.67611,
-      "yes": 0.014,
-      "no": 0.986,
-      "oneDayPriceChange": -0.032,
+      "volume24hr": 2153.269951,
+      "volume": 1033334.889461,
+      "liquidity": 9370.96786,
+      "yes": 0.91,
+      "no": 0.09,
+      "oneDayPriceChange": -0.0235,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.014
+          "price": 0.91
         },
         {
           "name": "No",
-          "price": 0.986
+          "price": 0.09
+        }
+      ]
+    },
+    {
+      "id": "517319",
+      "slug": "will-trump-deport-2000000-or-more-people",
+      "question": "Will Trump deport 2,000,000 or more people?",
+      "url": "https://polymarket.com/event/will-trump-deport-2000000-or-more-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 1640.674,
+      "volume": 303026.475682,
+      "liquidity": 8410.72287,
+      "yes": 0.0095,
+      "no": 0.9905,
+      "oneDayPriceChange": 0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0095
+        },
+        {
+          "name": "No",
+          "price": 0.9905
         }
       ]
     },
@@ -105,44 +105,68 @@
       "url": "https://polymarket.com/event/will-trump-deport-less-than-250000",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 508.10009799999995,
-      "volume": 942464.333954,
-      "liquidity": 5539.52737,
-      "yes": 0.0195,
-      "no": 0.9805,
-      "oneDayPriceChange": 0.0075,
+      "volume24hr": 1600.750772,
+      "volume": 943198.043658,
+      "liquidity": 5480.9862,
+      "yes": 0.03,
+      "no": 0.97,
+      "oneDayPriceChange": 0.018,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0195
+          "price": 0.03
         },
         {
           "name": "No",
-          "price": 0.9805
+          "price": 0.97
         }
       ]
     },
     {
-      "id": "522146",
-      "slug": "will-inflation-reach-more-than-4-in-2025",
-      "question": "Will inflation reach more than 4% in 2025?",
-      "url": "https://polymarket.com/event/will-inflation-reach-more-than-4-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-high-will-inflation-get-in-2025-uvsYb27mqBpZ.jpg",
+      "id": "517313",
+      "slug": "will-trump-deport-500000-750000-people",
+      "question": "Will Trump deport 500,000-750,000- people?",
+      "url": "https://polymarket.com/event/will-trump-deport-500000-750000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 491.699673,
-      "volume": 302411.469099,
-      "liquidity": 17965.94032,
-      "yes": 0.0205,
-      "no": 0.9795,
-      "oneDayPriceChange": 0.015,
+      "volume24hr": 1501.204456,
+      "volume": 436632.045806,
+      "liquidity": 7848.91208,
+      "yes": 0.0485,
+      "no": 0.9515,
+      "oneDayPriceChange": -0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0205
+          "price": 0.0485
         },
         {
           "name": "No",
-          "price": 0.9795
+          "price": 0.9515
+        }
+      ]
+    },
+    {
+      "id": "517314",
+      "slug": "will-trump-deport-750000-1000000-people",
+      "question": "Will Trump deport 750,000-1,000,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-750000-1000000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 1096.283232,
+      "volume": 381665.22998,
+      "liquidity": 9068.5436,
+      "yes": 0.0105,
+      "no": 0.9895,
+      "oneDayPriceChange": -0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0105
+        },
+        {
+          "name": "No",
+          "price": 0.9895
         }
       ]
     },
@@ -153,9 +177,9 @@
       "url": "https://polymarket.com/event/will-trump-deport-1000000-1250000-people",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 401.23,
+      "volume24hr": 868.156,
       "volume": 364039.762388,
-      "liquidity": 10441.97799,
+      "liquidity": 10632.69066,
       "yes": 0.0025,
       "no": 0.9975,
       "oneDayPriceChange": -0.001,
@@ -171,15 +195,87 @@
       ]
     },
     {
+      "id": "517317",
+      "slug": "will-trump-deport-1500000-1750000-people",
+      "question": "Will Trump deport 1,500,000-1,750,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-1500000-1750000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 635.256,
+      "volume": 324030.20851,
+      "liquidity": 9462.58959,
+      "yes": 0.0025,
+      "no": 0.9975,
+      "oneDayPriceChange": -0.0065,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0025
+        },
+        {
+          "name": "No",
+          "price": 0.9975
+        }
+      ]
+    },
+    {
+      "id": "517318",
+      "slug": "will-trump-deport-1750000-2000000-people",
+      "question": "Will Trump deport 1,750,000-2,000,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-1750000-2000000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 573.156,
+      "volume": 288559.437427,
+      "liquidity": 10754.48535,
+      "yes": 0.002,
+      "no": 0.998,
+      "oneDayPriceChange": -0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.002
+        },
+        {
+          "name": "No",
+          "price": 0.998
+        }
+      ]
+    },
+    {
+      "id": "517321",
+      "slug": "will-trump-deport-750000-or-more-people-in-2025",
+      "question": "Will Trump deport 750,000 or more people in 2025?",
+      "url": "https://polymarket.com/event/will-trump-deport-750000-or-more-people-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-trump-deport-750000-or-more-people-in-2025-xhG2x_HIG7ZG.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 433.631648,
+      "volume": 398611.639898,
+      "liquidity": 1184.09236,
+      "yes": 0.043,
+      "no": 0.957,
+      "oneDayPriceChange": 0.003,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.043
+        },
+        {
+          "name": "No",
+          "price": 0.957
+        }
+      ]
+    },
+    {
       "id": "521997",
       "slug": "will-elon-and-doge-cut-more-than-200k-employees-in-2025",
       "question": "Will Elon and DOGE cut more than 200k employees in 2025?",
       "url": "https://polymarket.com/event/will-elon-and-doge-cut-more-than-200k-employees-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-elon-and-doge-cut-more-than-200k-employees-in-2025-TMQyRnTO-sTO.jpg",
       "endDate": "2026-01-06T12:00:00Z",
-      "volume24hr": 375.23,
+      "volume24hr": 403.84,
       "volume": 176254.614043,
-      "liquidity": 5219.90379,
+      "liquidity": 5202.6579,
       "yes": 0.9955,
       "no": 0.0045,
       "oneDayPriceChange": -0.0005,
@@ -191,102 +287,6 @@
         {
           "name": "No",
           "price": 0.0045
-        }
-      ]
-    },
-    {
-      "id": "517321",
-      "slug": "will-trump-deport-750000-or-more-people-in-2025",
-      "question": "Will Trump deport 750,000 or more people in 2025?",
-      "url": "https://polymarket.com/event/will-trump-deport-750000-or-more-people-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-trump-deport-750000-or-more-people-in-2025-xhG2x_HIG7ZG.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 330.308359,
-      "volume": 398611.639898,
-      "liquidity": 1166.69183,
-      "yes": 0.0435,
-      "no": 0.9565,
-      "oneDayPriceChange": 0.0025,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0435
-        },
-        {
-          "name": "No",
-          "price": 0.9565
-        }
-      ]
-    },
-    {
-      "id": "517319",
-      "slug": "will-trump-deport-2000000-or-more-people",
-      "question": "Will Trump deport 2,000,000 or more people?",
-      "url": "https://polymarket.com/event/will-trump-deport-2000000-or-more-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 294.480071,
-      "volume": 302768.475682,
-      "liquidity": 8443.91049,
-      "yes": 0.0065,
-      "no": 0.9935,
-      "oneDayPriceChange": -0.0015,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0065
-        },
-        {
-          "name": "No",
-          "price": 0.9935
-        }
-      ]
-    },
-    {
-      "id": "521996",
-      "slug": "will-elon-and-doge-cut-150-200k-employees-in-2025",
-      "question": "Will Elon and DOGE cut 150-200k employees in 2025?",
-      "url": "https://polymarket.com/event/will-elon-and-doge-cut-150-200k-employees-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-elon-and-doge-cut-150-200k-employees-in-2025-EGs56_eGdeI-.jpg",
-      "endDate": "2026-01-06T12:00:00Z",
-      "volume24hr": 259.082856,
-      "volume": 160510.96964,
-      "liquidity": 6444.07533,
-      "yes": 0.0035,
-      "no": 0.9965,
-      "oneDayPriceChange": 0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0035
-        },
-        {
-          "name": "No",
-          "price": 0.9965
-        }
-      ]
-    },
-    {
-      "id": "517313",
-      "slug": "will-trump-deport-500000-750000-people",
-      "question": "Will Trump deport 500,000-750,000- people?",
-      "url": "https://polymarket.com/event/will-trump-deport-500000-750000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 255.60000000000002,
-      "volume": 436621.065806,
-      "liquidity": 7590.16729,
-      "yes": 0.053,
-      "no": 0.947,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.053
-        },
-        {
-          "name": "No",
-          "price": 0.947
         }
       ]
     }
