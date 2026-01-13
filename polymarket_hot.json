@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-13T06:18:36.887624Z",
+  "timestamp": "2026-01-13T06:56:02.824738Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
     {
@@ -10,8 +10,8 @@
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gta-6-launch-price-l4GiOIOGhdvA.jpg",
       "endDate": "2026-02-28T12:00:00Z",
       "volume24hr": 132770.88367200003,
-      "volume": 1009614.283732,
-      "liquidity": 43070.71985,
+      "volume": 1009617.829132,
+      "liquidity": 43070.60712,
       "yes": 0.011,
       "no": 0.989,
       "oneDayPriceChange": -0.001,
@@ -34,11 +34,11 @@
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/earth+on+fire.png",
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 62742.52237300001,
-      "volume": 2464636.809297,
-      "liquidity": 240402.13417,
+      "volume": 2464653.809297,
+      "liquidity": 240409.97717,
       "yes": 0.0025,
       "no": 0.9975,
-      "oneDayPriceChange": -0.0005,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
@@ -59,7 +59,7 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 4668.5599999999995,
       "volume": 371724.207388,
-      "liquidity": 9428.4985,
+      "liquidity": 11142.61948,
       "yes": 0.003,
       "no": 0.997,
       "oneDayPriceChange": -0.0005,
@@ -83,10 +83,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 2424.4120000000003,
       "volume": 292104.70376,
-      "liquidity": 8036.668,
+      "liquidity": 8896.98298,
       "yes": 0.0055,
       "no": 0.9945,
-      "oneDayPriceChange": null,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
@@ -131,10 +131,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 2046.382,
       "volume": 326873.49151,
-      "liquidity": 7751.5067,
+      "liquidity": 8607.16321,
       "yes": 0.0075,
       "no": 0.9925,
-      "oneDayPriceChange": null,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
@@ -155,10 +155,10 @@
       "endDate": "2026-02-28T12:00:00Z",
       "volume24hr": 2025.387987,
       "volume": 198489.675212,
-      "liquidity": 2761.50644,
+      "liquidity": 2342.84482,
       "yes": 0.162,
       "no": 0.838,
-      "oneDayPriceChange": 0.0355,
+      "oneDayPriceChange": 0.0345,
       "outcomes": [
         {
           "name": "Yes",
@@ -179,10 +179,10 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1810.4330949999999,
       "volume": 1045553.992195,
-      "liquidity": 5733.91467,
+      "liquidity": 5332.21495,
       "yes": 0.89,
       "no": 0.11,
-      "oneDayPriceChange": 0.0115,
+      "oneDayPriceChange": -0.0105,
       "outcomes": [
         {
           "name": "Yes",
@@ -203,7 +203,7 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1740.7152689999998,
       "volume": 318385.966926,
-      "liquidity": 2140.58657,
+      "liquidity": 2241.27955,
       "yes": 0.9805,
       "no": 0.0195,
       "oneDayPriceChange": -0.014,
@@ -227,7 +227,7 @@
       "endDate": "2026-02-28T12:00:00Z",
       "volume24hr": 1693.4585000000004,
       "volume": 112978.614457,
-      "liquidity": 10367.13486,
+      "liquidity": 10563.21109,
       "yes": 0.009,
       "no": 0.991,
       "oneDayPriceChange": 0.0055,
@@ -251,18 +251,18 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1661.37,
       "volume": 419214.873307,
-      "liquidity": 2636.065,
-      "yes": 0.0145,
-      "no": 0.9855,
-      "oneDayPriceChange": 0.014,
+      "liquidity": 2444.67403,
+      "yes": 0.009,
+      "no": 0.991,
+      "oneDayPriceChange": 0.0085,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0145
+          "price": 0.009
         },
         {
           "name": "No",
-          "price": 0.9855
+          "price": 0.991
         }
       ]
     },
@@ -275,18 +275,18 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1503.1922209999998,
       "volume": 306557.21132,
-      "liquidity": 14739.20754,
-      "yes": 0.0045,
-      "no": 0.9955,
-      "oneDayPriceChange": -0.0015,
+      "liquidity": 14742.71956,
+      "yes": 0.009,
+      "no": 0.991,
+      "oneDayPriceChange": 0.003,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0045
+          "price": 0.009
         },
         {
           "name": "No",
-          "price": 0.9955
+          "price": 0.991
         }
       ]
     }
