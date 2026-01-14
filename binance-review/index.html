@@ -76,7 +76,6 @@
     <section class="hero">
       <h1>Binance Review (for Arbitrage)</h1>
       <div class="sub">Recommended for users who want deep liquidity and a broad set of markets. Always verify fees, withdrawal status, and compliance requirements in your region.</div>
-      <div class="sub" style="margin-top:0.6rem;"><b>Region:</b> <span id="region-label">—</span> <span style="opacity:0.8;">(saved on this device)</span></div>
       <div class="cta" id="cta">
         <a class="btn btn-primary" id="open-btn" href="#" target="_blank" rel="nofollow" data-track="review_open_exchange" data-ex="Binance"><i class="fas fa-user-plus"></i> Open Binance Account</a>
         <a class="btn btn-ghost" href="/#how-it-works" data-track="review_learn"><i class="fas fa-graduation-cap"></i> Learn Arbitrage Basics</a>
@@ -158,28 +157,17 @@
 
     initAnalytics();
 
-    (function initRegion() {
-      const allowed = ['EU','RU','US','ASIA'];
-      const p = new URLSearchParams(window.location.search);
-      const fromQuery = p.get('region');
-      const saved = localStorage.getItem('coinnavigator_region');
-      const region = (fromQuery && allowed.includes(fromQuery)) ? fromQuery : ((saved && allowed.includes(saved)) ? saved : 'EU');
-      localStorage.setItem('coinnavigator_region', region);
-
-      const label = document.getElementById('region-label');
-      if (label) label.textContent = region;
-
-      // Real link now (placeholder for future affiliate link). Keep it functional today.
-      const AFF = {
-        EU: 'https://www.binance.com/',
-        RU: 'https://www.binance.com/',
-        ASIA: 'https://www.binance.com/',
-        US: 'https://www.binance.us/',
-      };
+    // Binance affiliate link (CPA Referral Program)
+    (function() {
       const btn = document.getElementById('open-btn');
-      if (btn) btn.href = AFF[region] || 'https://www.binance.com/';
-
-      track('review_loaded', { page: 'binance-review', region });
+      if (btn) {
+        // Use Binance CPA referral link for all regions (except US which uses Binance.US)
+        const isUS = /binance\.us|\.us\//i.test(window.location.href) || navigator.language.includes('en-US');
+        btn.href = isUS 
+          ? 'https://www.binance.us/' 
+          : 'https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00X7W6EK29';
+      }
+      track('review_loaded', { page: 'binance-review' });
     })();
     document.addEventListener('click', (e) => {
       const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
