@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-14T08:16:56.165222Z",
+  "timestamp": "2026-01-14T08:55:34.174176Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
     {
@@ -9,20 +9,20 @@
       "url": "https://polymarket.com/event/will-2025-be-the-hottest-year-on-record",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/earth+on+fire.png",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 1477245.836648,
-      "volume": 3956085.018469,
-      "liquidity": 195285.09753,
-      "yes": 0.0025,
-      "no": 0.9975,
+      "volume24hr": 1490558.5074710003,
+      "volume": 3956892.522268,
+      "liquidity": 194349.80109,
+      "yes": 0.0035,
+      "no": 0.9965,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0025
+          "price": 0.0035
         },
         {
           "name": "No",
-          "price": 0.9975
+          "price": 0.9965
         }
       ]
     },
@@ -33,44 +33,20 @@
       "url": "https://polymarket.com/event/will-gta-6-cost-100",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gta-6-launch-price-l4GiOIOGhdvA.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 89384.18432599997,
-      "volume": 1114742.380798,
-      "liquidity": 30772.87368,
-      "yes": 0.0205,
-      "no": 0.9795,
-      "oneDayPriceChange": 0.0055,
+      "volume24hr": 103705.62444599999,
+      "volume": 1114816.767432,
+      "liquidity": 30825.23276,
+      "yes": 0.0195,
+      "no": 0.9805,
+      "oneDayPriceChange": 0.004,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0205
+          "price": 0.0195
         },
         {
           "name": "No",
-          "price": 0.9795
-        }
-      ]
-    },
-    {
-      "id": "537484",
-      "slug": "will-the-us-collect-less-than-100b-in-revenue-in-2025",
-      "question": "Will the U.S. collect less than $100b in revenue in 2025?",
-      "url": "https://polymarket.com/event/will-the-us-collect-less-than-100b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 44000.39780400001,
-      "volume": 730528.735002,
-      "liquidity": 29158.49153,
-      "yes": 0.3985,
-      "no": 0.6015,
-      "oneDayPriceChange": 0.0805,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.3985
-        },
-        {
-          "name": "No",
-          "price": 0.6015
+          "price": 0.9805
         }
       ]
     },
@@ -81,20 +57,44 @@
       "url": "https://polymarket.com/event/will-trump-deport-1500000-1750000-people",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 22411.287271999998,
+      "volume24hr": 22938.297272,
       "volume": 349811.788782,
-      "liquidity": 11449.47619,
-      "yes": 0.005,
-      "no": 0.995,
-      "oneDayPriceChange": -0.0025,
+      "liquidity": 10531.56282,
+      "yes": 0.0045,
+      "no": 0.9955,
+      "oneDayPriceChange": -0.0035,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.005
+          "price": 0.0045
         },
         {
           "name": "No",
-          "price": 0.995
+          "price": 0.9955
+        }
+      ]
+    },
+    {
+      "id": "537484",
+      "slug": "will-the-us-collect-less-than-100b-in-revenue-in-2025",
+      "question": "Will the U.S. collect less than $100b in revenue in 2025?",
+      "url": "https://polymarket.com/event/will-the-us-collect-less-than-100b-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 20737.409187999994,
+      "volume": 730528.735002,
+      "liquidity": 29390.39478,
+      "yes": 0.389,
+      "no": 0.611,
+      "oneDayPriceChange": 0.0715,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.389
+        },
+        {
+          "name": "No",
+          "price": 0.611
         }
       ]
     },
@@ -105,9 +105,9 @@
       "url": "https://polymarket.com/event/will-trump-elon-reduce-the-deficit-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-trump-elon-reduce-the-deficit-in-2025-december-yoy-WloNDhtofy7s.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 11331.064053,
+      "volume24hr": 20373.083282000003,
       "volume": 218862.758494,
-      "liquidity": 8128.71249,
+      "liquidity": 7096.28876,
       "yes": 0.003,
       "no": 0.997,
       "oneDayPriceChange": -0.155,
@@ -129,44 +129,20 @@
       "url": "https://polymarket.com/event/will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 4237.836698,
+      "volume24hr": 4109.5683340000005,
       "volume": 310942.180167,
-      "liquidity": 16849.65492,
-      "yes": 0.012,
-      "no": 0.988,
-      "oneDayPriceChange": -0.0045,
+      "liquidity": 16798.62173,
+      "yes": 0.0125,
+      "no": 0.9875,
+      "oneDayPriceChange": -0.005,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.012
+          "price": 0.0125
         },
         {
           "name": "No",
-          "price": 0.988
-        }
-      ]
-    },
-    {
-      "id": "537486",
-      "slug": "will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $200b and $500b in revenue in 2025?",
-      "url": "https://polymarket.com/event/will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 2186.1335729999996,
-      "volume": 415032.186159,
-      "liquidity": 9614.6678,
-      "yes": 0.34,
-      "no": 0.66,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.34
-        },
-        {
-          "name": "No",
-          "price": 0.66
+          "price": 0.9875
         }
       ]
     },
@@ -177,9 +153,9 @@
       "url": "https://polymarket.com/event/will-trump-deport-1000000-1250000-people",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 1950.331666,
+      "volume24hr": 3005.975666,
       "volume": 374730.183054,
-      "liquidity": 13227.79472,
+      "liquidity": 12642.90393,
       "yes": 0.0035,
       "no": 0.9965,
       "oneDayPriceChange": 0.0005,
@@ -195,15 +171,39 @@
       ]
     },
     {
+      "id": "521963",
+      "slug": "will-elon-cut-the-budget-by-at-least-10-in-2025",
+      "question": "Will Elon cut the budget by at least 10% in 2025?",
+      "url": "https://polymarket.com/event/will-elon-cut-the-budget-by-at-least-10-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-elon-cut-the-budget-by-at-least-10-in-2025-KQWXFwQwSRYV.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 2476.091312,
+      "volume": 115454.705769,
+      "liquidity": 10082.44125,
+      "yes": 0.003,
+      "no": 0.997,
+      "oneDayPriceChange": -0.006,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.003
+        },
+        {
+          "name": "No",
+          "price": 0.997
+        }
+      ]
+    },
+    {
       "id": "521948",
       "slug": "will-elon-and-doge-cut-between-200-250b-in-federal-spending-in-2025",
       "question": "Will Elon and DOGE cut between $200-250b in federal spending in 2025?",
       "url": "https://polymarket.com/event/will-elon-and-doge-cut-between-200-250b-in-federal-spending-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-spending-will-elon-and-doge-cut-in-2025--_AiUomi1ndd.jpg",
       "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 1739.381568,
+      "volume24hr": 2056.698887,
       "volume": 421274.254875,
-      "liquidity": 3946.13143,
+      "liquidity": 3950.59508,
       "yes": 0.012,
       "no": 0.988,
       "oneDayPriceChange": 0.003,
@@ -219,6 +219,30 @@
       ]
     },
     {
+      "id": "517318",
+      "slug": "will-trump-deport-1750000-2000000-people",
+      "question": "Will Trump deport 1,750,000-2,000,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-1750000-2000000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 1761.436665,
+      "volume": 293866.140425,
+      "liquidity": 9287.72281,
+      "yes": 0.007,
+      "no": 0.993,
+      "oneDayPriceChange": 0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.007
+        },
+        {
+          "name": "No",
+          "price": 0.993
+        }
+      ]
+    },
+    {
       "id": "521945",
       "slug": "will-elon-and-doge-cut-between-50-100b-in-federal-spending-in-2025",
       "question": "Will Elon and DOGE cut between $50-100b in federal spending in 2025?",
@@ -227,7 +251,7 @@
       "endDate": "2025-12-31T12:00:00Z",
       "volume24hr": 1678.1550049999998,
       "volume": 352957.980907,
-      "liquidity": 5571.12917,
+      "liquidity": 5573.14925,
       "yes": 0.007,
       "no": 0.993,
       "oneDayPriceChange": -0.0025,
@@ -243,50 +267,26 @@
       ]
     },
     {
-      "id": "521964",
-      "slug": "will-elon-cut-the-budget-by-at-least-5-in-2025",
-      "question": "Will Elon cut the budget by at least 5% in 2025?",
-      "url": "https://polymarket.com/event/will-elon-cut-the-budget-by-at-least-5-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-elon-cut-the-budget-by-at-least-5-in-2025-YEZDluotrm-Q.jpg",
+      "id": "528788",
+      "slug": "rojas-guilty-in-texas-illegal-abortion-case",
+      "question": "Rojas guilty in Texas illegal abortion case?",
+      "url": "https://polymarket.com/event/rojas-guilty-in-texas-illegal-abortion-case",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/rojas-guilty-in-texas-illegal-abortion-case-wbJ6bN2zp3ER.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 1552.093127,
-      "volume": 147424.316287,
-      "liquidity": 6810.64475,
-      "yes": 0.009,
-      "no": 0.991,
-      "oneDayPriceChange": -0.0095,
+      "volume24hr": 1547.4179189999993,
+      "volume": 7612.116041,
+      "liquidity": 724.9056,
+      "yes": 0.125,
+      "no": 0.875,
+      "oneDayPriceChange": -0.27,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.009
+          "price": 0.125
         },
         {
           "name": "No",
-          "price": 0.991
-        }
-      ]
-    },
-    {
-      "id": "521944",
-      "slug": "will-elon-and-doge-cut-less-than-50b-in-federal-spending-in-2025",
-      "question": "Will Elon and DOGE cut less than $50b in federal spending in 2025?",
-      "url": "https://polymarket.com/event/will-elon-and-doge-cut-less-than-50b-in-federal-spending-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-spending-will-elon-and-doge-cut-in-2025--_AiUomi1ndd.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 1491.334313,
-      "volume": 319852.472149,
-      "liquidity": 2244.55135,
-      "yes": 0.963,
-      "no": 0.037,
-      "oneDayPriceChange": -0.021,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.963
-        },
-        {
-          "name": "No",
-          "price": 0.037
+          "price": 0.875
         }
       ]
     }
