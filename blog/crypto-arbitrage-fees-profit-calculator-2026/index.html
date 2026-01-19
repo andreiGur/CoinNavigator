@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Arbitrage Fees & Profit Calculator (2026) | CoinNavigator</title>
+  <meta name="description" content="A practical guide to estimating real crypto arbitrage profit after trading fees, spreads, withdrawals, slippage, and delays. Includes step-by-step examples and a simple checklist." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/blog/crypto-arbitrage-fees-profit-calculator-2026/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Crypto Arbitrage Fees & Profit Calculator (2026) | CoinNavigator" />
+  <meta property="og:description" content="Estimate real arbitrage profit after fees, withdrawals, slippage, and delays. Practical formulas + examples." />
+  <meta property="og:url" content="https://www.coinnavigator.net/blog/crypto-arbitrage-fees-profit-calculator-2026/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9L1137PQ6P');
+  </script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15;
+      z-index: -2;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+    }
+    nav {
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--primary-light); }
+    .nav-cta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+    }
+    .btn-ghost:hover { border-color: var(--primary); }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    article {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .article-header h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, var(--primary-light), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .meta {
+      color: var(--text-muted);
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+    .lead {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 1.75rem;
+    }
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      font-size: 1.55rem;
+    }
+    h3 {
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.15rem;
+      color: var(--text-main);
+    }
+    p { margin-bottom: 1rem; }
+    ul { margin: 0.25rem 0 1.25rem 1.25rem; color: var(--text-muted); }
+    li { margin: 0.4rem 0; }
+    a { color: var(--primary-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .callout {
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.06);
+      border-radius: 16px;
+      padding: 1.25rem 1.25rem;
+      margin: 1.25rem 0;
+      color: var(--text-muted);
+    }
+    code {
+      background: rgba(255,255,255,0.06);
+      padding: 0.15rem 0.35rem;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95em;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+    }
+    th, td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { color: var(--text-main); font-weight: 700; background: rgba(255,255,255,0.03); }
+    td { color: var(--text-muted); }
+    .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 2.5rem;
+    }
+    .footer-links {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      justify-content: center;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--primary-light); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .container { padding: 2rem 1rem; }
+      article { padding: 2rem 1.25rem; }
+      .article-header h1 { font-size: 1.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <ul class="nav-links">
+      <li><a href="/#dashboard">Market Spreads</a></li>
+      <li><a href="/polymarket/">Polymarket</a></li>
+      <li><a href="/binance-review/">Exchanges</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="/#dashboard" class="btn btn-primary" data-track="nav_start"><i class="fas fa-rocket"></i> See Spreads</a>
+      <a href="/blog/" class="btn btn-ghost" data-track="back_to_blog"><i class="fas fa-book"></i> Blog</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <article>
+      <header class="article-header">
+        <h1>Crypto Arbitrage Fees & Profit Calculator (2026)</h1>
+        <div class="meta">
+          <span><i class="fas fa-calendar"></i> January 15, 2026</span>
+          <span><i class="fas fa-clock"></i> 9 min read</span>
+          <span><i class="fas fa-tag"></i> Arbitrage Basics</span>
+        </div>
+        <p class="lead">
+          The spread you see on a table is not your profit. Real arbitrage profit is what’s left after trading fees, withdrawals, slippage,
+          and the time it takes to move funds. This guide gives you a simple calculator-style framework you can use before you click “Buy”.
+        </p>
+      </header>
+
+      <div class="callout">
+        <strong>Trust-first reminder:</strong> CoinNavigator is for market intelligence and education. Nothing here is financial advice.
+        Arbitrage involves operational and market risks. Always start small and verify fees for your own account.
+      </div>
+
+      <h2>The core profit formula (quick)</h2>
+      <p>
+        Use this as a starting point:
+      </p>
+      <p>
+        <code>Net Profit ≈ (Sell Price − Buy Price) × Size − Trading Fees − Withdrawal Fees − Slippage − Funding/Interest − Taxes/FX</code>
+      </p>
+      <p>
+        “Size” is your position size in the base asset (e.g., 1 ETH). The hard part is estimating the hidden costs (slippage + delay).
+      </p>
+
+      <h2>Step-by-step: what to include (the full checklist)</h2>
+      <h3>1) Trading fees (both sides)</h3>
+      <ul>
+        <li><strong>Buy fee</strong>: maker/taker fee on the buy exchange.</li>
+        <li><strong>Sell fee</strong>: maker/taker fee on the sell exchange.</li>
+        <li><strong>Tip</strong>: if you must execute instantly, assume taker fees.</li>
+      </ul>
+
+      <h3>2) Withdrawal & network fees</h3>
+      <ul>
+        <li><strong>Withdrawal fee</strong>: exchange fee for moving the asset out.</li>
+        <li><strong>Network fee</strong>: sometimes included, sometimes separate (depends on exchange + chain).</li>
+        <li><strong>Hidden risk</strong>: some chains have unpredictable fees and variable confirmation times.</li>
+      </ul>
+
+      <h3>3) Slippage (and orderbook depth)</h3>
+      <p>
+        Slippage is what happens when your order moves the market (or gets filled across multiple levels).
+        Even a “good” spread can disappear when you try to trade size.
+      </p>
+      <div class="callout">
+        A practical approach: estimate slippage as <code>0.05%–0.30%</code> for small liquid trades, and increase for larger size or thin books.
+        Then validate by looking at depth on each exchange.
+      </div>
+
+      <h3>4) Transfer time (delay risk)</h3>
+      <p>
+        If it takes 5–30 minutes to move funds, the sell price can move against you. That’s “delay risk”.
+        You can model it with a conservative buffer:
+      </p>
+      <p><code>Delay Buffer ≈ Volatility_per_minute × Transfer_minutes × Position_value</code></p>
+      <p>
+        You don’t need perfect math—just don’t assume it’s zero.
+      </p>
+
+      <h2>Worked example (simple, realistic)</h2>
+      <p>
+        You spot a spread on ETH between Exchange A (buy) and Exchange B (sell).
+        Assume:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Input</th>
+              <th>Assumption</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Buy price</td>
+              <td>$2,000</td>
+              <td>Exchange A</td>
+            </tr>
+            <tr>
+              <td>Sell price</td>
+              <td>$2,020</td>
+              <td>Exchange B</td>
+            </tr>
+            <tr>
+              <td>Size</td>
+              <td>1 ETH</td>
+              <td>Position value ≈ $2,000</td>
+            </tr>
+            <tr>
+              <td>Trading fees</td>
+              <td>0.10% buy + 0.10% sell</td>
+              <td>Taker fees assumption</td>
+            </tr>
+            <tr>
+              <td>Withdrawal fee</td>
+              <td>$6</td>
+              <td>Exchange + network</td>
+            </tr>
+            <tr>
+              <td>Slippage</td>
+              <td>$3</td>
+              <td>Small order, liquid book</td>
+            </tr>
+            <tr>
+              <td>Delay buffer</td>
+              <td>$4</td>
+              <td>Conservative</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Gross spread: <code>($2,020 − $2,000) × 1 = $20</code><br/>
+        Trading fees: <code>$2,000×0.10% + $2,020×0.10% ≈ $4.02</code><br/>
+        Other costs: <code>$6 + $3 + $4 = $13</code><br/>
+        Net profit: <code>$20 − $4.02 − $13 ≈ $2.98</code>
+      </p>
+      <p>
+        This is why “big spreads” on paper often turn into tiny net profit—or even loss—without careful cost accounting.
+      </p>
+
+      <h2>How to improve net profit (without taking reckless risk)</h2>
+      <ul>
+        <li><strong>Lower fees</strong>: qualify for VIP tiers or use maker execution when you can.</li>
+        <li><strong>Use faster rails</strong>: choose chains with fast confirmations and reliable deposits.</li>
+        <li><strong>Reduce transfers</strong>: where possible, keep inventory on both exchanges (capital intensive, but reduces delay risk).</li>
+        <li><strong>Trade smaller</strong>: until you understand slippage and operational friction.</li>
+      </ul>
+
+      <h2>Pick exchanges the right way (context + fit)</h2>
+      <p>
+        If you’re still choosing where to start, use our review pages (we explain who each exchange is for and why it’s recommended):
+      </p>
+      <ul>
+        <li><a href="/binance-review/" data-track="blog_internal_review" data-ex="Binance">Binance Review</a></li>
+        <li><a href="/okx-for-beginners/" data-track="blog_internal_review" data-ex="OKX">OKX for Beginners</a></li>
+        <li><a href="/bybit-arbitrage/" data-track="blog_internal_review" data-ex="Bybit">Bybit & Arbitrage</a></li>
+      </ul>
+
+      <div class="cta-row">
+        <a href="/#dashboard" class="btn btn-primary" data-track="blog_open_dashboard"><i class="fas fa-table"></i> Check Live Spreads</a>
+        <a href="/terms/" class="btn btn-ghost" data-track="open_terms"><i class="fas fa-shield-halved"></i> Risk & disclosure</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+    </div>
+    <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">
+      This website is for informational purposes only and does not constitute financial advice. Some links are partner links and may generate commissions at no extra cost to you.
+    </p>
+  </footer>
+
+  <script>
+    // Track clicks
+    document.querySelectorAll('[data-track]').forEach(el => {
+      el.addEventListener('click', function() {
+        if (window.gtag) {
+          gtag('event', this.getAttribute('data-track'), {
+            'event_category': 'blog',
+            'event_label': this.href || this.textContent,
+            'ex': this.getAttribute('data-ex') || undefined
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+
