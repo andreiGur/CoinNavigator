@@ -1048,15 +1048,32 @@
             if (!grid) return;
 
             const markets = (payload && payload.markets) ? payload.markets : [];
-            const top = Array.isArray(markets) ? markets.slice(0, 4) : [];
+            
+            // Filter out events that have ended (endDate in the past)
+            const activeMarkets = Array.isArray(markets) ? markets.filter(m => {
+                if (!m.endDate) return true; // Keep events without endDate
+                const endTime = Date.parse(m.endDate);
+                if (Number.isNaN(endTime)) return true; // Keep events with invalid endDate
+                return endTime > Date.now(); // Only keep events that haven't ended yet
+            }) : [];
+            
+            const top = activeMarkets.slice(0, 4);
 
             if (payload && payload.timestamp && updated) {
                 const d = new Date(payload.timestamp);
-                updated.innerHTML = `<i class="far fa-clock"></i> Polymarket updated: ${d.toLocaleString()}`;
+                const hoursAgo = (Date.now() - d.getTime()) / (1000 * 60 * 60);
+                let statusText = `Polymarket updated: ${d.toLocaleString()}`;
+                
+                // Warn if data is older than 25 hours (should update daily)
+                if (hoursAgo > 25) {
+                    statusText += ` <span style="color: var(--danger);">(${Math.floor(hoursAgo)}h ago - may be outdated)</span>`;
+                }
+                
+                updated.innerHTML = `<i class="far fa-clock"></i> ${statusText}`;
             }
 
             if (!top.length) {
-                grid.innerHTML = `<div class="pm-card"><div class="pm-q">No hot events available right now.</div><div class="pm-meta">Try again in a few minutes.</div></div>`;
+                grid.innerHTML = `<div class="pm-card"><div class="pm-q">No active events available right now.</div><div class="pm-meta">All events have ended. Check back tomorrow for new markets.</div></div>`;
                 return;
             }
 
