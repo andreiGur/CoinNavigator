@@ -158,9 +158,8 @@
     (function() {
       const btn = document.getElementById('open-btn');
       if (btn) {
-        // MEXC affiliate link - trying both URL formats
-        // Option 1: custom-sign-up (with hyphen) - this is the correct format
-        // Option 2: custom-signup (no hyphen) - fallback if needed
+        // MEXC affiliate link - exact URL from dashboard
+        // Format: https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2
         const baseUrl = 'https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2';
         const utmParams = '&utm_source=coinnavigator&utm_medium=affiliate&utm_campaign=mexc_review';
         btn.href = baseUrl + utmParams;
