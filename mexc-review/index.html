@@ -158,11 +158,16 @@
     (function() {
       const btn = document.getElementById('open-btn');
       if (btn) {
-        // Use the affiliate link from MEXC Commission Settings: custom-signup?shareCode=mexc-3ksU2
-        // Add UTM parameters for tracking
+        // Use the affiliate link from MEXC Commission Settings
+        // The URL from the screenshot shows: custom-signup (no hyphen)
+        // But if that gives 404, try custom-sign-up (with hyphen)
         const baseUrl = 'https://www.mexc.com/acquisition/custom-signup?shareCode=mexc-3ksU2';
         const utmParams = '&utm_source=coinnavigator&utm_medium=affiliate&utm_campaign=mexc_review';
         btn.href = baseUrl + utmParams;
+        
+        // If the link doesn't work, you can manually test:
+        // https://www.mexc.com/acquisition/custom-signup?shareCode=mexc-3ksU2 (no hyphen)
+        // https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2 (with hyphen)
       }
       track('review_loaded', { page: 'mexc-review' });
     })();
