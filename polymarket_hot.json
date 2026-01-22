@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-21T00:58:50.750446Z",
+  "timestamp": "2026-01-22T00:58:22.684456Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
     {
@@ -9,12 +9,12 @@
       "url": "https://polymarket.com/event/will-gta-6-cost-100",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gta-6-launch-price-l4GiOIOGhdvA.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 81725.817093,
-      "volume": 1539770.018624,
-      "liquidity": 47146.94292,
+      "volume24hr": 143248.740071,
+      "volume": 1681794.262257,
+      "liquidity": 45832.55937,
       "yes": 0.0185,
       "no": 0.9815,
-      "oneDayPriceChange": 0.002,
+      "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
@@ -27,26 +27,74 @@
       ]
     },
     {
+      "id": "537487",
+      "slug": "will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
+      "question": "Will the U.S. collect between $500b and $1t in revenue in 2025?",
+      "url": "https://polymarket.com/event/will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 17940.06157,
+      "volume": 368830.973473,
+      "liquidity": 15273.80214,
+      "yes": 0.006,
+      "no": 0.994,
+      "oneDayPriceChange": 0.0045,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.006
+        },
+        {
+          "name": "No",
+          "price": 0.994
+        }
+      ]
+    },
+    {
+      "id": "537485",
+      "slug": "will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
+      "question": "Will the U.S. collect between $100b and $200b in revenue in 2025?",
+      "url": "https://polymarket.com/event/will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 16866.232738999992,
+      "volume": 822876.576097,
+      "liquidity": 10393.48876,
+      "yes": 0.141,
+      "no": 0.859,
+      "oneDayPriceChange": 0.006,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.141
+        },
+        {
+          "name": "No",
+          "price": 0.859
+        }
+      ]
+    },
+    {
       "id": "537484",
       "slug": "will-the-us-collect-less-than-100b-in-revenue-in-2025",
       "question": "Will the U.S. collect less than $100b in revenue in 2025?",
       "url": "https://polymarket.com/event/will-the-us-collect-less-than-100b-in-revenue-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 23262.820621000003,
-      "volume": 803209.290467,
-      "liquidity": 17381.53672,
-      "yes": 0.549,
-      "no": 0.451,
-      "oneDayPriceChange": -0.047,
+      "volume24hr": 16163.879952,
+      "volume": 819403.170419,
+      "liquidity": 19064.50494,
+      "yes": 0.57,
+      "no": 0.43,
+      "oneDayPriceChange": 0.0215,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.549
+          "price": 0.57
         },
         {
           "name": "No",
-          "price": 0.451
+          "price": 0.43
         }
       ]
     },
@@ -57,36 +105,12 @@
       "url": "https://polymarket.com/event/will-the-us-collect-more-than-2t-in-revenue-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 19301.930332,
-      "volume": 220497.75324,
-      "liquidity": 39388.23899,
-      "yes": 0.0005,
-      "no": 0.9995,
-      "oneDayPriceChange": -0.0025,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0005
-        },
-        {
-          "name": "No",
-          "price": 0.9995
-        }
-      ]
-    },
-    {
-      "id": "537487",
-      "slug": "will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $500b and $1t in revenue in 2025?",
-      "url": "https://polymarket.com/event/will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 18378.97579,
-      "volume": 359477.941903,
-      "liquidity": 19301.75073,
+      "volume24hr": 13347.883499999998,
+      "volume": 232007.42674,
+      "liquidity": 32176.58691,
       "yes": 0.0015,
       "no": 0.9985,
-      "oneDayPriceChange": -0.017,
+      "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
@@ -99,122 +123,26 @@
       ]
     },
     {
-      "id": "537486",
-      "slug": "will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $200b and $500b in revenue in 2025?",
-      "url": "https://polymarket.com/event/will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 16464.143422000005,
-      "volume": 476237.767005,
-      "liquidity": 9657.8973,
-      "yes": 0.31,
-      "no": 0.69,
-      "oneDayPriceChange": 0.085,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.31
-        },
-        {
-          "name": "No",
-          "price": 0.69
-        }
-      ]
-    },
-    {
-      "id": "537485",
-      "slug": "will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $100b and $200b in revenue in 2025?",
-      "url": "https://polymarket.com/event/will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 16311.046679000001,
-      "volume": 806050.343358,
-      "liquidity": 8767.5217,
-      "yes": 0.135,
-      "no": 0.865,
-      "oneDayPriceChange": -0.015,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.135
-        },
-        {
-          "name": "No",
-          "price": 0.865
-        }
-      ]
-    },
-    {
       "id": "537488",
       "slug": "will-the-us-collect-between-1t-and-2t-in-revenue-in-2025",
       "question": "Will the U.S. collect between $1t and $2t in revenue in 2025?",
       "url": "https://polymarket.com/event/will-the-us-collect-between-1t-and-2t-in-revenue-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 6556.758,
-      "volume": 246050.38023,
-      "liquidity": 39224.3976,
-      "yes": 0.0005,
-      "no": 0.9995,
-      "oneDayPriceChange": -0.0015,
+      "volume24hr": 13093.779,
+      "volume": 259174.15923,
+      "liquidity": 31700.48248,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0005
+          "price": 0.0015
         },
         {
           "name": "No",
-          "price": 0.9995
-        }
-      ]
-    },
-    {
-      "id": "517321",
-      "slug": "will-trump-deport-750000-or-more-people-in-2025",
-      "question": "Will Trump deport 750,000 or more people in 2025?",
-      "url": "https://polymarket.com/event/will-trump-deport-750000-or-more-people-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-trump-deport-750000-or-more-people-in-2025-xhG2x_HIG7ZG.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 3873.037144,
-      "volume": 409395.31462,
-      "liquidity": 2297.04385,
-      "yes": 0.0315,
-      "no": 0.9685,
-      "oneDayPriceChange": 0.0095,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0315
-        },
-        {
-          "name": "No",
-          "price": 0.9685
-        }
-      ]
-    },
-    {
-      "id": "517310",
-      "slug": "will-trump-deport-less-than-250000",
-      "question": "Will Trump deport less than 250,000?",
-      "url": "https://polymarket.com/event/will-trump-deport-less-than-250000",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 2022.328396,
-      "volume": 966751.837965,
-      "liquidity": 7406.97813,
-      "yes": 0.0175,
-      "no": 0.9825,
-      "oneDayPriceChange": -0.0145,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0175
-        },
-        {
-          "name": "No",
-          "price": 0.9825
+          "price": 0.9985
         }
       ]
     },
@@ -225,20 +153,92 @@
       "url": "https://polymarket.com/event/will-elon-cut-the-budget-by-at-least-10-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-elon-cut-the-budget-by-at-least-10-in-2025-KQWXFwQwSRYV.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 1817.346154,
-      "volume": 126047.875444,
-      "liquidity": 9184.79739,
-      "yes": 0.0125,
-      "no": 0.9875,
-      "oneDayPriceChange": -0.0005,
+      "volume24hr": 7096.564749000001,
+      "volume": 132775.960193,
+      "liquidity": 13470.96854,
+      "yes": 0.013,
+      "no": 0.987,
+      "oneDayPriceChange": 0.0005,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0125
+          "price": 0.013
         },
         {
           "name": "No",
-          "price": 0.9875
+          "price": 0.987
+        }
+      ]
+    },
+    {
+      "id": "537486",
+      "slug": "will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
+      "question": "Will the U.S. collect between $200b and $500b in revenue in 2025?",
+      "url": "https://polymarket.com/event/will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 6779.390443000002,
+      "volume": 483041.037448,
+      "liquidity": 13133.6666,
+      "yes": 0.255,
+      "no": 0.745,
+      "oneDayPriceChange": -0.055,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.255
+        },
+        {
+          "name": "No",
+          "price": 0.745
+        }
+      ]
+    },
+    {
+      "id": "517314",
+      "slug": "will-trump-deport-750000-1000000-people",
+      "question": "Will Trump deport 750,000-1,000,000 people?",
+      "url": "https://polymarket.com/event/will-trump-deport-750000-1000000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 3045.95,
+      "volume": 394161.428761,
+      "liquidity": 7117.48831,
+      "yes": 0.01,
+      "no": 0.99,
+      "oneDayPriceChange": -0.009,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.01
+        },
+        {
+          "name": "No",
+          "price": 0.99
+        }
+      ]
+    },
+    {
+      "id": "521947",
+      "slug": "will-elon-and-doge-cut-between-150-200b-in-federal-spending-in-2025",
+      "question": "Will Elon and DOGE cut between $150-200b in federal spending in 2025?",
+      "url": "https://polymarket.com/event/will-elon-and-doge-cut-between-150-200b-in-federal-spending-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-spending-will-elon-and-doge-cut-in-2025--_AiUomi1ndd.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 2695.840511,
+      "volume": 302619.891176,
+      "liquidity": 2520.66055,
+      "yes": 0.005,
+      "no": 0.995,
+      "oneDayPriceChange": -0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.005
+        },
+        {
+          "name": "No",
+          "price": 0.995
         }
       ]
     },
@@ -249,44 +249,44 @@
       "url": "https://polymarket.com/event/negative-gdp-growth-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/negative-gdp-growth-in-q1-2025-3cqoJCDM0Qs1.png",
       "endDate": "2026-01-30T12:00:00Z",
-      "volume24hr": 1359.73,
-      "volume": 113677.831717,
-      "liquidity": 3213.50165,
-      "yes": 0.0085,
-      "no": 0.9915,
-      "oneDayPriceChange": -0.001,
+      "volume24hr": 2590.25975,
+      "volume": 116279.341467,
+      "liquidity": 3265.02173,
+      "yes": 0.005,
+      "no": 0.995,
+      "oneDayPriceChange": -0.0035,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0085
+          "price": 0.005
         },
         {
           "name": "No",
-          "price": 0.9915
+          "price": 0.995
         }
       ]
     },
     {
-      "id": "521964",
-      "slug": "will-elon-cut-the-budget-by-at-least-5-in-2025",
-      "question": "Will Elon cut the budget by at least 5% in 2025?",
-      "url": "https://polymarket.com/event/will-elon-cut-the-budget-by-at-least-5-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-elon-cut-the-budget-by-at-least-5-in-2025-YEZDluotrm-Q.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 1109.46,
-      "volume": 157470.787712,
-      "liquidity": 5390.40346,
-      "yes": 0.0065,
-      "no": 0.9935,
-      "oneDayPriceChange": 0.0025,
+      "id": "517310",
+      "slug": "will-trump-deport-less-than-250000",
+      "question": "Will Trump deport less than 250,000?",
+      "url": "https://polymarket.com/event/will-trump-deport-less-than-250000",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 2485.0691569999994,
+      "volume": 969240.951372,
+      "liquidity": 5575.80245,
+      "yes": 0.016,
+      "no": 0.984,
+      "oneDayPriceChange": -0.0015,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0065
+          "price": 0.016
         },
         {
           "name": "No",
-          "price": 0.9935
+          "price": 0.984
         }
       ]
     }
