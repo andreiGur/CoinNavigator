@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Use CoinNavigator: Complete Guide 2026 | CoinNavigator</title>
+  <meta name="description" content="Learn how to use CoinNavigator to find crypto arbitrage opportunities. Step-by-step guide to reading spreads, understanding the dashboard, and maximizing your trading profits." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/blog/how-to-use-coinnavigator-guide-2026/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Use CoinNavigator: Complete Guide 2026 | CoinNavigator" />
+  <meta property="og:description" content="Learn how to use CoinNavigator to find crypto arbitrage opportunities. Step-by-step guide to reading spreads, understanding the dashboard, and maximizing your trading profits." />
+  <meta property="og:url" content="https://www.coinnavigator.net/blog/how-to-use-coinnavigator-guide-2026/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9L1137PQ6P');
+  </script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15;
+      z-index: -2;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+    }
+    nav {
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--primary-light); }
+    .nav-cta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+    }
+    .btn-ghost:hover { border-color: var(--primary); }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    article {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+    }
+    .article-header {
+      margin-bottom: 2rem;
+    }
+    .article-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .article-meta {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .article-content {
+      font-size: 1.1rem;
+      line-height: 1.9;
+    }
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+    .article-content p {
+      margin-bottom: 1.25rem;
+      color: var(--text-muted);
+    }
+    .article-content ul, .article-content ol {
+      margin: 1.25rem 0;
+      padding-left: 2rem;
+      color: var(--text-muted);
+    }
+    .article-content li {
+      margin-bottom: 0.75rem;
+    }
+    .article-content a {
+      color: var(--primary-light);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .article-content a:hover {
+      border-bottom-color: var(--primary-light);
+    }
+    .article-content strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .example-box {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--danger);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .example-box h4 {
+      color: var(--danger);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .info-box {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .info-box h4 {
+      color: var(--primary-light);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .cta-box h3 {
+      margin-top: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    .footer-links {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      justify-content: center;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--primary-light); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .article-header h1 { font-size: 1.75rem; }
+      .article-content { font-size: 1rem; }
+      .container { padding: 2rem 1rem; }
+      article { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <ul class="nav-links">
+      <li><a href="/#dashboard">Market Spreads</a></li>
+      <li><a href="/#learn">Learn</a></li>
+      <li><a href="/polymarket/">Polymarket</a></li>
+      <li><a href="/binance-review/">Exchanges</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="/#dashboard" class="btn btn-primary" data-track="nav_start"><i class="fas fa-rocket"></i> See Spreads</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <article>
+      <div class="article-header">
+        <h1>How to Use CoinNavigator: Complete Guide 2026</h1>
+        <div class="article-meta">
+          <span><i class="fas fa-calendar"></i> January 9, 2026</span>
+          <span><i class="fas fa-clock"></i> 12 min read</span>
+          <span><i class="fas fa-tag"></i> Guide, Tutorial</span>
+        </div>
+      </div>
+
+      <div class="article-content">
+        <p>
+          CoinNavigator is a powerful tool for finding crypto arbitrage opportunities across multiple exchanges. Whether you're a beginner or an experienced trader, this guide will help you understand how to use CoinNavigator effectively to identify profitable trading opportunities.
+        </p>
+        <p>
+          In this comprehensive guide, we'll cover everything from reading the dashboard to understanding spreads, interpreting the data, and making informed trading decisions. Let's get started!
+        </p>
+
+        <h2>What is CoinNavigator?</h2>
+        <p>
+          CoinNavigator is a real-time crypto arbitrage monitoring tool that tracks price differences (spreads) across six major exchanges:
+        </p>
+        <ul>
+          <li><strong>Binance</strong> - The world's largest crypto exchange</li>
+          <li><strong>OKX</strong> - Leading derivatives and spot exchange</li>
+          <li><strong>KuCoin</strong> - Popular altcoin exchange</li>
+          <li><strong>Gate.io</strong> - Global crypto exchange</li>
+          <li><strong>MEXC</strong> - Fast-growing exchange</li>
+          <li><strong>Bybit</strong> - Derivatives-focused platform</li>
+        </ul>
+        <p>
+          The platform monitors 9 major cryptocurrencies (BTC, ETH, SOL, XRP, ADA, DOGE, DOT, LINK, MATIC) and updates prices every 15 minutes, giving you real-time insights into arbitrage opportunities.
+        </p>
+
+        <h2>Getting Started: Understanding the Dashboard</h2>
+        <p>
+          When you visit CoinNavigator, you'll see the main dashboard with a table showing live spread data. Here's what each column means:
+        </p>
+
+        <h3>1. Symbol Column</h3>
+        <p>
+          The first column shows the cryptocurrency pair (e.g., BTC/USDT, ETH/USDT). Click on any symbol to see detailed price information across all exchanges.
+        </p>
+
+        <h3>2. Best Buy Column</h3>
+        <p>
+          This shows the exchange where you can buy the cryptocurrency at the <strong>lowest price</strong>. The price is displayed in USDT, and clicking on it will show you the exact exchange and price.
+        </p>
+        <div class="info-box">
+          <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+          <p>
+            The "Best Buy" exchange is where you should purchase the cryptocurrency if you're looking to profit from arbitrage. Always verify the price is still current before executing a trade.
+          </p>
+        </div>
+
+        <h3>3. Best Sell Column</h3>
+        <p>
+          This shows the exchange where you can sell the cryptocurrency at the <strong>highest price</strong>. This is where you'd sell after buying from the "Best Buy" exchange.
+        </p>
+
+        <h3>4. Spread Column</h3>
+        <p>
+          The spread is the <strong>price difference</strong> between the best buy and best sell prices, expressed as a percentage. This is your potential profit before fees.
+        </p>
+        <ul>
+          <li><strong>Green/Positive Spread:</strong> Profitable opportunity (after accounting for fees)</li>
+          <li><strong>Red/Negative Spread:</strong> Not profitable (fees exceed the spread)</li>
+          <li><strong>Large Spread (>0.5%):</strong> Potentially profitable, but verify fees</li>
+        </ul>
+        <div class="example-box">
+          <h4><i class="fas fa-calculator"></i> Example: Understanding Spreads</h4>
+          <p><strong>Scenario:</strong></p>
+          <ul>
+            <li>BTC Best Buy: $90,000 (on Binance)</li>
+            <li>BTC Best Sell: $90,300 (on OKX)</li>
+            <li>Spread: $300 (0.33%)</li>
+          </ul>
+          <p>
+            This means if you buy 1 BTC on Binance for $90,000 and sell it on OKX for $90,300, you'd make $300 before fees. However, you need to account for:
+          </p>
+          <ul>
+            <li>Trading fees (0.1-0.2% on each exchange)</li>
+            <li>Withdrawal fees ($5-30 depending on network)</li>
+            <li>Transfer time (prices can change during transfer)</li>
+          </ul>
+        </div>
+
+        <h2>How to Read the Spread Data</h2>
+        <p>
+          Understanding how to interpret the spread data is crucial for successful arbitrage. Here's a step-by-step guide:
+        </p>
+
+        <h3>Step 1: Identify Opportunities</h3>
+        <p>
+          Look for spreads that are:
+        </p>
+        <ul>
+          <li><strong>Positive (>0):</strong> There's a price difference</li>
+          <li><strong>Large enough:</strong> At least 0.2-0.3% to cover fees</li>
+          <li><strong>Recent:</strong> Data is updated every 15 minutes, so check timestamps</li>
+        </ul>
+
+        <h3>Step 2: Verify the Prices</h3>
+        <p>
+          Click on any symbol to see detailed price information:
+        </p>
+        <ul>
+          <li>Prices on all 6 exchanges</li>
+          <li>Exact buy and sell prices</li>
+          <li>Current spread percentage</li>
+        </ul>
+        <p>
+          <strong>Important:</strong> Always verify prices directly on the exchanges before trading. Prices can change quickly, especially during volatile market conditions.
+        </p>
+
+        <h3>Step 3: Calculate Real Profitability</h3>
+        <p>
+          Before executing a trade, calculate your actual profit:
+        </p>
+        <ol>
+          <li><strong>Gross Profit:</strong> Spread amount (e.g., $300)</li>
+          <li><strong>Buy Fee:</strong> Trading fee on "Best Buy" exchange (e.g., 0.1% = $90)</li>
+          <li><strong>Sell Fee:</strong> Trading fee on "Best Sell" exchange (e.g., 0.1% = $90.30)</li>
+          <li><strong>Withdrawal Fee:</strong> Cost to move funds between exchanges (e.g., $10-20)</li>
+          <li><strong>Net Profit:</strong> Gross profit minus all fees</li>
+        </ol>
+        <div class="info-box">
+          <h4><i class="fas fa-exclamation-triangle"></i> Important Warning</h4>
+          <p>
+            Always account for all fees before trading. A spread that looks profitable might not be after fees. Use our <a href="/blog/crypto-arbitrage-fees-profit-calculator-2026/">Arbitrage Profit Calculator</a> to verify profitability.
+          </p>
+        </div>
+
+        <h2>Using CoinNavigator Features</h2>
+
+        <h3>1. Live Spread Monitor</h3>
+        <p>
+          The main dashboard shows a compact table with all current spreads. This is updated every 15 minutes automatically, so you always have fresh data.
+        </p>
+        <ul>
+          <li><strong>Sort by Spread:</strong> Look for the highest spreads first</li>
+          <li><strong>Click Symbols:</strong> Get detailed price breakdowns</li>
+          <li><strong>Monitor Regularly:</strong> Check back every 15-30 minutes for new opportunities</li>
+        </ul>
+
+        <h3>2. Polymarket Hot Events</h3>
+        <p>
+          CoinNavigator also features a <a href="/polymarket/">Polymarket integration</a> that shows hot prediction market events. This is separate from arbitrage but can provide additional market insights.
+        </p>
+
+        <h3>3. Exchange Reviews</h3>
+        <p>
+          Each exchange has a dedicated review page with:
+        </p>
+        <ul>
+          <li>Pros and cons</li>
+          <li>Arbitrage suitability</li>
+          <li>Fee information</li>
+          <li>Direct links to sign up (with affiliate benefits)</li>
+        </ul>
+        <p>
+          Check out our exchange reviews:
+        </p>
+        <ul>
+          <li><a href="/binance-review/">Binance Review</a></li>
+          <li><a href="/okx-for-beginners/">OKX Review</a></li>
+          <li><a href="/bybit-arbitrage/">Bybit Review</a></li>
+        </ul>
+
+        <h2>Best Practices for Using CoinNavigator</h2>
+
+        <h3>1. Check Data Freshness</h3>
+        <p>
+          CoinNavigator updates data every 15 minutes. Always check the timestamp to ensure you're looking at recent data. Prices can change quickly, especially during volatile periods.
+        </p>
+
+        <h3>2. Verify Prices on Exchanges</h3>
+        <p>
+          Before executing any trade, verify the prices directly on the exchanges. CoinNavigator provides estimates, but actual prices may differ slightly due to:
+        </p>
+        <ul>
+          <li>Order book depth</li>
+          <li>Market volatility</li>
+          <li>Network delays</li>
+        </ul>
+
+        <h3>3. Account for All Fees</h3>
+        <p>
+          Always calculate profitability after accounting for:
+        </p>
+        <ul>
+          <li>Trading fees (buy and sell)</li>
+          <li>Withdrawal fees</li>
+          <li>Network fees (for blockchain transfers)</li>
+          <li>Time cost (prices can change during transfers)</li>
+        </ul>
+
+        <h3>4. Start Small</h3>
+        <p>
+          If you're new to arbitrage, start with small trades to:
+        </p>
+        <ul>
+          <li>Learn the process</li>
+          <li>Understand fees and timing</li>
+          <li>Build confidence</li>
+          <li>Minimize risk</li>
+        </ul>
+
+        <h3>5. Monitor Multiple Opportunities</h3>
+        <p>
+          Don't focus on just one opportunity. Monitor multiple cryptocurrencies and exchanges to find the best opportunities. CoinNavigator makes this easy by showing all opportunities in one place.
+        </p>
+
+        <h2>Common Mistakes to Avoid</h2>
+
+        <h3>1. Ignoring Fees</h3>
+        <p>
+          The biggest mistake is not accounting for all fees. A 0.5% spread might look profitable, but after fees, it could be a loss.
+        </p>
+
+        <h3>2. Not Verifying Prices</h3>
+        <p>
+          Always verify prices on the actual exchanges before trading. CoinNavigator provides estimates, but prices can change.
+        </p>
+
+        <h3>3. Trading During High Volatility</h3>
+        <p>
+          During high volatility, prices can change rapidly. A profitable spread can disappear in seconds. Be cautious during volatile periods.
+        </p>
+
+        <h3>4. Not Having Funds Ready</h3>
+        <p>
+          For fast execution, keep funds on multiple exchanges. Transferring funds takes time, during which prices can change.
+        </p>
+
+        <h2>Advanced Tips</h2>
+
+        <h3>1. Use Multiple Exchanges</h3>
+        <p>
+          Having accounts on multiple exchanges allows you to:
+        </p>
+        <ul>
+          <li>Execute trades faster</li>
+          <li>Access more opportunities</li>
+          <li>Reduce transfer times</li>
+        </ul>
+
+        <h3>2. Focus on High-Volume Pairs</h3>
+        <p>
+          Major pairs (BTC, ETH, USDT) typically have:
+        </p>
+        <ul>
+          <li>Lower fees</li>
+          <li>Faster withdrawals</li>
+          <li>More liquidity</li>
+          <li>More stable prices</li>
+        </ul>
+
+        <h3>3. Monitor Regularly</h3>
+        <p>
+          Check CoinNavigator regularly (every 15-30 minutes) to catch new opportunities. The best spreads often disappear quickly.
+        </p>
+
+        <h2>Conclusion</h2>
+        <p>
+          CoinNavigator is a powerful tool for finding crypto arbitrage opportunities. By understanding how to read the dashboard, interpret spreads, and account for fees, you can identify profitable trading opportunities across multiple exchanges.
+        </p>
+        <p>
+          Remember to:
+        </p>
+        <ul>
+          <li>Always verify prices on exchanges</li>
+          <li>Account for all fees</li>
+          <li>Start small and learn</li>
+          <li>Monitor regularly for new opportunities</li>
+        </ul>
+        <p>
+          Ready to start finding arbitrage opportunities? Visit the <a href="/#dashboard">CoinNavigator dashboard</a> and start exploring!
+        </p>
+
+        <div class="cta-box">
+          <h3>Ready to Find Arbitrage Opportunities?</h3>
+          <p>Start using CoinNavigator to track real-time spreads and identify profitable trading opportunities across multiple exchanges.</p>
+          <a href="/#dashboard" class="btn btn-primary" data-track="blog_cta_dashboard" style="margin-top: 1rem;">
+            <i class="fas fa-chart-line"></i> View Live Spreads
+          </a>
+        </div>
+
+        <h2>Related Articles</h2>
+        <ul>
+          <li><a href="/blog/is-crypto-arbitrage-profitable-2026/">Is Crypto Arbitrage Still Profitable in 2026?</a></li>
+          <li><a href="/blog/best-crypto-exchanges-arbitrage-2026/">Best Crypto Exchanges for Arbitrage in 2026</a></li>
+          <li><a href="/blog/crypto-arbitrage-fees-profit-calculator-2026/">Crypto Arbitrage Fees & Profit Calculator</a></li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">
+      This website is for informational purposes only and does not constitute financial advice. Some links are partner links and may generate commissions at no extra cost to you.
+    </p>
+  </footer>
+
+  <script>
+    // GA4 tracking
+    (function() {
+      const ga4Id = document.querySelector('meta[name="coinnavigator-ga4"]')?.content || 
+                    new URLSearchParams(window.location.search).get('ga4') ||
+                    localStorage.getItem('coinnavigator_ga4');
+      if (ga4Id && ga4Id.trim()) {
+        if (!localStorage.getItem('coinnavigator_ga4')) {
+          localStorage.setItem('coinnavigator_ga4', ga4Id.trim());
+        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', ga4Id.trim());
+        const script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id.trim();
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    })();
+
+    // Track clicks
+    document.querySelectorAll('[data-track]').forEach(el => {
+      el.addEventListener('click', function() {
+        if (window.gtag) {
+          gtag('event', this.getAttribute('data-track'), {
+            'event_category': 'blog',
+            'event_label': this.href || this.textContent
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

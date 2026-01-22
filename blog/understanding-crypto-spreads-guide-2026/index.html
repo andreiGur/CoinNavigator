@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Crypto Spreads: A Beginner's Guide 2026 | CoinNavigator</title>
+  <meta name="description" content="Learn what crypto spreads are, how to read them, and why they matter for arbitrage trading. Complete beginner's guide to understanding price differences across exchanges." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/blog/understanding-crypto-spreads-guide-2026/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Understanding Crypto Spreads: A Beginner's Guide 2026 | CoinNavigator" />
+  <meta property="og:description" content="Learn what crypto spreads are, how to read them, and why they matter for arbitrage trading. Complete beginner's guide to understanding price differences across exchanges." />
+  <meta property="og:url" content="https://www.coinnavigator.net/blog/understanding-crypto-spreads-guide-2026/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9L1137PQ6P');
+  </script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15;
+      z-index: -2;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+    }
+    nav {
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--primary-light); }
+    .nav-cta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+    }
+    .btn-ghost:hover { border-color: var(--primary); }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    article {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+    }
+    .article-header {
+      margin-bottom: 2rem;
+    }
+    .article-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .article-meta {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .article-content {
+      font-size: 1.1rem;
+      line-height: 1.9;
+    }
+    .article-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+    .article-content p {
+      margin-bottom: 1.25rem;
+      color: var(--text-muted);
+    }
+    .article-content ul, .article-content ol {
+      margin: 1.25rem 0;
+      padding-left: 2rem;
+      color: var(--text-muted);
+    }
+    .article-content li {
+      margin-bottom: 0.75rem;
+    }
+    .article-content a {
+      color: var(--primary-light);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .article-content a:hover {
+      border-bottom-color: var(--primary-light);
+    }
+    .article-content strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .example-box {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .example-box h4 {
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .info-box {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .info-box h4 {
+      color: var(--primary-light);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .warning-box {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--danger);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .warning-box h4 {
+      color: var(--danger);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .cta-box h3 {
+      margin-top: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    .footer-links {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      justify-content: center;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--primary-light); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .article-header h1 { font-size: 1.75rem; }
+      .article-content { font-size: 1rem; }
+      .container { padding: 2rem 1rem; }
+      article { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <ul class="nav-links">
+      <li><a href="/#dashboard">Market Spreads</a></li>
+      <li><a href="/#learn">Learn</a></li>
+      <li><a href="/polymarket/">Polymarket</a></li>
+      <li><a href="/binance-review/">Exchanges</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="/#dashboard" class="btn btn-primary" data-track="nav_start"><i class="fas fa-rocket"></i> See Spreads</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <article>
+      <div class="article-header">
+        <h1>Understanding Crypto Spreads: A Beginner's Guide 2026</h1>
+        <div class="article-meta">
+          <span><i class="fas fa-calendar"></i> January 9, 2026</span>
+          <span><i class="fas fa-clock"></i> 9 min read</span>
+          <span><i class="fas fa-tag"></i> Beginner, Education</span>
+        </div>
+      </div>
+
+      <div class="article-content">
+        <p>
+          If you're new to crypto arbitrage, you've probably heard the term "spread" but might not fully understand what it means or why it matters. This guide will explain everything you need to know about crypto spreads in simple terms.
+        </p>
+        <p>
+          Understanding spreads is essential for successful arbitrage trading. Once you know how to read and interpret spreads, you'll be able to identify profitable trading opportunities across different exchanges.
+        </p>
+
+        <h2>What is a Crypto Spread?</h2>
+        <p>
+          A <strong>spread</strong> is the difference between the highest price you can sell a cryptocurrency for and the lowest price you can buy it for across different exchanges.
+        </p>
+        <div class="example-box">
+          <h4><i class="fas fa-calculator"></i> Simple Example</h4>
+          <p><strong>Bitcoin Prices:</strong></p>
+          <ul>
+            <li>Binance: $90,000 (cheapest to buy)</li>
+            <li>OKX: $90,300 (most expensive to buy)</li>
+          </ul>
+          <p><strong>Spread:</strong> $90,300 - $90,000 = <strong>$300 (0.33%)</strong></p>
+          <p>
+            This means if you buy Bitcoin on Binance for $90,000 and sell it on OKX for $90,300, you'd make $300 before fees. The spread represents your potential profit opportunity.
+          </p>
+        </div>
+
+        <h2>Why Do Spreads Exist?</h2>
+        <p>
+          Spreads exist because cryptocurrency exchanges operate independently. Each exchange has its own:
+        </p>
+        <ul>
+          <li><strong>Order book:</strong> List of buy and sell orders</li>
+          <li><strong>Liquidity:</strong> Amount of trading activity</li>
+          <li><strong>User base:</strong> Different traders with different preferences</li>
+          <li><strong>Geographic location:</strong> Different time zones and regulations</li>
+        </ul>
+        <p>
+          These factors cause prices to differ slightly between exchanges, creating arbitrage opportunities.
+        </p>
+
+        <h2>How to Read Spreads</h2>
+        <p>
+          When you look at spread data on <a href="/">CoinNavigator</a>, you'll see several key pieces of information:
+        </p>
+
+        <h3>1. Best Buy Price</h3>
+        <p>
+          The <strong>best buy price</strong> is the lowest price you can buy a cryptocurrency for across all monitored exchanges. This is where you should purchase if you're doing arbitrage.
+        </p>
+        <div class="info-box">
+          <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+          <p>
+            Always verify the best buy price is still current before executing a trade. Prices can change quickly, especially during volatile market conditions.
+          </p>
+        </div>
+
+        <h3>2. Best Sell Price</h3>
+        <p>
+          The <strong>best sell price</strong> is the highest price you can sell a cryptocurrency for across all monitored exchanges. This is where you should sell after buying from the best buy exchange.
+        </p>
+
+        <h3>3. Spread Percentage</h3>
+        <p>
+          The <strong>spread percentage</strong> shows the price difference as a percentage. This is calculated as:
+        </p>
+        <p style="text-align: center; font-family: monospace; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+          Spread % = (Best Sell Price - Best Buy Price) / Best Buy Price × 100
+        </p>
+        <div class="example-box">
+          <h4><i class="fas fa-calculator"></i> Example Calculation</h4>
+          <p><strong>Best Buy:</strong> $90,000</p>
+          <p><strong>Best Sell:</strong> $90,300</p>
+          <p><strong>Spread:</strong> ($90,300 - $90,000) / $90,000 × 100 = <strong>0.33%</strong></p>
+        </div>
+
+        <h2>What Makes a Spread Profitable?</h2>
+        <p>
+          Not all spreads are profitable. To determine if a spread is worth trading, you need to account for:
+        </p>
+
+        <h3>1. Trading Fees</h3>
+        <p>
+          Every exchange charges trading fees (typically 0.1-0.2% per trade). You'll pay fees when you:
+        </p>
+        <ul>
+          <li>Buy on the "best buy" exchange</li>
+          <li>Sell on the "best sell" exchange</li>
+        </ul>
+        <p>
+          <strong>Example:</strong> If both exchanges charge 0.1% fees, you'll pay 0.2% total in trading fees. This means you need at least a 0.2% spread just to break even.
+        </p>
+
+        <h3>2. Withdrawal Fees</h3>
+        <p>
+          Moving funds between exchanges costs money. Withdrawal fees vary by:
+        </p>
+        <ul>
+          <li><strong>Cryptocurrency:</strong> Bitcoin fees are typically $5-30, while stablecoins are cheaper</li>
+          <li><strong>Network:</strong> Different blockchains have different fees</li>
+          <li><strong>Exchange:</strong> Some exchanges charge higher withdrawal fees</li>
+        </ul>
+
+        <h3>3. Transfer Time</h3>
+        <p>
+          The time it takes to transfer funds between exchanges is critical. During this time:
+        </p>
+        <ul>
+          <li>Prices can change</li>
+          <li>Profitable spreads can disappear</li>
+          <li>You might miss the opportunity</li>
+        </ul>
+        <div class="warning-box">
+          <h4><i class="fas fa-exclamation-triangle"></i> Important Warning</h4>
+          <p>
+            Always account for transfer time when calculating profitability. A spread that looks profitable now might not be by the time your funds arrive on the other exchange.
+          </p>
+        </div>
+
+        <h2>Minimum Profitable Spread</h2>
+        <p>
+          To determine if a spread is profitable, calculate your total costs:
+        </p>
+        <div class="example-box">
+          <h4><i class="fas fa-calculator"></i> Profitability Calculation</h4>
+          <p><strong>Scenario:</strong> 0.5% spread on Bitcoin</p>
+          <p><strong>Costs:</strong></p>
+          <ul>
+            <li>Buy fee (0.1%): $90</li>
+            <li>Sell fee (0.1%): $90.45</li>
+            <li>Withdrawal fee: $15</li>
+            <li><strong>Total costs: ~$195</strong></li>
+          </ul>
+          <p><strong>Gross profit:</strong> $450 (0.5% of $90,000)</p>
+          <p><strong>Net profit:</strong> $450 - $195 = <strong>$255</strong></p>
+          <p><strong>Conclusion:</strong> This spread is profitable!</p>
+        </div>
+        <p>
+          As a general rule, you typically need at least a <strong>0.3-0.5% spread</strong> to be profitable after all fees, depending on:
+        </p>
+        <ul>
+          <li>The exchanges you're using</li>
+          <li>The cryptocurrency you're trading</li>
+          <li>Current network fees</li>
+        </ul>
+
+        <h2>Factors That Affect Spreads</h2>
+        <p>
+          Several factors influence the size and frequency of spreads:
+        </p>
+
+        <h3>1. Market Volatility</h3>
+        <p>
+          High volatility creates larger spreads because:
+        </p>
+        <ul>
+          <li>Prices change rapidly on different exchanges</li>
+          <li>Traders react at different speeds</li>
+          <li>Liquidity can dry up quickly</li>
+        </ul>
+        <p>
+          However, high volatility also increases risk, as prices can change during transfers.
+        </p>
+
+        <h3>2. Exchange Liquidity</h3>
+        <p>
+          Exchanges with higher liquidity typically have:
+        </p>
+        <ul>
+          <li>Smaller spreads (more competition)</li>
+          <li>Faster price updates</li>
+          <li>More stable prices</li>
+        </ul>
+        <p>
+          Major exchanges like Binance and OKX usually have tighter spreads than smaller exchanges.
+        </p>
+
+        <h3>3. Trading Volume</h3>
+        <p>
+          High trading volume means:
+        </p>
+        <ul>
+          <li>More price updates</li>
+          <li>Faster convergence of prices</li>
+          <li>More arbitrage opportunities (but they disappear quickly)</li>
+        </ul>
+
+        <h3>4. Geographic Factors</h3>
+        <p>
+          Different regions can have:
+        </p>
+        <ul>
+          <li>Different trading hours</li>
+          <li>Different regulations</li>
+          <li>Different user preferences</li>
+          <li>Network latency differences</li>
+        </ul>
+        <p>
+          These factors can create persistent spreads between exchanges in different regions.
+        </p>
+
+        <h2>How to Use Spreads for Arbitrage</h2>
+        <p>
+          Now that you understand spreads, here's how to use them for arbitrage:
+        </p>
+
+        <h3>Step 1: Monitor Spreads</h3>
+        <p>
+          Use tools like <a href="/">CoinNavigator</a> to monitor spreads across multiple exchanges in real-time. Check regularly (every 15-30 minutes) to catch new opportunities.
+        </p>
+
+        <h3>Step 2: Identify Profitable Spreads</h3>
+        <p>
+          Look for spreads that are:
+        </p>
+        <ul>
+          <li><strong>Large enough:</strong> At least 0.3-0.5% to cover fees</li>
+          <li><strong>Recent:</strong> Data is fresh (updated within 15 minutes)</li>
+          <li><strong>Stable:</strong> Not changing too rapidly</li>
+        </ul>
+
+        <h3>Step 3: Verify Prices</h3>
+        <p>
+          Always verify prices directly on the exchanges before trading. CoinNavigator provides estimates, but actual prices may differ slightly.
+        </p>
+
+        <h3>Step 4: Calculate Profitability</h3>
+        <p>
+          Calculate your net profit after accounting for:
+        </p>
+        <ul>
+          <li>Trading fees (buy and sell)</li>
+          <li>Withdrawal fees</li>
+          <li>Network fees</li>
+          <li>Time cost (prices can change)</li>
+        </ul>
+
+        <h3>Step 5: Execute the Trade</h3>
+        <p>
+          If the spread is profitable:
+        </p>
+        <ol>
+          <li>Buy on the "best buy" exchange</li>
+          <li>Withdraw to the "best sell" exchange</li>
+          <li>Sell on the "best sell" exchange</li>
+          <li>Calculate your actual profit</li>
+        </ol>
+
+        <h2>Common Mistakes to Avoid</h2>
+
+        <h3>1. Ignoring Fees</h3>
+        <p>
+          The biggest mistake is not accounting for all fees. A 0.5% spread might look profitable, but after fees, it could be a loss.
+        </p>
+
+        <h3>2. Not Verifying Prices</h3>
+        <p>
+          Always verify prices on the actual exchanges. Spread data is updated every 15 minutes, so prices can change.
+        </p>
+
+        <h3>3. Trading During High Volatility</h3>
+        <p>
+          During high volatility, spreads can appear large, but prices can change rapidly during transfers, eliminating profits.
+        </p>
+
+        <h3>4. Not Having Funds Ready</h3>
+        <p>
+          For fast execution, keep funds on multiple exchanges. Transferring funds takes time, during which spreads can disappear.
+        </p>
+
+        <h2>Conclusion</h2>
+        <p>
+          Understanding crypto spreads is essential for successful arbitrage trading. Spreads represent the price difference between exchanges and can create profitable trading opportunities when they're large enough to cover fees.
+        </p>
+        <p>
+          Remember to:
+        </p>
+        <ul>
+          <li>Always account for all fees when calculating profitability</li>
+          <li>Verify prices on exchanges before trading</li>
+          <li>Monitor spreads regularly to catch opportunities</li>
+          <li>Start small and learn from experience</li>
+        </ul>
+        <p>
+          Use <a href="/">CoinNavigator</a> to track real-time spreads across multiple exchanges and identify profitable arbitrage opportunities.
+        </p>
+
+        <div class="cta-box">
+          <h3>Ready to Find Arbitrage Opportunities?</h3>
+          <p>Track real-time spreads across multiple exchanges and identify profitable trading opportunities instantly.</p>
+          <a href="/#dashboard" class="btn btn-primary" data-track="blog_cta_dashboard" style="margin-top: 1rem;">
+            <i class="fas fa-chart-line"></i> View Live Spreads
+          </a>
+        </div>
+
+        <h2>Related Articles</h2>
+        <ul>
+          <li><a href="/blog/how-to-use-coinnavigator-guide-2026/">How to Use CoinNavigator: Complete Guide</a></li>
+          <li><a href="/blog/is-crypto-arbitrage-profitable-2026/">Is Crypto Arbitrage Still Profitable in 2026?</a></li>
+          <li><a href="/blog/best-arbitrage-strategies-2026/">Best Crypto Arbitrage Strategies for 2026</a></li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">
+      This website is for informational purposes only and does not constitute financial advice. Some links are partner links and may generate commissions at no extra cost to you.
+    </p>
+  </footer>
+
+  <script>
+    // GA4 tracking
+    (function() {
+      const ga4Id = document.querySelector('meta[name="coinnavigator-ga4"]')?.content || 
+                    new URLSearchParams(window.location.search).get('ga4') ||
+                    localStorage.getItem('coinnavigator_ga4');
+      if (ga4Id && ga4Id.trim()) {
+        if (!localStorage.getItem('coinnavigator_ga4')) {
+          localStorage.setItem('coinnavigator_ga4', ga4Id.trim());
+        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', ga4Id.trim());
+        const script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id.trim();
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    })();
+
+    // Track clicks
+    document.querySelectorAll('[data-track]').forEach(el => {
+      el.addEventListener('click', function() {
+        if (window.gtag) {
+          gtag('event', this.getAttribute('data-track'), {
+            'event_category': 'blog',
+            'event_label': this.href || this.textContent
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
