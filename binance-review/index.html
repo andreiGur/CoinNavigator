@@ -167,11 +167,14 @@
     (function() {
       const btn = document.getElementById('open-btn');
       if (btn) {
-        // Use Binance CPA referral link for all regions (except US which uses Binance.US)
-        const isUS = /binance\.us|\.us\//i.test(window.location.href) || navigator.language.includes('en-US');
-        btn.href = isUS 
-          ? 'https://www.binance.us/' 
-          : 'https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00X7W6EK29';
+        // Always use Binance CPA referral link - it works globally including US
+        const baseUrl = 'https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00X7W6EK29';
+        const url = new URL(baseUrl);
+        url.searchParams.set('utm_source', 'coinnavigator');
+        url.searchParams.set('utm_medium', 'referral');
+        url.searchParams.set('utm_campaign', 'binance_review');
+        url.searchParams.set('utm_content', 'binance_cta');
+        btn.href = url.toString();
       }
       track('review_loaded', { page: 'binance-review' });
     })();
