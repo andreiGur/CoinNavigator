@@ -36,7 +36,7 @@ class SpreadDetector:
         ]
 
         # Public exchanges to display (Bybit may be blocked from GitHub-hosted runners).
-        self.exchange_order = ["Binance", "OKX", "KuCoin", "Gate", "MEXC", "Bybit"]
+        self.exchange_order = ["Binance", "MEXC", "Bybit"]  # Focus only on exchanges with affiliate links
 
     def _get_json(self, url: str, timeout_s: int = 10, retries: int = 3) -> Tuple[Optional[Any], Optional[str]]:
         last_err: Optional[str] = None
@@ -165,78 +165,9 @@ class SpreadDetector:
             return None, f"{type(e).__name__}: {e}"
 
     def _exchange_fetchers(self) -> Dict[str, Any]:
+        # Only include exchanges with affiliate links
         return {
             "Binance": self.get_binance_price_info,
-            "OKX": self.get_okx_price_info,
-            "KuCoin": self.get_kucoin_price_info,
-            "Gate": self.get_gate_price_info,
             "MEXC": self.get_mexc_price_info,
             "Bybit": self.get_bybit_price_info,
         }
-
-    def run(self):
-        results = {
-            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "symbols": {},
-            "errors": {},
-            "exchanges": self.exchange_order,
-        }
-
-        fetchers = self._exchange_fetchers()
-
-        for symbol in self.symbols:
-            prices: Dict[str, float] = {}
-            err_map: Dict[str, str] = {}
-
-            for ex in self.exchange_order:
-                fetcher = fetchers.get(ex)
-                if not fetcher:
-                    continue
-                price, ex_err = fetcher(symbol)
-                if price is None:
-                    err_map[ex] = ex_err or "unavailable"
-                else:
-                    prices[ex] = price
-
-            row: Dict[str, Any] = {
-                "prices": prices,
-                "absolute_diff": None,
-                "spread_percent": None,
-                "best_buy": None,
-                "best_sell": None,
-                # Backwards-compatible convenience fields:
-                "binance_price": prices.get("Binance"),
-                "bybit_price": prices.get("Bybit"),
-            }
-
-            if len(prices) >= 2:
-                best_buy_ex = min(prices, key=lambda k: prices[k])
-                best_sell_ex = max(prices, key=lambda k: prices[k])
-                buy_price = prices[best_buy_ex]
-                sell_price = prices[best_sell_ex]
-                abs_diff = sell_price - buy_price
-                spread_pct = abs_diff / buy_price if buy_price else None
-                row["best_buy"] = {"exchange": best_buy_ex, "price": buy_price}
-                row["best_sell"] = {"exchange": best_sell_ex, "price": sell_price}
-                row["absolute_diff"] = round(abs_diff, 6)
-                row["spread_percent"] = round(spread_pct, 8) if spread_pct is not None else None
-
-            results["symbols"][symbol] = row
-            if err_map:
-                results["errors"][symbol] = err_map
-
-        # Write to /data/spread_data.json (for local/dev) AND /spread_data.json (for simple static hosting)
-        output_path = os.path.join(self.data_dir, "spread_data.json")
-        with open(output_path, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
-        root_output_path = "spread_data.json"
-        with open(root_output_path, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
-
-        print(f"Updated {len(results['symbols'])} symbols")
-        if results.get("errors"):
-            print(f"Errors: {len(results['errors'])} symbols had missing data")
-
-if __name__ == "__main__":
-    detector = SpreadDetector()
-    detector.run()

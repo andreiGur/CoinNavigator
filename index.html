@@ -115,23 +115,42 @@
 
         .btn {
             border: 1px solid transparent;
-            border-radius: 12px;
-            font-weight: 700;
-            padding: 0.75rem 1.1rem;
-            font-size: 0.9rem;
+            border-radius: 14px;
+            font-weight: 800;
+            padding: 1rem 1.75rem;
+            font-size: 1rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+            gap: 12px;
+            transition: all 0.3s ease;
             will-change: transform;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
         }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-light); }
-        .btn-ghost { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: var(--text-main); }
-        .btn-ghost:hover { border-color: rgba(129, 140, 248, 0.7); }
+        .btn:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); 
+            color: white;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+        .btn-primary:hover { 
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.45);
+        }
+        .btn-ghost { 
+            background: rgba(255,255,255,0.05); 
+            border-color: rgba(255,255,255,0.15); 
+            color: var(--text-main);
+        }
+        .btn-ghost:hover { 
+            border-color: rgba(129, 140, 248, 0.8);
+            background: rgba(129, 140, 248, 0.1);
+        }
         
         /* Hero Section */
         .hero {
@@ -703,10 +722,10 @@
                         <h3>Recommended exchanges for your region (with context)</h3>
                         <p>We don’t drop raw affiliate links. First, read a short review explaining who the exchange is for and why it’s recommended. Region: <b id="region-label">—</b></p>
                     </div>
-                    <div class="cta-buttons">
-                        <a class="btn btn-primary" id="rec-1" href="/binance-review/" data-track="rec_exchange" data-ex="Binance"><i class="fas fa-building-columns"></i> Binance Review</a>
-                        <a class="btn btn-ghost" id="rec-2" href="/okx-for-beginners/" data-track="rec_exchange" data-ex="OKX"><i class="fas fa-building-columns"></i> OKX for Beginners</a>
-                        <a class="btn btn-ghost" id="rec-3" href="/bybit-arbitrage/" data-track="rec_exchange" data-ex="Bybit"><i class="fas fa-building-columns"></i> Bybit & Arbitrage</a>
+                    <div class="cta-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                        <a class="btn btn-primary" id="rec-1" href="/binance-review/" data-track="rec_exchange" data-ex="Binance" style="font-size: 1.1rem; padding: 1.15rem 2rem;"><i class="fas fa-building-columns"></i> Open Binance Account</a>
+                        <a class="btn btn-primary" id="rec-2" href="/mexc-review/" data-track="rec_exchange" data-ex="MEXC" style="font-size: 1.1rem; padding: 1.15rem 2rem;"><i class="fas fa-building-columns"></i> Open MEXC Account</a>
+                        <a class="btn btn-primary" id="rec-3" href="/bybit-arbitrage/" data-track="rec_exchange" data-ex="Bybit" style="font-size: 1.1rem; padding: 1.15rem 2rem;"><i class="fas fa-building-columns"></i> Open Bybit Account</a>
                     </div>
             </div>
         </div>
@@ -762,11 +781,11 @@
                     </a>
                 </div>
                 <div class="news-card">
-                    <a class="card-link focus-ring" href="/okx-for-beginners/" data-regionize="1" title="Arbitrage tips + beginner-friendly exchange">
+                    <a class="card-link focus-ring" href="/mexc-review/" data-regionize="1" title="MEXC exchange review">
                         <div class="news-content">
-                            <div class="news-tag">Arbitrage Tips</div>
-                            <h3 class="news-title">How to minimize slippage during high-spread events</h3>
-                            <div class="news-link">View Guide <i class="fas fa-arrow-right"></i></div>
+                            <div class="news-tag">Exchange Review</div>
+                            <h3 class="news-title">MEXC: Low fees and high liquidity for arbitrage</h3>
+                            <div class="news-link">Read Review <i class="fas fa-arrow-right"></i></div>
                         </div>
                     </a>
                 </div>
@@ -913,22 +932,22 @@
             const recMap = {
                 EU: [
                     { href: '/binance-review/', text: 'Binance Review' },
-                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/mexc-review/', text: 'MEXC Review' },
                     { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
                 ],
                 RU: [
-                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/mexc-review/', text: 'MEXC Review' },
                     { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
                     { href: '/binance-review/', text: 'Binance Review' },
                 ],
                 US: [
                     { href: '/binance-review/', text: 'Binance Review' },
-                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/mexc-review/', text: 'MEXC Review' },
                     { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
                 ],
                 ASIA: [
                     { href: '/bybit-arbitrage/', text: 'Bybit & Arbitrage' },
-                    { href: '/okx-for-beginners/', text: 'OKX for Beginners' },
+                    { href: '/mexc-review/', text: 'MEXC Review' },
                     { href: '/binance-review/', text: 'Binance Review' },
                 ],
             };
@@ -1120,9 +1139,6 @@
                 // Homepage should link to internal review pages; review pages contain contextual CTA + (optional) affiliate link.
                 const REVIEW_PAGES = {
                     Binance: '/binance-review/',
-                    OKX: '/okx-for-beginners/',
-                    KuCoin: '/kucoin-review/',
-                    Gate: '/gate-review/',
                     MEXC: '/mexc-review/',
                     Bybit: '/bybit-arbitrage/',
                 };
