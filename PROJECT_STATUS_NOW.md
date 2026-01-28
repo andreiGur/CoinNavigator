@@ -27,7 +27,7 @@
 
 | בורסה | סטטוס | לינק/קוד | מיקום |
 |-------|--------|-----------|-------|
-| **Binance** | ✅ פעיל | `CPA_00X7W6EK29` | `/binance-review/` |
+| **Binance** | ✅ פעיל | `308417308` | `/binance-review/` |
 | **MEXC** | ✅ פעיל | `mexc-3ksU2` | `/mexc-review/` |
 | **Bybit** | ✅ פעיל | `153018` | `/bybit-arbitrage/` |
 | **OKX** | ❌ חסר | - | `/okx-for-beginners/` |

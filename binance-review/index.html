@@ -163,12 +163,12 @@
 
     initAnalytics();
 
-    // Binance affiliate link (CPA Referral Program)
+    // Binance affiliate registration link
     (function() {
       const btn = document.getElementById('open-btn');
       if (btn) {
-        // Always use Binance CPA referral link - it works globally including US
-        const baseUrl = 'https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00X7W6EK29';
+        // Binance affiliate registration link
+        const baseUrl = 'https://accounts.binance.com/register?ref=308417308';
         const url = new URL(baseUrl);
         url.searchParams.set('utm_source', 'coinnavigator');
         url.searchParams.set('utm_medium', 'referral');

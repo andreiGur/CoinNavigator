@@ -7,10 +7,10 @@
 ## ✅ לינקים שיש לך (3/6)
 
 ### 1. **Binance** ✅
-- **לינק:** `https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00X7W6EK29`
+- **לינק:** `https://accounts.binance.com/register?ref=308417308`
 - **סטטוס:** ✅ מוטמע ופעיל
 - **מיקום:** `/binance-review/index.html`
-- **הערות:** CPA Referral Program
+- **הערות:** Referral Code: `308417308`
 
 ### 2. **MEXC** ✅
 - **לינק:** `https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2`
@@ -64,7 +64,7 @@
 
 | בורסה | סטטוס | לינק אפיליאייט | פעולה נדרשת |
 |-------|--------|----------------|--------------|
-| **Binance** | ✅ פעיל | `CPA_00X7W6EK29` | - |
+| **Binance** | ✅ פעיל | `308417308` | - |
 | **MEXC** | ✅ פעיל | `mexc-3ksU2` | - |
 | **Bybit** | ✅ פעיל | `153018` | - |
 | **OKX** | ❌ חסר | - | להצטרף + להטמיע |
