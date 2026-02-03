@@ -1,6 +1,6 @@
 # 🔗 מצב לינקי אפיליאייט - CoinNavigator
 
-**תאריך עדכון:** 9 בינואר 2026
+**תאריך עדכון:** פברואר 2026
 
 ---
 
@@ -57,6 +57,12 @@
 - **סטטוס:** ✅ מוטמע ופעיל (עם UTM parameters)
 - **מיקום:** `/bybit-arbitrage/index.html`
 - **הערות:** Affiliate ID: `153018`
+
+### 7. **Polymarket** ✅ (Prediction markets)
+- **לינק:** `https://polymarket.com?via=Bn0AqAs`
+- **סטטוס:** ✅ מוטמע ופעיל (via=Bn0AqAs + UTM)
+- **מיקום:** `polymarket/index.html`, `index.html`
+- **הערות:** פרמטר `via` – כל לינק "View on Polymarket" מקבל אוטומטית `?via=Bn0AqAs` + UTM
 
 ---
 

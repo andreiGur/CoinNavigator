@@ -354,10 +354,13 @@
     }
 
     const POLYMARKET_HOME = 'https://polymarket.com';
+    // Polymarket referral: via= parameter from https://polymarket.com?via=Bn0AqAs
+    const POLYMARKET_REFERRAL_CODE = 'Bn0AqAs';
     function buildMarketUrl(url, sourceTag) {
       if (!url || typeof url !== 'string' || !url.startsWith('http')) return POLYMARKET_HOME;
       try {
         const u = new URL(url);
+        if (POLYMARKET_REFERRAL_CODE) u.searchParams.set('via', POLYMARKET_REFERRAL_CODE);
         u.searchParams.set('utm_source', 'coinnavigator');
         u.searchParams.set('utm_medium', 'referral');
         u.searchParams.set('utm_campaign', 'polymarket_hot');
