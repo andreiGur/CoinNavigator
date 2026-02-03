@@ -1052,7 +1052,10 @@
         // Polymarket referral: via= parameter from https://polymarket.com?via=Bn0AqAs
         const POLYMARKET_REFERRAL_CODE = 'Bn0AqAs';
         function buildPolymarketUrl(url, sourceTag) {
-            if (!url || typeof url !== 'string' || !url.startsWith('http')) return POLYMARKET_HOME;
+            // Only use event URLs that look valid (avoids 404 from stale/wrong slugs)
+            if (!url || typeof url !== 'string' || !url.startsWith('http') || url.includes('/404') || !url.includes('polymarket.com/event/')) {
+                url = POLYMARKET_HOME;
+            }
             try {
                 const u = new URL(url);
                 if (POLYMARKET_REFERRAL_CODE) u.searchParams.set('via', POLYMARKET_REFERRAL_CODE);
@@ -1062,7 +1065,7 @@
                 u.searchParams.set('utm_content', sourceTag || 'homepage');
                 return u.toString();
             } catch {
-                return POLYMARKET_HOME;
+                return POLYMARKET_HOME + (POLYMARKET_REFERRAL_CODE ? '?via=' + encodeURIComponent(POLYMARKET_REFERRAL_CODE) : '');
             }
         }
 
