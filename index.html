@@ -1048,7 +1048,9 @@
             return (p * 100).toFixed(1) + '%';
         }
 
+        const POLYMARKET_HOME = 'https://polymarket.com';
         function buildPolymarketUrl(url, sourceTag) {
+            if (!url || typeof url !== 'string' || !url.startsWith('http')) return POLYMARKET_HOME;
             try {
                 const u = new URL(url);
                 u.searchParams.set('utm_source', 'coinnavigator');
@@ -1057,7 +1059,7 @@
                 u.searchParams.set('utm_content', sourceTag || 'homepage');
                 return u.toString();
             } catch {
-                return url;
+                return POLYMARKET_HOME;
             }
         }
 

@@ -317,6 +317,10 @@
       if (typeof p !== 'number' || Number.isNaN(p)) return '—';
       return (p * 100).toFixed(1) + '%';
     }
+    function escapeHtml(s) {
+      if (s == null || typeof s !== 'string') return '';
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
 
     function timeRemaining(endDateIso) {
       if (!endDateIso) return null;
@@ -349,7 +353,9 @@
       throw lastError ?? new Error('Failed to fetch polymarket data');
     }
 
+    const POLYMARKET_HOME = 'https://polymarket.com';
     function buildMarketUrl(url, sourceTag) {
+      if (!url || typeof url !== 'string' || !url.startsWith('http')) return POLYMARKET_HOME;
       try {
         const u = new URL(url);
         u.searchParams.set('utm_source', 'coinnavigator');
@@ -358,7 +364,7 @@
         u.searchParams.set('utm_content', sourceTag || 'polymarket_page');
         return u.toString();
       } catch {
-        return url;
+        return POLYMARKET_HOME;
       }
     }
 
@@ -393,11 +399,14 @@
 
         const card = document.createElement('div');
         card.className = 'card';
+        const safeQuestion = escapeHtml(m.question);
+        const safeSlug = escapeHtml(m.slug || '');
+        const imgSrc = (m.image && typeof m.image === 'string' && m.image.startsWith('http')) ? m.image : '';
         card.innerHTML = `
           <div class="card-head">
-            <div class="thumb">${m.image ? `<img src="${m.image}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : `<i class="fas fa-chart-pie"></i>`}</div>
+            <div class="thumb">${imgSrc ? `<img src="${escapeHtml(imgSrc)}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : `<i class="fas fa-chart-pie"></i>`}</div>
             <div>
-              <div class="q">${m.question}</div>
+              <div class="q">${safeQuestion}</div>
               <div class="meta">
                 <span><b>${fmtUsd(vol)}</b> 24h volume</span>
                 ${endTxt ? `<span class="muted">${endTxt}</span>` : ``}
@@ -410,7 +419,7 @@
           </div>
           <div class="muted small">Why it’s hot: unusually high 24h volume suggests elevated attention + disagreement.</div>
           <div class="actions">
-            <a class="btn btn-primary" href="${url}" target="_blank" rel="noopener noreferrer" data-track="pm_view_market" data-slug="${m.slug || ''}"><i class="fas fa-arrow-up-right-from-square"></i> View on Polymarket</a>
+            <a class="btn btn-primary" href="${url}" target="_blank" rel="noopener noreferrer" data-track="pm_view_market" data-slug="${safeSlug}"><i class="fas fa-arrow-up-right-from-square"></i> View on Polymarket</a>
             <a class="btn btn-ghost" href="/terms/" data-track="open_terms"><i class="fas fa-shield-halved"></i> Risk & disclosure</a>
           </div>
         `;

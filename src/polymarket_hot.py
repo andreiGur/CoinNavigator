@@ -95,6 +95,23 @@ class PolymarketHot:
                 no = o.get("price")
         return yes, no
 
+    @staticmethod
+    def _event_slug_from_market(m: Dict[str, Any]) -> Optional[str]:
+        """Gamma returns events[] with slug; use event slug for URL (avoids 404 from market-only slug)."""
+        events_raw = m.get("events")
+        if isinstance(events_raw, list) and len(events_raw) > 0:
+            first = events_raw[0]
+            if isinstance(first, dict):
+                return (first.get("slug") or "").strip() or None
+        if isinstance(events_raw, str):
+            try:
+                parsed = json.loads(events_raw)
+                if isinstance(parsed, list) and len(parsed) > 0 and isinstance(parsed[0], dict):
+                    return (parsed[0].get("slug") or "").strip() or None
+            except Exception:
+                pass
+        return None
+
     def run(self, limit: int = 30, top_n: int = 12) -> Dict[str, Any]:
         # NOTE: Gamma rejects unknown query params with 422.
         # Keep the query minimal and sort/filter in our code.
@@ -129,11 +146,21 @@ class PolymarketHot:
 
             volume24 = self._to_float(m.get("volume24hr")) or 0.0
 
+            # Use event slug for URL when available (Polymarket expects /event/{event_slug} or /event/{event_slug}/{market_slug})
+            event_slug = self._event_slug_from_market(m)
+            if event_slug:
+                if event_slug == slug:
+                    polymarket_url = f"https://polymarket.com/event/{event_slug}"
+                else:
+                    polymarket_url = f"https://polymarket.com/event/{event_slug}/{slug}"
+            else:
+                polymarket_url = f"https://polymarket.com/event/{slug}"
+
             item: Dict[str, Any] = {
                 "id": str(m.get("id") or ""),
                 "slug": slug,
                 "question": question,
-                "url": f"https://polymarket.com/event/{slug}",
+                "url": polymarket_url,
                 "image": m.get("image") or m.get("icon"),
                 "endDate": m.get("endDate"),
                 "volume24hr": volume24,
@@ -152,6 +179,10 @@ class PolymarketHot:
         return payload
 
     def write_files(self, payload: Dict[str, Any]) -> None:
+        markets = payload.get("markets") or []
+        if payload.get("error") and not markets:
+            print("Skipping write: API error and no markets; not overwriting existing JSON.")
+            return
         output_path = os.path.join(self.data_dir, "polymarket_hot.json")
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
@@ -160,7 +191,7 @@ class PolymarketHot:
         with open(root_output, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
 
-        print(f"Updated polymarket markets: {len(payload.get('markets') or [])}")
+        print(f"Updated polymarket markets: {len(markets)}")
 
 
 if __name__ == "__main__":
