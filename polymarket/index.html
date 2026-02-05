@@ -126,8 +126,8 @@
     .grid {
       margin: 2rem 0 4rem;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.1rem;
     }
 
     .card {
@@ -208,6 +208,9 @@
     .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
     .footer-links a:hover { color: var(--primary-light); }
 
+    @media (min-width: 1400px) {
+      .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
     @media (max-width: 980px) {
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -236,15 +239,15 @@
 
   <main class="container">
     <section class="hero">
-      <h1>Polymarket Hot Events</h1>
+      <h1>What’s hot on Polymarket right now</h1>
       <p>
-        This is <b>market sentiment</b> and crowd-based probability — not gambling content.
-        We surface high-volume events so you can understand what the market expects and why.
+        <b>Live prediction markets</b> — sorted by 24h volume so you see where the crowd is focused.
+        YES/NO prices = implied probability. Informational only, not financial advice.
       </p>
       <div class="pill-row">
         <span class="pill"><i class="fas fa-fire"></i> Sorted by 24h volume</span>
         <span class="pill"><i class="fas fa-chart-line"></i> YES/NO probabilities</span>
-        <span class="pill"><i class="fas fa-shield-halved"></i> Trust-first framing</span>
+        <span class="pill"><i class="fas fa-clock"></i> Updated daily</span>
       </div>
       <div class="disclaimer">
         <b>Disclaimer:</b> informational only, not financial advice. Some links may become partner links later and support the project at no extra cost.

@@ -112,7 +112,7 @@ class PolymarketHot:
                 pass
         return None
 
-    def run(self, limit: int = 30, top_n: int = 12) -> Dict[str, Any]:
+    def run(self, limit: int = 80, top_n: int = 36) -> Dict[str, Any]:
         # NOTE: Gamma rejects unknown query params with 422.
         # Keep the query minimal and sort/filter in our code.
         url = f"{self.base}/markets?limit={limit}&active=true&closed=false"

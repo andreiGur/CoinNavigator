@@ -435,8 +435,20 @@
         .news-title { font-size: 0.75rem; font-weight: 600; margin: 0.5rem 0 1rem; }
         .news-link { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; display: flex; align-items: center; gap: 5px; }
 
-        /* Polymarket module */
-        .pm-section { margin-top: 4rem; }
+        /* Polymarket module — central, above the fold */
+        .pm-section { margin-top: 3rem; }
+        .pm-section.pm-hero {
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.06) 0%, transparent 60%);
+            border: 1px solid rgba(99, 102, 241, 0.12);
+            border-radius: 24px;
+            padding: 2rem 0 2.5rem;
+            margin-left: 1rem; margin-right: 1rem;
+        }
+        .pm-section-header { text-align: center; margin-bottom: 1.5rem; }
+        .pm-title { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .pm-title i { color: var(--accent); }
+        .pm-subtitle { color: var(--text-muted); font-size: 1rem; max-width: 560px; margin: 0 auto; }
+        .pm-cta-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.25rem; }
         .pm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
         .pm-card {
             background: rgba(255,255,255,0.02);
@@ -556,9 +568,9 @@
     <nav>
         <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
         <ul class="nav-links">
+            <li><a href="/polymarket/">Polymarket</a></li>
             <li><a href="#dashboard">Market Spreads</a></li>
             <li><a href="#learn">Learn</a></li>
-            <li><a href="/polymarket/">Polymarket</a></li>
             <li><a href="/binance-review/">Exchanges</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/about/">About</a></li>
@@ -608,6 +620,26 @@
             <div class="value" style="color: var(--accent)">ONLINE</div>
         </a>
     </div>
+
+    <section class="pm-section pm-hero" id="polymarket">
+        <div class="container">
+            <div class="pm-section-header">
+                <h2 class="pm-title"><i class="fas fa-fire"></i> What’s hot on Polymarket</h2>
+                <p class="pm-subtitle">Prediction markets with the most attention right now — sorted by 24h volume. See what the crowd expects.</p>
+            </div>
+            <div class="pm-grid" id="pm-grid">
+                <div class="pm-card">
+                    <div class="pm-q">Loading Polymarket events…</div>
+                    <div class="pm-meta">If this takes too long, the data file may still be updating.</div>
+                </div>
+            </div>
+            <div class="muted" id="pm-updated" style="text-align: right; margin-top: 0.75rem; font-size: 0.75rem;"></div>
+            <div class="pm-cta-row">
+                <a class="btn btn-primary" href="/polymarket/" data-track="pm_open_hub"><i class="fas fa-chart-line"></i> See all hot events</a>
+                <a class="btn btn-ghost" href="/terms/" data-track="open_terms"><i class="fas fa-shield-halved"></i> Disclosures & risk</a>
+            </div>
+        </div>
+    </section>
 
     <main class="container">
         <section class="edu-section" id="how-it-works">
@@ -691,29 +723,6 @@
             </div>
             <div id="timestamp" style="text-align: right; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.8rem;"></div>
         </div>
-
-        <section class="pm-section" id="polymarket">
-            <div class="table-header">
-                <h2>Polymarket Hot Events (High 24h Volume)</h2>
-                <div class="live-indicator" style="color: var(--text-muted);">
-                    <i class="fas fa-chart-pie"></i> Market sentiment — not gambling content
-                </div>
-            </div>
-            <div class="muted" style="margin-top: -0.75rem;">
-                We highlight high-attention events so you can understand what the crowd expects. Informational only.
-            </div>
-            <div class="pm-grid" id="pm-grid">
-                <div class="pm-card">
-                    <div class="pm-q">Loading Polymarket events…</div>
-                    <div class="pm-meta">If this takes too long, the data file may still be updating.</div>
-                </div>
-            </div>
-            <div class="muted" id="pm-updated" style="text-align: right; margin-top: 0.75rem; font-size: 0.75rem;"></div>
-            <div style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                <a class="btn btn-primary" href="/polymarket/" data-track="pm_open_hub"><i class="fas fa-fire"></i> Open Polymarket Hub</a>
-                <a class="btn btn-ghost" href="/terms/" data-track="open_terms"><i class="fas fa-shield-halved"></i> Disclosures & risk</a>
-            </div>
-        </section>
 
         <section class="cta-section" id="bonuses">
             <div class="cta-card">
@@ -1084,7 +1093,7 @@
                 return endTime > Date.now(); // Only keep events that haven't ended yet
             }) : [];
             
-            const top = activeMarkets.slice(0, 4);
+            const top = activeMarkets.slice(0, 6);
 
             if (payload && payload.timestamp && updated) {
                 const d = new Date(payload.timestamp);
