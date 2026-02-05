@@ -540,13 +540,21 @@
             .select { flex: 1 1 140px; min-width: 140px; }
             .nav-cta .btn { flex: 1 1 180px; justify-content: center; }
             .nav-cta { gap: 0.5rem; }
-            .btn { padding: 0.7rem 0.95rem; }
+            /* Touch targets min 44px for accessibility */
+            .btn { padding: 0.75rem 1.25rem; min-height: 44px; min-width: 44px; }
+            .btn-mini { padding: 0.65rem 0.9rem; min-height: 44px; }
+            .btn-trade { min-height: 44px; }
+            .pm-card .pm-actions .btn-mini { min-height: 44px; }
+            .pm-section .btn { min-height: 44px; }
             .stats-grid { margin: 1rem auto 2.25rem; padding: 0 1rem; }
             .dashboard-card { padding: 0.4rem 0.3rem; }
             th, td { padding: 1rem 0.75rem; }
             .details-grid { grid-template-columns: 1fr; }
             .cta-inner { grid-template-columns: 1fr; }
             .cta-buttons { justify-content: flex-start; }
+            main.container { padding-top: 0.5rem; }
+            .pm-section { margin-left: 0.5rem; margin-right: 0.5rem; }
+            .pm-q { word-wrap: break-word; overflow-wrap: break-word; }
 
             /* On mobile: compact table (no horizontal scroll) */
             th:nth-child(2), td:nth-child(2) { display: none; } /* Buy */
@@ -555,7 +563,7 @@
             .edu-grid { grid-template-columns: 1fr; }
 
             /* Avoid overflow from action buttons */
-            .btn-mini { padding: 0.5rem 0.7rem; font-size: 0.82rem; }
+            .btn-mini { padding: 0.65rem 0.9rem; font-size: 0.82rem; }
             .row-actions { gap: 0.4rem; }
             .table-wrap { overflow-x: hidden; }
         }
@@ -576,15 +584,6 @@
             <li><a href="/about/">About</a></li>
             <li><a href="/contact/">Contact</a></li>
         </ul>
-        <div class="nav-cta">
-            <select class="select" id="region-select" aria-label="Select region">
-                <option value="EU">Europe</option>
-                <option value="RU">Russia</option>
-                <option value="US">USA</option>
-                <option value="ASIA">Asia</option>
-            </select>
-            <a href="#dashboard" class="btn btn-primary" data-track="nav_start"><i class="fas fa-rocket"></i> Start Exploring Spreads</a>
-        </div>
     </nav>
 
     <header class="hero">
