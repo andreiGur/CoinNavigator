@@ -328,6 +328,22 @@
         .muted { color: var(--text-muted); }
         .err { color: var(--danger); font-weight: 700; }
 
+        .hidden { display: none !important; }
+        .data-freshness-banner {
+            margin: 0 0 1rem 0;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .data-freshness-banner i { font-size: 1.25rem; flex-shrink: 0; }
+
         /* Modal */
         .modal {
             position: fixed;
@@ -699,6 +715,7 @@
                     LIVE DATA
                 </div>
             </div>
+            <div id="data-freshness-banner" class="data-freshness-banner hidden" role="alert" aria-live="polite"></div>
 
             <div class="table-wrap">
                 <table>
@@ -1308,7 +1325,55 @@
                 
                 if (data.timestamp) {
                     const date = new Date(data.timestamp);
+                    const ageHours = (Date.now() - date.getTime()) / (1000 * 60 * 60);
                     timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
+                    if (ageHours > 1) {
+                        timestampDiv.style.color = 'var(--danger)';
+                        timestampDiv.innerHTML += ` <span class="err">(${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} ago)</span>`;
+                    } else {
+                        timestampDiv.style.color = '';
+                    }
+                }
+
+                const banner = document.getElementById('data-freshness-banner');
+                if (banner) {
+                    const date = data.timestamp ? new Date(data.timestamp) : null;
+                    const ageHours = date ? (Date.now() - date.getTime()) / (1000 * 60 * 60) : 999;
+                    let msg = '';
+                    if (ageHours > 2) {
+                        msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} old. Prices may have changed. Do not rely on this table for trading until data is refreshed.`;
+                    } else if (ageHours > 1) {
+                        msg = `Spread data is over 1 hour old. Prices may have changed. Refresh the page or check back later.`;
+                    }
+                    if (msg) {
+                        banner.className = 'data-freshness-banner';
+                        banner.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${msg}</span>`;
+                    } else {
+                        banner.className = 'data-freshness-banner hidden';
+                        banner.innerHTML = '';
+                    }
+                }
+
+                if (data.symbols && data.symbols.BTCUSDT && banner) {
+                    fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { cache: 'no-store' })
+                        .then(r => r.ok ? r.json() : null)
+                        .then(live => {
+                            if (!live || typeof live.price !== 'string') return;
+                            const livePrice = parseFloat(live.price);
+                            if (!Number.isFinite(livePrice)) return;
+                            const cached = data.symbols.BTCUSDT.binance_price || data.symbols.BTCUSDT.best_buy?.price;
+                            if (cached == null) return;
+                            const diffPct = Math.abs(cached - livePrice) / livePrice;
+                            if (diffPct > 0.05) {
+                                const bannerEl = document.getElementById('data-freshness-banner');
+                                if (!bannerEl) return;
+                                const existing = bannerEl.textContent || '';
+                                const priceMsg = ` Table shows BTC ~$${cached.toLocaleString(undefined, { maximumFractionDigits: 0 })} but current Binance price is ~$${livePrice.toLocaleString(undefined, { maximumFractionDigits: 0 })}.`;
+                                bannerEl.className = 'data-freshness-banner';
+                                bannerEl.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${existing ? existing + ' ' : ''}Price mismatch:${priceMsg}</span>`;
+                            }
+                        })
+                        .catch(() => {});
                 }
                 
             } catch (error) {

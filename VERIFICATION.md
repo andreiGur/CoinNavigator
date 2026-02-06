@@ -1,93 +1,38 @@
-# ✅ CoinNavigator - בדיקה ואימות
+# CoinNavigator – בדיקה ואימות
 
-## מה הוגדר:
+## איך הפרויקט עובד (ללא WordPress)
 
-✅ **Cron Job מוגדר:**
-- Minute: `*/15` (כל 15 דקות)
-- Command: `cd /home/cointasu/CoinNavigator && python3 /home/cointasu/CoinNavigator/src/spread_detector.py`
-
----
-
-## שלב 1: בדיקה מיידית (אופציונלי)
-
-אם יש לך גישה ל-Terminal ב-cPanel, תוכל לבדוק ידנית:
-
-1. **cPanel > Terminal**
-2. **הרץ:**
-   ```bash
-   cd ~/CoinNavigator
-   python3 src/spread_detector.py
-   ```
-3. **בדוק שהקובץ נוצר:**
-   ```bash
-   ls -la ~/public_html/wp-content/uploads/coinnavigator/data/spread_data.json
-   ```
+- **אתר סטטי** ב־Vercel (coinnavigator.net).
+- הנתונים מגיעים מקבצי JSON בתוך הפרויקט: `data/spread_data.json`, `data/polymarket_hot.json`.
+- העדכון מתבצע אוטומטית על ידי **GitHub Actions** – כל 15 דקות.
 
 ---
 
-## שלב 2: בדיקה אוטומטית (מומלץ)
+## אמינות המידע באתר
 
-### 2.1: המתן 15 דקות
-
-ה-Cron Job ירוץ בפעם הראשונה ב-15 הדקות הקרובות.
-
-### 2.2: בדיקת הקובץ
-
-1. **דרך File Manager:**
-   - נווט ל: `public_html/wp-content/uploads/coinnavigator/data/`
-   - בדוק את הקובץ: `spread_data.json`
-   - בדוק את "Last Modified" - אמור להתעדכן כל 15 דקות
-
-2. **דרך האתר:**
-   - פתח: `https://coinnavigator.net`
-   - בדוק שהטבלה מציגה נתונים מעודכנים
-   - בדוק את "Last updated" בתחתית הטבלה
+1. **עדכון נתונים:** ה־workflow `update_data.yml` מריץ את `src/spread_detector.py` ומוסיף commit ל־`data/spread_data.json`. Vercel מבצע deploy אחרי כל push.
+2. **אזהרות למשתמש:** כשהנתונים ישנים (מעל שעה) או כשמחיר BTC בטבלה שונה ב־>5% ממחיר Binance החי, האתר מציג **באנר אזהרה** ותאריך עדכון באדום.
+3. **בדיקה:** וודא ש־"Last updated" בדף הבית מתקדם וש־BTC קרוב למחיר הנוכחי (למשל Binance/CoinGecko).
 
 ---
 
-## שלב 3: אימות שהכל עובד
+## מה לבדוק
 
-### סימנים שהכל עובד:
+### ב־GitHub
 
-✅ הקובץ `spread_data.json` מתעדכן כל 15 דקות
-✅ האתר מציג נתונים מעודכנים
-✅ תאריך "Last updated" משתנה
+- **Actions** → "Update spread data" – רץ כל 15 דקות (או הרץ ידנית: Run workflow).
+- אחרי הרצה – אמור להופיע commit חדש עם `data/spread_data.json`.
 
-### אם משהו לא עובד:
+### באתר (coinnavigator.net)
 
-❌ הקובץ לא מתעדכן:
-- בדוק שהנתיבים נכונים
-- בדוק ש-Python 3 מותקן
-- בדוק הרשאות כתיבה
-
-❌ שגיאת Python:
-- בדוק שה-requirements הותקנו
-- בדוק שהקובץ `spread_detector.py` תקין
+- בדף הבית – טבלת המחירים מתמלאת.
+- "Last updated" בתחתית הטבלה – תאריך/שעה עדכניים.
+- מחיר BTC בטבלה – בסביבות המחיר הנוכחי ב־Binance.
 
 ---
 
-## מה הלאה?
+## אם משהו לא עובד
 
-### ✅ הושלם:
-1. Python script - עובד
-2. WordPress plugin - מופעל
-3. Landing page - קיים
-4. Cron Job - מוגדר
-
-### 🚀 השלבים הבאים:
-1. **שיפור עיצוב** - CSS מותאם, תמונות
-2. **הוספת בורסות** - Coinbase, Kraken
-3. **הוספת מטבעות** - SOL, BNB, וכו'
-4. **SEO** - Meta tags, structured data
-5. **Landing Page משופר** - עם Bolt/Base44
-
----
-
-**מוכן להמשיך?** 🎉
-
-
-
-
-
-
-
+- **ה־Action נכשל:** בדוק ב־Actions את הלוג; וודא ש־`requests` מותקן (ב־workflow יש `pip install requests`).
+- **האתר לא מתעדכן:** וודא ש־Vercel מחובר ל־repo ושבנייה רצה אחרי ה־push.
+- **מחירים לא הגיוניים:** האתר יציג באנר אזהרה אם הנתונים ישנים או אם יש סטייה גדולה ממחיר Binance החי.

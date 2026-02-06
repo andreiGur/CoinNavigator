@@ -171,3 +171,90 @@ class SpreadDetector:
             "MEXC": self.get_mexc_price_info,
             "Bybit": self.get_bybit_price_info,
         }
+
+    def _all_fetchers(self) -> Dict[str, Any]:
+        """All exchanges we can fetch (for full price table and best buy/sell)."""
+        return {
+            "Binance": self.get_binance_price_info,
+            "OKX": self.get_okx_price_info,
+            "KuCoin": self.get_kucoin_price_info,
+            "Gate": self.get_gate_price_info,
+            "MEXC": self.get_mexc_price_info,
+            "Bybit": self.get_bybit_price_info,
+        }
+
+    def run(self) -> Dict[str, Any]:
+        """Fetch prices from all exchanges for all symbols; compute best buy/sell and spread."""
+        fetchers = self._all_fetchers()
+        exchange_names = list(fetchers.keys())
+        symbols_data: Dict[str, Any] = {}
+        errors: Dict[str, Dict[str, str]] = {}
+
+        for symbol in self.symbols:
+            prices: Dict[str, float] = {}
+            sym_errors: Dict[str, str] = {}
+
+            for name, get_price_info in fetchers.items():
+                price, err = get_price_info(symbol)
+                if price is not None:
+                    prices[name] = price
+                if err:
+                    sym_errors[name] = err
+
+            binance_price = prices.get("Binance")
+            bybit_price = prices.get("Bybit")
+
+            best_buy = None
+            best_sell = None
+            absolute_diff = None
+            spread_percent = None
+            if prices:
+                min_price = min(prices.values())
+                max_price = max(prices.values())
+                best_buy_ex = min(prices, key=prices.get)
+                best_sell_ex = max(prices, key=prices.get)
+                best_buy = {"exchange": best_buy_ex, "price": min_price}
+                best_sell = {"exchange": best_sell_ex, "price": max_price}
+                absolute_diff = round(max_price - min_price, 2)
+                if min_price and min_price > 0:
+                    spread_percent = round((max_price - min_price) / min_price, 8)
+
+            symbols_data[symbol] = {
+                "prices": prices,
+                "absolute_diff": absolute_diff,
+                "spread_percent": spread_percent,
+                "best_buy": best_buy,
+                "best_sell": best_sell,
+                "binance_price": binance_price,
+                "bybit_price": bybit_price,
+            }
+            if sym_errors:
+                errors[symbol] = sym_errors
+
+        return {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "symbols": symbols_data,
+            "errors": errors,
+            "exchanges": exchange_names,
+        }
+
+    def save_to_json(self, data: Dict[str, Any], filename: str = "spread_data.json") -> Optional[str]:
+        """Save results to data/spread_data.json (used by the static site / Vercel)."""
+        path = os.path.join(self.data_dir, filename)
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"Error saving JSON: {e}", flush=True)
+            return None
+        return path
+
+
+if __name__ == "__main__":
+    detector = SpreadDetector()
+    payload = detector.run()
+    out = detector.save_to_json(payload)
+    if out:
+        print(f"Saved to {out}", flush=True)
+    else:
+        raise SystemExit(1)
