@@ -239,11 +239,15 @@ class SpreadDetector:
         }
 
     def save_to_json(self, data: Dict[str, Any], filename: str = "spread_data.json") -> Optional[str]:
-        """Save results to data/spread_data.json (used by the static site / Vercel)."""
+        """Save results to data/spread_data.json and to repo root spread_data.json (site fetches both)."""
         path = os.path.join(self.data_dir, filename)
         try:
             with open(path, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
+            root_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", filename))
+            if root_path != path:
+                with open(root_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"Error saving JSON: {e}", flush=True)
             return None
