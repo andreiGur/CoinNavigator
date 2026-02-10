@@ -1,244 +1,124 @@
 {
-  "timestamp": "2026-02-09T01:12:15.352197Z",
+  "timestamp": "2026-02-10T01:20:51.858761Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
     {
-      "id": "540234",
-      "slug": "will-the-seattle-seahawks-win-super-bowl-2026",
-      "question": "Will the Seattle Seahawks win Super Bowl 2026?",
-      "url": "https://polymarket.com/event/super-bowl-champion-2026-731/will-the-seattle-seahawks-win-super-bowl-2026",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/NFL+Team+Logos/SEA.png",
-      "endDate": "2026-02-08T12:00:00Z",
-      "volume24hr": 1656212.8043779985,
-      "volume": 14717623.337407,
-      "liquidity": 36788.18606,
-      "yes": 0.805,
-      "no": 0.195,
-      "oneDayPriceChange": 0.114,
+      "id": "517311",
+      "slug": "will-trump-deport-250000-500000-people",
+      "question": "Will Trump deport 250,000-500,000 people?",
+      "url": "https://polymarket.com/event/how-many-people-will-trump-deport-in-2025/will-trump-deport-250000-500000-people",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
+      "endDate": "2025-12-31T12:00:00Z",
+      "volume24hr": 985587.9436890001,
+      "volume": 3338179.364594,
+      "liquidity": 6464.51262,
+      "yes": 0.8755,
+      "no": 0.1245,
+      "oneDayPriceChange": 0.018,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.805
+          "price": 0.8755
         },
         {
           "name": "No",
-          "price": 0.195
+          "price": 0.1245
         }
       ]
     },
     {
-      "id": "540227",
-      "slug": "will-the-new-england-patriots-win-super-bowl-2026",
-      "question": "Will the New England Patriots win Super Bowl 2026?",
-      "url": "https://polymarket.com/event/super-bowl-champion-2026-731/will-the-new-england-patriots-win-super-bowl-2026",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/NFL+Team+Logos/NE.png",
-      "endDate": "2026-02-08T12:00:00Z",
-      "volume24hr": 1279889.933646003,
-      "volume": 17351692.118887,
-      "liquidity": 74328.81181,
-      "yes": 0.1975,
-      "no": 0.8025,
-      "oneDayPriceChange": -0.1135,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.1975
-        },
-        {
-          "name": "No",
-          "price": 0.8025
-        }
-      ]
-    },
-    {
-      "id": "527079",
-      "slug": "will-gta-6-cost-100",
-      "question": "Will GTA 6 cost $100+?",
-      "url": "https://polymarket.com/event/will-gta-6-cost-100",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gta-6-launch-price-l4GiOIOGhdvA.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 104029.832003,
-      "volume": 3215289.700999,
-      "liquidity": 63603.33862,
-      "yes": 0.009,
-      "no": 0.991,
-      "oneDayPriceChange": 0.0025,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.009
-        },
-        {
-          "name": "No",
-          "price": 0.991
-        }
-      ]
-    },
-    {
-      "id": "537489",
-      "slug": "will-the-us-collect-more-than-2t-in-revenue-in-2025",
-      "question": "Will the U.S. collect more than $2t in revenue in 2025?",
-      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-more-than-2t-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 51575.338,
-      "volume": 478240.901262,
-      "liquidity": 58973.61391,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "537485",
-      "slug": "will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $100b and $200b in revenue in 2025?",
-      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 48418.56818800001,
-      "volume": 1158075.760653,
-      "liquidity": 7031.47276,
-      "yes": 0.054,
-      "no": 0.946,
-      "oneDayPriceChange": 0.0205,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.054
-        },
-        {
-          "name": "No",
-          "price": 0.946
-        }
-      ]
-    },
-    {
-      "id": "553834",
-      "slug": "will-the-toronto-maple-leafs-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Toronto Maple Leafs win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-toronto-maple-leafs-win-the-2026-nhl-stanley-cup",
+      "id": "553842",
+      "slug": "will-the-new-york-islanders-win-the-2026-nhl-stanley-cup",
+      "question": "Will the New York Islanders win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-new-york-islanders-win-the-2026-nhl-stanley-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
       "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 47242.283085999996,
-      "volume": 462000.627645,
-      "liquidity": 88340.54953,
-      "yes": 0.009,
-      "no": 0.991,
+      "volume24hr": 705048.4133490004,
+      "volume": 2025258.906522,
+      "liquidity": 92053.45361,
+      "yes": 0.0105,
+      "no": 0.9895,
       "oneDayPriceChange": -0.003,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.009
+          "price": 0.0105
         },
         {
           "name": "No",
-          "price": 0.991
+          "price": 0.9895
         }
       ]
     },
     {
-      "id": "553829",
-      "slug": "will-the-vegas-golden-knights-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Vegas Golden Knights win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-vegas-golden-knights-win-the-2026-nhl-stanley-cup",
+      "id": "553838",
+      "slug": "will-the-minnesota-wild-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Minnesota Wild win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-minnesota-wild-win-the-2026-nhl-stanley-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
       "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 33507.06494999999,
-      "volume": 316500.080218,
-      "liquidity": 83772.86436,
-      "yes": 0.071,
-      "no": 0.929,
+      "volume24hr": 611967.0481669998,
+      "volume": 3038865.143597,
+      "liquidity": 69036.72087,
+      "yes": 0.061,
+      "no": 0.939,
       "oneDayPriceChange": 0.0015,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.071
+          "price": 0.061
         },
         {
           "name": "No",
-          "price": 0.929
+          "price": 0.939
         }
       ]
     },
     {
-      "id": "553833",
-      "slug": "will-the-winnipeg-jets-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Winnipeg Jets win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-winnipeg-jets-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 32892.982685,
-      "volume": 228113.35022,
-      "liquidity": 103804.20753,
-      "yes": 0.008,
-      "no": 0.992,
+      "id": "549874",
+      "slug": "will-rob-jetten-become-the-next-prime-minister-of-the-netherlands",
+      "question": "Will Rob Jetten become the next Prime Minister of the Netherlands?",
+      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-rob-jetten-become-the-next-prime-minister-of-the-netherlands",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-rob-jetten-become-the-next-prime-minister-of-the-netherlands-n8wAb1sEh9JS.jpg",
+      "endDate": "2026-12-31T00:00:00Z",
+      "volume24hr": 587537.354493,
+      "volume": 1358939.999879,
+      "liquidity": 18205.09144,
+      "yes": 0.986,
+      "no": 0.014,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.008
+          "price": 0.986
         },
         {
           "name": "No",
-          "price": 0.992
+          "price": 0.014
         }
       ]
     },
     {
-      "id": "553825",
-      "slug": "will-the-florida-panthers-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Florida Panthers win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-florida-panthers-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 28776.225413999975,
-      "volume": 360618.398702,
-      "liquidity": 76454.03942,
-      "yes": 0.039,
-      "no": 0.961,
-      "oneDayPriceChange": -0.0005,
+      "id": "540881",
+      "slug": "gta-vi-released-before-june-2026",
+      "question": "GTA VI released before June 2026?",
+      "url": "https://polymarket.com/event/gta-vi-released-before-june-2026",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gta-vi-released-before-june-2026-igCgZsDMejF1.jpg",
+      "endDate": "2026-05-31T12:00:00Z",
+      "volume24hr": 494812.356919,
+      "volume": 739104.220231,
+      "liquidity": 21924.43804,
+      "yes": 0.0435,
+      "no": 0.9565,
+      "oneDayPriceChange": 0.0065,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.039
+          "price": 0.0435
         },
         {
           "name": "No",
-          "price": 0.961
-        }
-      ]
-    },
-    {
-      "id": "537484",
-      "slug": "will-the-us-collect-less-than-100b-in-revenue-in-2025",
-      "question": "Will the U.S. collect less than $100b in revenue in 2025?",
-      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-less-than-100b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 25408.756901999994,
-      "volume": 1264695.969135,
-      "liquidity": 14985.4188,
-      "yes": 0.8225,
-      "no": 0.1775,
-      "oneDayPriceChange": -0.0205,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.8225
-        },
-        {
-          "name": "No",
-          "price": 0.1775
+          "price": 0.9565
         }
       ]
     },
@@ -249,20 +129,188 @@
       "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-los-angeles-kings-win-the-2026-nhl-stanley-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
       "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 23483.183429000004,
-      "volume": 1841921.563016,
-      "liquidity": 83645.43932,
-      "yes": 0.0255,
-      "no": 0.9745,
-      "oneDayPriceChange": null,
+      "volume24hr": 394512.3462979998,
+      "volume": 2235558.309314,
+      "liquidity": 84525.3156,
+      "yes": 0.0245,
+      "no": 0.9755,
+      "oneDayPriceChange": -0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0255
+          "price": 0.0245
         },
         {
           "name": "No",
-          "price": 0.9745
+          "price": 0.9755
+        }
+      ]
+    },
+    {
+      "id": "527079",
+      "slug": "will-gta-6-cost-100",
+      "question": "Will GTA 6 cost $100+?",
+      "url": "https://polymarket.com/event/will-gta-6-cost-100",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gta-6-launch-price-l4GiOIOGhdvA.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 141849.79058400003,
+      "volume": 3366223.477577,
+      "liquidity": 57196.02222,
+      "yes": 0.0115,
+      "no": 0.9885,
+      "oneDayPriceChange": 0.0025,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0115
+        },
+        {
+          "name": "No",
+          "price": 0.9885
+        }
+      ]
+    },
+    {
+      "id": "549875",
+      "slug": "will-henri-bontenbal-become-the-next-prime-minister-of-the-netherlands",
+      "question": "Will Henri Bontenbal become the next Prime Minister of the Netherlands?",
+      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-henri-bontenbal-become-the-next-prime-minister-of-the-netherlands",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-henri-bontenbal-become-the-next-prime-minister-of-the-netherlands-VEhUm5jJdxbd.jpg",
+      "endDate": "2026-12-31T00:00:00Z",
+      "volume24hr": 50783.64614200001,
+      "volume": 634196.884426,
+      "liquidity": 18436.20394,
+      "yes": 0.0065,
+      "no": 0.9935,
+      "oneDayPriceChange": 0.003,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0065
+        },
+        {
+          "name": "No",
+          "price": 0.9935
+        }
+      ]
+    },
+    {
+      "id": "553840",
+      "slug": "will-the-st-louis-blues-win-the-2026-nhl-stanley-cup",
+      "question": "Will the St. Louis Blues win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-st-louis-blues-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 39896.05999,
+      "volume": 264828.287475,
+      "liquidity": 82800.46892,
+      "yes": 0.0045,
+      "no": 0.9955,
+      "oneDayPriceChange": 0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0045
+        },
+        {
+          "name": "No",
+          "price": 0.9955
+        }
+      ]
+    },
+    {
+      "id": "553844",
+      "slug": "will-the-columbus-blue-jackets-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Columbus Blue Jackets win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-columbus-blue-jackets-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 36637.77122799999,
+      "volume": 312169.443841,
+      "liquidity": 74578.45279,
+      "yes": 0.0135,
+      "no": 0.9865,
+      "oneDayPriceChange": 0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0135
+        },
+        {
+          "name": "No",
+          "price": 0.9865
+        }
+      ]
+    },
+    {
+      "id": "553825",
+      "slug": "will-the-florida-panthers-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Florida Panthers win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-florida-panthers-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 32480.09219100003,
+      "volume": 394464.050893,
+      "liquidity": 77339.7577,
+      "yes": 0.0355,
+      "no": 0.9645,
+      "oneDayPriceChange": -0.005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0355
+        },
+        {
+          "name": "No",
+          "price": 0.9645
+        }
+      ]
+    },
+    {
+      "id": "553829",
+      "slug": "will-the-vegas-golden-knights-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Vegas Golden Knights win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-vegas-golden-knights-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 32473.715780999984,
+      "volume": 349773.956741,
+      "liquidity": 85309.22608,
+      "yes": 0.0675,
+      "no": 0.9325,
+      "oneDayPriceChange": -0.005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0675
+        },
+        {
+          "name": "No",
+          "price": 0.9325
+        }
+      ]
+    },
+    {
+      "id": "553843",
+      "slug": "will-the-philadelphia-flyers-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Philadelphia Flyers win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-philadelphia-flyers-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 30180.69995000001,
+      "volume": 415556.488512,
+      "liquidity": 104995.34675,
+      "yes": 0.0065,
+      "no": 0.9935,
+      "oneDayPriceChange": 0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0065
+        },
+        {
+          "name": "No",
+          "price": 0.9935
         }
       ]
     },
@@ -273,132 +321,12 @@
       "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-1t-and-2t-in-revenue-in-2025",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 23100.2935,
-      "volume": 502967.574017,
-      "liquidity": 55174.0169,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": -0.0015,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "549869",
-      "slug": "will-frans-timmermans-become-the-next-prime-minister-of-the-netherlands",
-      "question": "Will Frans Timmermans become the next Prime Minister of the Netherlands?",
-      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-frans-timmermans-become-the-next-prime-minister-of-the-netherlands",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-frans-timmermans-become-the-next-prime-minister-of-the-netherlands-232jrBgr0KoJ.jpg",
-      "endDate": "2026-12-31T00:00:00Z",
-      "volume24hr": 17104.97,
-      "volume": 611711.959742,
-      "liquidity": 66594.33673,
-      "yes": 0.001,
-      "no": 0.999,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.001
-        },
-        {
-          "name": "No",
-          "price": 0.999
-        }
-      ]
-    },
-    {
-      "id": "553841",
-      "slug": "will-the-vancouver-canucks-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Vancouver Canucks win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-vancouver-canucks-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 17085.274,
-      "volume": 516282.438824,
-      "liquidity": 114030.53183,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "540844",
-      "slug": "will-bitcoin-hit-1m-before-gta-vi-872",
-      "question": "Will bitcoin hit $1m before GTA VI?",
-      "url": "https://polymarket.com/event/what-will-happen-before-gta-vi/will-bitcoin-hit-1m-before-gta-vi-872",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/what-will-happen-before-gta-vi-7hpNkEzQEqUE.jpg",
-      "endDate": "2026-07-31T12:00:00Z",
-      "volume24hr": 14286.719976,
-      "volume": 3062724.090523,
-      "liquidity": 210946.4818,
-      "yes": 0.485,
-      "no": 0.515,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.485
-        },
-        {
-          "name": "No",
-          "price": 0.515
-        }
-      ]
-    },
-    {
-      "id": "537486",
-      "slug": "will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $200b and $500b in revenue in 2025?",
-      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 14181.725095000002,
-      "volume": 665744.800196,
-      "liquidity": 7696.7198,
-      "yes": 0.125,
-      "no": 0.875,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.125
-        },
-        {
-          "name": "No",
-          "price": 0.875
-        }
-      ]
-    },
-    {
-      "id": "537487",
-      "slug": "will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
-      "question": "Will the U.S. collect between $500b and $1t in revenue in 2025?",
-      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
-      "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 13950.774538,
-      "volume": 2065102.599729,
-      "liquidity": 28023.87584,
+      "volume24hr": 22460.135000000006,
+      "volume": 525319.354017,
+      "liquidity": 63265.33246,
       "yes": 0.0025,
       "no": 0.9975,
-      "oneDayPriceChange": -0.001,
+      "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
@@ -411,15 +339,135 @@
       ]
     },
     {
+      "id": "537489",
+      "slug": "will-the-us-collect-more-than-2t-in-revenue-in-2025",
+      "question": "Will the U.S. collect more than $2t in revenue in 2025?",
+      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-more-than-2t-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 20892.236999999997,
+      "volume": 499069.791262,
+      "liquidity": 62447.96082,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "553841",
+      "slug": "will-the-vancouver-canucks-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Vancouver Canucks win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-vancouver-canucks-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 19242.029999999995,
+      "volume": 535578.242824,
+      "liquidity": 113814.68175,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "537484",
+      "slug": "will-the-us-collect-less-than-100b-in-revenue-in-2025",
+      "question": "Will the U.S. collect less than $100b in revenue in 2025?",
+      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-less-than-100b-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 15685.638566999996,
+      "volume": 1279709.097893,
+      "liquidity": 16316.86476,
+      "yes": 0.8435,
+      "no": 0.1565,
+      "oneDayPriceChange": 0.019,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.8435
+        },
+        {
+          "name": "No",
+          "price": 0.1565
+        }
+      ]
+    },
+    {
+      "id": "537485",
+      "slug": "will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
+      "question": "Will the U.S. collect between $100b and $200b in revenue in 2025?",
+      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-100b-and-200b-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 15051.947386000002,
+      "volume": 1172909.250206,
+      "liquidity": 7684.50353,
+      "yes": 0.037,
+      "no": 0.963,
+      "oneDayPriceChange": -0.0185,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.037
+        },
+        {
+          "name": "No",
+          "price": 0.963
+        }
+      ]
+    },
+    {
+      "id": "540843",
+      "slug": "will-china-invades-taiwan-before-gta-vi-716",
+      "question": "Will China invades Taiwan before GTA VI?",
+      "url": "https://polymarket.com/event/what-will-happen-before-gta-vi/will-china-invades-taiwan-before-gta-vi-716",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/what-will-happen-before-gta-vi-7hpNkEzQEqUE.jpg",
+      "endDate": "2026-07-31T12:00:00Z",
+      "volume24hr": 14640.330192,
+      "volume": 1298304.914257,
+      "liquidity": 55634.0364,
+      "yes": 0.52,
+      "no": 0.48,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.52
+        },
+        {
+          "name": "No",
+          "price": 0.48
+        }
+      ]
+    },
+    {
       "id": "553836",
       "slug": "will-the-new-york-rangers-win-the-2026-nhl-stanley-cup",
       "question": "Will the New York Rangers win the 2026 NHL Stanley Cup?",
       "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-new-york-rangers-win-the-2026-nhl-stanley-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
       "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 13949.452325999999,
-      "volume": 228741.968461,
-      "liquidity": 115715.9385,
+      "volume24hr": 13932.773649000002,
+      "volume": 245921.65211,
+      "liquidity": 123023.49627,
       "yes": 0.0035,
       "no": 0.9965,
       "oneDayPriceChange": null,
@@ -435,39 +483,15 @@
       ]
     },
     {
-      "id": "549873",
-      "slug": "will-caroline-van-der-plas-become-the-next-prime-minister-of-the-netherlands",
-      "question": "Will Caroline van der Plas become the next Prime Minister of the Netherlands?",
-      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-caroline-van-der-plas-become-the-next-prime-minister-of-the-netherlands",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-caroline-van-der-plas-become-the-next-prime-minister-of-the-netherlands-dUCXL3xEcQQb.jpg",
-      "endDate": "2026-12-31T00:00:00Z",
-      "volume24hr": 12528.349999999999,
-      "volume": 2990809.121756,
-      "liquidity": 18419.78564,
-      "yes": 0.002,
-      "no": 0.998,
-      "oneDayPriceChange": -0.004,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.002
-        },
-        {
-          "name": "No",
-          "price": 0.998
-        }
-      ]
-    },
-    {
       "id": "540819",
       "slug": "will-jesus-christ-return-before-gta-vi-665",
       "question": "Will Jesus Christ return before GTA VI?",
       "url": "https://polymarket.com/event/what-will-happen-before-gta-vi/will-jesus-christ-return-before-gta-vi-665",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/what-will-happen-before-gta-vi-7hpNkEzQEqUE.jpg",
       "endDate": "2026-07-31T12:00:00Z",
-      "volume24hr": 11372.83701000001,
-      "volume": 9162235.329507,
-      "liquidity": 474801.8877,
+      "volume24hr": 13827.685070000025,
+      "volume": 9176000.430732,
+      "liquidity": 452137.8355,
       "yes": 0.485,
       "no": 0.515,
       "oneDayPriceChange": null,
@@ -483,135 +507,15 @@
       ]
     },
     {
-      "id": "537490",
-      "slug": "will-tariffs-generate-250b-in-2025",
-      "question": "Will tariffs generate >$250b in 2025?",
-      "url": "https://polymarket.com/event/will-tariffs-generate-250b-in-2025",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-tariffs-generate-250b-in-2025-C4N7xChXvMV4.jpg",
+      "id": "537487",
+      "slug": "will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
+      "question": "Will the U.S. collect between $500b and $1t in revenue in 2025?",
+      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-500b-and-1t-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 8937.810797,
-      "volume": 1239681.382875,
-      "liquidity": 16491.21102,
-      "yes": 0.0115,
-      "no": 0.9885,
-      "oneDayPriceChange": 0.006,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0115
-        },
-        {
-          "name": "No",
-          "price": 0.9885
-        }
-      ]
-    },
-    {
-      "id": "553840",
-      "slug": "will-the-st-louis-blues-win-the-2026-nhl-stanley-cup",
-      "question": "Will the St. Louis Blues win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-st-louis-blues-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 5997.632993,
-      "volume": 224865.837485,
-      "liquidity": 83230.47705,
-      "yes": 0.004,
-      "no": 0.996,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.004
-        },
-        {
-          "name": "No",
-          "price": 0.996
-        }
-      ]
-    },
-    {
-      "id": "517311",
-      "slug": "will-trump-deport-250000-500000-people",
-      "question": "Will Trump deport 250,000-500,000 people?",
-      "url": "https://polymarket.com/event/how-many-people-will-trump-deport-in-2025/will-trump-deport-250000-500000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 5790.114195,
-      "volume": 2352591.420905,
-      "liquidity": 4010.97948,
-      "yes": 0.8575,
-      "no": 0.1425,
-      "oneDayPriceChange": 0.011,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.8575
-        },
-        {
-          "name": "No",
-          "price": 0.1425
-        }
-      ]
-    },
-    {
-      "id": "553832",
-      "slug": "will-the-new-jersey-devils-win-the-2026-nhl-stanley-cup",
-      "question": "Will the New Jersey Devils win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-new-jersey-devils-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 5278.87166,
-      "volume": 180550.671547,
-      "liquidity": 77749.19367,
-      "yes": 0.004,
-      "no": 0.996,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.004
-        },
-        {
-          "name": "No",
-          "price": 0.996
-        }
-      ]
-    },
-    {
-      "id": "553824",
-      "slug": "will-the-carolina-hurricanes-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Carolina Hurricanes win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-carolina-hurricanes-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 4899.4765290000005,
-      "volume": 84755.280936,
-      "liquidity": 74763.3589,
-      "yes": 0.1,
-      "no": 0.9,
-      "oneDayPriceChange": 0.01,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.1
-        },
-        {
-          "name": "No",
-          "price": 0.9
-        }
-      ]
-    },
-    {
-      "id": "549868",
-      "slug": "will-dilan-yeilgz-zegerius-become-the-next-prime-minister-of-the-netherlands",
-      "question": "Will Dilan Ye\u015filg\u00f6z-Zegerius become the next Prime Minister of the Netherlands?",
-      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-dilan-yeilgz-zegerius-become-the-next-prime-minister-of-the-netherlands",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-dilan-yeilgz-zegerius-become-the-next-prime-minister-of-the-netherlands-iYDyw3s-YBXz.jpg",
-      "endDate": "2026-12-31T00:00:00Z",
-      "volume24hr": 4728.052,
-      "volume": 722317.64153,
-      "liquidity": 30820.83641,
+      "volume24hr": 13001.162765999996,
+      "volume": 2077780.415495,
+      "liquidity": 39574.89006,
       "yes": 0.002,
       "no": 0.998,
       "oneDayPriceChange": -0.0005,
@@ -627,146 +531,26 @@
       ]
     },
     {
-      "id": "517313",
-      "slug": "will-trump-deport-500000-750000-people",
-      "question": "Will Trump deport 500,000-750,000- people?",
-      "url": "https://polymarket.com/event/how-many-people-will-trump-deport-in-2025/will-trump-deport-500000-750000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 4089.112903,
-      "volume": 487849.120619,
-      "liquidity": 4114.63685,
-      "yes": 0.0275,
-      "no": 0.9725,
-      "oneDayPriceChange": -0.049,
+      "id": "537486",
+      "slug": "will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
+      "question": "Will the U.S. collect between $200b and $500b in revenue in 2025?",
+      "url": "https://polymarket.com/event/how-much-revenue-will-the-us-raise-from-tariffs-in-2025/will-the-us-collect-between-200b-and-500b-in-revenue-in-2025",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-much-revenue-will-the-us-raise-from-tariffs-in-2025-lUbEhM1AK-xa.jpg",
+      "endDate": "2026-02-28T12:00:00Z",
+      "volume24hr": 10817.476481999996,
+      "volume": 675995.933346,
+      "liquidity": 8596.8232,
+      "yes": 0.12,
+      "no": 0.88,
+      "oneDayPriceChange": -0.01,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0275
+          "price": 0.12
         },
         {
           "name": "No",
-          "price": 0.9725
-        }
-      ]
-    },
-    {
-      "id": "553842",
-      "slug": "will-the-new-york-islanders-win-the-2026-nhl-stanley-cup",
-      "question": "Will the New York Islanders win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-new-york-islanders-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 3855.167311000001,
-      "volume": 1319734.633173,
-      "liquidity": 92205.31592,
-      "yes": 0.0135,
-      "no": 0.9865,
-      "oneDayPriceChange": 0.0005,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0135
-        },
-        {
-          "name": "No",
-          "price": 0.9865
-        }
-      ]
-    },
-    {
-      "id": "553838",
-      "slug": "will-the-minnesota-wild-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Minnesota Wild win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-minnesota-wild-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 3674.790202999998,
-      "volume": 2425878.76543,
-      "liquidity": 64917.38537,
-      "yes": 0.0605,
-      "no": 0.9395,
-      "oneDayPriceChange": 0.0025,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0605
-        },
-        {
-          "name": "No",
-          "price": 0.9395
-        }
-      ]
-    },
-    {
-      "id": "517310",
-      "slug": "will-trump-deport-less-than-250000",
-      "question": "Will Trump deport less than 250,000?",
-      "url": "https://polymarket.com/event/how-many-people-will-trump-deport-in-2025/will-trump-deport-less-than-250000",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 3438.280634999999,
-      "volume": 1071821.791755,
-      "liquidity": 13252.10654,
-      "yes": 0.0475,
-      "no": 0.9525,
-      "oneDayPriceChange": 0.005,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0475
-        },
-        {
-          "name": "No",
-          "price": 0.9525
-        }
-      ]
-    },
-    {
-      "id": "546612",
-      "slug": "will-openai-launch-a-new-consumer-hardware-product-by-march-31-2026",
-      "question": "Will OpenAI launch a new consumer hardware product by March 31, 2026?",
-      "url": "https://polymarket.com/event/will-openai-launch-a-consumer-hardware-product-by/will-openai-launch-a-new-consumer-hardware-product-by-march-31-2026",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-openai-launch-a-consumer-hardware-product-by-qKhPl0zZsOEJ.jpg",
-      "endDate": null,
-      "volume24hr": 3298.911390000002,
-      "volume": 57596.535533,
-      "liquidity": 2116.21865,
-      "yes": 0.352,
-      "no": 0.648,
-      "oneDayPriceChange": 0.2165,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.352
-        },
-        {
-          "name": "No",
-          "price": 0.648
-        }
-      ]
-    },
-    {
-      "id": "553837",
-      "slug": "will-the-ottawa-senators-win-the-2026-nhl-stanley-cup",
-      "question": "Will the Ottawa Senators win the 2026 NHL Stanley Cup?",
-      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-ottawa-senators-win-the-2026-nhl-stanley-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
-      "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 3272.4773830000004,
-      "volume": 292174.536186,
-      "liquidity": 87132.94068,
-      "yes": 0.014,
-      "no": 0.986,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.014
-        },
-        {
-          "name": "No",
-          "price": 0.986
+          "price": 0.88
         }
       ]
     },
@@ -777,68 +561,236 @@
       "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-utah-mammoth-win-the-2026-nhl-stanley-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
       "endDate": "2026-06-30T00:00:00Z",
-      "volume24hr": 3090.4932479999998,
-      "volume": 263677.451392,
-      "liquidity": 86046.3344,
-      "yes": 0.0265,
-      "no": 0.9735,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0265
-        },
-        {
-          "name": "No",
-          "price": 0.9735
-        }
-      ]
-    },
-    {
-      "id": "517316",
-      "slug": "will-trump-deport-1250000-1500000-people",
-      "question": "Will Trump deport 1,250,000-1,500,000 people?",
-      "url": "https://polymarket.com/event/how-many-people-will-trump-deport-in-2025/will-trump-deport-1250000-1500000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 2962.457,
-      "volume": 379574.192205,
-      "liquidity": 11406.41108,
-      "yes": 0.004,
-      "no": 0.996,
-      "oneDayPriceChange": 0.0005,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.004
-        },
-        {
-          "name": "No",
-          "price": 0.996
-        }
-      ]
-    },
-    {
-      "id": "517317",
-      "slug": "will-trump-deport-1500000-1750000-people",
-      "question": "Will Trump deport 1,500,000-1,750,000 people?",
-      "url": "https://polymarket.com/event/how-many-people-will-trump-deport-in-2025/will-trump-deport-1500000-1750000-people",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/how-many-people-will-trump-deport-in-2025-itZ0rMnIYuju.jpg",
-      "endDate": "2025-12-31T12:00:00Z",
-      "volume24hr": 2314.62,
-      "volume": 400697.83101,
-      "liquidity": 12091.87884,
-      "yes": 0.004,
-      "no": 0.996,
+      "volume24hr": 9407.645887999997,
+      "volume": 273394.37728,
+      "liquidity": 86160.71385,
+      "yes": 0.0245,
+      "no": 0.9755,
       "oneDayPriceChange": -0.0015,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.004
+          "price": 0.0245
         },
         {
           "name": "No",
-          "price": 0.996
+          "price": 0.9755
+        }
+      ]
+    },
+    {
+      "id": "549868",
+      "slug": "will-dilan-yeilgz-zegerius-become-the-next-prime-minister-of-the-netherlands",
+      "question": "Will Dilan Ye\u015filg\u00f6z-Zegerius become the next Prime Minister of the Netherlands?",
+      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-dilan-yeilgz-zegerius-become-the-next-prime-minister-of-the-netherlands",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-dilan-yeilgz-zegerius-become-the-next-prime-minister-of-the-netherlands-iYDyw3s-YBXz.jpg",
+      "endDate": "2026-12-31T00:00:00Z",
+      "volume24hr": 9360.454,
+      "volume": 732316.72553,
+      "liquidity": 26923.793,
+      "yes": 0.0025,
+      "no": 0.9975,
+      "oneDayPriceChange": 0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0025
+        },
+        {
+          "name": "No",
+          "price": 0.9975
+        }
+      ]
+    },
+    {
+      "id": "553826",
+      "slug": "will-the-edmonton-oilers-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Edmonton Oilers win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-edmonton-oilers-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 8011.380787000001,
+      "volume": 247616.130949,
+      "liquidity": 68672.8241,
+      "yes": 0.08,
+      "no": 0.92,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.08
+        },
+        {
+          "name": "No",
+          "price": 0.92
+        }
+      ]
+    },
+    {
+      "id": "549870",
+      "slug": "will-geert-wilders-become-the-next-prime-minister-of-the-netherlands",
+      "question": "Will Geert Wilders become the next Prime Minister of the Netherlands?",
+      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-geert-wilders-become-the-next-prime-minister-of-the-netherlands",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-geert-wilders-become-the-next-prime-minister-of-the-netherlands-UYe80qonnIeC.jpg",
+      "endDate": "2026-12-31T00:00:00Z",
+      "volume24hr": 8010.073139,
+      "volume": 1878666.381569,
+      "liquidity": 75211.39816,
+      "yes": 0.003,
+      "no": 0.997,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.003
+        },
+        {
+          "name": "No",
+          "price": 0.997
+        }
+      ]
+    },
+    {
+      "id": "549873",
+      "slug": "will-caroline-van-der-plas-become-the-next-prime-minister-of-the-netherlands",
+      "question": "Will Caroline van der Plas become the next Prime Minister of the Netherlands?",
+      "url": "https://polymarket.com/event/next-prime-minister-of-the-netherlands/will-caroline-van-der-plas-become-the-next-prime-minister-of-the-netherlands",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-caroline-van-der-plas-become-the-next-prime-minister-of-the-netherlands-dUCXL3xEcQQb.jpg",
+      "endDate": "2026-12-31T00:00:00Z",
+      "volume24hr": 7721.796,
+      "volume": 2998394.881756,
+      "liquidity": 17796.88861,
+      "yes": 0.0005,
+      "no": 0.9995,
+      "oneDayPriceChange": -0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0005
+        },
+        {
+          "name": "No",
+          "price": 0.9995
+        }
+      ]
+    },
+    {
+      "id": "553834",
+      "slug": "will-the-toronto-maple-leafs-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Toronto Maple Leafs win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-toronto-maple-leafs-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 7666.017784000002,
+      "volume": 470023.845429,
+      "liquidity": 89070.20386,
+      "yes": 0.0095,
+      "no": 0.9905,
+      "oneDayPriceChange": 0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0095
+        },
+        {
+          "name": "No",
+          "price": 0.9905
+        }
+      ]
+    },
+    {
+      "id": "553833",
+      "slug": "will-the-winnipeg-jets-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Winnipeg Jets win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-winnipeg-jets-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 7404.594797,
+      "volume": 235621.235017,
+      "liquidity": 105637.73063,
+      "yes": 0.0075,
+      "no": 0.9925,
+      "oneDayPriceChange": -0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0075
+        },
+        {
+          "name": "No",
+          "price": 0.9925
+        }
+      ]
+    },
+    {
+      "id": "553837",
+      "slug": "will-the-ottawa-senators-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Ottawa Senators win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-ottawa-senators-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 7174.291847000001,
+      "volume": 299097.588033,
+      "liquidity": 86688.05944,
+      "yes": 0.015,
+      "no": 0.985,
+      "oneDayPriceChange": 0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.015
+        },
+        {
+          "name": "No",
+          "price": 0.985
+        }
+      ]
+    },
+    {
+      "id": "553827",
+      "slug": "will-the-dallas-stars-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Dallas Stars win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-dallas-stars-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 6525.474710000001,
+      "volume": 104511.065679,
+      "liquidity": 83167.73689,
+      "yes": 0.04,
+      "no": 0.96,
+      "oneDayPriceChange": -0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.04
+        },
+        {
+          "name": "No",
+          "price": 0.96
+        }
+      ]
+    },
+    {
+      "id": "540844",
+      "slug": "will-bitcoin-hit-1m-before-gta-vi-872",
+      "question": "Will bitcoin hit $1m before GTA VI?",
+      "url": "https://polymarket.com/event/what-will-happen-before-gta-vi/will-bitcoin-hit-1m-before-gta-vi-872",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/what-will-happen-before-gta-vi-7hpNkEzQEqUE.jpg",
+      "endDate": "2026-07-31T12:00:00Z",
+      "volume24hr": 4031.427334000005,
+      "volume": 3066844.606319,
+      "liquidity": 189015.7327,
+      "yes": 0.485,
+      "no": 0.515,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.485
+        },
+        {
+          "name": "No",
+          "price": 0.515
         }
       ]
     },
@@ -849,20 +801,68 @@
       "url": "https://polymarket.com/event/rojas-guilty-in-texas-illegal-abortion-case",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/rojas-guilty-in-texas-illegal-abortion-case-wbJ6bN2zp3ER.jpg",
       "endDate": "2026-02-28T12:00:00Z",
-      "volume24hr": 2164.55668,
-      "volume": 30390.999495,
-      "liquidity": 3497.4112,
-      "yes": 0.075,
-      "no": 0.925,
-      "oneDayPriceChange": null,
+      "volume24hr": 3795.146026,
+      "volume": 33525.205521,
+      "liquidity": 3676.4647,
+      "yes": 0.04,
+      "no": 0.96,
+      "oneDayPriceChange": -0.035,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.075
+          "price": 0.04
         },
         {
           "name": "No",
-          "price": 0.925
+          "price": 0.96
+        }
+      ]
+    },
+    {
+      "id": "553835",
+      "slug": "will-the-washington-capitals-win-the-2026-nhl-stanley-cup",
+      "question": "Will the Washington Capitals win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-washington-capitals-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 3454.3430530000005,
+      "volume": 195354.950904,
+      "liquidity": 85285.06514,
+      "yes": 0.016,
+      "no": 0.984,
+      "oneDayPriceChange": -0.0025,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.016
+        },
+        {
+          "name": "No",
+          "price": 0.984
+        }
+      ]
+    },
+    {
+      "id": "553832",
+      "slug": "will-the-new-jersey-devils-win-the-2026-nhl-stanley-cup",
+      "question": "Will the New Jersey Devils win the 2026 NHL Stanley Cup?",
+      "url": "https://polymarket.com/event/2026-nhl-stanley-cup-champion/will-the-new-jersey-devils-win-the-2026-nhl-stanley-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/stanley-cup-champion-2026-05M0VRODAaEb.jpg",
+      "endDate": "2026-06-30T00:00:00Z",
+      "volume24hr": 3143.5416560000003,
+      "volume": 183753.38187,
+      "liquidity": 89615.55557,
+      "yes": 0.0045,
+      "no": 0.9955,
+      "oneDayPriceChange": 0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0045
+        },
+        {
+          "name": "No",
+          "price": 0.9955
         }
       ]
     }
