@@ -1,23 +1,28 @@
 # עדכון הנתונים באתר
 
-האתר מציג מחירים מ־`data/spread_data.json`. הפרויקט **לא משתמש ב־WordPress** – האתר סטטי ב־Vercel.
+האתר מציג מחירים מ־`data/spread_data.json` ו־`spread_data.json`. הפרויקט אתר סטטי ב־Vercel.
 
 ---
 
 ## איך הנתונים מתעדכנים
 
-**אין צורך לעשות כלום ידנית.**
+- ה־workflow **Update spread data** רץ:
+  - **כל 15 דקות** (schedule)
+  - **בכל push ל־main** (גם עדכון קוד מעלה נתונים חדשים)
+  - **ידנית:** Actions → Update spread data → Run workflow
+- הסקריפט מעדכן את שני הקבצים ועושה commit + push; Vercel עושה deploy והאתר מקבל נתונים עדכניים.
 
-- ה־workflow **`.github/workflows/update_data.yml`** רץ אוטומטית **כל 15 דקות** ב־GitHub.
-- הוא מריץ את `src/spread_detector.py`, מעדכן את `data/spread_data.json`, ועושה commit + push.
-- Vercel מזהה את ה־push ומבצע deploy מחדש – והאתר החי מקבל את הקובץ המעודכן.
+---
+
+## אם הנתונים לא מתעדכנים (למשל "4 days old")
+
+1. **הרצה עכשיו (ידנית):** ב־GitHub → **Actions** → **Update spread data** → **Run workflow** (כפתור ירוק). אחרי שהריצה מסתיימת בהצלחה, האתר יתעדכן אחרי ה־deploy ב־Vercel.
+2. **הרשאות ל־workflow:** ב־GitHub → **Settings** → **Actions** → **General** → **Workflow permissions** → בחר **Read and write permissions** (כדי שה־workflow יוכל לעשות push).
+3. **אם ה־schedule לא רץ:** GitHub מפסיק scheduled workflows אחרי חודשיים ללא פעילות ב־repo. כל push ל־main מפעיל את ה־workflow ומרענן נתונים, אז די ב־push אחד כדי להחזיר עדכונים.
 
 ---
 
 ## בדיקה
 
-1. **GitHub:** Repo → **Actions** → "Update spread data" – אמור לרוץ כל 15 דקות.
-2. **הרצה ידנית:** Actions → Update spread data → **Run workflow**.
-3. **באתר:** בדף הבית – "Last updated" אמור להתקדם, ומחיר BTC קרוב למחיר הנוכחי (למשל ב־Binance).
-
-אם "Last updated" לא מתעדכן – וודא ש־Vercel מחובר ל־repo ושבנייה רצה אחרי כל push.
+- **Actions:** ריצות של "Update spread data" מסתיימות ב־green, ויש commit "chore: update spread_data.json [automated]".
+- **באתר:** "Last updated" מתקדם, ומחיר BTC קרוב למחיר ב־Binance.
