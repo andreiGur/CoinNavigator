@@ -1011,11 +1011,20 @@
 
             const candidates = [];
             for (const origin of origins) {
-                candidates.push(new URL('/spread_data.json', origin).toString());
                 candidates.push(new URL('/data/spread_data.json', origin).toString());
+                candidates.push(new URL('/spread_data.json', origin).toString());
             }
 
             let lastError = null;
+            let bestPayload = null;
+            let bestTs = -Infinity;
+
+            const parseTs = (payload) => {
+                if (!payload || !payload.timestamp) return -Infinity;
+                const t = Date.parse(payload.timestamp);
+                return Number.isFinite(t) ? t : -Infinity;
+            };
+
             for (const baseUrl of candidates) {
                 const url = baseUrl + '?v=' + Date.now();
                 try {
@@ -1024,11 +1033,20 @@
                         lastError = new Error(`HTTP ${res.status} for ${baseUrl}`);
                         continue;
                     }
-                    return await res.json();
+                    const payload = await res.json();
+                    const ts = parseTs(payload);
+                    if (ts > bestTs) {
+                        bestTs = ts;
+                        bestPayload = payload;
+                        // If it's fresh (<= 30 minutes), return immediately.
+                        if (Date.now() - ts <= 30 * 60 * 1000) return bestPayload;
+                    }
                 } catch (e) {
                     lastError = e;
                 }
             }
+
+            if (bestPayload) return bestPayload;
             throw lastError ?? new Error('Failed to fetch spread data');
         }
 
