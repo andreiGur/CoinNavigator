@@ -25,6 +25,90 @@
       gtag('config', 'G-9L1137PQ6P');
     </script>
 
+    <!-- Structured data (AEO/SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.coinnavigator.net/#org",
+          "name": "CoinNavigator",
+          "url": "https://www.coinnavigator.net/",
+          "logo": "https://www.coinnavigator.net/favicon.svg"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.coinnavigator.net/#website",
+          "url": "https://www.coinnavigator.net/",
+          "name": "CoinNavigator",
+          "publisher": { "@id": "https://www.coinnavigator.net/#org" }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://www.coinnavigator.net/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is crypto arbitrage?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Crypto arbitrage is attempting to profit from price differences for the same asset across exchanges. You buy on the cheaper venue and sell on the more expensive one. Real outcomes depend on fees, slippage, and transfer time."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How often does CoinNavigator update spread data?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The spread monitor is designed to refresh frequently, and the site states an update cadence of every 15 minutes. If an exchange API is rate-limited or unavailable, some rows may show partial data."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this financial advice?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. CoinNavigator is for educational and informational purposes only. Always verify prices, fees, and risks before acting."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you use affiliate links?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Some links may become partner links later and support the project at no extra cost. The site avoids dropping raw affiliate links without context and instead routes users to review pages with explanations."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "HowTo",
+          "@id": "https://www.coinnavigator.net/#howto-arbitrage",
+          "name": "How to use the arbitrage spread monitor",
+          "description": "Use the live spread monitor to identify best buy/sell venues, then validate costs and execution risk before attempting any trade.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Open the live spread monitor",
+              "text": "Scroll to the Live Spread Monitor section to see current best buy and best sell venues per asset."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Check the best buy and best sell",
+              "text": "For a given asset, note the recommended buy exchange and sell exchange and the spread percentage."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Validate fees and transfer constraints",
+              "text": "Before acting, account for trading fees, withdrawal fees, slippage, and transfer time. Spreads can disappear quickly."
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,6 +175,7 @@
             position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid var(--border);
             gap: 0.75rem;
+            flex-wrap: wrap;
         }
         .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 4px; }
         .logo i { color: var(--primary); }
@@ -98,6 +183,23 @@
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
         .nav-links a:hover { color: var(--primary-light); }
+
+        .nav-toggle {
+            display: none;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.10);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 0.55rem 0.75rem;
+            font-weight: 900;
+            cursor: pointer;
+            min-height: 44px;
+            min-width: 44px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .nav-toggle:hover { border-color: rgba(129, 140, 248, 0.7); }
 
         .nav-cta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 
@@ -173,6 +275,39 @@
             flex-wrap: wrap;
             animation: fadeUp 700ms ease-out 120ms both;
         }
+
+        .hero-viz {
+            max-width: 980px;
+            margin: 2rem auto 0;
+            text-align: left;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 22px;
+            padding: 1.1rem 1.1rem;
+            animation: fadeUp 700ms ease-out 180ms both;
+        }
+        .viz-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .viz-title { font-weight: 900; letter-spacing: -0.01em; }
+        .viz-sub { color: var(--text-muted); font-size: 0.9rem; }
+        .viz-bars { margin-top: 0.85rem; display: grid; gap: 0.55rem; }
+        .viz-row { display: grid; grid-template-columns: 110px 1fr 90px; gap: 0.75rem; align-items: center; }
+        .viz-sym { font-weight: 900; }
+        .viz-bar {
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+        .viz-bar > span {
+            display: block;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(16,185,129,0.95), rgba(129,140,248,0.95));
+            border-radius: 999px;
+            transition: width 420ms ease;
+        }
+        .viz-val { font-family: 'JetBrains Mono', monospace; font-weight: 900; color: var(--accent); text-align: right; }
 
         .trust-row {
             margin-top: 1.5rem;
@@ -549,9 +684,29 @@
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            nav { padding: 0.9rem 1rem; flex-wrap: wrap; }
-            .logo { width: 100%; justify-content: center; }
+            nav { padding: 0.9rem 1rem; }
+            .nav-toggle { display: inline-flex; margin-left: auto; }
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0.55rem;
+                padding: 0.85rem 0.15rem 0.25rem;
+            }
+            nav.nav-open .nav-links { display: flex; }
+            .nav-links a {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                padding: 0.75rem 0.85rem;
+                border-radius: 14px;
+                border: 1px solid rgba(255,255,255,0.08);
+                background: rgba(255,255,255,0.02);
+                color: var(--text-main);
+                font-weight: 800;
+            }
+            .nav-links a:hover { border-color: rgba(129, 140, 248, 0.65); color: var(--text-main); }
             .nav-cta { width: 100%; justify-content: center; }
             .select { flex: 1 1 140px; min-width: 140px; }
             .nav-cta .btn { flex: 1 1 180px; justify-content: center; }
@@ -572,6 +727,10 @@
             .pm-section { margin-left: 0.5rem; margin-right: 0.5rem; }
             .pm-q { word-wrap: break-word; overflow-wrap: break-word; }
 
+            .hero-viz { padding: 0.95rem 0.9rem; }
+            .viz-row { grid-template-columns: 88px 1fr 72px; gap: 0.6rem; }
+            .viz-sub { font-size: 0.85rem; }
+
             /* On mobile: compact table (no horizontal scroll) */
             th:nth-child(2), td:nth-child(2) { display: none; } /* Buy */
             th:nth-child(3), td:nth-child(3) { display: none; } /* Sell */
@@ -591,29 +750,63 @@
 
     <nav>
         <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+        <button class="nav-toggle focus-ring" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
         <ul class="nav-links">
-            <li><a href="/polymarket/">Polymarket</a></li>
-            <li><a href="#dashboard">Market Spreads</a></li>
-            <li><a href="#learn">Learn</a></li>
-            <li><a href="/binance-review/">Exchanges</a></li>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/" aria-current="page" data-track="nav_home">Home <i class="fas fa-house" aria-hidden="true"></i></a></li>
+            <li><a href="/#dashboard" data-track="nav_monitor">Arbitrage Monitor <i class="fas fa-table" aria-hidden="true"></i></a></li>
+            <li><a href="/polymarket/" data-track="nav_polymarket">Polymarket <i class="fas fa-fire" aria-hidden="true"></i></a></li>
+            <li><a href="/blog/" data-track="nav_guides">Guides <i class="fas fa-graduation-cap" aria-hidden="true"></i></a></li>
+            <li><a href="/binance-review/" data-track="nav_reviews">Reviews <i class="fas fa-building-columns" aria-hidden="true"></i></a></li>
+            <li><a href="/about/" data-track="nav_about">About <i class="fas fa-circle-info" aria-hidden="true"></i></a></li>
         </ul>
     </nav>
 
     <header class="hero">
         <h1>Find Crypto Arbitrage Opportunities in Real Time</h1>
         <p>Compare prices across top exchanges and track crowd-based probabilities (Polymarket) — with transparent data, beginner-friendly explanations, and trusted recommendations.</p>
+        <p class="muted" style="max-width: 820px; margin: 0.75rem auto 0; font-size: 0.98rem;">
+            <b>Quick answer:</b> This page shows the best observed buy/sell venues per asset and the current spread, plus a Polymarket “what’s hot” module. Always factor in fees, slippage, and transfer time — this is informational only, not financial advice.
+        </p>
 
         <div class="hero-cta" id="start">
             <a class="btn btn-primary" href="#dashboard" data-track="hero_start"><i class="fas fa-bolt"></i> Start Exploring Spreads</a>
         </div>
 
+        <div class="hero-viz" id="hero-viz" aria-live="polite">
+            <div class="viz-head">
+                <div>
+                    <div class="viz-title">Live snapshot: top spreads right now</div>
+                    <div class="viz-sub" id="hero-viz-sub">Loading live data…</div>
+                </div>
+                <a class="btn btn-ghost" href="#dashboard" style="padding: 0.75rem 1rem; font-size: 0.9rem; box-shadow: none;" data-track="hero_snapshot_open">
+                    <i class="fas fa-table" aria-hidden="true"></i> Open monitor
+                </a>
+            </div>
+            <div class="viz-bars" id="hero-viz-bars" role="list">
+                <div class="viz-row" role="listitem">
+                    <div class="viz-sym">—</div>
+                    <div class="viz-bar"><span style="width: 30%"></span></div>
+                    <div class="viz-val">—</div>
+                </div>
+                <div class="viz-row" role="listitem">
+                    <div class="viz-sym">—</div>
+                    <div class="viz-bar"><span style="width: 18%"></span></div>
+                    <div class="viz-val">—</div>
+                </div>
+                <div class="viz-row" role="listitem">
+                    <div class="viz-sym">—</div>
+                    <div class="viz-bar"><span style="width: 12%"></span></div>
+                    <div class="viz-val">—</div>
+                </div>
+            </div>
+        </div>
+
         <div class="trust-row">
-            <span class="pill"><i class="fas fa-shield-halved"></i> Transparent methodology</span>
-            <span class="pill"><i class="fas fa-database"></i> Data sourced from exchange APIs</span>
-            <span class="pill"><i class="fas fa-clock"></i> Updates every 15 minutes</span>
+            <a class="pill focus-ring" href="/methodology/" data-track="trust_methodology"><i class="fas fa-shield-halved"></i> Transparent methodology</a>
+            <a class="pill focus-ring" href="/methodology/#sources" data-track="trust_sources"><i class="fas fa-database"></i> Data sourced from exchange APIs</a>
+            <a class="pill focus-ring" href="/methodology/#freshness" data-track="trust_freshness"><i class="fas fa-clock"></i> Updates every 15 minutes</a>
         </div>
     </header>
 
@@ -1265,13 +1458,10 @@
 
                     const actionHtml = hasBest
                         ? `<div class="row-actions">
-                             <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Recommended exchange for buy leg: ${info.best_buy.exchange}" data-track="table_buy_review" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy (review)</a>
-                             <a class="btn-mini" href="${sellReviewUrl}" title="Recommended exchange for sell leg: ${info.best_sell.exchange}" data-track="table_sell_review" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell (review)</a>
-                             <a class="btn-mini" href="${buySignupUrl}" title="Why ${info.best_buy.exchange} is recommended" data-aff="signup-buy" data-track="table_exchange_open" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-user-plus"></i> ${info.best_buy.exchange}</a>
-                             <a class="btn-mini" href="${sellSignupUrl}" title="Why ${info.best_sell.exchange} is recommended" data-aff="signup-sell" data-track="table_exchange_open" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-user-plus"></i> ${info.best_sell.exchange}</a>
-                             <a class="btn-mini" href="#how-it-works" title="Learn how arbitrage works"><i class="fas fa-graduation-cap"></i> Learn</a>
-                             <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
+                             <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Buy leg: ${info.best_buy.exchange} (review)" data-track="table_buy_review" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
+                             <a class="btn-mini" href="${sellReviewUrl}" title="Sell leg: ${info.best_sell.exchange} (review)" data-track="table_sell_review" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
                              <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
+                             <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
                            </div>`
                         : `<span class="muted">Partial data</span>`;
 
@@ -1340,6 +1530,59 @@
                 assetCountDiv.innerText = count;
                 maxSpreadDiv.innerText = highestSpread > 0 ? (highestSpread.toFixed(3) + '%') : '--';
                 track('dashboard_render', { assets: count });
+
+                // Hero snapshot (top spreads)
+                try {
+                    const bars = document.getElementById('hero-viz-bars');
+                    const sub = document.getElementById('hero-viz-sub');
+                    if (bars) {
+                        const rows = [];
+                        for (const [sym, info] of Object.entries(data.symbols || {})) {
+                            const hasBest = info && info.best_buy && info.best_sell;
+                            const sp = (typeof info.spread_percent === 'number') ? (info.spread_percent * 100) : null;
+                            if (!hasBest || sp == null || !Number.isFinite(sp) || sp <= 0) continue;
+                            rows.push({
+                                sym,
+                                pct: sp,
+                                buy: info.best_buy.exchange,
+                                sell: info.best_sell.exchange,
+                            });
+                        }
+                        rows.sort((a, b) => b.pct - a.pct);
+                        const top = rows.slice(0, 5);
+                        const max = top.length ? Math.max(...top.map(x => x.pct)) : 0;
+
+                        if (sub) {
+                            const ts = data && data.timestamp ? new Date(data.timestamp) : null;
+                            const stamp = ts ? ts.toLocaleString() : '—';
+                            sub.innerHTML = top.length
+                                ? `Based on latest refresh (${stamp}). Bars show relative spread size.`
+                                : `No reliable spreads to display right now (data may be partial).`;
+                        }
+
+                        if (!top.length) {
+                            bars.innerHTML = `
+                                <div class="viz-row" role="listitem">
+                                    <div class="viz-sym">—</div>
+                                    <div class="viz-bar"><span style="width: 0%"></span></div>
+                                    <div class="viz-val">—</div>
+                                </div>`;
+                        } else {
+                            bars.innerHTML = top.map((r) => {
+                                const label = r.sym.replace('USDT', '');
+                                const width = max > 0 ? Math.max(6, Math.min(100, (r.pct / max) * 100)) : 0;
+                                const title = `${label}: buy ${r.buy} → sell ${r.sell}`;
+                                return `
+                                    <div class="viz-row" role="listitem" title="${title}">
+                                        <div class="viz-sym">${label}</div>
+                                        <div class="viz-bar"><span style="width: ${width.toFixed(0)}%"></span></div>
+                                        <div class="viz-val">${r.pct.toFixed(3)}%</div>
+                                    </div>
+                                `;
+                            }).join('');
+                        }
+                    }
+                } catch {}
                 
                 if (data.timestamp) {
                     const date = new Date(data.timestamp);
@@ -1446,6 +1689,27 @@
             };
             track(name, params);
         });
+
+        // Mobile navigation toggle
+        (function initMobileNav() {
+            const nav = document.querySelector('nav');
+            const btn = document.getElementById('nav-toggle');
+            if (!nav || !btn) return;
+
+            btn.addEventListener('click', () => {
+                const open = nav.classList.toggle('nav-open');
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                track('nav_toggle', { open: open ? 1 : 0 });
+            });
+
+            nav.querySelectorAll('a').forEach((a) => {
+                a.addEventListener('click', () => {
+                    if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
+                    nav.classList.remove('nav-open');
+                    btn.setAttribute('aria-expanded', 'false');
+                });
+            });
+        })();
     </script>
 </body>
 </html>

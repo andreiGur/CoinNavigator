@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology & Data Notes | CoinNavigator</title>
+  <meta name="description" content="How CoinNavigator sources crypto prices and Polymarket probabilities, how spreads are calculated, and what the key limitations are (fees, slippage, delays)." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/methodology/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Methodology & Data Notes | CoinNavigator" />
+  <meta property="og:description" content="How CoinNavigator sources crypto prices and Polymarket probabilities, how spreads are calculated, and what the key limitations are (fees, slippage, delays)." />
+  <meta property="og:url" content="https://www.coinnavigator.net/methodology/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15;
+      z-index: -2;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+    }
+
+    nav {
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 1.1rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .logo { font-size: 1.25rem; font-weight: 900; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 1.25rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 800; font-size: 0.92rem; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--primary-light); }
+    .nav-toggle {
+      display: none;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text-main);
+      border-radius: 12px;
+      padding: 0.55rem 0.75rem;
+      font-weight: 900;
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .container { max-width: 980px; margin: 0 auto; padding: 2.25rem 1.25rem; }
+    .hero {
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.06) 0%, transparent 60%);
+      border: 1px solid rgba(99, 102, 241, 0.12);
+      border-radius: 24px;
+      padding: 1.65rem;
+    }
+    h1 { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
+    .lead { margin-top: 0.75rem; color: var(--text-muted); max-width: 860px; }
+    .pill-row { margin-top: 1rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+    .pill i { color: var(--accent); }
+
+    .grid { margin-top: 1.1rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 1.15rem;
+    }
+    .card h2 { font-size: 1.1rem; letter-spacing: -0.01em; }
+    .card p, .card li { color: var(--text-muted); margin-top: 0.6rem; }
+    .card ul { margin-top: 0.6rem; padding-left: 1.15rem; }
+    .callout {
+      margin-top: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      border-radius: 18px;
+      padding: 1rem 1.1rem;
+      color: var(--text-muted);
+    }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .muted { color: var(--text-muted); }
+    .small { font-size: 0.9rem; }
+    footer { text-align: center; padding: 3.5rem 1.25rem; color: var(--text-muted); font-size: 0.9rem; }
+    .footer-links { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; justify-content: center; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 800; }
+    .footer-links a:hover { color: var(--primary-light); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0.95rem 1rem; }
+      .nav-toggle { display: inline-flex; margin-left: auto; }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.55rem;
+        padding: 0.85rem 0.15rem 0.25rem;
+      }
+      nav.nav-open .nav-links { display: flex; }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0.75rem 0.85rem;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.02);
+        color: var(--text-main);
+        font-weight: 800;
+      }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/" data-track="nav_home">Home <i class="fas fa-house" aria-hidden="true"></i></a></li>
+      <li><a href="/#dashboard" data-track="nav_monitor">Arbitrage Monitor <i class="fas fa-table" aria-hidden="true"></i></a></li>
+      <li><a href="/polymarket/" data-track="nav_polymarket">Polymarket <i class="fas fa-fire" aria-hidden="true"></i></a></li>
+      <li><a href="/blog/" data-track="nav_guides">Guides <i class="fas fa-graduation-cap" aria-hidden="true"></i></a></li>
+      <li><a href="/binance-review/" data-track="nav_reviews">Reviews <i class="fas fa-building-columns" aria-hidden="true"></i></a></li>
+      <li><a href="/about/" data-track="nav_about">About <i class="fas fa-circle-info" aria-hidden="true"></i></a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero" id="methodology">
+      <h1>Methodology & Data Notes</h1>
+      <p class="lead">
+        CoinNavigator shows spreads by comparing prices across exchanges, and highlights prediction markets by attention (24h volume) from Polymarket.
+        This page explains <b>where the data comes from</b>, <b>how spreads are computed</b>, and <b>what can go wrong</b> (fees, slippage, delays).
+      </p>
+      <div class="pill-row">
+        <a class="pill" href="#sources"><i class="fas fa-database"></i> Data sources</a>
+        <a class="pill" href="#freshness"><i class="fas fa-clock"></i> Freshness</a>
+        <a class="pill" href="#limits"><i class="fas fa-triangle-exclamation"></i> Limitations</a>
+      </div>
+
+      <div class="callout" id="freshness" style="margin-top: 1.1rem;">
+        <div style="font-weight:900; color: var(--text-main); letter-spacing:-0.01em;">Live freshness status</div>
+        <div class="muted small" id="freshness-status" style="margin-top: 0.35rem;">Loading latest timestamps…</div>
+        <div class="muted small mono" id="freshness-raw" style="margin-top: 0.5rem; opacity: 0.9;"></div>
+      </div>
+    </section>
+
+    <section class="grid" style="margin-top: 1.1rem;">
+      <article class="card" id="sources">
+        <h2><i class="fas fa-database" style="color:var(--accent)"></i> Data sources</h2>
+        <p>
+          <b>Spreads</b> come from public exchange APIs (ticker/price endpoints). We select the best observed buy/sell venues per asset and compute the spread.
+        </p>
+        <ul>
+          <li><b>Exchange prices</b>: third-party APIs (availability and rate-limits vary).</li>
+          <li><b>Polymarket</b>: market metadata + YES/NO prices used as implied probabilities.</li>
+          <li><b>Region handling</b>: internal links may include a <span class="mono">region</span> parameter to show context-first recommendations.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="calc">
+        <h2><i class="fas fa-calculator" style="color:var(--accent)"></i> How spreads are calculated</h2>
+        <p>
+          For each asset, we compare observed prices across venues and compute:
+        </p>
+        <p class="mono small" style="margin-top: 0.6rem;">
+          spread% = (bestSell - bestBuy) / bestBuy
+        </p>
+        <p class="small">
+          Important: this is a <b>gross</b> signal. Your net result depends on fees, slippage, withdrawals, and time-to-transfer.
+        </p>
+      </article>
+
+      <article class="card" id="limits">
+        <h2><i class="fas fa-triangle-exclamation" style="color:var(--accent)"></i> Known limitations</h2>
+        <ul>
+          <li><b>Fees</b>: maker/taker, withdrawal, deposit, and network fees can erase a spread.</li>
+          <li><b>Slippage</b>: the price you get may differ from the ticker price.</li>
+          <li><b>Latency</b>: prices move fast; spreads can disappear before execution.</li>
+          <li><b>Transfer time</b>: moving assets between venues can take minutes to hours.</li>
+          <li><b>Partial outages</b>: an exchange API can fail or block requests temporarily.</li>
+        </ul>
+        <p class="small" style="margin-top: 0.75rem;">
+          Always verify on the exchange UI and read the risk notes in <a href="/terms/" style="color:var(--primary-light);font-weight:900;text-decoration:none;">Terms</a>.
+        </p>
+      </article>
+
+      <article class="card" id="polymarket">
+        <h2><i class="fas fa-fire" style="color:var(--accent)"></i> Polymarket notes</h2>
+        <p>
+          We sort markets by <b>24h volume</b> to surface what’s attracting attention.
+          YES/NO prices are shown as implied probability and are informational only.
+        </p>
+        <ul>
+          <li><b>Freshness</b>: the “hot events” file is typically refreshed daily.</li>
+          <li><b>Interpretation</b>: a probability reflects market consensus, not certainty.</li>
+          <li><b>Risk</b>: prediction markets involve risk; do your own research.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div>&copy; 2026 CoinNavigator</div>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="/methodology/" aria-current="page">Methodology</a>
+    </div>
+    <div style="margin-top:1rem;opacity:.75;">Not financial advice. Data may be delayed or incomplete.</div>
+  </footer>
+
+  <script>
+    function fmtAge(ts) {
+      const t = Date.parse(ts);
+      if (!Number.isFinite(t)) return null;
+      const h = (Date.now() - t) / (1000 * 60 * 60);
+      if (!Number.isFinite(h)) return null;
+      if (h < 0) return 'in the future';
+      if (h < 1) return `${Math.max(1, Math.floor(h * 60))}m ago`;
+      if (h < 24) return `${Math.floor(h)}h ago`;
+      return `${Math.floor(h / 24)}d ago`;
+    }
+
+    async function fetchJson(url) {
+      const res = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    }
+
+    async function fetchWithFallback(paths) {
+      let last = null;
+      for (const p of paths) {
+        try { return await fetchJson(p); } catch (e) { last = e; }
+      }
+      throw last || new Error('Fetch failed');
+    }
+
+    // Mobile nav toggle
+    (function initMobileNav() {
+      const nav = document.querySelector('nav');
+      const btn = document.getElementById('nav-toggle');
+      if (!nav || !btn) return;
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', () => {
+          if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
+          nav.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
+    (async function initFreshness() {
+      const el = document.getElementById('freshness-status');
+      const raw = document.getElementById('freshness-raw');
+      try {
+        const origins = [window.location.origin, 'https://www.coinnavigator.net'];
+        const spreadPaths = origins.flatMap(o => [new URL('/data/spread_data.json', o).toString(), new URL('/spread_data.json', o).toString()]);
+        const pmPaths = origins.flatMap(o => [new URL('/data/polymarket_hot.json', o).toString(), new URL('/polymarket_hot.json', o).toString()]);
+
+        const [spread, pm] = await Promise.allSettled([
+          fetchWithFallback(spreadPaths),
+          fetchWithFallback(pmPaths),
+        ]);
+
+        const spreadTs = (spread.status === 'fulfilled' && spread.value && spread.value.timestamp) ? spread.value.timestamp : null;
+        const pmTs = (pm.status === 'fulfilled' && pm.value && pm.value.timestamp) ? pm.value.timestamp : null;
+
+        const parts = [];
+        if (spreadTs) parts.push(`Spreads: ${new Date(spreadTs).toLocaleString()} (${fmtAge(spreadTs)})`);
+        if (pmTs) parts.push(`Polymarket: ${new Date(pmTs).toLocaleString()} (${fmtAge(pmTs)})`);
+        if (!parts.length) throw new Error('No timestamps available');
+
+        el.innerHTML = parts.join(' • ');
+        raw.textContent = `Raw timestamps: spreads=${spreadTs || '—'} | polymarket=${pmTs || '—'}`;
+      } catch (e) {
+        el.innerHTML = `<span style="color: var(--danger); font-weight: 900;">Could not load timestamps.</span> ${e.message}`;
+        raw.textContent = '';
+      }
+    })();
+  </script>
+</body>
+</html>
+
