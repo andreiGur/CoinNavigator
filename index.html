@@ -2068,18 +2068,6 @@
                     }
                 } catch {}
                 
-                if (data.timestamp) {
-                    const date = new Date(data.timestamp);
-                    const ageHours = (Date.now() - date.getTime()) / (1000 * 60 * 60);
-                    timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
-                    if (ageHours > 1) {
-                        timestampDiv.style.color = 'var(--danger)';
-                        timestampDiv.innerHTML += ` <span class="err">(${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} ago)</span>`;
-                    } else {
-                        timestampDiv.style.color = '';
-                    }
-                }
-
                 const banner = document.getElementById('data-freshness-banner');
                 if (banner) {
                     const date = data.timestamp ? new Date(data.timestamp) : null;
