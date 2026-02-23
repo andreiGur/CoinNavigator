@@ -8,11 +8,32 @@ import requests
 
 class SpreadDetector:
     def __init__(self):
-        self.symbols = [
-            "BTCUSDT", "ETHUSDT", "SOLUSDT", 
-            "XRPUSDT", "ADAUSDT", "DOGEUSDT", 
-            "DOTUSDT", "LINKUSDT", "MATICUSDT"
+        # Default set (top coins). You can override with env COINNAV_SYMBOLS, e.g.:
+        # COINNAV_SYMBOLS="BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,TRXUSDT"
+        default_symbols = [
+            "BTCUSDT", "ETHUSDT", "SOLUSDT",
+            "XRPUSDT", "TONUSDT",
+            "DOGEUSDT", "ADAUSDT", "BNBUSDT", "TRXUSDT",
+            "DOTUSDT", "LINKUSDT", "LTCUSDT", "AVAXUSDT",
+            "MATICUSDT", "SHIBUSDT", "UNIUSDT", "XLMUSDT",
+            "NEARUSDT", "ATOMUSDT", "APTUSDT",
         ]
+
+        raw = (os.environ.get("COINNAV_SYMBOLS") or "").strip()
+        if raw:
+            parsed = []
+            for part in raw.replace(";", ",").split(","):
+                s = part.strip().upper()
+                if not s:
+                    continue
+                # Keep only simple tickers like BTCUSDT
+                s = "".join(ch for ch in s if ch.isalnum())
+                if not s:
+                    continue
+                parsed.append(s)
+            self.symbols = sorted(list(dict.fromkeys(parsed)))
+        else:
+            self.symbols = default_symbols
         self.data_dir = "data"
         os.makedirs(self.data_dir, exist_ok=True)
         self.session = requests.Session()
