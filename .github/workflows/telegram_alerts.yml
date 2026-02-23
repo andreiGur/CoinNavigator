@@ -1,0 +1,33 @@
+# Post a simple hourly alert to Telegram based on the latest spread_data.json.
+# Requires secrets:
+# - TELEGRAM_BOT_TOKEN
+# - TELEGRAM_CHAT_ID (channel username like @CoinNavigatorAlerts OR numeric chat id)
+name: Telegram spread alerts
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Post Telegram alert (or print)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SPREAD_DATA_PATH: data/spread_data.json
+        run: python src/telegram_alerts.py
+

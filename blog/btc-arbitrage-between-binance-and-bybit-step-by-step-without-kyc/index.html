@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTC Arbitrage Between Binance and Bybit: Step-by-Step (2026) | CoinNavigator</title>
+  <meta name="description" content="A step-by-step BTC arbitrage walkthrough using Binance and Bybit as an example: how to read the spread, validate fees, and avoid common execution mistakes." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/blog/btc-arbitrage-between-binance-and-bybit-step-by-step-without-kyc/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="BTC Arbitrage Between Binance and Bybit: Step-by-Step (2026) | CoinNavigator" />
+  <meta property="og:description" content="A step-by-step BTC arbitrage walkthrough using Binance and Bybit as an example: how to read the spread, validate fees, and avoid common execution mistakes." />
+  <meta property="og:url" content="https://www.coinnavigator.net/blog/btc-arbitrage-between-binance-and-bybit-step-by-step-without-kyc/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9L1137PQ6P');
+  </script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --primary:#6366f1; --primary-light:#818cf8; --accent:#10b981; --bg:#0b0f1a; --card-bg:#161b2a; --text-main:#f8fafc; --text-muted:#94a3b8; --border:#2d334a; --danger:#ef4444; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text-main);line-height:1.8;overflow-x:hidden}
+    html{scroll-behavior:smooth}
+    .bg-glow{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,rgba(99,102,241,.15) 0%,transparent 50%);z-index:-1;pointer-events:none}
+    .bg-grid{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:80px 80px;opacity:.15;z-index:-2;pointer-events:none;mask-image:radial-gradient(circle at 50% 30%,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 65%)}
+    nav{background:rgba(11,15,26,.8);backdrop-filter:blur(12px);padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);gap:.75rem}
+    .logo{font-size:1.5rem;font-weight:800;color:#fff;text-decoration:none;display:flex;align-items:center;gap:12px}
+    .logo i{color:var(--primary)}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-weight:500;font-size:.9rem;transition:all .2s}
+    .nav-links a:hover{color:var(--primary-light)}
+    .btn{border:1px solid transparent;border-radius:12px;font-weight:700;padding:.75rem 1.5rem;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,background .2s,border-color .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-light)}
+    .btn-ghost{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--text-main)}
+    .btn-ghost:hover{border-color:var(--primary)}
+    .container{max-width:860px;margin:0 auto;padding:3rem 2rem}
+    article{background:var(--card-bg);border:1px solid var(--border);border-radius:24px;padding:3rem}
+    h1{font-size:2.15rem;line-height:1.2;letter-spacing:-.02em}
+    .meta{margin-top:.75rem;color:var(--text-muted);display:flex;gap:1rem;flex-wrap:wrap;font-size:.95rem}
+    .meta i{color:var(--primary-light)}
+    h2{margin-top:2rem;font-size:1.35rem;letter-spacing:-.01em}
+    h3{margin-top:1.25rem;font-size:1.05rem;letter-spacing:-.01em}
+    p{margin-top:1rem;color:var(--text-muted)}
+    ul{margin-top:.75rem;padding-left:1.2rem;color:var(--text-muted)}
+    li{margin-top:.35rem}
+    a{color:var(--primary-light);font-weight:700;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .callout{margin-top:1.25rem;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02);border-radius:18px;padding:1.05rem 1.1rem}
+    .callout strong{color:var(--text-main)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .live-item{margin-top:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);border-radius:14px;padding:.85rem .9rem;display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:.35rem .55rem;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:var(--text-muted);font-weight:800;font-size:.85rem;text-decoration:none}
+    .pill i{color:var(--accent)}
+    footer{text-align:center;padding:3.5rem 2rem;color:var(--text-muted);font-size:.9rem}
+    .footer-links{margin-top:1rem;display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:center}
+    .footer-links a{color:var(--text-muted);font-weight:700;text-decoration:none}
+    .footer-links a:hover{color:var(--primary-light)}
+    @media (max-width:768px){.nav-links{display:none}.container{padding:2rem 1rem}article{padding:1.6rem}h1{font-size:1.75rem}}
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <ul class="nav-links">
+      <li><a href="/#dashboard">Market Spreads</a></li>
+      <li><a href="/dashboard/">Dashboard</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/methodology/">Methodology</a></li>
+    </ul>
+    <a class="btn btn-primary" href="/#dashboard"><i class="fas fa-table"></i> Live table</a>
+  </nav>
+
+  <main class="container">
+    <article>
+      <header>
+        <h1>BTC Arbitrage Between Binance and Bybit: Step‑by‑Step (2026)</h1>
+        <div class="meta">
+          <span><i class="fas fa-calendar"></i> February 18, 2026</span>
+          <span><i class="fas fa-clock"></i> 7 min read</span>
+          <span><i class="fas fa-triangle-exclamation"></i> Not financial advice</span>
+        </div>
+
+        <div class="callout">
+          <strong>Quick answer:</strong>
+          <span class="muted">
+            Arbitrage is an execution problem, not a theory problem. You need a real spread after fees, enough liquidity, and a workflow that doesn’t get stuck on withdrawals, limits, or delays. Use this BTC example to build your checklist.
+          </span>
+        </div>
+      </header>
+
+      <h2>Live BTC spread snapshot</h2>
+      <p>
+        CoinNavigator reads exchange tickers and computes the best observed buy/sell venues. Use the full table for search + filters:
+        <a href="/#dashboard">Open Live Spread Monitor</a>.
+      </p>
+      <div class="callout">
+        <div class="pill"><i class="fas fa-bitcoin-sign"></i> BTCUSDT</div>
+        <div class="muted small" id="btc-updated" style="margin-top: 0.6rem;">Loading…</div>
+        <div class="live-item" id="btc-live" aria-live="polite">
+          <span class="muted">Loading BTC…</span>
+        </div>
+      </div>
+
+      <h2>Step-by-step workflow</h2>
+      <h3>1) Confirm you can actually trade on both venues</h3>
+      <p>
+        Requirements vary by country and account status. Some users may need identity verification (KYC) depending on region, product, and limits.
+        Do not attempt to bypass exchange requirements.
+      </p>
+
+      <h3>2) Estimate your real costs</h3>
+      <ul>
+        <li><strong>Trading fees</strong> on both legs (buy + sell).</li>
+        <li><strong>Withdrawal fee</strong> (BTC or the asset you transfer).</li>
+        <li><strong>Deposit confirmations</strong> time (latency risk).</li>
+        <li><strong>Slippage</strong> from orderbook depth.</li>
+      </ul>
+
+      <h3>3) Decide: transfer BTC or transfer USDT?</h3>
+      <p>
+        Many “paper spreads” disappear because transfers take too long. Sometimes the better operational path is to keep balances on both exchanges and rebalance later.
+      </p>
+
+      <h3>4) Execute small, log everything</h3>
+      <p>
+        Your first runs are for learning. Track actual fills, fees, and how long it takes for deposits/withdrawals to settle.
+      </p>
+
+      <div class="callout">
+        <strong>Next:</strong>
+        <span class="muted">
+          Star BTC on the homepage and use <a href="/dashboard/">/dashboard</a> to track it and set a spread alert threshold.
+        </span>
+      </div>
+
+      <div class="callout" style="margin-top: 1.6rem;">
+        <a class="btn btn-primary" href="/#dashboard"><i class="fas fa-table"></i> Open Live Spread Monitor</a>
+        <a class="btn btn-ghost" href="/methodology/"><i class="fas fa-shield-halved"></i> Read Methodology</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator. Informational only.</p>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+    </div>
+  </footer>
+
+  <script>
+    async function fetchJsonWithFallback() {
+      const origins = [window.location.origin, 'https://www.coinnavigator.net'];
+      const candidates = [];
+      origins.forEach((o) => {
+        candidates.push(new URL('/data/spread_data.json', o).toString());
+        candidates.push(new URL('/spread_data.json', o).toString());
+      });
+      let lastError = null;
+      for (const baseUrl of candidates) {
+        const url = baseUrl + '?v=' + Date.now();
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) { lastError = new Error('HTTP ' + res.status); continue; }
+          return await res.json();
+        } catch (e) { lastError = e; }
+      }
+      throw lastError || new Error('Failed to fetch spread data');
+    }
+    function fmtUsd(v) {
+      if (typeof v !== 'number' || !Number.isFinite(v)) return '—';
+      return '$' + v.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+    function fmtPct(p) { return (typeof p === 'number' && Number.isFinite(p)) ? p.toFixed(3) + '%' : '—'; }
+
+    (async function initBtc() {
+      const box = document.getElementById('btc-live');
+      const updated = document.getElementById('btc-updated');
+      try {
+        const data = await fetchJsonWithFallback();
+        const info = data && data.symbols ? data.symbols.BTCUSDT : null;
+        if (updated && data && data.timestamp) updated.textContent = 'Updated: ' + new Date(data.timestamp).toLocaleString();
+        if (!info || !info.best_buy || !info.best_sell || typeof info.spread_percent !== 'number') {
+          box.innerHTML = `<span class="muted">BTC data not available right now.</span>`;
+          return;
+        }
+        const pct = info.spread_percent * 100;
+        box.innerHTML = `
+          <div>
+            <div style="font-weight:900;">Spread: <span class="mono">${fmtPct(pct)}</span></div>
+            <div class="muted small">Buy: <b>${info.best_buy.exchange}</b> @ ${fmtUsd(info.best_buy.price)} → Sell: <b>${info.best_sell.exchange}</b> @ ${fmtUsd(info.best_sell.price)}</div>
+          </div>
+          <div><a href="/#dashboard">Open table</a></div>
+        `;
+      } catch (e) {
+        if (updated) updated.textContent = 'Live feed unavailable';
+        if (box) box.innerHTML = `<span class="muted">Failed to load BTC.</span>`;
+      }
+    })();
+  </script>
+</body>
+</html>
+

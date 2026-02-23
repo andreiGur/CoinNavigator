@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoinNavigator | Crypto Arbitrage Opportunities in Real Time</title>
-    <meta name="description" content="Compare crypto prices across top exchanges, learn how arbitrage works, and choose the right exchange with trustworthy, transparent recommendations." />
+    <title>CoinNavigator — Real-Time Crypto Arbitrage | 2026</title>
+    <meta name="description" content="Compare crypto prices across top exchanges, scan spreads across 20+ coins, filter opportunities above 0.1%, and learn the risks. Transparent methodology. Updates every 15 minutes." />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#0b0f1a" />
 
@@ -114,6 +114,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
     <style>
         :root {
             --primary: #6366f1;
@@ -392,6 +393,109 @@
         .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
         .live-indicator { display: flex; align-items: center; gap: 3px; font-size: 0.7rem; color: var(--accent); font-weight: 600; }
         .dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+        .dashboard-controls {
+            margin-top: 0.6rem;
+            display: flex;
+            gap: 0.6rem 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.75rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+        }
+        .dc-left { display: flex; gap: 0.6rem 0.75rem; flex-wrap: wrap; align-items: center; }
+        .dc-right { display: flex; gap: 0.6rem 0.75rem; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+
+        .dc-field {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 14px;
+            padding: 0.55rem 0.7rem;
+            min-width: 260px;
+            flex: 1 1 260px;
+        }
+        .dc-field i { color: var(--primary-light); }
+        .dc-field input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text-main);
+            font-weight: 900;
+            font-size: 0.95rem;
+        }
+        .dc-clear {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.10);
+            color: var(--text-muted);
+            border-radius: 12px;
+            padding: 0.5rem 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .dc-clear:hover { border-color: rgba(129, 140, 248, 0.7); color: var(--text-main); }
+
+        .dc-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-weight: 900;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            user-select: none;
+            cursor: pointer;
+            padding: 0.35rem 0.55rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+        }
+        .dc-check input { accent-color: var(--primary-light); }
+        .dc-check:hover { border-color: rgba(129, 140, 248, 0.55); color: var(--text-main); }
+
+        .dc-select {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.10);
+            color: var(--text-main);
+            border-radius: 14px;
+            padding: 0.55rem 0.7rem;
+            font-weight: 900;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .dc-status { color: var(--text-muted); font-weight: 800; font-size: 0.85rem; }
+
+        .fav-btn {
+            border: 1px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            border-radius: 12px;
+            padding: 0.45rem 0.55rem;
+            cursor: pointer;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .fav-btn:hover { border-color: rgba(129, 140, 248, 0.65); color: var(--text-main); transform: translateY(-1px); }
+        .fav-btn.on { color: #fbbf24; border-color: rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.08); }
+
+        .spark-wrap {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: grid;
+            gap: 0.35rem;
+        }
+        .spark-meta { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; color: var(--text-muted); font-weight: 800; font-size: 0.82rem; }
+        .spark-canvas { width: 100%; height: 70px; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
@@ -741,6 +845,10 @@
             .btn-mini { padding: 0.65rem 0.9rem; font-size: 0.82rem; }
             .row-actions { gap: 0.4rem; }
             .table-wrap { overflow-x: hidden; }
+            .dashboard-controls { padding: 0.6rem 0.55rem; }
+            .dc-field { min-width: 0; flex: 1 1 100%; }
+            .dc-right { width: 100%; justify-content: flex-start; }
+            .dc-select { width: 100%; }
         }
     </style>
 </head>
@@ -756,6 +864,7 @@
         <ul class="nav-links">
             <li><a href="/" aria-current="page" data-track="nav_home">Home <i class="fas fa-house" aria-hidden="true"></i></a></li>
             <li><a href="/#dashboard" data-track="nav_monitor">Arbitrage Monitor <i class="fas fa-table" aria-hidden="true"></i></a></li>
+            <li><a href="/dashboard/" data-track="nav_dashboard">Dashboard <i class="fas fa-star" aria-hidden="true"></i></a></li>
             <li><a href="/polymarket/" data-track="nav_polymarket">Polymarket <i class="fas fa-fire" aria-hidden="true"></i></a></li>
             <li><a href="/blog/" data-track="nav_guides">Guides <i class="fas fa-graduation-cap" aria-hidden="true"></i></a></li>
             <li><a href="/binance-review/" data-track="nav_reviews">Reviews <i class="fas fa-building-columns" aria-hidden="true"></i></a></li>
@@ -906,6 +1015,38 @@
                 <div class="live-indicator">
                     <div class="dot"></div>
                     LIVE DATA
+                </div>
+            </div>
+            <div class="dashboard-controls" aria-label="Table controls">
+                <div class="dc-left">
+                    <div class="dc-field" title="Search a coin (e.g., BTC, ETH, SOL)">
+                        <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                        <input id="coin-search" type="search" placeholder="Search coin (BTC, ETH, SOL…)" autocomplete="off" list="coin-list" />
+                        <button class="dc-clear" id="coin-clear" type="button" title="Clear search">Clear</button>
+                    </div>
+                    <datalist id="coin-list"></datalist>
+                    <label class="dc-check" title="Show only spreads above 0.10%">
+                        <input id="only-gt-01" type="checkbox" />
+                        Only &gt;0.1%
+                    </label>
+                    <label class="dc-check" title="Show only USDT quoted pairs">
+                        <input id="only-usdt" type="checkbox" checked />
+                        Only USDT pairs
+                    </label>
+                    <label class="dc-check" title="All venues here are centralized exchanges today (DEX filter is future-proofing).">
+                        <input id="only-cex" type="checkbox" checked />
+                        Only CEX
+                    </label>
+                </div>
+                <div class="dc-right">
+                    <select class="dc-select" id="sort-by" title="Sort table">
+                        <option value="spread_desc">Sort: spread (high → low)</option>
+                        <option value="spread_asc">Sort: spread (low → high)</option>
+                        <option value="alpha">Sort: A → Z</option>
+                        <option value="volume_desc" disabled>Sort: volume (coming soon)</option>
+                        <option value="updated_desc" disabled>Sort: last update (coming soon)</option>
+                    </select>
+                    <div class="dc-status" id="table-status">—</div>
                 </div>
             </div>
             <div id="data-freshness-banner" class="data-freshness-banner hidden" role="alert" aria-live="polite"></div>
@@ -1364,172 +1505,515 @@
             });
         }
 
+        // Dashboard UI state (search/filters/sort)
+        const TARGET_TICKERS = [
+            'BTC','ETH','SOL','XRP','TON',
+            'DOGE','ADA','BNB','TRX','DOT',
+            'LINK','LTC','AVAX','MATIC','SHIB',
+            'UNI','XLM','NEAR','ATOM','APT',
+        ];
+        const TARGET_SYMBOLS = TARGET_TICKERS.map(t => t + 'USDT');
+
+        const TABLE_STATE = {
+            q: '',
+            onlyGt01: false,
+            onlyUsdt: true,
+            onlyCex: true,
+            sortBy: 'spread_desc',
+        };
+
+        let LAST_SPREAD_DATA = null;
+
+        // How-To modal helpers (used by table actions)
+        function openHowModal(payload) {
+            const modal = document.getElementById('how-modal');
+            const summary = document.getElementById('how-summary');
+            if (!modal || !summary) return;
+            summary.textContent = payload;
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeHowModal() {
+            const modal = document.getElementById('how-modal');
+            if (!modal) return;
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        (function initHowModalOnce() {
+            document.querySelectorAll('[data-close="how"]').forEach((el) => {
+                el.addEventListener('click', closeHowModal);
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeHowModal();
+            });
+        })();
+
+        function normalizeCoinQuery(q) {
+            const s = (q || '').toString().trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (!s) return '';
+            return s.endsWith('USDT') ? s : s;
+        }
+
+        function getFavs() {
+            try {
+                const raw = localStorage.getItem('coinnavigator_favs') || '[]';
+                const arr = JSON.parse(raw);
+                return Array.isArray(arr) ? arr.filter(Boolean) : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function setFavs(arr) {
+            try { localStorage.setItem('coinnavigator_favs', JSON.stringify(arr)); } catch {}
+        }
+
+        function toggleFav(symbol) {
+            const sym = (symbol || '').toString();
+            if (!sym) return;
+            const favs = new Set(getFavs());
+            if (favs.has(sym)) favs.delete(sym); else favs.add(sym);
+            setFavs(Array.from(favs));
+            track('fav_toggle', { sym });
+        }
+
+        // Spread history (local-only). Used by /dashboard.
+        const HISTORY_KEY = 'coinnavigator_spread_history_v1';
+        function loadHistory() {
+            try {
+                const raw = localStorage.getItem(HISTORY_KEY) || '{}';
+                const obj = JSON.parse(raw);
+                return (obj && typeof obj === 'object') ? obj : {};
+            } catch {
+                return {};
+            }
+        }
+        function saveHistory(obj) {
+            try { localStorage.setItem(HISTORY_KEY, JSON.stringify(obj)); } catch {}
+        }
+        function recordHistorySnapshot(data) {
+            try {
+                if (!data || !data.timestamp || !data.symbols) return;
+                const ts = data.timestamp;
+                const hist = loadHistory();
+                for (const sym of TARGET_SYMBOLS) {
+                    const info = data.symbols[sym];
+                    if (!info || typeof info.spread_percent !== 'number' || !Number.isFinite(info.spread_percent)) continue;
+                    const sp = info.spread_percent * 100;
+                    if (!hist[sym]) hist[sym] = [];
+                    const arr = hist[sym];
+                    const last = arr.length ? arr[arr.length - 1] : null;
+                    if (last && last.t === ts) continue;
+                    arr.push({ t: ts, s: sp });
+                    // Keep last ~14 days if updating every ~15m (approx 14*24*4 = 1344)
+                    if (arr.length > 1500) hist[sym] = arr.slice(-1500);
+                }
+                saveHistory(hist);
+            } catch {}
+        }
+
+        function syncCoinDatalist(extraSymbols) {
+            const dl = document.getElementById('coin-list');
+            if (!dl) return;
+            const set = new Set(TARGET_TICKERS);
+            if (extraSymbols && typeof extraSymbols === 'object') {
+                Object.keys(extraSymbols).forEach((sym) => {
+                    if (!sym) return;
+                    const t = sym.replace('USDT', '');
+                    if (t) set.add(t);
+                });
+            }
+            const opts = Array.from(set).sort().map((t) => `<option value="${t}"></option>`).join('');
+            dl.innerHTML = opts;
+        }
+
+        function readControlsIntoState() {
+            const qEl = document.getElementById('coin-search');
+            const gtEl = document.getElementById('only-gt-01');
+            const usdtEl = document.getElementById('only-usdt');
+            const cexEl = document.getElementById('only-cex');
+            const sortEl = document.getElementById('sort-by');
+            TABLE_STATE.q = qEl ? qEl.value : '';
+            TABLE_STATE.onlyGt01 = !!(gtEl && gtEl.checked);
+            TABLE_STATE.onlyUsdt = !!(usdtEl && usdtEl.checked);
+            TABLE_STATE.onlyCex = !!(cexEl && cexEl.checked);
+            TABLE_STATE.sortBy = sortEl ? (sortEl.value || 'spread_desc') : 'spread_desc';
+        }
+
+        function renderFromLastData() {
+            if (!LAST_SPREAD_DATA) return;
+            // Trigger a render pass without refetching data
+            try { renderDashboardTable(LAST_SPREAD_DATA); } catch {}
+        }
+
+        function initDashboardControls() {
+            const qEl = document.getElementById('coin-search');
+            const clearEl = document.getElementById('coin-clear');
+            const gtEl = document.getElementById('only-gt-01');
+            const usdtEl = document.getElementById('only-usdt');
+            const cexEl = document.getElementById('only-cex');
+            const sortEl = document.getElementById('sort-by');
+
+            const onChange = () => {
+                readControlsIntoState();
+                renderFromLastData();
+            };
+            if (qEl) qEl.addEventListener('input', onChange);
+            if (qEl) qEl.addEventListener('change', onChange);
+            if (gtEl) gtEl.addEventListener('change', onChange);
+            if (usdtEl) usdtEl.addEventListener('change', onChange);
+            if (cexEl) cexEl.addEventListener('change', onChange);
+            if (sortEl) sortEl.addEventListener('change', onChange);
+
+            if (clearEl && qEl) {
+                clearEl.addEventListener('click', () => {
+                    qEl.value = '';
+                    onChange();
+                });
+            }
+        }
+
+        function renderDashboardTable(data) {
+            const tbody = document.getElementById('spread-body');
+            const timestampDiv = document.getElementById('timestamp');
+            const maxSpreadDiv = document.getElementById('max-spread');
+            const assetCountDiv = document.getElementById('asset-count');
+            const statusDiv = document.getElementById('table-status');
+            if (!tbody) return;
+
+            const region = getRegion();
+            const buildReviewUrl = (path) => {
+                const u = new URL(path, window.location.origin);
+                u.searchParams.set('region', region);
+                return u.pathname + u.search;
+            };
+
+            // Separation rule: no direct affiliate URLs from homepage.
+            const REVIEW_PAGES = {
+                Binance: '/binance-review/',
+                MEXC: '/mexc-review/',
+                Bybit: '/bybit-arbitrage/',
+                OKX: '/okx-for-beginners/',
+                KuCoin: '/kucoin-review/',
+                Gate: '/gate-review/',
+            };
+
+            const qRaw = normalizeCoinQuery(TABLE_STATE.q);
+            const qTicker = qRaw.replace('USDT', '');
+            const minSpreadPct = TABLE_STATE.onlyGt01 ? 0.1 : 0;
+
+            // Universe: top-20 tickers (plus anything the API already provides)
+            const universe = Array.from(new Set([
+                ...TARGET_SYMBOLS,
+                ...Object.keys((data && data.symbols) || {}),
+            ]));
+
+            const rows = universe.map((symbol) => {
+                const info = (data && data.symbols && data.symbols[symbol]) ? data.symbols[symbol] : null;
+                const hasBest = !!(info && info.best_buy && info.best_sell);
+                const spreadPct = (info && typeof info.spread_percent === 'number' && Number.isFinite(info.spread_percent))
+                    ? info.spread_percent * 100
+                    : null;
+                const ticker = symbol.replace('USDT', '');
+                return { symbol, ticker, info, hasBest, spreadPct };
+            }).filter((r) => {
+                if (TABLE_STATE.onlyUsdt && !r.symbol.endsWith('USDT')) return false;
+                if (TABLE_STATE.onlyCex) {
+                    // Today: all venues are CEX. Keep for future-proofing.
+                }
+                if (minSpreadPct > 0) {
+                    if (r.spreadPct == null) return false;
+                    if (r.spreadPct < minSpreadPct) return false;
+                }
+                if (qTicker) {
+                    if (r.ticker === qTicker) return true;
+                    // Partial match while typing (e.g., "ET" -> ETH)
+                    if (r.ticker.includes(qTicker)) return true;
+                    return false;
+                }
+                return true;
+            });
+
+            rows.sort((a, b) => {
+                const aSp = (a.spreadPct == null) ? -Infinity : a.spreadPct;
+                const bSp = (b.spreadPct == null) ? -Infinity : b.spreadPct;
+                if (TABLE_STATE.sortBy === 'spread_asc') return aSp - bSp;
+                if (TABLE_STATE.sortBy === 'alpha') return a.ticker.localeCompare(b.ticker);
+                // Default: spread_desc
+                return bSp - aSp;
+            });
+
+            tbody.innerHTML = '';
+            const favs = new Set(getFavs());
+            let highestSpread = 0;
+
+            const fmt = (v) => (typeof v === 'number')
+                ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
+                : 'N/A';
+
+            for (const r of rows) {
+                const symbol = r.symbol;
+                const info = r.info || {};
+                const hasBest = r.hasBest;
+                const ticker = r.ticker;
+
+                const prices = (info.prices && Object.keys(info.prices).length)
+                    ? info.prices
+                    : {
+                        Binance: info.binance_price,
+                        Bybit: info.bybit_price,
+                    };
+
+                const hasSpread = typeof info.spread_percent === 'number' && hasBest;
+                let displaySpreadText = 'N/A';
+                let spreadDetails = hasBest ? `Buy ${info.best_buy.exchange} / Sell ${info.best_sell.exchange}` : 'Data coming soon';
+                if (hasSpread) {
+                    const displaySpread = info.spread_percent * 100;
+                    displaySpreadText = displaySpread.toFixed(4) + '%';
+                    if (displaySpread > highestSpread) highestSpread = displaySpread;
+                }
+
+                const buyText = hasBest ? `${info.best_buy.exchange} • ${fmt(info.best_buy.price)}` : '—';
+                const sellText = hasBest ? `${info.best_sell.exchange} • ${fmt(info.best_sell.price)}` : '—';
+
+                const buyUrl = hasBest ? (REVIEW_PAGES[info.best_buy.exchange] || '/binance-review/') : '#';
+                const sellUrl = hasBest ? (REVIEW_PAGES[info.best_sell.exchange] || '/binance-review/') : '#';
+                const buyReviewUrl = hasBest ? buildReviewUrl(buyUrl) : '#';
+                const sellReviewUrl = hasBest ? buildReviewUrl(sellUrl) : '#';
+
+                const actionHtml = hasBest
+                    ? `<div class="row-actions">
+                         <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Buy leg: ${info.best_buy.exchange} (review)" data-track="table_buy_review" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
+                         <a class="btn-mini" href="${sellReviewUrl}" title="Sell leg: ${info.best_sell.exchange} (review)" data-track="table_sell_review" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
+                         <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
+                         <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
+                       </div>`
+                    : `<span class="muted">Data coming soon</span>`;
+
+                const favOn = favs.has(symbol);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="symbol-box clickable" data-open="details" title="Click to open details">
+                            <button class="fav-btn ${favOn ? 'on' : ''}" type="button" data-fav="${symbol}" title="${favOn ? 'Remove from favorites' : 'Add to favorites'}">
+                                <i class="fa${favOn ? 's' : 'r'} fa-star" aria-hidden="true"></i>
+                            </button>
+                            <i class="fas fa-coins" style="color: #f7931a"></i>
+                            <span class="name">${ticker}</span>
+                        </div>
+                    </td>
+                    <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${buyReviewUrl}" title="Go to ${info.best_buy.exchange} review (region-aware)"><i class="fas fa-store"></i> ${buyText}</a>` : '<span class="muted">—</span>'}</td>
+                    <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${sellReviewUrl}" title="Go to ${info.best_sell.exchange} review (region-aware)"><i class="fas fa-store"></i> ${sellText}</a>` : '<span class="muted">—</span>'}</td>
+                    <td><span class="spread-val ${hasBest ? 'clickable' : ''}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></td>
+                    <td>${actionHtml}</td>
+                `;
+                tbody.appendChild(row);
+
+                // Details row (all exchange prices + chart placeholder)
+                const detailsRow = document.createElement('tr');
+                detailsRow.className = 'details-row';
+                detailsRow.style.display = 'none';
+                const errMap = (data.errors && data.errors[symbol]) ? data.errors[symbol] : null;
+                const exchangeKeys = Object.keys(prices || {});
+                const detailsItems = exchangeKeys.map((ex) => {
+                    const v = prices[ex];
+                    const err = errMap && errMap[ex] && typeof v !== 'number' ? errMap[ex] : null;
+                    const right = (typeof v === 'number') ? fmt(v) : (err ? `<span class="err">${err}</span>` : 'N/A');
+                    return `<div class="details-item"><span class="ex">${ex}</span><span class="val">${right}</span></div>`;
+                }).join('');
+                detailsRow.innerHTML = `<td colspan="5">
+                    <div class="details">
+                        <div class="muted" style="margin-bottom: 0.5rem;">All observed prices (some exchanges may be temporarily blocked).</div>
+                        <div class="details-grid">${detailsItems || '<div class="muted">No price details yet.</div>'}</div>
+                        <div class="spark-wrap">
+                            <div class="spark-meta">
+                                <span><i class="fas fa-chart-line"></i> 24h price (USD)</span>
+                                <span class="muted" data-spark-status="${symbol}">Open “Prices” to load chart</span>
+                            </div>
+                            <canvas class="spark-canvas" data-spark="${symbol}" height="70"></canvas>
+                        </div>
+                    </div>
+                </td>`;
+                tbody.appendChild(detailsRow);
+
+                const favBtn = row.querySelector(`button[data-fav="${symbol}"]`);
+                if (favBtn) {
+                    favBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFav(symbol);
+                        const nowOn = new Set(getFavs()).has(symbol);
+                        favBtn.classList.toggle('on', nowOn);
+                        favBtn.setAttribute('title', nowOn ? 'Remove from favorites' : 'Add to favorites');
+                        favBtn.innerHTML = `<i class="fa${nowOn ? 's' : 'r'} fa-star" aria-hidden="true"></i>`;
+                    });
+                }
+
+                const toggleBtn = row.querySelector('button[data-toggle="details"]');
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', () => {
+                        const next = (detailsRow.style.display === 'none') ? '' : 'none';
+                        detailsRow.style.display = next;
+                        if (next !== 'none') {
+                            const status = detailsRow.querySelector(`[data-spark-status="${symbol}"]`);
+                            if (status) status.textContent = 'Loading…';
+                            ensureSparkline(symbol, ticker, detailsRow);
+                        }
+                    });
+                }
+
+                const openDetails = () => {
+                    const next = (detailsRow.style.display === 'none') ? '' : 'none';
+                    detailsRow.style.display = next;
+                    if (next !== 'none') {
+                        const status = detailsRow.querySelector(`[data-spark-status="${symbol}"]`);
+                        if (status) status.textContent = 'Loading…';
+                        ensureSparkline(symbol, ticker, detailsRow);
+                    }
+                };
+                const symbolBox = row.querySelector('[data-open="details"]');
+                if (symbolBox) symbolBox.addEventListener('click', openDetails);
+
+                const openHow = () => {
+                    if (!hasBest) return;
+                    const msg = `${ticker}: Buy on ${info.best_buy.exchange} at ${fmt(info.best_buy.price)} • Sell on ${info.best_sell.exchange} at ${fmt(info.best_sell.price)} • Spread ${displaySpreadText}`;
+                    openHowModal(msg);
+                };
+                const howBtn = row.querySelector('button[data-open="how"]');
+                if (howBtn) howBtn.addEventListener('click', (e) => { e.preventDefault(); openHow(); });
+                const spreadBadge = row.querySelector('.spread-val[data-open="how"]');
+                if (spreadBadge) spreadBadge.addEventListener('click', (e) => { e.preventDefault(); openHow(); });
+            }
+
+            // Update counters
+            if (assetCountDiv) assetCountDiv.innerText = TARGET_SYMBOLS.length;
+            if (maxSpreadDiv) maxSpreadDiv.innerText = highestSpread > 0 ? (highestSpread.toFixed(3) + '%') : '--';
+            if (statusDiv) statusDiv.textContent = `Showing ${rows.length} / ${TARGET_SYMBOLS.length}`;
+
+            if (timestampDiv && data && data.timestamp) {
+                const date = new Date(data.timestamp);
+                const ageHours = (Date.now() - date.getTime()) / (1000 * 60 * 60);
+                timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
+                if (ageHours > 1) {
+                    timestampDiv.style.color = 'var(--danger)';
+                    timestampDiv.innerHTML += ` <span class="err">(${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} ago)</span>`;
+                } else {
+                    timestampDiv.style.color = '';
+                }
+            }
+        }
+
+        // Sparkline charts (CoinGecko + Chart.js)
+        const COINGECKO_IDS = {
+            BTC: 'bitcoin',
+            ETH: 'ethereum',
+            SOL: 'solana',
+            XRP: 'ripple',
+            TON: 'toncoin',
+            DOGE: 'dogecoin',
+            ADA: 'cardano',
+            BNB: 'binancecoin',
+            TRX: 'tron',
+            DOT: 'polkadot',
+            LINK: 'chainlink',
+            LTC: 'litecoin',
+            AVAX: 'avalanche-2',
+            MATIC: 'polygon-ecosystem-token',
+            SHIB: 'shiba-inu',
+            UNI: 'uniswap',
+            XLM: 'stellar',
+            NEAR: 'near',
+            ATOM: 'cosmos',
+            APT: 'aptos',
+        };
+
+        const SPARK_CACHE = new Map(); // key: cgId -> { ts, prices[] }
+        const SPARK_CHARTS = new Map(); // key: symbol -> Chart
+
+        async function fetchCoinGecko1d(cgId) {
+            const cached = SPARK_CACHE.get(cgId);
+            if (cached && (Date.now() - cached.ts) < 5 * 60 * 1000) return cached.prices;
+            const url = `https://api.coingecko.com/api/v3/coins/${encodeURIComponent(cgId)}/market_chart?vs_currency=usd&days=1&interval=hourly`;
+            const res = await fetch(url, { cache: 'no-store' });
+            if (!res.ok) throw new Error(`CoinGecko HTTP ${res.status}`);
+            const json = await res.json();
+            const prices = (json && Array.isArray(json.prices)) ? json.prices : [];
+            SPARK_CACHE.set(cgId, { ts: Date.now(), prices });
+            return prices;
+        }
+
+        async function ensureSparkline(symbol, ticker, detailsRowEl) {
+            try {
+                if (SPARK_CHARTS.has(symbol)) {
+                    const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
+                    if (status) status.textContent = 'Loaded';
+                    return;
+                }
+                if (!window.Chart) {
+                    const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
+                    if (status) status.textContent = 'Chart.js not available';
+                    return;
+                }
+                const cgId = COINGECKO_IDS[ticker];
+                const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
+                if (!cgId) {
+                    if (status) status.textContent = 'No chart source yet';
+                    return;
+                }
+                const canvas = detailsRowEl.querySelector(`canvas[data-spark="${symbol}"]`);
+                if (!canvas) return;
+                const pts = await fetchCoinGecko1d(cgId);
+                const ys = pts.map(p => p && typeof p[1] === 'number' ? p[1] : null).filter(v => v != null);
+                if (!ys.length) {
+                    if (status) status.textContent = 'No chart data';
+                    return;
+                }
+                const labels = ys.map((_, i) => i);
+                const ctx = canvas.getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            data: ys,
+                            borderColor: 'rgba(129, 140, 248, 0.95)',
+                            backgroundColor: 'rgba(129, 140, 248, 0.10)',
+                            tension: 0.25,
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                        scales: { x: { display: false }, y: { display: false } },
+                        animation: { duration: 250 },
+                    },
+                });
+                SPARK_CHARTS.set(symbol, chart);
+                if (status) status.textContent = 'Loaded';
+            } catch (e) {
+                const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
+                if (status) status.textContent = 'Failed to load';
+            }
+        }
+
         async function updateDashboard() {
             try {
                 console.log('Fetching data...');
                 const data = await fetchJsonWithFallback();
                 console.log('Data received:', data);
 
-                const tbody = document.getElementById('spread-body');
-                const timestampDiv = document.getElementById('timestamp');
-                const maxSpreadDiv = document.getElementById('max-spread');
-                const assetCountDiv = document.getElementById('asset-count');
-                
-                tbody.innerHTML = '';
-                let highestSpread = 0;
-                let count = 0;
+                LAST_SPREAD_DATA = data;
+                recordHistorySnapshot(data);
+                syncCoinDatalist((data && data.symbols) || {});
+                readControlsIntoState();
+                renderDashboardTable(data);
 
-                // Separation rule: no direct affiliate URLs from homepage.
-                // Homepage should link to internal review pages; review pages contain contextual CTA + (optional) affiliate link.
-                const REVIEW_PAGES = {
-                    Binance: '/binance-review/',
-                    MEXC: '/mexc-review/',
-                    Bybit: '/bybit-arbitrage/',
-                };
-
-                function openHowModal(payload) {
-                    const modal = document.getElementById('how-modal');
-                    const summary = document.getElementById('how-summary');
-                    if (!modal || !summary) return;
-                    summary.textContent = payload;
-                    modal.classList.add('open');
-                    modal.setAttribute('aria-hidden', 'false');
-                }
-
-                function closeHowModal() {
-                    const modal = document.getElementById('how-modal');
-                    if (!modal) return;
-                    modal.classList.remove('open');
-                    modal.setAttribute('aria-hidden', 'true');
-                }
-
-                document.querySelectorAll('[data-close="how"]').forEach((el) => {
-                    el.addEventListener('click', closeHowModal);
-                });
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') closeHowModal();
-                });
-
-                for (const [symbol, info] of Object.entries(data.symbols)) {
-                    count++;
-                    // Backwards-compatible fallback (older JSON only had binance_price/bybit_price).
-                    const prices = (info.prices && Object.keys(info.prices).length)
-                        ? info.prices
-                        : {
-                            Binance: info.binance_price,
-                            Bybit: info.bybit_price,
-                        };
-
-                    const hasBest = info.best_buy && info.best_sell;
-                    const hasSpread = typeof info.spread_percent === 'number' && (hasBest || info.higher_exchange);
-
-                    let displaySpreadText = 'N/A';
-                    let spreadDetails = '';
-                    if (hasSpread) {
-                        const displaySpread = info.spread_percent * 100;
-                        displaySpreadText = displaySpread.toFixed(4) + '%';
-                        if (displaySpread > highestSpread) highestSpread = displaySpread;
-                        if (info.best_buy && info.best_sell) {
-                            spreadDetails = `Buy ${info.best_buy.exchange} / Sell ${info.best_sell.exchange}`;
-                        } else if (info.higher_exchange) {
-                            spreadDetails = `Higher: ${info.higher_exchange}`;
-                        }
-                    }
-
-                    const fmt = (v) => (typeof v === 'number')
-                        ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
-                        : 'N/A';
-
-                    const buyText = hasBest ? `${info.best_buy.exchange} • ${fmt(info.best_buy.price)}` : 'N/A';
-                    const sellText = hasBest ? `${info.best_sell.exchange} • ${fmt(info.best_sell.price)}` : 'N/A';
-
-                    const buyUrl = hasBest ? (REVIEW_PAGES[info.best_buy.exchange] || '/binance-review/') : '#';
-                    const sellUrl = hasBest ? (REVIEW_PAGES[info.best_sell.exchange] || '/binance-review/') : '#';
-                    const region = getRegion();
-                    const buildReviewUrl = (path) => {
-                        const u = new URL(path, window.location.origin);
-                        u.searchParams.set('region', region);
-                        return u.pathname + u.search;
-                    };
-                    const buyReviewUrl = hasBest ? buildReviewUrl(buyUrl) : '#';
-                    const sellReviewUrl = hasBest ? buildReviewUrl(sellUrl) : '#';
-                    const buySignupUrl = buyReviewUrl;
-                    const sellSignupUrl = sellReviewUrl;
-
-                    const actionHtml = hasBest
-                        ? `<div class="row-actions">
-                             <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Buy leg: ${info.best_buy.exchange} (review)" data-track="table_buy_review" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
-                             <a class="btn-mini" href="${sellReviewUrl}" title="Sell leg: ${info.best_sell.exchange} (review)" data-track="table_sell_review" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
-                             <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
-                             <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
-                           </div>`
-                        : `<span class="muted">Partial data</span>`;
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>
-                            <div class="symbol-box clickable" data-open="details" title="Click to open price details">
-                                <i class="fas fa-coins" style="color: #f7931a"></i>
-                                <span class="name">${symbol.replace('USDT', '')}</span>
-                            </div>
-                        </td>
-                        <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${buyReviewUrl}" title="Go to ${info.best_buy.exchange} review (region-aware)"><i class="fas fa-store"></i> ${buyText}</a>` : buyText}</td>
-                        <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${sellReviewUrl}" title="Go to ${info.best_sell.exchange} review (region-aware)"><i class="fas fa-store"></i> ${sellText}</a>` : sellText}</td>
-                        <td><span class="spread-val clickable" data-open="how" title="${spreadDetails} (click for how)">${displaySpreadText}</span></td>
-                        <td>${actionHtml}</td>
-                    `;
-                    tbody.appendChild(row);
-
-                    // Details row (all exchange prices + any errors)
-                    const detailsRow = document.createElement('tr');
-                    detailsRow.className = 'details-row';
-                    detailsRow.style.display = 'none';
-                    const errMap = (data.errors && data.errors[symbol]) ? data.errors[symbol] : null;
-                    const exchangeKeys = Object.keys(prices);
-                    const detailsItems = exchangeKeys.map((ex) => {
-                        const v = prices[ex];
-                        const err = errMap && errMap[ex] && typeof v !== 'number' ? errMap[ex] : null;
-                        const right = (typeof v === 'number') ? fmt(v) : (err ? `<span class="err">${err}</span>` : 'N/A');
-                        return `<div class="details-item"><span class="ex">${ex}</span><span class="val">${right}</span></div>`;
-                    }).join('');
-                    detailsRow.innerHTML = `<td colspan="5">
-                        <div class="details">
-                            <div class="muted" style="margin-bottom: 0.5rem;">All observed prices (some exchanges may be temporarily blocked).</div>
-                            <div class="details-grid">${detailsItems}</div>
-                        </div>
-                    </td>`;
-                    tbody.appendChild(detailsRow);
-
-                    const toggleBtn = row.querySelector('button[data-toggle="details"]');
-                    if (toggleBtn) {
-                        toggleBtn.addEventListener('click', () => {
-                            detailsRow.style.display = (detailsRow.style.display === 'none') ? '' : 'none';
-                        });
-                    }
-
-                    const openDetails = () => {
-                        detailsRow.style.display = (detailsRow.style.display === 'none') ? '' : 'none';
-                    };
-                    const symbolBox = row.querySelector('[data-open="details"]');
-                    if (symbolBox) symbolBox.addEventListener('click', openDetails);
-
-                    const openHow = () => {
-                        if (!hasBest) return;
-                        const asset = symbol.replace('USDT', '');
-                        const msg = `${asset}: Buy on ${info.best_buy.exchange} at ${fmt(info.best_buy.price)} • Sell on ${info.best_sell.exchange} at ${fmt(info.best_sell.price)} • Spread ${displaySpreadText}`;
-                        openHowModal(msg);
-                    };
-
-                    const howBtn = row.querySelector('button[data-open="how"]');
-                    if (howBtn) howBtn.addEventListener('click', openHow);
-
-                    const spreadBadge = row.querySelector('.spread-val[data-open="how"]');
-                    if (spreadBadge) spreadBadge.addEventListener('click', openHow);
-                }
-
-                assetCountDiv.innerText = count;
-                maxSpreadDiv.innerText = highestSpread > 0 ? (highestSpread.toFixed(3) + '%') : '--';
-                track('dashboard_render', { assets: count });
+                track('dashboard_render', { assets: TARGET_SYMBOLS.length });
 
                 // Hero snapshot (top spreads)
                 try {
@@ -1648,6 +2132,9 @@
 
         // Analytics init (optional) - do this early so we can track region_set and other startup events.
         initAnalytics();
+
+        // Table controls (search / filters / sort)
+        initDashboardControls();
 
         updateDashboard();
         setInterval(updateDashboard, 60000);

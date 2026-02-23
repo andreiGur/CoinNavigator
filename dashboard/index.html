@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | CoinNavigator</title>
+  <meta name="description" content="Personal CoinNavigator dashboard: favorite coins, spread history (local), and browser alerts when spreads exceed your threshold." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.coinnavigator.net/dashboard/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dashboard | CoinNavigator" />
+  <meta property="og:description" content="Personal CoinNavigator dashboard: favorite coins, spread history (local), and browser alerts when spreads exceed your threshold." />
+  <meta property="og:url" content="https://www.coinnavigator.net/dashboard/" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+      --warn: #fbbf24;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15;
+      z-index: -2;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%);
+    }
+
+    nav {
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 1.1rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .logo { font-size: 1.25rem; font-weight: 900; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 1.25rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 800; font-size: 0.92rem; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--primary-light); }
+    .nav-toggle {
+      display: none;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text-main);
+      border-radius: 12px;
+      padding: 0.55rem 0.75rem;
+      font-weight: 900;
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .nav-toggle:hover { border-color: rgba(129, 140, 248, 0.7); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 2.25rem 1.25rem; }
+    .hero {
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.06) 0%, transparent 60%);
+      border: 1px solid rgba(99, 102, 241, 0.12);
+      border-radius: 24px;
+      padding: 1.65rem;
+    }
+    h1 { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
+    .lead { margin-top: 0.75rem; color: var(--text-muted); max-width: 920px; }
+
+    .grid { margin-top: 1.1rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1rem; align-items: start; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 1.15rem;
+    }
+    .card h2 { font-size: 1.05rem; letter-spacing: -0.01em; display: flex; gap: 10px; align-items: center; }
+    .muted { color: var(--text-muted); }
+    .small { font-size: 0.9rem; }
+
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-top: 0.75rem; }
+    .field {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 0.55rem 0.7rem;
+      min-width: 260px;
+      flex: 1 1 260px;
+    }
+    .field i { color: var(--primary-light); }
+    .field input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 900;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-ghost { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: var(--text-main); }
+    .btn-ghost:hover { border-color: rgba(129, 140, 248, 0.7); }
+
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 0.75rem; }
+    th { text-align: left; padding: 0.55rem 0.4rem; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.10); }
+    td { padding: 0.65rem 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: var(--text-muted);
+      font-weight: 900;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+    .pill i { color: var(--accent); }
+    .spread { color: var(--accent); font-weight: 900; }
+    .danger { color: #fca5a5; font-weight: 900; }
+
+    .fav-remove {
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-muted);
+      border-radius: 12px;
+      padding: 0.45rem 0.55rem;
+      cursor: pointer;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .fav-remove:hover { border-color: rgba(239, 68, 68, 0.55); color: #fecaca; transform: translateY(-1px); }
+
+    .spark { width: 100%; height: 70px; margin-top: 0.35rem; }
+
+    footer { text-align: center; padding: 3.5rem 1.25rem; color: var(--text-muted); font-size: 0.9rem; }
+    .footer-links { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; justify-content: center; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 800; }
+    .footer-links a:hover { color: var(--primary-light); }
+
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      nav { padding: 0.95rem 1rem; }
+      .nav-toggle { display: inline-flex; margin-left: auto; }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.55rem;
+        padding: 0.85rem 0.15rem 0.25rem;
+      }
+      nav.nav-open .nav-links { display: flex; }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0.75rem 0.85rem;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.02);
+        color: var(--text-main);
+        font-weight: 800;
+      }
+      .field { min-width: 0; flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <nav>
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home <i class="fas fa-house" aria-hidden="true"></i></a></li>
+      <li><a href="/#dashboard">Arbitrage Monitor <i class="fas fa-table" aria-hidden="true"></i></a></li>
+      <li><a href="/polymarket/">Polymarket <i class="fas fa-fire" aria-hidden="true"></i></a></li>
+      <li><a href="/blog/">Guides <i class="fas fa-graduation-cap" aria-hidden="true"></i></a></li>
+      <li><a href="/binance-review/">Reviews <i class="fas fa-building-columns" aria-hidden="true"></i></a></li>
+      <li><a href="/about/">About <i class="fas fa-circle-info" aria-hidden="true"></i></a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1>My Dashboard</h1>
+      <p class="lead">
+        This is a <b>local-only</b> dashboard: favorites and history are stored in your browser (localStorage).
+        Use it to track spreads you care about and get browser alerts when they exceed a threshold.
+      </p>
+      <div class="row" style="margin-top: 0.9rem;">
+        <a class="pill" href="/methodology/"><i class="fas fa-shield-halved"></i> Methodology</a>
+        <a class="pill" href="/terms/"><i class="fas fa-triangle-exclamation"></i> Risk & disclosure</a>
+        <span class="pill"><i class="fas fa-clock"></i> <span id="dash-updated">Loading…</span></span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2><i class="fas fa-star" style="color: var(--warn)"></i> Favorite coins</h2>
+        <div class="muted small" id="fav-hint" style="margin-top: 0.35rem;">Tip: star coins on the homepage table, or add them here.</div>
+
+        <div class="row" aria-label="Add favorite coin">
+          <div class="field" title="Add a coin ticker (e.g., BTC)">
+            <i class="fas fa-plus" aria-hidden="true"></i>
+            <input id="add-coin" type="search" placeholder="Add coin (BTC, ETH, SOL…)" autocomplete="off" list="coin-list" />
+          </div>
+          <datalist id="coin-list"></datalist>
+          <button class="btn btn-primary" id="add-btn" type="button"><i class="fas fa-star"></i> Add</button>
+          <button class="btn btn-ghost" id="refresh-btn" type="button"><i class="fas fa-rotate"></i> Refresh</button>
+        </div>
+
+        <div class="muted small" id="fav-status" style="margin-top: 0.6rem;"></div>
+
+        <div style="overflow-x:auto;">
+          <table aria-label="Favorites table">
+            <thead>
+              <tr>
+                <th style="width: 110px;">Coin</th>
+                <th>Best buy → best sell</th>
+                <th style="width: 120px;">Spread</th>
+                <th style="width: 90px;">Alert</th>
+                <th style="width: 70px;"></th>
+              </tr>
+            </thead>
+            <tbody id="fav-body">
+              <tr><td colspan="5" class="muted">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h2><i class="fas fa-bell" style="color: var(--accent)"></i> Alerts</h2>
+        <p class="muted small" style="margin-top: 0.6rem;">
+          Alerts are <b>browser notifications</b> (not push). Your browser must be open for checks to run.
+        </p>
+
+        <div class="row" style="margin-top: 0.75rem;">
+          <div class="field" title="Alert threshold in percent">
+            <i class="fas fa-gauge-high" aria-hidden="true"></i>
+            <input id="threshold" type="number" min="0" step="0.01" value="0.50" />
+          </div>
+          <button class="btn btn-primary" id="enable-notifs" type="button"><i class="fas fa-bell"></i> Enable</button>
+          <button class="btn btn-ghost" id="disable-notifs" type="button"><i class="fas fa-bell-slash"></i> Disable</button>
+        </div>
+        <div class="muted small" id="notif-status" style="margin-top: 0.6rem;">Notifications: unknown</div>
+
+        <div class="card" style="margin-top: 1rem; background: rgba(255,255,255,0.02);">
+          <div style="font-weight: 900;">Spread history</div>
+          <div class="muted small" style="margin-top: 0.35rem;">
+            History is appended when you visit the homepage or this dashboard. It’s stored locally per symbol.
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <div>&copy; 2026 CoinNavigator</div>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="/methodology/">Methodology</a>
+    </div>
+    <div style="margin-top:1rem;opacity:.75;">Not financial advice. Data may be delayed or incomplete.</div>
+  </footer>
+
+  <script>
+    const TARGET_TICKERS = [
+      'BTC','ETH','SOL','XRP','TON',
+      'DOGE','ADA','BNB','TRX','DOT',
+      'LINK','LTC','AVAX','MATIC','SHIB',
+      'UNI','XLM','NEAR','ATOM','APT',
+    ];
+    const HISTORY_KEY = 'coinnavigator_spread_history_v1';
+
+    function getFavs() {
+      try {
+        const raw = localStorage.getItem('coinnavigator_favs') || '[]';
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr.filter(Boolean) : [];
+      } catch { return []; }
+    }
+    function setFavs(arr) {
+      try { localStorage.setItem('coinnavigator_favs', JSON.stringify(arr)); } catch {}
+    }
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem(HISTORY_KEY) || '{}';
+        const obj = JSON.parse(raw);
+        return (obj && typeof obj === 'object') ? obj : {};
+      } catch { return {}; }
+    }
+    function saveHistory(obj) {
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(obj)); } catch {}
+    }
+    function recordHistorySnapshot(data) {
+      try {
+        if (!data || !data.timestamp || !data.symbols) return;
+        const ts = data.timestamp;
+        const hist = loadHistory();
+        Object.entries(data.symbols).forEach(([sym, info]) => {
+          if (!info || typeof info.spread_percent !== 'number' || !Number.isFinite(info.spread_percent)) return;
+          const sp = info.spread_percent * 100;
+          if (!hist[sym]) hist[sym] = [];
+          const arr = hist[sym];
+          const last = arr.length ? arr[arr.length - 1] : null;
+          if (last && last.t === ts) return;
+          arr.push({ t: ts, s: sp });
+          if (arr.length > 1500) hist[sym] = arr.slice(-1500);
+        });
+        saveHistory(hist);
+      } catch {}
+    }
+
+    function normalizeTicker(s) {
+      const t = (s || '').toString().trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (!t) return '';
+      return t.endsWith('USDT') ? t.replace('USDT','') : t;
+    }
+
+    async function fetchJson(url) {
+      const res = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    }
+    async function fetchWithFallback() {
+      const origins = [window.location.origin, 'https://www.coinnavigator.net'];
+      const candidates = [];
+      origins.forEach((o) => {
+        candidates.push(new URL('/data/spread_data.json', o).toString());
+        candidates.push(new URL('/spread_data.json', o).toString());
+      });
+      let last = null;
+      for (const base of candidates) {
+        try { return await fetchJson(base); } catch (e) { last = e; }
+      }
+      throw last || new Error('Failed to fetch spread data');
+    }
+
+    function fmtSpread(pct) {
+      if (pct == null || !Number.isFinite(pct)) return '—';
+      return pct.toFixed(3) + '%';
+    }
+    function fmtUsd(v) {
+      if (typeof v !== 'number' || !Number.isFinite(v)) return '—';
+      return '$' + v.toLocaleString(undefined, { maximumFractionDigits: 8, minimumFractionDigits: 2 });
+    }
+
+    const ROW_CHARTS = new Map(); // sym -> Chart
+    function renderSpreadSparkline(sym, canvas) {
+      try {
+        if (!window.Chart) return;
+        const hist = loadHistory();
+        const arr = Array.isArray(hist[sym]) ? hist[sym] : [];
+        const ys = arr.slice(-96).map(p => (p && typeof p.s === 'number') ? p.s : null).filter(v => v != null);
+        if (!ys.length) return;
+        const labels = ys.map((_, i) => i);
+        if (ROW_CHARTS.has(sym)) {
+          const ch = ROW_CHARTS.get(sym);
+          ch.data.labels = labels;
+          ch.data.datasets[0].data = ys;
+          ch.update();
+          return;
+        }
+        const ctx = canvas.getContext('2d');
+        const ch = new Chart(ctx, {
+          type: 'line',
+          data: { labels, datasets: [{ data: ys, borderColor: 'rgba(16,185,129,0.95)', backgroundColor: 'rgba(16,185,129,0.10)', tension: 0.25, borderWidth: 2, pointRadius: 0, fill: true }] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: { duration: 150 } }
+        });
+        ROW_CHARTS.set(sym, ch);
+      } catch {}
+    }
+
+    function updateDatalist() {
+      const dl = document.getElementById('coin-list');
+      if (!dl) return;
+      dl.innerHTML = TARGET_TICKERS.slice().sort().map(t => `<option value="${t}"></option>`).join('');
+    }
+
+    function setUpdatedText(ts) {
+      const el = document.getElementById('dash-updated');
+      if (!el) return;
+      if (!ts) { el.textContent = 'No timestamp'; return; }
+      const d = new Date(ts);
+      el.textContent = 'Updated: ' + d.toLocaleString();
+    }
+
+    function removeFav(sym) {
+      const favs = new Set(getFavs());
+      favs.delete(sym);
+      setFavs(Array.from(favs));
+    }
+
+    let LAST_DATA = null;
+    function renderFavorites() {
+      const body = document.getElementById('fav-body');
+      const status = document.getElementById('fav-status');
+      if (!body) return;
+      const favs = getFavs();
+      if (!favs.length) {
+        body.innerHTML = `<tr><td colspan="5" class="muted">No favorites yet. Star coins on the homepage table, or add one above.</td></tr>`;
+        if (status) status.textContent = 'Favorites: 0';
+        return;
+      }
+      const data = LAST_DATA;
+      body.innerHTML = '';
+      favs.forEach((sym) => {
+        const info = data && data.symbols ? data.symbols[sym] : null;
+        const hasBest = info && info.best_buy && info.best_sell;
+        const spreadPct = (info && typeof info.spread_percent === 'number' && Number.isFinite(info.spread_percent)) ? info.spread_percent * 100 : null;
+        const buy = hasBest ? `${info.best_buy.exchange} @ ${fmtUsd(info.best_buy.price)}` : '—';
+        const sell = hasBest ? `${info.best_sell.exchange} @ ${fmtUsd(info.best_sell.price)}` : '—';
+        const coin = sym.replace('USDT','');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="pill"><i class="fas fa-star"></i> ${coin}</span></td>
+          <td>
+            <div class="muted small">${buy} → ${sell}</div>
+            <div style="position:relative; height:70px; margin-top:6px;"><canvas class="spark" data-spark="${sym}"></canvas></div>
+          </td>
+          <td><span class="${spreadPct != null && spreadPct >= getThreshold() ? 'danger' : 'spread'}">${fmtSpread(spreadPct)}</span></td>
+          <td class="muted small">${getThreshold().toFixed(2)}%</td>
+          <td><button class="fav-remove" type="button" data-remove="${sym}" title="Remove"><i class="fas fa-trash"></i></button></td>
+        `;
+        body.appendChild(tr);
+        const canvas = tr.querySelector(`canvas[data-spark="${sym}"]`);
+        if (canvas) renderSpreadSparkline(sym, canvas);
+      });
+
+      body.querySelectorAll('button[data-remove]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          removeFav(btn.getAttribute('data-remove'));
+          renderFavorites();
+        });
+      });
+      if (status) status.textContent = 'Favorites: ' + favs.length;
+    }
+
+    function getThreshold() {
+      const el = document.getElementById('threshold');
+      const v = el ? parseFloat(el.value) : 0.5;
+      return Number.isFinite(v) ? v : 0.5;
+    }
+
+    let alertTimer = null;
+    function setNotifStatus(text) {
+      const el = document.getElementById('notif-status');
+      if (el) el.textContent = text;
+    }
+    function stopAlerts() {
+      if (alertTimer) clearInterval(alertTimer);
+      alertTimer = null;
+      setNotifStatus('Notifications: disabled');
+    }
+    async function startAlerts() {
+      if (!('Notification' in window)) {
+        setNotifStatus('Notifications: not supported');
+        return;
+      }
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') {
+        setNotifStatus('Notifications: permission denied');
+        return;
+      }
+      setNotifStatus('Notifications: enabled (checks every 60s)');
+      if (alertTimer) clearInterval(alertTimer);
+      alertTimer = setInterval(async () => {
+        try {
+          const data = await fetchWithFallback();
+          const favs = getFavs();
+          const thr = getThreshold();
+          favs.forEach((sym) => {
+            const info = data && data.symbols ? data.symbols[sym] : null;
+            if (!info || typeof info.spread_percent !== 'number' || !Number.isFinite(info.spread_percent)) return;
+            const sp = info.spread_percent * 100;
+            if (sp >= thr) {
+              const coin = sym.replace('USDT','');
+              const title = `${coin} spread alert`;
+              const body = `${sp.toFixed(3)}% — ${info.best_buy?.exchange || '—'} → ${info.best_sell?.exchange || '—'}`;
+              new Notification(title, { body });
+            }
+          });
+        } catch {}
+      }, 60000);
+    }
+
+    async function refresh() {
+      const body = document.getElementById('fav-body');
+      try {
+        if (body) body.innerHTML = `<tr><td colspan="5" class="muted">Refreshing…</td></tr>`;
+        const data = await fetchWithFallback();
+        LAST_DATA = data;
+        recordHistorySnapshot(data);
+        setUpdatedText(data.timestamp);
+        renderFavorites();
+      } catch (e) {
+        if (body) body.innerHTML = `<tr><td colspan="5" class="danger">Failed to load: ${e.message}</td></tr>`;
+      }
+    }
+
+    // Mobile nav
+    (function initMobileNav() {
+      const nav = document.querySelector('nav');
+      const btn = document.getElementById('nav-toggle');
+      if (!nav || !btn) return;
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', () => {
+          if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
+          nav.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
+    // Init
+    updateDatalist();
+    document.getElementById('add-btn')?.addEventListener('click', () => {
+      const el = document.getElementById('add-coin');
+      const t = normalizeTicker(el ? el.value : '');
+      if (!t) return;
+      const sym = t + 'USDT';
+      const favs = new Set(getFavs());
+      favs.add(sym);
+      setFavs(Array.from(favs));
+      if (el) el.value = '';
+      renderFavorites();
+    });
+    document.getElementById('refresh-btn')?.addEventListener('click', refresh);
+    document.getElementById('enable-notifs')?.addEventListener('click', startAlerts);
+    document.getElementById('disable-notifs')?.addEventListener('click', stopAlerts);
+    setNotifStatus('Notifications: ' + (('Notification' in window) ? Notification.permission : 'not supported'));
+
+    refresh();
+    setInterval(refresh, 60000);
+  </script>
+</body>
+</html>
+
