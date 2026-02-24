@@ -1128,9 +1128,27 @@
                         <p>We don’t drop raw affiliate links. First, read a short review explaining who the exchange is for and why it’s recommended. Region: <b id="region-label">—</b></p>
                     </div>
                     <div class="cta-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-                        <a class="btn btn-primary" id="rec-1" href="/binance-review/" data-track="rec_exchange" data-ex="Binance" style="font-size: 1.1rem; padding: 1.15rem 2rem;"><i class="fas fa-building-columns"></i> Open Binance Account</a>
-                        <a class="btn btn-primary" id="rec-2" href="/mexc-review/" data-track="rec_exchange" data-ex="MEXC" style="font-size: 1.1rem; padding: 1.15rem 2rem;"><i class="fas fa-building-columns"></i> Open MEXC Account</a>
-                        <a class="btn btn-primary" id="rec-3" href="/bybit-arbitrage/" data-track="rec_exchange" data-ex="Bybit" style="font-size: 1.1rem; padding: 1.15rem 2rem;"><i class="fas fa-building-columns"></i> Open Bybit Account</a>
+                        <a class="btn btn-primary" id="rec-1"
+                           href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=bonuses&utm_campaign=cta_section"
+                           target="_blank" rel="noopener nofollow"
+                           data-track="rec_exchange" data-ex="Binance"
+                           style="font-size: 1.1rem; padding: 1.15rem 2rem;">
+                            <i class="fas fa-building-columns"></i> Open Binance Account
+                        </a>
+                        <a class="btn btn-primary" id="rec-2"
+                           href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=bonuses&utm_campaign=cta_section"
+                           target="_blank" rel="noopener nofollow"
+                           data-track="rec_exchange" data-ex="MEXC"
+                           style="font-size: 1.1rem; padding: 1.15rem 2rem;">
+                            <i class="fas fa-building-columns"></i> Open MEXC Account
+                        </a>
+                        <a class="btn btn-primary" id="rec-3"
+                           href="https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=bonuses&utm_campaign=cta_section"
+                           target="_blank" rel="noopener nofollow"
+                           data-track="rec_exchange" data-ex="Bybit"
+                           style="font-size: 1.1rem; padding: 1.15rem 2rem;">
+                            <i class="fas fa-building-columns"></i> Open Bybit Account
+                        </a>
                     </div>
             </div>
         </div>
@@ -1260,8 +1278,8 @@
                     Disclaimer: spreads can disappear fast. Always do your own research.
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-primary" href="#bonuses"><i class="fas fa-gift"></i> Claim Bonuses</a>
-                    <a class="btn btn-ghost" href="#learn"><i class="fas fa-graduation-cap"></i> Read Beginner Guides</a>
+                    <a class="btn btn-primary" href="#bonuses" data-track="modal_claim_bonuses"><i class="fas fa-gift"></i> Claim Bonuses</a>
+                    <a class="btn btn-ghost" href="/blog/" data-track="modal_read_guides"><i class="fas fa-graduation-cap"></i> Read Beginner Guides</a>
                 </div>
             </div>
         </div>
@@ -1825,19 +1843,26 @@
 
             const region = getRegion();
             const buildReviewUrl = (path) => {
+                if (path.startsWith('http')) return path; // already absolute (affiliate)
                 const u = new URL(path, window.location.origin);
                 u.searchParams.set('region', region);
                 return u.pathname + u.search;
             };
 
-            // Separation rule: no direct affiliate URLs from homepage.
+            // Direct affiliate links for exchanges we're partnered with.
+            // For others we route through the review page first.
+            const AFFILIATE_LINKS = {
+                Binance: 'https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
+                Bybit:   'https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
+                MEXC:    'https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
+            };
             const REVIEW_PAGES = {
-                Binance: '/binance-review/',
-                MEXC: '/mexc-review/',
-                Bybit: '/bybit-arbitrage/',
-                OKX: '/okx-for-beginners/',
-                KuCoin: '/kucoin-review/',
-                Gate: '/gate-review/',
+                Binance: AFFILIATE_LINKS.Binance,
+                MEXC:    AFFILIATE_LINKS.MEXC,
+                Bybit:   AFFILIATE_LINKS.Bybit,
+                OKX:     '/okx-for-beginners/',
+                KuCoin:  '/kucoin-review/',
+                Gate:    '/gate-review/',
             };
 
             const qRaw = normalizeCoinQuery(TABLE_STATE.q);
@@ -1922,10 +1947,12 @@
                 const sellReviewUrl = hasBest ? buildReviewUrl(sellUrl) : '#';
 
                 const calcSpread = hasSpread ? displaySpread.toFixed(4) : '0';
+                const buyIsAffiliate = buyReviewUrl.startsWith('http');
+                const sellIsAffiliate = sellReviewUrl.startsWith('http');
                 const actionHtml = hasBest
                     ? `<div class="row-actions">
-                         <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Buy leg: ${info.best_buy.exchange} (review)" data-track="table_buy_review" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
-                         <a class="btn-mini" href="${sellReviewUrl}" title="Sell leg: ${info.best_sell.exchange} (review)" data-track="table_sell_review" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
+                         <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" ${buyIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Buy leg: ${info.best_buy.exchange}${buyIsAffiliate ? ' (affiliate link)' : ' (review)'}" data-track="table_buy_aff" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
+                         <a class="btn-mini" href="${sellReviewUrl}" ${sellIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Sell leg: ${info.best_sell.exchange}${sellIsAffiliate ? ' (affiliate link)' : ' (review)'}" data-track="table_sell_aff" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
                          <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
                          <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
                          <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" title="Calculate net profit after fees"><i class="fas fa-calculator"></i> Calc</button>
