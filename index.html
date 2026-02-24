@@ -9,6 +9,7 @@
     <meta name="theme-color" content="#0b0f1a" />
 
     <link rel="canonical" href="https://www.coinnavigator.net/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <meta property="og:site_name" content="CoinNavigator" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="CoinNavigator | Crypto Arbitrage Opportunities in Real Time" />
@@ -507,10 +508,16 @@
         .symbol-box .name { font-weight: 700; font-size: 0.7rem; }
         
         .price-val { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
-        .spread-val { 
-            background: rgba(16, 185, 129, 0.1); color: var(--accent); 
-            padding: 0.5rem 1rem; border-radius: 12px; font-weight: 700; 
+        .spread-val {
+            padding: 0.5rem 1rem; border-radius: 12px; font-weight: 700;
+            background: rgba(16, 185, 129, 0.10); color: var(--accent);
         }
+        .spread-val.spread-high { background: rgba(16,185,129,0.18); color: #34d399; }
+        .spread-val.spread-mid  { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .spread-val.spread-low  { background: rgba(255,255,255,0.04); color: var(--text-muted); }
+        .spread-val.spread-none { background: rgba(255,255,255,0.03); color: var(--text-muted); font-weight: 500; }
+        tr.row-missing { opacity: 0.45; }
+        tr.row-missing td { font-size: 0.88rem; }
 
         .btn-trade {
             background: var(--primary); color: white; text-decoration: none;
@@ -537,6 +544,26 @@
         }
         .btn-mini:hover { transform: translateY(-2px); border-color: rgba(129, 140, 248, 0.7); }
         .btn-mini-primary { background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.35); }
+        .btn-mini-calc { background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
+        .btn-mini-calc:hover { background: rgba(251,191,36,0.2); }
+
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+        .calc-label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: var(--text-muted); }
+        .calc-input {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px; color: var(--text); padding: 0.5rem 0.7rem;
+            font-size: 0.9rem; font-family: 'JetBrains Mono', monospace;
+            width: 100%; box-sizing: border-box;
+        }
+        .calc-input:focus { outline: none; border-color: var(--primary-light); }
+        .calc-result {
+            background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
+            border-radius: 12px; padding: 1rem; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem; line-height: 1.7;
+        }
+        .calc-result.loss { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); }
+        .calc-profit { font-size: 1.25rem; font-weight: 700; color: #34d399; }
+        .calc-profit.neg { color: #f87171; }
 
         .row-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .details-row td { padding-top: 0; }
@@ -570,18 +597,33 @@
         .hidden { display: none !important; }
         .data-freshness-banner {
             margin: 0 0 1rem 0;
-            padding: 1rem 1.25rem;
+            padding: 0.85rem 1.25rem;
             border-radius: 12px;
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            background: rgba(239, 68, 68, 0.12);
-            color: #fca5a5;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            border: 1px solid rgba(239,68,68,0.4);
+            background: rgba(239,68,68,0.10);
+            color: #fca5a5;
         }
-        .data-freshness-banner i { font-size: 1.25rem; flex-shrink: 0; }
+        .data-freshness-banner.banner-error {
+            border-color: rgba(239,68,68,0.5);
+            background: rgba(239,68,68,0.14);
+            color: #fca5a5;
+        }
+        .data-freshness-banner.banner-warn {
+            border-color: rgba(251,191,36,0.4);
+            background: rgba(251,191,36,0.10);
+            color: #fde68a;
+        }
+        .data-freshness-banner.banner-ok {
+            border-color: rgba(16,185,129,0.35);
+            background: rgba(16,185,129,0.08);
+            color: #6ee7b7;
+        }
+        .data-freshness-banner i { font-size: 1rem; flex-shrink: 0; }
 
         /* Modal */
         .modal {
@@ -1037,6 +1079,10 @@
                         <input id="only-cex" type="checkbox" checked />
                         Only CEX
                     </label>
+                    <label class="dc-check" title="Hide coins where we have no data yet">
+                        <input id="hide-missing" type="checkbox" checked />
+                        Hide missing data
+                    </label>
                 </div>
                 <div class="dc-right">
                     <select class="dc-select" id="sort-by" title="Sort table">
@@ -1217,6 +1263,39 @@
                     <a class="btn btn-primary" href="#bonuses"><i class="fas fa-gift"></i> Claim Bonuses</a>
                     <a class="btn btn-ghost" href="#learn"><i class="fas fa-graduation-cap"></i> Read Beginner Guides</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Arbitrage Calculator Modal -->
+    <div class="modal" id="calc-modal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="calc"></div>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="calc-title" style="max-width:440px">
+            <div class="modal-header">
+                <div>
+                    <div class="muted" style="font-weight:800;letter-spacing:0.06em;font-size:0.6rem;text-transform:uppercase;">Net Profit</div>
+                    <div class="modal-title" id="calc-title"><i class="fas fa-calculator"></i> Arbitrage Calculator</div>
+                </div>
+                <button class="modal-close" type="button" data-close="calc">Close</button>
+            </div>
+            <div class="modal-body">
+                <div id="calc-coin-label" class="muted" style="margin-bottom:0.9rem;font-size:0.85rem;">—</div>
+                <div class="calc-grid">
+                    <label class="calc-label">Trade amount (USDT)
+                        <input id="calc-amount" class="calc-input" type="number" value="1000" min="1" step="100" />
+                    </label>
+                    <label class="calc-label">Buy-side fee (%)
+                        <input id="calc-fee-buy" class="calc-input" type="number" value="0.1" min="0" step="0.01" />
+                    </label>
+                    <label class="calc-label">Sell-side fee (%)
+                        <input id="calc-fee-sell" class="calc-input" type="number" value="0.1" min="0" step="0.01" />
+                    </label>
+                    <label class="calc-label">Withdrawal fee (USDT)
+                        <input id="calc-fee-withdraw" class="calc-input" type="number" value="1" min="0" step="0.5" />
+                    </label>
+                </div>
+                <div id="calc-result" class="calc-result"></div>
+                <p class="muted" style="font-size:0.72rem;margin-top:0.7rem;">Fees are exchange spot trading fees. Typical CEX fee: 0.1%. Enable VIP / use BNB/OKB to reduce further.</p>
             </div>
         </div>
     </div>
@@ -1519,6 +1598,7 @@
             onlyGt01: false,
             onlyUsdt: true,
             onlyCex: true,
+            hideMissing: true,
             sortBy: 'spread_desc',
         };
 
@@ -1546,7 +1626,56 @@
                 el.addEventListener('click', closeHowModal);
             });
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeHowModal();
+                if (e.key === 'Escape') { closeHowModal(); closeCalcModal(); }
+            });
+        })();
+
+        let _calcSpread = 0;
+        function openCalcModal(ticker, spreadPct) {
+            _calcSpread = spreadPct;
+            const modal = document.getElementById('calc-modal');
+            const label = document.getElementById('calc-coin-label');
+            if (!modal) return;
+            if (label) label.textContent = `${ticker} — Raw spread: ${spreadPct.toFixed(4)}%`;
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            updateCalcResult();
+        }
+        function closeCalcModal() {
+            const modal = document.getElementById('calc-modal');
+            if (!modal) return;
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+        function updateCalcResult() {
+            const amount = parseFloat(document.getElementById('calc-amount')?.value) || 0;
+            const feeBuy = parseFloat(document.getElementById('calc-fee-buy')?.value) || 0;
+            const feeSell = parseFloat(document.getElementById('calc-fee-sell')?.value) || 0;
+            const feeW = parseFloat(document.getElementById('calc-fee-withdraw')?.value) || 0;
+            const spreadUSDT = amount * _calcSpread / 100;
+            const buyCost = amount * feeBuy / 100;
+            const sellCost = amount * feeSell / 100;
+            const net = spreadUSDT - buyCost - sellCost - feeW;
+            const pct = amount > 0 ? (net / amount * 100) : 0;
+            const el = document.getElementById('calc-result');
+            if (!el) return;
+            el.className = 'calc-result' + (net < 0 ? ' loss' : '');
+            el.innerHTML = `
+                <div>Gross spread: <b>$${spreadUSDT.toFixed(2)}</b></div>
+                <div>Buy fee: <b>−$${buyCost.toFixed(2)}</b></div>
+                <div>Sell fee: <b>−$${sellCost.toFixed(2)}</b></div>
+                <div>Withdrawal: <b>−$${feeW.toFixed(2)}</b></div>
+                <hr style="border-color:rgba(255,255,255,0.08);margin:0.5rem 0">
+                <div class="calc-profit ${net < 0 ? 'neg' : ''}">Net profit: ${net >= 0 ? '+' : ''}$${net.toFixed(2)} (${pct.toFixed(3)}%)</div>
+            `;
+        }
+        (function initCalcModalOnce() {
+            document.querySelectorAll('[data-close="calc"]').forEach((el) => {
+                el.addEventListener('click', closeCalcModal);
+            });
+            ['calc-amount','calc-fee-buy','calc-fee-sell','calc-fee-withdraw'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updateCalcResult);
             });
         })();
 
@@ -1635,10 +1764,12 @@
             const usdtEl = document.getElementById('only-usdt');
             const cexEl = document.getElementById('only-cex');
             const sortEl = document.getElementById('sort-by');
+            const missingEl = document.getElementById('hide-missing');
             TABLE_STATE.q = qEl ? qEl.value : '';
             TABLE_STATE.onlyGt01 = !!(gtEl && gtEl.checked);
             TABLE_STATE.onlyUsdt = !!(usdtEl && usdtEl.checked);
             TABLE_STATE.onlyCex = !!(cexEl && cexEl.checked);
+            TABLE_STATE.hideMissing = !!(missingEl && missingEl.checked);
             TABLE_STATE.sortBy = sortEl ? (sortEl.value || 'spread_desc') : 'spread_desc';
         }
 
@@ -1660,11 +1791,13 @@
                 readControlsIntoState();
                 renderFromLastData();
             };
+            const missingEl = document.getElementById('hide-missing');
             if (qEl) qEl.addEventListener('input', onChange);
             if (qEl) qEl.addEventListener('change', onChange);
             if (gtEl) gtEl.addEventListener('change', onChange);
             if (usdtEl) usdtEl.addEventListener('change', onChange);
             if (cexEl) cexEl.addEventListener('change', onChange);
+            if (missingEl) missingEl.addEventListener('change', onChange);
             if (sortEl) sortEl.addEventListener('change', onChange);
 
             if (clearEl && qEl) {
@@ -1673,6 +1806,13 @@
                     onChange();
                 });
             }
+        }
+
+        function spreadColorClass(pct) {
+            if (pct == null) return 'spread-none';
+            if (pct >= 0.3) return 'spread-high';
+            if (pct >= 0.1) return 'spread-mid';
+            return 'spread-low';
         }
 
         function renderDashboardTable(data) {
@@ -1720,16 +1860,13 @@
                 return { symbol, ticker, info, hasBest, spreadPct };
             }).filter((r) => {
                 if (TABLE_STATE.onlyUsdt && !r.symbol.endsWith('USDT')) return false;
-                if (TABLE_STATE.onlyCex) {
-                    // Today: all venues are CEX. Keep for future-proofing.
-                }
+                if (TABLE_STATE.hideMissing && !r.hasBest) return false;
                 if (minSpreadPct > 0) {
                     if (r.spreadPct == null) return false;
                     if (r.spreadPct < minSpreadPct) return false;
                 }
                 if (qTicker) {
                     if (r.ticker === qTicker) return true;
-                    // Partial match while typing (e.g., "ET" -> ETH)
                     if (r.ticker.includes(qTicker)) return true;
                     return false;
                 }
@@ -1767,10 +1904,11 @@
                     };
 
                 const hasSpread = typeof info.spread_percent === 'number' && hasBest;
-                let displaySpreadText = 'N/A';
+                let displaySpreadText = '—';
+                let displaySpread = null;
                 let spreadDetails = hasBest ? `Buy ${info.best_buy.exchange} / Sell ${info.best_sell.exchange}` : 'Data coming soon';
                 if (hasSpread) {
-                    const displaySpread = info.spread_percent * 100;
+                    displaySpread = info.spread_percent * 100;
                     displaySpreadText = displaySpread.toFixed(4) + '%';
                     if (displaySpread > highestSpread) highestSpread = displaySpread;
                 }
@@ -1783,12 +1921,14 @@
                 const buyReviewUrl = hasBest ? buildReviewUrl(buyUrl) : '#';
                 const sellReviewUrl = hasBest ? buildReviewUrl(sellUrl) : '#';
 
+                const calcSpread = hasSpread ? displaySpread.toFixed(4) : '0';
                 const actionHtml = hasBest
                     ? `<div class="row-actions">
                          <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" title="Buy leg: ${info.best_buy.exchange} (review)" data-track="table_buy_review" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
                          <a class="btn-mini" href="${sellReviewUrl}" title="Sell leg: ${info.best_sell.exchange} (review)" data-track="table_sell_review" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
                          <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
                          <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
+                         <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" title="Calculate net profit after fees"><i class="fas fa-calculator"></i> Calc</button>
                        </div>`
                     : `<span class="muted">Data coming soon</span>`;
 
@@ -1806,7 +1946,7 @@
                     </td>
                     <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${buyReviewUrl}" title="Go to ${info.best_buy.exchange} review (region-aware)"><i class="fas fa-store"></i> ${buyText}</a>` : '<span class="muted">—</span>'}</td>
                     <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${sellReviewUrl}" title="Go to ${info.best_sell.exchange} review (region-aware)"><i class="fas fa-store"></i> ${sellText}</a>` : '<span class="muted">—</span>'}</td>
-                    <td><span class="spread-val ${hasBest ? 'clickable' : ''}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></td>
+                    <td><span class="spread-val ${spreadColorClass(displaySpread)} ${hasBest ? 'clickable' : 'spread-none'}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></td>
                     <td>${actionHtml}</td>
                 `;
                 tbody.appendChild(row);
@@ -1884,6 +2024,11 @@
                 if (howBtn) howBtn.addEventListener('click', (e) => { e.preventDefault(); openHow(); });
                 const spreadBadge = row.querySelector('.spread-val[data-open="how"]');
                 if (spreadBadge) spreadBadge.addEventListener('click', (e) => { e.preventDefault(); openHow(); });
+
+                const calcBtn = row.querySelector('button[data-open="calc"]');
+                if (calcBtn) calcBtn.addEventListener('click', () => {
+                    openCalcModal(ticker, parseFloat(calcBtn.dataset.spread) || 0);
+                });
             }
 
             // Update counters
@@ -2073,14 +2218,21 @@
                     const date = data.timestamp ? new Date(data.timestamp) : null;
                     const ageHours = date ? (Date.now() - date.getTime()) / (1000 * 60 * 60) : 999;
                     let msg = '';
+                    let bannerLevel = 'warn';
+                    const ageMins = ageHours * 60;
                     if (ageHours > 2) {
-                        msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} old. Prices may have changed. Do not rely on this table for trading until data is refreshed.`;
-                    } else if (ageHours > 1) {
-                        msg = `Spread data is over 1 hour old. Prices may have changed. Refresh the page or check back later.`;
+                        msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly.`;
+                        bannerLevel = 'error';
+                    } else if (ageHours > 0.5) {
+                        msg = `Spread data is over ${Math.round(ageMins)} minutes old. Prices may have shifted. Always verify before trading.`;
+                        bannerLevel = 'warn';
                     }
                     if (msg) {
-                        banner.className = 'data-freshness-banner';
+                        banner.className = `data-freshness-banner banner-${bannerLevel}`;
                         banner.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${msg}</span>`;
+                    } else if (date) {
+                        banner.className = 'data-freshness-banner banner-ok';
+                        banner.innerHTML = `<i class="fas fa-circle-check" aria-hidden="true"></i><span>Data fresh — last updated ${Math.round(ageMins)} min ago.</span>`;
                     } else {
                         banner.className = 'data-freshness-banner hidden';
                         banner.innerHTML = '';
