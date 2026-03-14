@@ -243,14 +243,68 @@
       font-weight: 500;
     }
     .footer-links a:hover { color: var(--primary-light); }
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
+        @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; gap: 0; position: fixed; inset: 0; background: rgba(11,15,26,0.97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; padding: 5rem 2rem 2rem; align-items: flex-start; }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .nav-links li a { display: block; padding: 1rem 0; font-size: 1.1rem; color: var(--text-main); }
+      .mobile-menu-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: var(--text-main); cursor: pointer; font-size: 1.1rem; }
       .article-header h1 { font-size: 1.75rem; }
       .article-content { font-size: 1rem; }
       .container { padding: 2rem 1rem; }
       article { padding: 2rem 1.5rem; }
     }
+    @media (min-width: 769px) { .mobile-menu-btn { display: none; } }
+      .article-content { font-size: 1rem; }
+      .container { padding: 2rem 1rem; }
+      article { padding: 2rem 1.5rem; }
+    }
+  
+    .live-widget{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:16px;padding:1.25rem 1.5rem;margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .live-widget .lw-header{display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#34d399}
+    .live-widget .lw-header .dot{width:8px;height:8px;border-radius:50%;background:#34d399;animation:pulse-dot 1.8s infinite}
+    @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
+    .live-widget .lw-rows{display:flex;flex-wrap:wrap;gap:0.75rem}
+    .live-widget .lw-row{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.6rem 1rem;font-size:0.88rem;min-width:170px;display:flex;flex-direction:column;gap:2px}
+    .live-widget .lw-row .sym{font-weight:700;color:#f8fafc}
+    .live-widget .lw-row .spread{font-size:1rem;font-weight:800}
+    .live-widget .lw-row .spread.hi{color:#34d399}
+    .live-widget .lw-row .spread.mid{color:#fbbf24}
+    .live-widget .lw-row .spread.lo{color:#94a3b8}
+    .live-widget .lw-row .exch{font-size:0.75rem;color:#94a3b8}
+    .live-widget .lw-footer{font-size:0.75rem;color:#64748b}
   </style>
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Is Crypto Arbitrage Still Profitable in 2026?",
+  "description": "Is crypto arbitrage still profitable in 2026? We analyze real spreads, account for fees, compare strategies, and give an honest verdict.",
+  "datePublished": "2026-01-08",
+  "dateModified": "2026-02-18",
+  "url": "https://www.coinnavigator.net/blog/is-crypto-arbitrage-profitable-2026/",
+  "author": {
+    "@type": "Organization",
+    "name": "CoinNavigator",
+    "url": "https://www.coinnavigator.net/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CoinNavigator",
+    "url": "https://www.coinnavigator.net/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.coinnavigator.net/favicon.svg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.coinnavigator.net/blog/is-crypto-arbitrage-profitable-2026/"
+  },
+  "articleSection": "Analysis",
+  "inLanguage": "en-US"
+}
+  </script>
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -284,6 +338,11 @@
       </div>
 
       <div class="article-content">
+      <div class="live-widget" id="blog-live-widget">
+        <div class="lw-header"><span class="dot"></span> Live Arbitrage Spreads</div>
+        <div class="lw-rows" id="blog-lw-rows"><span style="color:#94a3b8;font-size:0.85rem">Loading…</span></div>
+        <div class="lw-footer"><i class="fas fa-clock"></i> Refreshes every 15 min &nbsp;|&nbsp; <a href="/#dashboard" style="color:#6366f1">View full table →</a></div>
+      </div>
         <p>
           Crypto arbitrage—buying a cryptocurrency on one exchange and selling it on another to profit from price differences—has been a popular trading strategy since the early days of Bitcoin. But as markets mature, fees decrease, and competition increases, many traders wonder: <strong>Is crypto arbitrage still profitable in 2026?</strong>
         </p>
@@ -614,6 +673,57 @@
         }
       });
     });
+  </script>
+  <script>
+    (function(){
+      var btn = document.getElementById('mobile-menu-btn');
+      var links = document.querySelector('.nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function() {
+        var open = links.classList.toggle('open');
+        btn.innerHTML = open ? '<i class="fas fa-xmark"></i>' : '<i class="fas fa-bars"></i>';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          links.classList.remove('open');
+          btn.innerHTML = '<i class="fas fa-bars"></i>';
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+  </script>
+  <script>
+    (function(){
+      var paths = ['/data/spread_data.json', '/spread_data.json'];
+      var idx = 0;
+      function tryNext(){
+        if(idx >= paths.length) return;
+        fetch(paths[idx++] + '?t=' + Date.now())
+          .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+          .then(renderWidget)
+          .catch(tryNext);
+      }
+      function renderWidget(data){
+        var el = document.getElementById('blog-lw-rows');
+        if(!el) return;
+        var syms = data && data.symbols ? data.symbols : {};
+        var rows = Object.keys(syms).map(function(s){
+          var info = syms[s];
+          var sp = typeof info.spread_percent === 'number' ? info.spread_percent * 100 : null;
+          return {sym: s.replace('USDT',''), sp: sp, buy: info.best_buy, sell: info.best_sell};
+        }).filter(function(r){ return r.sp !== null; })
+          .sort(function(a,b){ return b.sp - a.sp; })
+          .slice(0,5);
+        if(!rows.length){ el.innerHTML = '<span style="color:#94a3b8;font-size:.85rem">No data yet</span>'; return; }
+        el.innerHTML = rows.map(function(r){
+          var cls = r.sp >= 0.3 ? 'hi' : (r.sp >= 0.1 ? 'mid' : 'lo');
+          var exch = r.buy && r.sell ? r.buy.exchange + ' → ' + r.sell.exchange : '';
+          return '<div class="lw-row"><span class="sym">' + r.sym + '</span><span class="spread '+cls+'">' + r.sp.toFixed(3) + '%</span><span class="exch">' + exch + '</span></div>';
+        }).join('');
+      }
+      tryNext();
+    })();
   </script>
 </body>
 </html>

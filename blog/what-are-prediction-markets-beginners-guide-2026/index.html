@@ -61,8 +61,50 @@
     .footer-links { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: center; }
     .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
     .footer-links a:hover { color: var(--primary-light); }
-    @media (max-width: 768px) { .nav-links { display: none; } .container { padding: 2rem 1rem; } article { padding: 2rem 1.25rem; } .article-header h1 { font-size: 1.85rem; } }
+        @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; gap: 0; position: fixed; inset: 0; background: rgba(11,15,26,0.97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; padding: 5rem 2rem 2rem; align-items: flex-start; }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .nav-links li a { display: block; padding: 1rem 0; font-size: 1.1rem; color: var(--text-main); }
+      .mobile-menu-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: var(--text-main); cursor: pointer; font-size: 1.1rem; }
+      .article-header h1 { font-size: 1.75rem; }
+      .article-content { font-size: 1rem; }
+      .container { padding: 2rem 1rem; }
+      article { padding: 2rem 1.5rem; }
+    }
+    @media (min-width: 769px) { .mobile-menu-btn { display: none; } } article { padding: 2rem 1.25rem; } .article-header h1 { font-size: 1.85rem; } }
   </style>
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "What Are Prediction Markets? A Beginner's Guide (2026)",
+  "description": "What are prediction markets? How Polymarket, Kalshi, and other prediction platforms work — a beginner's guide with examples and tips for 2026.",
+  "datePublished": "2026-02-03",
+  "dateModified": "2026-02-18",
+  "url": "https://www.coinnavigator.net/blog/what-are-prediction-markets-beginners-guide-2026/",
+  "author": {
+    "@type": "Organization",
+    "name": "CoinNavigator",
+    "url": "https://www.coinnavigator.net/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CoinNavigator",
+    "url": "https://www.coinnavigator.net/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.coinnavigator.net/favicon.svg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.coinnavigator.net/blog/what-are-prediction-markets-beginners-guide-2026/"
+  },
+  "articleSection": "Education",
+  "inLanguage": "en-US"
+}
+  </script>
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -150,6 +192,25 @@
         if (window.gtag) gtag('event', this.getAttribute('data-track'), { 'event_category': 'blog', 'event_label': this.href || this.textContent });
       });
     });
+  </script>
+  <script>
+    (function(){
+      var btn = document.getElementById('mobile-menu-btn');
+      var links = document.querySelector('.nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function() {
+        var open = links.classList.toggle('open');
+        btn.innerHTML = open ? '<i class="fas fa-xmark"></i>' : '<i class="fas fa-bars"></i>';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          links.classList.remove('open');
+          btn.innerHTML = '<i class="fas fa-bars"></i>';
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
   </script>
 </body>
 </html>
