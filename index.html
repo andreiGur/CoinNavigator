@@ -278,6 +278,58 @@
             animation: fadeUp 700ms ease-out 120ms both;
         }
 
+        /* ── Best Opportunity Card ───────────────────────────── */
+        .opp-card {
+            max-width: 780px; margin: 1.6rem auto 0;
+            background: linear-gradient(135deg, rgba(16,185,129,0.10) 0%, rgba(99,102,241,0.08) 100%);
+            border: 1px solid rgba(16,185,129,0.35);
+            border-radius: 22px; padding: 1.4rem 1.8rem;
+            display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+            animation: fadeUp 700ms ease-out 160ms both;
+        }
+        .opp-badge { background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.4); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #34d399; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; }
+        .opp-badge .pulse { width: 7px; height: 7px; background: #34d399; border-radius: 50%; animation: pulse-dot 1.8s infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.25} }
+        .opp-main { flex: 1; min-width: 180px; }
+        .opp-coin { font-size: 1.55rem; font-weight: 900; line-height: 1.1; }
+        .opp-route { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .opp-numbers { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: flex-end; }
+        .opp-spread { text-align: center; }
+        .opp-spread .big { font-size: 2rem; font-weight: 900; color: #34d399; line-height: 1; }
+        .opp-spread .label { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+        .opp-profit { text-align: center; }
+        .opp-profit .big { font-size: 1.5rem; font-weight: 800; color: #fbbf24; line-height: 1; }
+        .opp-profit .label { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+        .opp-actions { display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+        .opp-actions .btn { white-space: nowrap; }
+        .opp-sub { font-size: 0.72rem; color: var(--text-muted); }
+        .opp-empty { color: var(--text-muted); font-size: 0.95rem; }
+        @media (max-width: 640px) {
+          .opp-card { padding: 1.1rem 1.1rem; flex-direction: column; align-items: flex-start; }
+          .opp-spread .big, .opp-profit .big { font-size: 1.5rem; }
+          .opp-numbers { gap: 1rem; }
+        }
+
+        /* ── Email Capture ───────────────────────────────────── */
+        .email-section {
+            max-width: 780px; margin: 0 auto 2rem;
+            background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 20px; padding: 1.4rem 2rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+        }
+        .email-section .em-text h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .email-section .em-text p { font-size: 0.85rem; color: var(--text-muted); }
+        .email-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .email-input {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px; color: var(--text); padding: 0.65rem 1rem;
+            font-size: 0.9rem; min-width: 210px; flex: 1;
+        }
+        .email-input:focus { outline: none; border-color: var(--primary-light); }
+        .email-input::placeholder { color: var(--text-muted); }
+        .email-sent { color: #34d399; font-weight: 700; font-size: 0.9rem; display: none; }
+        @media (max-width: 640px) { .email-section { padding: 1.1rem; } .email-input { min-width: 0; width: 100%; } }
+
         .hero-viz {
             max-width: 980px;
             margin: 2rem auto 0;
@@ -925,6 +977,34 @@
             <a class="btn btn-primary" href="#dashboard" data-track="hero_start"><i class="fas fa-bolt"></i> Start Exploring Spreads</a>
         </div>
 
+        <!-- Best Opportunity Now card — populated by JS from spread_data.json -->
+        <div class="opp-card" id="opp-card" style="display:none" aria-live="polite">
+            <div>
+                <div class="opp-badge"><span class="pulse"></span> Best opportunity right now</div>
+                <div class="opp-main" style="margin-top:0.7rem">
+                    <div class="opp-coin" id="opp-coin">—</div>
+                    <div class="opp-route" id="opp-route">—</div>
+                </div>
+            </div>
+            <div class="opp-numbers">
+                <div class="opp-spread">
+                    <div class="big" id="opp-spread-pct">—</div>
+                    <div class="label">raw spread</div>
+                </div>
+                <div class="opp-profit">
+                    <div class="big" id="opp-profit-val">—</div>
+                    <div class="label">est. profit on $1,000</div>
+                </div>
+            </div>
+            <div class="opp-actions">
+                <a class="btn btn-primary" id="opp-trade-btn" href="#dashboard" target="_blank" rel="noopener nofollow" data-track="hero_opp_trade"><i class="fas fa-bolt"></i> Trade This Spread</a>
+                <span class="opp-sub">After standard 0.1% fees per leg</span>
+            </div>
+        </div>
+        <div class="opp-card opp-empty" id="opp-empty" style="display:none; justify-content:center; text-align:center;">
+            <span><i class="fas fa-clock"></i> No spreads above fees right now — <a href="#dashboard" style="color:var(--primary-light)">monitor the table</a> for when they appear, or <a href="#email-alerts" style="color:var(--primary-light)">get an alert</a>.</span>
+        </div>
+
         <div class="hero-viz" id="hero-viz" aria-live="polite">
             <div class="viz-head">
                 <div>
@@ -1120,12 +1200,26 @@
             <div id="timestamp" style="text-align: right; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.8rem;"></div>
         </div>
 
+        <!-- Email Alerts Capture -->
+        <section class="email-section" id="email-alerts">
+            <div class="em-text">
+                <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Get alerted when spreads turn profitable</h3>
+                <p>We’ll email you when BTC, ETH or SOL spread exceeds 0.3 — the sweet spot after fees. Free, no spam.</p>
+            </div>
+            <form class="email-form" id="email-alert-form" action="https://formspree.io/f/xwpbqvow" method="POST">
+                <input class="email-input" type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+                <input type="hidden" name="source" value="homepage_alert_banner" />
+                <button class="btn btn-primary" type="submit" data-track="email_signup"><i class="fas fa-bell"></i> Alert Me</button>
+            </form>
+            <span class="email-sent" id="email-sent">✅ You’re in! We’ll alert you.</span>
+        </section>
+
         <section class="cta-section" id="bonuses">
             <div class="cta-card">
                 <div class="cta-inner">
                     <div>
-                        <h3>Recommended exchanges for your region (with context)</h3>
-                        <p>We don’t drop raw affiliate links. First, read a short review explaining who the exchange is for and why it’s recommended. Region: <b id="region-label">—</b></p>
+                        <h3>Start trading — up to 20% fee discount via our partner links</h3>
+                        <p>These are the exchanges we track. Register through our links and get a reduced fee or welcome bonus — you pay the same either way. Region: <b id="region-label">—</b></p>
                     </div>
                     <div class="cta-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
                         <a class="btn btn-primary" id="rec-1"
@@ -1855,14 +1949,17 @@
                 Binance: 'https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
                 Bybit:   'https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
                 MEXC:    'https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
+                OKX:     'https://www.okx.com/join/coinnavigator',
+                KuCoin:  'https://www.kucoin.com/ucenter/signup?utm_source=coinnavigator',
+                Gate:    'https://www.gate.io/signup?utm_source=coinnavigator',
             };
             const REVIEW_PAGES = {
                 Binance: AFFILIATE_LINKS.Binance,
                 MEXC:    AFFILIATE_LINKS.MEXC,
                 Bybit:   AFFILIATE_LINKS.Bybit,
-                OKX:     '/okx-for-beginners/',
-                KuCoin:  '/kucoin-review/',
-                Gate:    '/gate-review/',
+                OKX:     AFFILIATE_LINKS.OKX,
+                KuCoin:  AFFILIATE_LINKS.KuCoin,
+                Gate:    AFFILIATE_LINKS.Gate,
             };
 
             const qRaw = normalizeCoinQuery(TABLE_STATE.q);
@@ -2239,7 +2336,46 @@
                         }
                     }
                 } catch {}
-                
+
+                // ── Best Opportunity card ──────────────────────────────
+                try {
+                    const oppCard  = document.getElementById('opp-card');
+                    const oppEmpty = document.getElementById('opp-empty');
+                    if (oppCard && oppEmpty) {
+                        const rows2 = [];
+                        for (const [sym, info] of Object.entries(data.symbols || {})) {
+                            const hasBest = info && info.best_buy && info.best_sell;
+                            const sp = (typeof info.spread_percent === 'number') ? (info.spread_percent * 100) : null;
+                            if (!hasBest || sp == null || !Number.isFinite(sp) || sp <= 0) continue;
+                            rows2.push({ sym, sp, buy: info.best_buy.exchange, sell: info.best_sell.exchange });
+                        }
+                        rows2.sort((a, b) => b.sp - a.sp);
+                        const best = rows2[0];
+                        // 0.1% fee per leg × 2 legs = 0.2% total cost
+                        const FEE_PCT = 0.20;
+                        if (best && best.sp > FEE_PCT) {
+                            const netProfit = Math.round(((best.sp - FEE_PCT) / 100) * 1000 * 10) / 10; // $ on $1k
+                            const label = best.sym.replace('USDT','').replace('BUSD','');
+                            document.getElementById('opp-coin').textContent   = label + ' arbitrage';
+                            document.getElementById('opp-route').textContent  = 'Buy on ' + best.buy + ' → Sell on ' + best.sell;
+                            document.getElementById('opp-spread-pct').textContent = best.sp.toFixed(3) + '%';
+                            document.getElementById('opp-profit-val').textContent = '+$' + netProfit.toFixed(1);
+                            // affiliate link for the buy exchange
+                            const tradeBtn = document.getElementById('opp-trade-btn');
+                            if (tradeBtn) {
+                                const aff = AFFILIATE_LINKS[best.buy] || AFFILIATE_LINKS['Binance'];
+                                tradeBtn.href = aff;
+                                tradeBtn.setAttribute('data-ex', best.buy);
+                            }
+                            oppCard.style.display  = 'flex';
+                            oppEmpty.style.display = 'none';
+                        } else {
+                            oppCard.style.display  = 'none';
+                            oppEmpty.style.display = 'flex';
+                        }
+                    }
+                } catch(e) { console.warn('opp-card error', e); }
+
                 const banner = document.getElementById('data-freshness-banner');
                 if (banner) {
                     const date = data.timestamp ? new Date(data.timestamp) : null;
@@ -2362,6 +2498,36 @@
                     nav.classList.remove('nav-open');
                     btn.setAttribute('aria-expanded', 'false');
                 });
+            });
+        })();
+
+        // ── Email alert form (Formspree async submit) ─────────────
+        (function initEmailForm() {
+            const form = document.getElementById('email-alert-form');
+            const sentMsg = document.getElementById('email-sent');
+            if (!form) return;
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btn = form.querySelector('button[type="submit"]');
+                if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…'; }
+                try {
+                    const data = new FormData(form);
+                    const resp = await fetch(form.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (resp.ok) {
+                        form.style.display = 'none';
+                        if (sentMsg) sentMsg.style.display = 'inline-block';
+                        track('email_signup_success', { source: 'homepage' });
+                    } else {
+                        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> Alert Me'; }
+                        alert('Something went wrong. Please try again.');
+                    }
+                } catch {
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> Alert Me'; }
+                }
             });
         })();
     </script>
