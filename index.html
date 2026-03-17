@@ -2501,6 +2501,73 @@
             });
         })();
 
+        // ── Exit-intent popup ─────────────────────────────────────
+        (function initExitIntent() {
+            const COOKIE = 'cn_exit_shown';
+            function getCookie(n) { return document.cookie.split(';').some(c => c.trim().startsWith(n + '=')); }
+            function setCookie(n, days) { const d = new Date(); d.setTime(d.getTime() + days*24*60*60*1000); document.cookie = n+'=1;expires='+d.toUTCString()+';path=/'; }
+            if (getCookie(COOKIE)) return;
+
+            const overlay = document.createElement('div');
+            overlay.id = 'exit-overlay';
+            overlay.innerHTML = `
+                <div id="exit-modal" role="dialog" aria-modal="true" aria-label="Get spread alerts">
+                    <button id="exit-close" aria-label="Close">&times;</button>
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">📈</div>
+                    <h2 style="font-size:1.35rem;font-weight:900;margin-bottom:0.5rem;">Spreads are moving — don't miss it</h2>
+                    <p style="color:var(--text-muted);margin-bottom:1.2rem;font-size:0.92rem;">Get a free email alert when BTC, ETH or SOL spread exceeds 0.3% — the profitable threshold after fees.</p>
+                    <form id="exit-form" action="https://formspree.io/f/xwpbqvow" method="POST" style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;">
+                        <input type="email" name="email" placeholder="your@email.com" required
+                            style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.18);border-radius:10px;color:var(--text);padding:0.7rem 1rem;font-size:0.95rem;flex:1;min-width:180px;" autocomplete="email"/>
+                        <input type="hidden" name="source" value="exit_intent"/>
+                        <button class="btn btn-primary" type="submit" style="white-space:nowrap;"><i class="fas fa-bell"></i> Alert Me</button>
+                    </form>
+                    <p id="exit-sent" style="color:#34d399;font-weight:700;display:none;margin-top:0.8rem;">✅ You're in! We'll alert you when spreads are worth trading.</p>
+                    <p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.9rem;">No spam. Unsubscribe any time.</p>
+                </div>`;
+            overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;';
+            document.getElementById('exit-modal') && document.body.appendChild(overlay);
+
+            const modalStyle = document.createElement('style');
+            modalStyle.textContent = `
+                #exit-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.72); z-index:9999; align-items:center; justify-content:center; padding:1rem; }
+                #exit-overlay.show { display:flex; }
+                #exit-modal { background:var(--surface); border:1px solid rgba(255,255,255,0.1); border-radius:24px; padding:2.2rem 2rem; max-width:480px; width:100%; text-align:center; position:relative; animation:fadeUp 300ms ease-out both; }
+                #exit-close { position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;line-height:1; }
+                #exit-close:hover { color:var(--text); }`;
+            document.head.appendChild(modalStyle);
+            document.body.appendChild(overlay);
+
+            function show() {
+                if (getCookie(COOKIE)) return;
+                overlay.classList.add('show');
+                setCookie(COOKIE, 3);
+                track('exit_intent_shown', {});
+            }
+            document.addEventListener('mouseleave', (e) => { if (e.clientY < 5) show(); });
+            setTimeout(() => { if (!getCookie(COOKIE)) show(); }, 90000); // fallback after 90s
+
+            document.getElementById('exit-close').addEventListener('click', () => overlay.classList.remove('show'));
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+
+            const exitForm = document.getElementById('exit-form');
+            if (exitForm) {
+                exitForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const btn = exitForm.querySelector('button[type="submit"]');
+                    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; }
+                    try {
+                        const resp = await fetch(exitForm.action, { method:'POST', body: new FormData(exitForm), headers:{'Accept':'application/json'} });
+                        if (resp.ok) {
+                            exitForm.style.display = 'none';
+                            document.getElementById('exit-sent').style.display = 'block';
+                            track('exit_intent_email_signup', {});
+                        } else { if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-bell"></i> Alert Me';} }
+                    } catch { if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-bell"></i> Alert Me';} }
+                });
+            }
+        })();
+
         // ── Email alert form (Formspree async submit) ─────────────
         (function initEmailForm() {
             const form = document.getElementById('email-alert-form');
