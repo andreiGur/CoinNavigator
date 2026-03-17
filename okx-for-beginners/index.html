@@ -89,7 +89,7 @@
       <div class="sub" style="margin-top:0.6rem;"><b>Region:</b> <span id="region-label">—</span> <span style="opacity:0.8;">(saved on this device)</span></div>
       <div class="pill"><i class="fas fa-shield-halved"></i> Recommendation with context (not a raw affiliate link)</div>
       <div class="cta" id="cta">
-        <a class="btn btn-primary" id="open-btn" href="https://www.okx.com/" target="_blank" rel="nofollow" data-track="review_open_exchange" data-ex="OKX"><i class="fas fa-user-plus"></i> Open OKX Account</a>
+        <a class="btn btn-primary" id="open-btn" href="https://www.okx.com/join/coinnavigator?utm_source=coinnavigator&utm_medium=review&utm_campaign=okx_review" target="_blank" rel="nofollow" data-track="review_open_exchange" data-ex="OKX"><i class="fas fa-user-plus"></i> Open OKX Account — Free signup</a>
         <a class="btn btn-ghost" href="/#how-it-works" data-track="review_learn"><i class="fas fa-graduation-cap"></i> Learn Arbitrage Basics</a>
       </div>
     </section>
@@ -175,13 +175,13 @@
 
       // Real link now (placeholder for future affiliate link). Keep it functional today.
       const AFF = {
-        EU: 'https://www.okx.com/',
-        RU: 'https://www.okx.com/',
-        US: 'https://www.okx.com/',
-        ASIA: 'https://www.okx.com/',
+        EU: 'https://www.okx.com/join/coinnavigator?utm_source=coinnavigator&utm_medium=review&utm_campaign=okx_review',
+        RU: 'https://www.okx.com/join/coinnavigator?utm_source=coinnavigator&utm_medium=review&utm_campaign=okx_review',
+        US: 'https://www.okx.com/join/coinnavigator?utm_source=coinnavigator&utm_medium=review&utm_campaign=okx_review',
+        ASIA: 'https://www.okx.com/join/coinnavigator?utm_source=coinnavigator&utm_medium=review&utm_campaign=okx_review',
       };
       const btn = document.getElementById('open-btn');
-      if (btn) btn.href = AFF[region] || 'https://www.okx.com/';
+      if (btn) btn.href = AFF[region] || 'https://www.okx.com/join/coinnavigator?utm_source=coinnavigator&utm_medium=review&utm_campaign=okx_review';
 
       track('review_loaded', { page: 'okx-for-beginners', region });
     })();

@@ -57,7 +57,10 @@ class SpreadDetector:
         ]
 
         # Public exchanges to display (Bybit may be blocked from GitHub-hosted runners).
-        self.exchange_order = ["Binance", "MEXC", "Bybit"]  # Focus only on exchanges with affiliate links
+        self.exchange_order = ["Binance", "MEXC", "OKX", "KuCoin", "Gate"]
+
+        # Track which exchanges fail health-check at startup so we skip them for all symbols
+        self._dead_exchanges: set = set()
 
     def _get_json(self, url: str, timeout_s: int = 10, retries: int = 3) -> Tuple[Optional[Any], Optional[str]]:
         last_err: Optional[str] = None
@@ -185,24 +188,36 @@ class SpreadDetector:
         except Exception as e:
             return None, f"{type(e).__name__}: {e}"
 
-    def _exchange_fetchers(self) -> Dict[str, Any]:
-        # Only include exchanges with affiliate links
-        return {
+    def _health_check(self) -> None:
+        """Quick probe of each exchange with BTCUSDT. Mark unreachable ones as dead."""
+        probe = "BTCUSDT"
+        candidates = {
             "Binance": self.get_binance_price_info,
-            "MEXC": self.get_mexc_price_info,
-            "Bybit": self.get_bybit_price_info,
+            "MEXC":    self.get_mexc_price_info,
+            "OKX":     self.get_okx_price_info,
+            "KuCoin":  self.get_kucoin_price_info,
+            "Gate":    self.get_gate_price_info,
+            "Bybit":   self.get_bybit_price_info,
         }
+        for name, fn in candidates.items():
+            price, err = fn(probe)
+            if price is None:
+                print(f"  [health] {name} UNREACHABLE ({err}) — skipping", flush=True)
+                self._dead_exchanges.add(name)
+            else:
+                print(f"  [health] {name} OK (BTC=${price:,.2f})", flush=True)
 
     def _all_fetchers(self) -> Dict[str, Any]:
-        """All exchanges we can fetch (for full price table and best buy/sell)."""
-        return {
+        """All reachable exchanges (health-checked at startup)."""
+        all_fns = {
             "Binance": self.get_binance_price_info,
-            "OKX": self.get_okx_price_info,
-            "KuCoin": self.get_kucoin_price_info,
-            "Gate": self.get_gate_price_info,
-            "MEXC": self.get_mexc_price_info,
-            "Bybit": self.get_bybit_price_info,
+            "MEXC":    self.get_mexc_price_info,
+            "OKX":     self.get_okx_price_info,
+            "KuCoin":  self.get_kucoin_price_info,
+            "Gate":    self.get_gate_price_info,
+            "Bybit":   self.get_bybit_price_info,
         }
+        return {k: v for k, v in all_fns.items() if k not in self._dead_exchanges}
 
     def run(self) -> Dict[str, Any]:
         """Fetch prices from all exchanges for all symbols; compute best buy/sell and spread."""
@@ -277,7 +292,13 @@ class SpreadDetector:
 
 if __name__ == "__main__":
     detector = SpreadDetector()
+    print("Running exchange health checks…", flush=True)
+    detector._health_check()
+    reachable = [e for e in detector._all_fetchers()]
+    print(f"Reachable exchanges: {reachable}", flush=True)
     payload = detector.run()
+    # Annotate payload with reachable exchanges list
+    payload["reachable_exchanges"] = reachable
     out = detector.save_to_json(payload)
     if out:
         print(f"Saved to {out}", flush=True)
