@@ -1,277 +1,277 @@
 {
-  "timestamp": "2026-03-19T02:44:34.869427+00:00",
+  "timestamp": "2026-03-19T04:48:43.987986+00:00",
   "symbols": {
     "BTCUSDT": {
       "prices": {
-        "Binance": 71224.54,
-        "MEXC": 71222.72,
-        "OKX": 71227.9,
-        "KuCoin": 71216.9,
-        "Gate": 71222.0
+        "Binance": 70772.94,
+        "MEXC": 70784.08,
+        "OKX": 70781.1,
+        "KuCoin": 70795.3,
+        "Gate": 70780.0
       },
-      "absolute_diff": 11.0,
-      "spread_percent": 0.00015446,
+      "absolute_diff": 22.36,
+      "spread_percent": 0.00031594,
       "best_buy": {
-        "exchange": "KuCoin",
-        "price": 71216.9
+        "exchange": "Binance",
+        "price": 70772.94
       },
       "best_sell": {
-        "exchange": "OKX",
-        "price": 71227.9
+        "exchange": "KuCoin",
+        "price": 70795.3
       },
-      "binance_price": 71224.54,
+      "binance_price": 70772.94,
       "bybit_price": null
     },
     "ETHUSDT": {
       "prices": {
-        "Binance": 2204.94,
-        "MEXC": 2204.0,
-        "OKX": 2204.95,
-        "KuCoin": 2204.99,
-        "Gate": 2204.94
+        "Binance": 2192.69,
+        "MEXC": 2194.28,
+        "OKX": 2192.54,
+        "KuCoin": 2193.17,
+        "Gate": 2193.1
       },
-      "absolute_diff": 0.99,
-      "spread_percent": 0.00044918,
+      "absolute_diff": 1.74,
+      "spread_percent": 0.0007936,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 2204.0
+        "exchange": "OKX",
+        "price": 2192.54
       },
       "best_sell": {
-        "exchange": "KuCoin",
-        "price": 2204.99
+        "exchange": "MEXC",
+        "price": 2194.28
       },
-      "binance_price": 2204.94,
+      "binance_price": 2192.69,
       "bybit_price": null
     },
     "SOLUSDT": {
       "prices": {
-        "Binance": 90.34,
-        "MEXC": 90.35,
-        "OKX": 90.34,
-        "KuCoin": 90.33,
-        "Gate": 90.33
+        "Binance": 89.85,
+        "MEXC": 89.86,
+        "OKX": 89.86,
+        "KuCoin": 89.87,
+        "Gate": 89.86
       },
       "absolute_diff": 0.02,
-      "spread_percent": 0.00022141,
+      "spread_percent": 0.00022259,
       "best_buy": {
-        "exchange": "KuCoin",
-        "price": 90.33
+        "exchange": "Binance",
+        "price": 89.85
       },
       "best_sell": {
-        "exchange": "MEXC",
-        "price": 90.35
+        "exchange": "KuCoin",
+        "price": 89.87
       },
-      "binance_price": 90.34,
+      "binance_price": 89.85,
       "bybit_price": null
     },
     "XRPUSDT": {
       "prices": {
-        "Binance": 1.4619,
-        "MEXC": 1.4618,
-        "OKX": 1.462,
-        "KuCoin": 1.46184,
-        "Gate": 1.462
+        "Binance": 1.4656,
+        "MEXC": 1.4657,
+        "OKX": 1.4661,
+        "KuCoin": 1.46708,
+        "Gate": 1.466
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00013682,
+      "spread_percent": 0.00100983,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 1.4618
+        "exchange": "Binance",
+        "price": 1.4656
       },
       "best_sell": {
-        "exchange": "OKX",
-        "price": 1.462
+        "exchange": "KuCoin",
+        "price": 1.46708
       },
-      "binance_price": 1.4619,
+      "binance_price": 1.4656,
       "bybit_price": null
     },
     "TONUSDT": {
       "prices": {
-        "Binance": 1.292,
-        "MEXC": 1.292,
-        "OKX": 1.293,
-        "KuCoin": 1.2924,
-        "Gate": 1.2925
+        "Binance": 1.279,
+        "MEXC": 1.28,
+        "OKX": 1.281,
+        "KuCoin": 1.2801,
+        "Gate": 1.2796
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00077399,
+      "spread_percent": 0.00156372,
       "best_buy": {
         "exchange": "Binance",
-        "price": 1.292
+        "price": 1.279
       },
       "best_sell": {
         "exchange": "OKX",
-        "price": 1.293
+        "price": 1.281
       },
-      "binance_price": 1.292,
+      "binance_price": 1.279,
       "bybit_price": null
     },
     "DOGEUSDT": {
       "prices": {
-        "Binance": 0.09489,
-        "MEXC": 0.09488,
-        "OKX": 0.09489,
-        "KuCoin": 0.09488,
-        "Gate": 0.09489
+        "Binance": 0.09477,
+        "MEXC": 0.09482,
+        "OKX": 0.09478,
+        "KuCoin": 0.0948,
+        "Gate": 0.09475
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.0001054,
+      "spread_percent": 0.00073879,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 0.09488
+        "exchange": "Gate",
+        "price": 0.09475
       },
       "best_sell": {
-        "exchange": "Binance",
-        "price": 0.09489
+        "exchange": "MEXC",
+        "price": 0.09482
       },
-      "binance_price": 0.09489,
+      "binance_price": 0.09477,
       "bybit_price": null
     },
     "ADAUSDT": {
       "prices": {
-        "Binance": 0.2727,
-        "MEXC": 0.2727,
-        "OKX": 0.2727,
-        "KuCoin": 0.2727,
+        "Binance": 0.2725,
+        "MEXC": 0.2726,
+        "OKX": 0.2724,
+        "KuCoin": 0.2725,
         "Gate": 0.2727
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.0,
+      "spread_percent": 0.00110132,
       "best_buy": {
-        "exchange": "Binance",
-        "price": 0.2727
+        "exchange": "OKX",
+        "price": 0.2724
       },
       "best_sell": {
-        "exchange": "Binance",
+        "exchange": "Gate",
         "price": 0.2727
       },
-      "binance_price": 0.2727,
+      "binance_price": 0.2725,
       "bybit_price": null
     },
     "BNBUSDT": {
       "prices": {
-        "Binance": 652.05,
-        "MEXC": 652.05,
-        "OKX": 651.9,
-        "KuCoin": 651.81,
-        "Gate": 651.9
+        "Binance": 648.51,
+        "MEXC": 648.45,
+        "OKX": 648.4,
+        "KuCoin": 648.695,
+        "Gate": 648.4
       },
-      "absolute_diff": 0.24,
-      "spread_percent": 0.00036821,
+      "absolute_diff": 0.3,
+      "spread_percent": 0.00045497,
       "best_buy": {
-        "exchange": "KuCoin",
-        "price": 651.81
+        "exchange": "OKX",
+        "price": 648.4
       },
       "best_sell": {
-        "exchange": "Binance",
-        "price": 652.05
+        "exchange": "KuCoin",
+        "price": 648.695
       },
-      "binance_price": 652.05,
+      "binance_price": 648.51,
       "bybit_price": null
     },
     "TRXUSDT": {
       "prices": {
-        "Binance": 0.304,
+        "Binance": 0.3041,
         "MEXC": 0.304,
-        "OKX": 0.30407,
+        "OKX": 0.30408,
         "KuCoin": 0.304,
-        "Gate": 0.30404
+        "Gate": 0.30402
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00023026,
+      "spread_percent": 0.00032895,
       "best_buy": {
-        "exchange": "Binance",
+        "exchange": "MEXC",
         "price": 0.304
       },
       "best_sell": {
-        "exchange": "OKX",
-        "price": 0.30407
+        "exchange": "Binance",
+        "price": 0.3041
       },
-      "binance_price": 0.304,
+      "binance_price": 0.3041,
       "bybit_price": null
     },
     "DOTUSDT": {
       "prices": {
-        "Binance": 1.557,
-        "MEXC": 1.556,
-        "OKX": 1.557,
-        "KuCoin": 1.5572,
-        "Gate": 1.556
+        "Binance": 1.551,
+        "MEXC": 1.551,
+        "OKX": 1.551,
+        "KuCoin": 1.5521,
+        "Gate": 1.552
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00077121,
+      "spread_percent": 0.00070922,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 1.556
+        "exchange": "Binance",
+        "price": 1.551
       },
       "best_sell": {
         "exchange": "KuCoin",
-        "price": 1.5572
+        "price": 1.5521
       },
-      "binance_price": 1.557,
+      "binance_price": 1.551,
       "bybit_price": null
     },
     "LINKUSDT": {
       "prices": {
-        "Binance": 9.22,
-        "MEXC": 9.217,
-        "OKX": 9.217,
-        "KuCoin": 9.2196,
-        "Gate": 9.218
+        "Binance": 9.19,
+        "MEXC": 9.184,
+        "OKX": 9.188,
+        "KuCoin": 9.1894,
+        "Gate": 9.187
       },
-      "absolute_diff": 0.0,
-      "spread_percent": 0.00032549,
+      "absolute_diff": 0.01,
+      "spread_percent": 0.00065331,
       "best_buy": {
         "exchange": "MEXC",
-        "price": 9.217
+        "price": 9.184
       },
       "best_sell": {
         "exchange": "Binance",
-        "price": 9.22
+        "price": 9.19
       },
-      "binance_price": 9.22,
+      "binance_price": 9.19,
       "bybit_price": null
     },
     "LTCUSDT": {
       "prices": {
-        "Binance": 55.93,
-        "MEXC": 55.94,
-        "OKX": 55.94,
-        "KuCoin": 55.93,
-        "Gate": 55.89
+        "Binance": 55.63,
+        "MEXC": 55.63,
+        "OKX": 55.63,
+        "KuCoin": 55.63,
+        "Gate": 55.67
       },
-      "absolute_diff": 0.05,
-      "spread_percent": 0.00089461,
+      "absolute_diff": 0.04,
+      "spread_percent": 0.00071904,
       "best_buy": {
-        "exchange": "Gate",
-        "price": 55.89
+        "exchange": "Binance",
+        "price": 55.63
       },
       "best_sell": {
-        "exchange": "MEXC",
-        "price": 55.94
+        "exchange": "Gate",
+        "price": 55.67
       },
-      "binance_price": 55.93,
+      "binance_price": 55.63,
       "bybit_price": null
     },
     "AVAXUSDT": {
       "prices": {
-        "Binance": 9.65,
-        "MEXC": 9.647,
-        "OKX": 9.646,
-        "KuCoin": 9.651,
-        "Gate": 9.649
+        "Binance": 9.62,
+        "MEXC": 9.615,
+        "OKX": 9.619,
+        "KuCoin": 9.618,
+        "Gate": 9.613
       },
-      "absolute_diff": 0.0,
-      "spread_percent": 0.00051835,
+      "absolute_diff": 0.01,
+      "spread_percent": 0.00072818,
       "best_buy": {
-        "exchange": "OKX",
-        "price": 9.646
+        "exchange": "Gate",
+        "price": 9.613
       },
       "best_sell": {
-        "exchange": "KuCoin",
-        "price": 9.651
+        "exchange": "Binance",
+        "price": 9.62
       },
-      "binance_price": 9.65,
+      "binance_price": 9.62,
       "bybit_price": null
     },
     "MATICUSDT": {
@@ -293,128 +293,128 @@
     },
     "SHIBUSDT": {
       "prices": {
-        "Binance": 5.81e-06,
-        "MEXC": 5.805e-06,
-        "OKX": 5.809e-06,
-        "KuCoin": 5.807e-06,
-        "Gate": 5.806e-06
+        "Binance": 5.8e-06,
+        "MEXC": 5.793e-06,
+        "OKX": 5.795e-06,
+        "KuCoin": 5.793e-06,
+        "Gate": 5.792e-06
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00086133,
+      "spread_percent": 0.00138122,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 5.805e-06
+        "exchange": "Gate",
+        "price": 5.792e-06
       },
       "best_sell": {
         "exchange": "Binance",
-        "price": 5.81e-06
+        "price": 5.8e-06
       },
-      "binance_price": 5.81e-06,
+      "binance_price": 5.8e-06,
       "bybit_price": null
     },
     "UNIUSDT": {
       "prices": {
-        "Binance": 3.674,
-        "MEXC": 3.674,
-        "OKX": 3.674,
-        "KuCoin": 3.6743,
-        "Gate": 3.675
+        "Binance": 3.665,
+        "MEXC": 3.667,
+        "OKX": 3.666,
+        "KuCoin": 3.6665,
+        "Gate": 3.667
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00027218,
+      "spread_percent": 0.0005457,
       "best_buy": {
         "exchange": "Binance",
-        "price": 3.674
+        "price": 3.665
       },
       "best_sell": {
-        "exchange": "Gate",
-        "price": 3.675
+        "exchange": "MEXC",
+        "price": 3.667
       },
-      "binance_price": 3.674,
+      "binance_price": 3.665,
       "bybit_price": null
     },
     "XLMUSDT": {
       "prices": {
-        "Binance": 0.1689,
-        "MEXC": 0.1688,
-        "OKX": 0.16896,
-        "KuCoin": 0.1688,
-        "Gate": 0.16888
+        "Binance": 0.1686,
+        "MEXC": 0.1687,
+        "OKX": 0.16866,
+        "KuCoin": 0.1687,
+        "Gate": 0.16862
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00094787,
+      "spread_percent": 0.00059312,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 0.1688
+        "exchange": "Binance",
+        "price": 0.1686
       },
       "best_sell": {
-        "exchange": "OKX",
-        "price": 0.16896
+        "exchange": "MEXC",
+        "price": 0.1687
       },
-      "binance_price": 0.1689,
+      "binance_price": 0.1686,
       "bybit_price": null
     },
     "NEARUSDT": {
       "prices": {
-        "Binance": 1.384,
-        "MEXC": 1.3838,
-        "OKX": 1.384,
-        "KuCoin": 1.3831,
-        "Gate": 1.382
+        "Binance": 1.378,
+        "MEXC": 1.3771,
+        "OKX": 1.377,
+        "KuCoin": 1.377,
+        "Gate": 1.377
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00144718,
+      "spread_percent": 0.00072622,
       "best_buy": {
-        "exchange": "Gate",
-        "price": 1.382
+        "exchange": "OKX",
+        "price": 1.377
       },
       "best_sell": {
         "exchange": "Binance",
-        "price": 1.384
+        "price": 1.378
       },
-      "binance_price": 1.384,
+      "binance_price": 1.378,
       "bybit_price": null
     },
     "ATOMUSDT": {
       "prices": {
-        "Binance": 1.913,
-        "MEXC": 1.912,
-        "OKX": 1.913,
-        "KuCoin": 1.913,
-        "Gate": 1.912
+        "Binance": 1.9,
+        "MEXC": 1.9,
+        "OKX": 1.902,
+        "KuCoin": 1.9,
+        "Gate": 1.899
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.00052301,
+      "spread_percent": 0.00157978,
       "best_buy": {
-        "exchange": "MEXC",
-        "price": 1.912
+        "exchange": "Gate",
+        "price": 1.899
       },
       "best_sell": {
-        "exchange": "Binance",
-        "price": 1.913
+        "exchange": "OKX",
+        "price": 1.902
       },
-      "binance_price": 1.913,
+      "binance_price": 1.9,
       "bybit_price": null
     },
     "APTUSDT": {
       "prices": {
-        "Binance": 0.975,
-        "MEXC": 0.9746,
-        "OKX": 0.9745,
-        "KuCoin": 0.9748,
-        "Gate": 0.9751
+        "Binance": 0.984,
+        "MEXC": 0.9839,
+        "OKX": 0.9835,
+        "KuCoin": 0.9839,
+        "Gate": 0.9843
       },
       "absolute_diff": 0.0,
-      "spread_percent": 0.0006157,
+      "spread_percent": 0.00081342,
       "best_buy": {
         "exchange": "OKX",
-        "price": 0.9745
+        "price": 0.9835
       },
       "best_sell": {
         "exchange": "Gate",
-        "price": 0.9751
+        "price": 0.9843
       },
-      "binance_price": 0.975,
+      "binance_price": 0.984,
       "bybit_price": null
     }
   },
