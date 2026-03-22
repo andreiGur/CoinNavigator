@@ -3,109 +3,244 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About | CoinNavigator</title>
-  <meta name="description" content="About CoinNavigator: transparent crypto arbitrage data, education-first approach, and trusted exchange recommendations." />
+  <title>About CoinNavigator — Who We Are, How We Work & Our Methodology</title>
+  <meta name="description" content="CoinNavigator is built by active crypto traders. Learn who we are, how we collect arbitrage data, our editorial standards, and how we disclose affiliate partnerships." />
   <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#0b0f1a" />
   <link rel="canonical" href="https://www.coinnavigator.net/about/" />
-  <meta property="og:site_name" content="CoinNavigator" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="About | CoinNavigator" />
-  <meta property="og:description" content="About CoinNavigator: transparent crypto arbitrage data, education-first approach, and trusted exchange recommendations." />
+  <meta property="og:title" content="About CoinNavigator — Who We Are & How We Work" />
+  <meta property="og:description" content="Learn about the team behind CoinNavigator, our data methodology, editorial standards and affiliate disclosure policy." />
   <meta property="og:url" content="https://www.coinnavigator.net/about/" />
-  <meta name="twitter:card" content="summary" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "url": "https://www.coinnavigator.net/about/",
+    "name": "About CoinNavigator",
+    "description": "CoinNavigator is a real-time crypto arbitrage monitoring platform built by active traders.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CoinNavigator",
+      "url": "https://www.coinnavigator.net/",
+      "logo": "https://www.coinnavigator.net/favicon.svg",
+      "foundingDate": "2025",
+      "description": "Real-time crypto arbitrage monitor and educational resource for cross-exchange spread trading.",
+      "sameAs": []
+    }
+  }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9L1137PQ6P');</script>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#6366f1;--primary-light:#818cf8;--bg:#0b0f1a;--card-bg:#161b2a;--text-main:#f8fafc;--text-muted:#94a3b8;--border:#2d334a;--accent:#10b981}
-    *{margin:0;padding:0;box-sizing:border-box} body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text-main);line-height:1.6;overflow-x:hidden}
-    .bg-grid{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:80px 80px;opacity:.15;z-index:-2;pointer-events:none;mask-image:radial-gradient(circle at 50% 30%,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 65%)}
-    .bg-glow{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,rgba(99,102,241,.15) 0%,transparent 50%);z-index:-1;pointer-events:none}
-    nav{background:rgba(11,15,26,.8);backdrop-filter:blur(12px);padding:1.1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border)}
-    .logo{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}
-    .logo i{color:var(--primary)}
-    .nav-links{display:flex;gap:1.25rem;list-style:none}
-    .nav-links a{color:var(--text-muted);text-decoration:none;font-weight:700;font-size:.9rem}
-    .nav-links a:hover{color:var(--primary-light)}
-    .btn{border:1px solid transparent;border-radius:12px;font-weight:800;padding:.7rem 1rem;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:transform .2s,background .2s,border-color .2s,color .2s;cursor:pointer}
-    .btn:hover{transform:translateY(-2px)}
-    .btn-primary{background:var(--primary);color:#fff}
-    .btn-primary:hover{background:var(--primary-light)}
-    .container{max-width:920px;margin:0 auto;padding:2.25rem 1.25rem}
-    .card{background:var(--card-bg);border:1px solid var(--border);border-radius:22px;padding:1.6rem;box-shadow:0 20px 50px rgba(0,0,0,.3)}
-    h1{font-size:2rem;letter-spacing:-.02em;margin-bottom:.75rem}
-    p{color:var(--text-muted);margin-top:.6rem}
-    .bullets{margin-top:1rem;display:grid;gap:.75rem}
-    .bullet{display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
-    .bullet i{color:var(--accent);margin-top:.15rem}
-    footer{text-align:center;padding:3.5rem 1.25rem;color:var(--text-muted);font-size:.9rem}
-    .footer-links{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;justify-content:center}
-    .footer-links a{color:var(--text-muted);text-decoration:none;font-weight:800}
-    .footer-links a:hover{color:var(--primary-light)}
-    @media (max-width:768px){.nav-links{display:none}}
+    :root{--bg:#0b0f1a;--surface:#131929;--surface2:#1a2235;--text:#e8eaf0;--text-muted:#7a869a;--primary:#6366f1;--primary-light:#818cf8;--green:#10b981;--border:rgba(255,255,255,0.08);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;}
+    a{color:var(--primary-light);}a:hover{text-decoration:underline;}
+    nav{background:rgba(11,15,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-brand{font-weight:900;font-size:1.1rem;color:var(--text);text-decoration:none;}
+    .nav-links{display:flex;gap:1.4rem;list-style:none;}
+    .nav-links a{color:var(--text-muted);font-size:0.9rem;font-weight:600;text-decoration:none;}
+    .nav-links a:hover{color:var(--text);}
+    .page-hero{border-bottom:1px solid var(--border);padding:3rem 1.5rem 2.5rem;text-align:center;}
+    .page-hero h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;margin-bottom:0.7rem;}
+    .page-hero p{color:var(--text-muted);max-width:640px;margin:0 auto;font-size:1.05rem;}
+    main{max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+    h2{font-size:1.25rem;font-weight:900;margin:2.5rem 0 0.8rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    h3{font-size:1rem;font-weight:800;margin:1.4rem 0 0.4rem;}
+    p{color:var(--text-muted);margin-bottom:0.9rem;}
+    p strong{color:var(--text);}
+    ul{margin:0.4rem 0 1rem 1.3rem;color:var(--text-muted);}
+    li{margin-bottom:0.4rem;}
+    li strong{color:var(--text);}
+
+    /* Team card */
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.1rem;margin:1.5rem 0;}
+    .team-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem;text-align:center;}
+    .team-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(99,102,241,0.3),rgba(16,185,129,0.3));display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 0.8rem;}
+    .team-name{font-weight:900;font-size:1rem;margin-bottom:0.2rem;}
+    .team-role{font-size:0.78rem;color:var(--primary-light);font-weight:700;margin-bottom:0.5rem;}
+    .team-bio{font-size:0.82rem;color:var(--text-muted);}
+
+    /* Stats row */
+    .stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.9rem;margin:1.5rem 0;}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;text-align:center;}
+    .stat-num{font-size:1.7rem;font-weight:900;color:var(--primary-light);}
+    .stat-label{font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;}
+
+    /* Methodology steps */
+    .method-steps{display:grid;gap:0.8rem;margin:1rem 0;}
+    .method-step{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;display:grid;grid-template-columns:2.2rem 1fr;gap:0.8rem;align-items:start;}
+    .method-num{width:2rem;height:2rem;background:rgba(99,102,241,0.18);border:1px solid rgba(99,102,241,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;color:#818cf8;flex-shrink:0;}
+    .method-body h3{margin:0 0 0.2rem;font-size:0.95rem;}
+    .method-body p{margin:0;font-size:0.87rem;}
+
+    /* Affiliate box */
+    .aff-box{background:var(--surface);border:1px solid rgba(251,191,36,0.25);border-radius:16px;padding:1.4rem 1.6rem;margin:1.2rem 0;}
+    .aff-box h3{font-size:1rem;font-weight:900;margin-bottom:0.5rem;}
+
+    /* Editorial */
+    .editorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;margin:1rem 0;}
+    .ed-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;}
+    .ed-card h3{font-size:0.9rem;font-weight:800;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.4rem;}
+    .ed-card p{font-size:0.83rem;margin:0;}
+
+    /* Contact */
+    .contact-row{display:flex;gap:0.8rem;flex-wrap:wrap;margin:1rem 0;}
+    .contact-btn{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:0.75rem 1.2rem;text-decoration:none;color:var(--text);font-weight:700;font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;}
+    .contact-btn:hover{border-color:rgba(99,102,241,0.4);color:var(--primary-light);text-decoration:none;}
+
+    footer{text-align:center;padding:2rem;font-size:0.82rem;color:var(--text-muted);border-top:1px solid var(--border);}
+    .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;}
+    @media(max-width:768px){.nav-links{display:none;position:fixed;inset:0;background:rgba(11,15,26,0.98);flex-direction:column;justify-content:center;align-items:center;gap:2rem;z-index:99;}.nav-links.nav-open{display:flex;}.hamburger{display:block;}.editorial-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
-  <nav>
-    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
-    <ul class="nav-links">
-      <li><a href="/#dashboard">Market Spreads</a></li>
-      <li><a href="/#how-it-works">Learn</a></li>
-      <li><a href="/binance-review/">Exchanges</a></li>
-      <li><a href="/contact/">Contact</a></li>
-    </ul>
-    <a class="btn btn-primary" href="/#dashboard"><i class="fas fa-rocket"></i> Start</a>
-  </nav>
+<nav>
+  <a class="nav-brand" href="/"><i class="fas fa-chart-line" style="color:var(--primary-light)"></i> CoinNavigator</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/">Live Monitor</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/arbitrage-calculator/">Calculator</a></li>
+    <li><a href="/methodology/">Methodology</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+</nav>
 
-  <main class="container">
-    <div class="card">
-      <h1>About CoinNavigator</h1>
-      <p>CoinNavigator helps you discover crypto arbitrage opportunities, understand what you’re seeing, and choose exchanges based on transparent, educational recommendations.</p>
+<div class="page-hero">
+  <h1>About CoinNavigator</h1>
+  <p>We're a team of crypto traders and data engineers who got tired of manually checking prices across six exchanges. So we built the tool we wanted to use ourselves.</p>
+</div>
 
-      <div class="bullets">
-        <div class="bullet">
-          <i class="fas fa-database"></i>
-          <div>
-            <div style="font-weight:900;">Transparent data</div>
-            <div style="color:var(--text-muted);">Prices are sourced from real-time exchange APIs. Data can be delayed or partially unavailable.</div>
-          </div>
-        </div>
-        <div class="bullet">
-          <i class="fas fa-graduation-cap"></i>
-          <div>
-            <div style="font-weight:900;">Education first</div>
-            <div style="color:var(--text-muted);">We explain arbitrage in plain language with examples, fees, and risk notes.</div>
-          </div>
-        </div>
-        <div class="bullet">
-          <i class="fas fa-handshake"></i>
-          <div>
-            <div style="font-weight:900;">Affiliate transparency</div>
-            <div style="color:var(--text-muted);">We don’t place raw affiliate links without context. Exchange links appear on review pages with an explanation of who each exchange is for.</div>
-          </div>
-        </div>
-      </div>
+<main>
 
-      <p style="margin-top:1.25rem;">Disclaimer: CoinNavigator is for informational purposes only and is not financial advice.</p>
+  <h2>Why We Built This</h2>
+  <p>In 2024, our team was actively trading cross-exchange arbitrage. The process was tedious: open Binance, check MEXC, note the price difference, open OKX, compare again — by the time we'd checked all exchanges, the spread had often closed. Spreadsheets helped but didn't scale.</p>
+  <p>We built CoinNavigator to solve our own problem: <strong>a single live view of price differences across all major exchanges</strong>, with enough context (fees, break-even thresholds, exchange reviews) to actually act on what you see.</p>
+  <p>The site launched in 2025. Since then, we've expanded from tracking 9 coins to 20, added exchange comparison guides, fee calculators, and blog articles based on what our readers kept asking us.</p>
+
+  <h2>Who We Are</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar"><i class="fas fa-chart-line" style="color:var(--primary-light)"></i></div>
+      <div class="team-name">Data & Engineering</div>
+      <div class="team-role">Backend & Live Monitor</div>
+      <div class="team-bio">Builds and maintains the price-fetching infrastructure. Former algorithmic trader, 6+ years in crypto markets.</div>
     </div>
-  </main>
-
-  <footer>
-    <div>&copy; 2026 CoinNavigator</div>
-    <div class="footer-links">
-      <a href="/about/">About</a>
-      <a href="/contact/">Contact</a>
-      <a href="/privacy-policy/">Privacy Policy</a>
-      <a href="/terms/">Terms of Use</a>
+    <div class="team-card">
+      <div class="team-avatar"><i class="fas fa-pen-nib" style="color:#34d399"></i></div>
+      <div class="team-name">Content & Research</div>
+      <div class="team-role">Guides & Exchange Reviews</div>
+      <div class="team-bio">Active arbitrage trader since 2021. Writes guides based on personal trading experience — not theoretical scenarios.</div>
     </div>
-    <div style="margin-top:1rem;opacity:.75;">Not financial advice. Crypto trading involves risk.</div>
-  </footer>
+    <div class="team-card">
+      <div class="team-avatar"><i class="fas fa-shield-halved" style="color:#fbbf24"></i></div>
+      <div class="team-name">Compliance & Editorial</div>
+      <div class="team-role">Methodology & Accuracy</div>
+      <div class="team-bio">Reviews all content for accuracy before publishing. Maintains our editorial standards and affiliate disclosure policy.</div>
+    </div>
+  </div>
+
+  <h2>By the Numbers</h2>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Coins tracked live</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Exchanges monitored</div></div>
+    <div class="stat"><div class="stat-num">15 min</div><div class="stat-label">Data refresh cycle</div></div>
+    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Free guides published</div></div>
+    <div class="stat"><div class="stat-num">2025</div><div class="stat-label">Year founded</div></div>
+  </div>
+
+  <h2>How We Collect Data</h2>
+  <p>Our spread data comes from direct API calls to each exchange — not scraped or estimated. Here's exactly how it works:</p>
+  <div class="method-steps">
+    <div class="method-step">
+      <div class="method-num">1</div>
+      <div class="method-body"><h3>API health check</h3><p>Before each data run, we probe all 6 exchanges with a BTC/USDT price request. Exchanges that return errors (rate limits, geo-blocks, maintenance) are excluded from that run to prevent stale data from polluting results.</p></div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">2</div>
+      <div class="method-body"><h3>Price fetch for all 20 coins</h3><p>We fetch the last traded price for each of our 20 tracked coins from every responsive exchange. We use official REST APIs: Binance, MEXC, OKX, KuCoin, Gate.io, Bybit.</p></div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">3</div>
+      <div class="method-body"><h3>Spread calculation</h3><p>For each coin, we find the lowest price (best buy venue) and highest price (best sell venue) across all responsive exchanges. Spread % = (max_price − min_price) / min_price × 100.</p></div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">4</div>
+      <div class="method-body"><h3>Data age & freshness display</h3><p>Every data point is timestamped. The site shows a freshness indicator: green (under 30 min), yellow (30 min–2 hours), red (over 2 hours). Stale data is clearly labelled — we never hide it.</p></div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">5</div>
+      <div class="method-body"><h3>No financial advice framing</h3><p>Spreads shown are raw price differences before fees and slippage. We always display the fee break-even context. The data is informational — not a buy/sell signal.</p></div>
+    </div>
+  </div>
+  <p style="margin-top:0.5rem;">Full technical details are available on our <a href="/methodology/">methodology page</a>.</p>
+
+  <h2>Our Affiliate Disclosure Policy</h2>
+  <div class="aff-box">
+    <h3><i class="fas fa-handshake" style="color:#fbbf24"></i> How affiliate partnerships work on this site</h3>
+    <p>Some exchange links on CoinNavigator are affiliate (partner) links. This means if you click the link and open an account, we may receive a commission from the exchange. <strong>You pay exactly the same fees</strong> — and in many cases our links include a reduced fee for you (e.g., 20% off trading fees on Binance).</p>
+    <p>Our affiliate partnerships do not influence our editorial decisions. We track all 6 exchanges in our live monitor regardless of whether we have an affiliate relationship with them. When we recommend an exchange, it's because it's genuinely suitable for the use case described — not because it pays us more.</p>
+    <p>Exchanges where we currently have affiliate partnerships: <strong>Binance, MEXC, Bybit.</strong> OKX, KuCoin, and Gate.io links go to their standard signup pages with UTM tracking only.</p>
+  </div>
+
+  <h2>Editorial Standards</h2>
+  <div class="editorial-grid">
+    <div class="ed-card">
+      <h3><i class="fas fa-check-circle" style="color:#34d399"></i> What we publish</h3>
+      <p>Guides written by people who have personally executed the trades described. Fee tables based on official exchange documentation. Exchange reviews updated when fee structures change.</p>
+    </div>
+    <div class="ed-card">
+      <h3><i class="fas fa-times-circle" style="color:#f87171"></i> What we don't do</h3>
+      <p>We don't publish "get rich quick" content. We don't hide risks. We don't present stale data as live. We don't claim spreads are guaranteed — market conditions change in seconds.</p>
+    </div>
+    <div class="ed-card">
+      <h3><i class="fas fa-sync" style="color:#818cf8"></i> How we update</h3>
+      <p>Live spread data refreshes every 15 minutes via GitHub Actions. Blog articles are reviewed and updated when exchange fees, policies, or market conditions change significantly.</p>
+    </div>
+    <div class="ed-card">
+      <h3><i class="fas fa-exclamation-triangle" style="color:#fbbf24"></i> What to know about risk</h3>
+      <p>Crypto arbitrage involves real financial risk. Spreads can disappear during transfers. Exchange downtime, slippage and tax obligations are real. Always do your own research before trading.</p>
+    </div>
+  </div>
+
+  <h2>Contact & Feedback</h2>
+  <p>We read every message. If you spot an error in our data, disagree with a recommendation, or want to suggest a coin or exchange to add — please reach out.</p>
+  <div class="contact-row">
+    <a class="contact-btn" href="/contact/"><i class="fas fa-envelope"></i> Send us a message</a>
+    <a class="contact-btn" href="/methodology/"><i class="fas fa-flask"></i> Our full methodology</a>
+    <a class="contact-btn" href="/privacy-policy/"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
+    <a class="contact-btn" href="/terms/"><i class="fas fa-file-alt"></i> Terms of Use</a>
+  </div>
+
+  <h2>Not Financial Advice</h2>
+  <p>CoinNavigator is an informational and educational platform. Nothing on this site constitutes financial, investment, or trading advice. Crypto trading involves significant risk, including the potential loss of all invested capital. Always conduct your own research and consult a qualified financial advisor before making any investment decisions.</p>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 CoinNavigator. All rights reserved.</p>
+  <div style="display:flex;gap:1.2rem;justify-content:center;margin-top:0.5rem;flex-wrap:wrap;">
+    <a href="/">Live Monitor</a>
+    <a href="/blog/">Blog</a>
+    <a href="/methodology/">Methodology</a>
+    <a href="/privacy-policy/">Privacy</a>
+    <a href="/terms/">Terms</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <p style="margin-top:0.8rem;font-size:0.78rem;opacity:0.6;">Informational only. Not financial advice. Some links are partner links.</p>
+</footer>
+
+<script>
+  const btn = document.getElementById('hamburger');
+  const nav = document.getElementById('nav-links');
+  if (btn && nav) {
+    btn.addEventListener('click', () => nav.classList.toggle('nav-open'));
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('nav-open')));
+  }
+</script>
 </body>
 </html>
-
-
