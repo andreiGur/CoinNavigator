@@ -78,7 +78,39 @@
               "name": "Do you use affiliate links?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Some links may become partner links later and support the project at no extra cost. The site avoids dropping raw affiliate links without context and instead routes users to review pages with explanations."
+                "text": "Yes. Some exchange links are partner (affiliate) links. You pay the same price — and often get a reduced trading fee. We earn a small commission that helps keep the site free."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much money can you make from crypto arbitrage?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Profits depend on spread size, trade volume, and fees. A 0.30% spread on a $10,000 trade yields roughly $10 net profit after a 0.20% round-trip fee. Larger capital amplifies results, but risks (transfer time, price slippage, exchange downtime) also scale. Many retail arbitrage opportunities yield $5–$50 per trade."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which exchange is best for crypto arbitrage?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Binance is typically the best 'buy' exchange due to its high liquidity and tight spreads. MEXC and Gate.io often show higher prices on altcoins, making them good 'sell' exchanges. Opening accounts on both Binance and MEXC is the most common starting setup for beginners."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is crypto arbitrage legal?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Cross-exchange crypto arbitrage is legal in most jurisdictions. It is a market activity that helps equalize prices across exchanges. Always check local regulations and ensure you comply with exchange KYC/AML requirements."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is CoinNavigator free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. CoinNavigator is completely free. The spread monitor, all comparison guides, and blog articles are free to access. The site is supported by affiliate partnerships with exchanges."
               }
             }
           ]
@@ -647,6 +679,33 @@
         .err { color: var(--danger); font-weight: 700; }
 
         .hidden { display: none !important; }
+        /* ── Sticky Bottom Spread Bar ────────────────────────────── */
+        #sticky-spread-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+            background: linear-gradient(90deg, #0f1e2e 0%, #0b1520 100%);
+            border-top: 1px solid rgba(16,185,129,0.35);
+            padding: 0.7rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; flex-wrap: wrap;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 -4px 30px rgba(0,0,0,0.4);
+        }
+        #sticky-spread-bar.visible { transform: translateY(0); }
+        #sticky-spread-bar.hidden-bar { display: none; }
+        .ssb-left { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+        .ssb-badge { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.4); color: #34d399; border-radius: 99px; padding: 0.2rem 0.65rem; display: flex; align-items: center; gap: 0.35rem; }
+        .ssb-badge .dot { width: 6px; height: 6px; background: #34d399; border-radius: 50%; animation: pulse-dot 1.8s infinite; }
+        .ssb-info { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+        .ssb-coin { font-weight: 900; font-size: 1rem; color: var(--text); }
+        .ssb-spread { font-size: 1.1rem; font-weight: 900; color: #34d399; }
+        .ssb-profit { font-size: 0.88rem; font-weight: 700; color: #fbbf24; }
+        .ssb-route { font-size: 0.78rem; color: var(--text-muted); }
+        .ssb-right { display: flex; align-items: center; gap: 0.7rem; }
+        .ssb-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; padding: 0.2rem 0.4rem; line-height: 1; }
+        .ssb-close:hover { color: var(--text); }
+        @media(max-width: 500px) { #sticky-spread-bar { padding: 0.6rem 1rem; } .ssb-profit { display: none; } }
+
         .data-freshness-banner {
             margin: 0 0 1rem 0;
             padding: 0.85rem 1.25rem;
@@ -1349,6 +1408,32 @@
         </div>
     </section>
 
+    <!-- ── FAQ Section ─────────────────────────────────────────── -->
+    <section style="max-width:820px;margin:0 auto 3rem;padding:0 1.5rem;" id="faq" aria-label="Frequently asked questions">
+        <h2 style="font-size:1.3rem;font-weight:900;margin-bottom:1.2rem;text-align:center;">Frequently Asked Questions</h2>
+        <div style="display:grid;gap:0.7rem;">
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">How much money can you make from crypto arbitrage? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">A 0.30% spread on a $10,000 trade yields roughly <strong style="color:var(--text);">$10 net profit</strong> after fees. With $100,000 capital the same opportunity earns ~$100. Most retail arbitrage trades yield $5–$50. Larger capital, more trades per day = meaningful monthly income.</p>
+            </details>
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Which exchange is best for crypto arbitrage? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;"><strong style="color:var(--text);">Binance</strong> is the best "buy" exchange — most liquid, tightest spreads. <strong style="color:var(--text);">MEXC</strong> and <strong style="color:var(--text);">Gate.io</strong> often show higher prices on altcoins, making them good "sell" exchanges. <a href="/binance-vs-mexc/" style="color:var(--primary-light);">Compare Binance vs MEXC →</a></p>
+            </details>
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is crypto arbitrage legal? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Yes. Cross-exchange crypto arbitrage is legal in most jurisdictions — it's a normal market activity that helps equalize prices. Always comply with your local tax regulations and exchange KYC/AML requirements.</p>
+            </details>
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">What spread size is profitable after fees? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Standard exchanges charge 0.10% per trade. A round trip (buy + sell) costs <strong style="color:var(--text);">0.20%</strong>. You need a spread above 0.20% to profit. Spreads of 0.30%+ are clearly profitable. Use our <a href="/arbitrage-calculator/" style="color:var(--primary-light);">free calculator</a> to estimate your exact profit.</p>
+            </details>
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is CoinNavigator free? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Yes, completely free. The spread monitor, all guides, and comparison tools are free forever. We earn a small affiliate commission when you open an exchange account through our links — at no extra cost to you.</p>
+            </details>
+        </div>
+    </section>
 
     <footer>
         <p>&copy; 2026 CoinNavigator | Built for trust-first crypto education & tools</p>
@@ -1984,6 +2069,7 @@
                 KuCoin:  'https://www.kucoin.com/ucenter/signup?utm_source=coinnavigator',
                 Gate:    'https://www.gate.io/signup?utm_source=coinnavigator',
             };
+            window.AFFILIATE_LINKS_GLOBAL = AFFILIATE_LINKS;
             const REVIEW_PAGES = {
                 Binance: AFFILIATE_LINKS.Binance,
                 MEXC:    AFFILIATE_LINKS.MEXC,
@@ -2314,6 +2400,7 @@
                 renderDashboardTable(data);
 
                 track('dashboard_render', { assets: TARGET_SYMBOLS.length });
+                if (typeof window._stickyBarPopulate === 'function') window._stickyBarPopulate(data);
 
                 // Hero snapshot (top spreads)
                 try {
@@ -2530,6 +2617,80 @@
                     btn.setAttribute('aria-expanded', 'false');
                 });
             });
+        })();
+
+        // ── Sticky bottom spread bar ──────────────────────────────
+        (function initStickyBar() {
+            const bar = document.createElement('div');
+            bar.id = 'sticky-spread-bar';
+            bar.className = 'hidden-bar';
+            bar.innerHTML = `
+                <div class="ssb-left">
+                    <div class="ssb-badge"><span class="dot"></span> Live spread</div>
+                    <div class="ssb-info">
+                        <span class="ssb-coin" id="ssb-coin">—</span>
+                        <span class="ssb-spread" id="ssb-spread">—</span>
+                        <span class="ssb-profit" id="ssb-profit"></span>
+                    </div>
+                    <span class="ssb-route" id="ssb-route"></span>
+                </div>
+                <div class="ssb-right">
+                    <a class="btn btn-primary" id="ssb-cta" href="#dashboard" target="_blank" rel="noopener nofollow"
+                       style="padding:0.55rem 1.1rem;font-size:0.88rem;white-space:nowrap;"
+                       data-track="sticky_bar_trade">
+                        <i class="fas fa-bolt"></i> Trade Now
+                    </a>
+                    <button class="ssb-close" id="ssb-close" aria-label="Dismiss" title="Dismiss">×</button>
+                </div>`;
+            document.body.appendChild(bar);
+
+            let dismissed = false;
+            document.getElementById('ssb-close').addEventListener('click', () => {
+                bar.classList.remove('visible');
+                dismissed = true;
+            });
+
+            // Show bar after user scrolls past hero (300px)
+            const showBar = () => {
+                if (dismissed) return;
+                bar.classList.remove('hidden-bar');
+                requestAnimationFrame(() => bar.classList.add('visible'));
+            };
+            let shown = false;
+            window.addEventListener('scroll', () => {
+                if (!shown && window.scrollY > 300) { shown = true; showBar(); }
+            }, { passive: true });
+
+            // Populate bar data once spread data loads
+            window._stickyBarPopulate = function(data) {
+                if (dismissed) return;
+                try {
+                    const rows = [];
+                    for (const [sym, info] of Object.entries(data.symbols || {})) {
+                        const sp = (typeof info.spread_percent === 'number') ? info.spread_percent * 100 : null;
+                        if (!sp || sp <= 0 || !info.best_buy || !info.best_sell) continue;
+                        rows.push({ sym, sp, buy: info.best_buy.exchange, sell: info.best_sell.exchange });
+                    }
+                    rows.sort((a, b) => b.sp - a.sp);
+                    const best = rows[0];
+                    if (!best) return;
+                    const label = best.sym.replace('USDT','').replace('BUSD','');
+                    const FEE = 0.20;
+                    const netDollar = ((best.sp - FEE) / 100) * 1000;
+                    document.getElementById('ssb-coin').textContent = label;
+                    document.getElementById('ssb-spread').textContent = best.sp.toFixed(3) + '%';
+                    document.getElementById('ssb-route').textContent = best.buy + ' → ' + best.sell;
+                    if (netDollar > 0) {
+                        document.getElementById('ssb-profit').textContent = '+$' + netDollar.toFixed(1) + ' on $1k';
+                    }
+                    const cta = document.getElementById('ssb-cta');
+                    if (cta) {
+                        const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || 'https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=sticky_bar&utm_campaign=sticky';
+                        cta.href = aff;
+                        cta.setAttribute('data-ex', best.buy);
+                    }
+                } catch(e) {}
+            };
         })();
 
         // ── Exit-intent popup ─────────────────────────────────────
