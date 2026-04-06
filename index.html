@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoinNavigator — Real-Time Crypto Arbitrage | 2026</title>
-    <meta name="description" content="Compare crypto prices across top exchanges, scan spreads across 20+ coins, filter opportunities above 0.1%, and learn the risks. Transparent methodology. Updates every 15 minutes." />
+    <meta name="description" content="Compare crypto prices across top exchanges, scan spreads across 20 coins, filter opportunities above 0.1%, and learn the risks. Transparent methodology. Updates every 15 minutes." />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#0b0f1a" />
 
@@ -18,7 +18,6 @@
     <meta property="og:image" content="https://www.coinnavigator.net/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://www.coinnavigator.net/og-image.png" />
-    <meta name="twitter:card" content="summary" />
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
@@ -1124,7 +1123,7 @@
     <!-- Trust Bar -->
     <div style="max-width:1200px;margin:0 auto 0;padding:0 2rem;">
         <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0.5rem 1.25rem;padding:0.85rem 1.25rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;">
-            <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-coins" style="color:#f7931a;font-size:0.75rem;"></i> <strong style="color:var(--text-main);">9 assets</strong> tracked</span>
+            <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-coins" style="color:#f7931a;font-size:0.75rem;"></i> <strong style="color:var(--text-main);">20 assets</strong> tracked</span>
             <span style="color:rgba(255,255,255,0.1);">|</span>
             <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-building-columns" style="color:var(--primary-light);font-size:0.75rem;"></i> <strong style="color:var(--text-main);">6 exchanges</strong> monitored</span>
             <span style="color:rgba(255,255,255,0.1);">|</span>
@@ -1175,7 +1174,7 @@
                                 <div class="sub">Buy the asset on the cheaper exchange.</div>
                             </div>
                         </a>
-                        <a class="flow-step clickable focus-ring" href="/terms/" title="Understand fees, risks and limits">
+                        <a class="flow-step clickable focus-ring" href="/arbitrage-calculator/" title="Use the free calculator to estimate profit after fees">
                             <div class="badge">2</div>
                             <div>
                                 <div class="title">Transfer</div>
@@ -1227,6 +1226,10 @@
                     <label class="dc-check" title="Show only spreads above 0.10%">
                         <input id="only-gt-01" type="checkbox" />
                         Only &gt;0.1%
+                    </label>
+                    <label class="dc-check" title="Show only spreads above 0.30% — profitable after standard 0.10% fees per leg" style="border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);">
+                        <input id="only-profitable" type="checkbox" />
+                        <span style="color:#34d399;font-weight:800;">✓ Profitable</span> &gt;0.3%
                     </label>
                     <label class="dc-check" title="Show only USDT quoted pairs">
                         <input id="only-usdt" type="checkbox" checked />
@@ -1286,7 +1289,7 @@
         <section class="email-section" id="email-alerts">
             <div class="em-text">
                 <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Never miss a profitable spread</h3>
-                <p>We’ll email you when BTC, ETH or SOL spread exceeds 0.3 — the sweet spot after fees. Free, no spam.</p>
+                <p>Get emailed the moment BTC, ETH or SOL spread exceeds 0.3% — the sweet spot where profit beats fees. <strong style="color:var(--text-main);">Free forever, one-click unsubscribe.</strong></p>
             </div>
             <form class="email-form" id="email-alert-form" action="https://formspree.io/f/xwpbqvow" method="POST">
                 <input class="email-input" type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
@@ -1524,6 +1527,19 @@
             <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
                 <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is CoinNavigator free? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
                 <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Yes, completely free. The spread monitor, all guides, and comparison tools are free forever. We earn a small affiliate commission when you open an exchange account through our links — at no extra cost to you.</p>
+            </details>
+
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">What is slippage and does it affect arbitrage? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Slippage occurs when the actual execution price differs from the quoted price, usually due to low liquidity or large order size. For arbitrage, slippage on either leg can erode or eliminate your spread. To minimize slippage: trade coins with high volume, use limit orders where possible, and keep your trade size well within the order book depth. As a rule of thumb, keep your trade below 0.5% of the 24h volume.</p>
+            </details>
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I need to complete KYC to do crypto arbitrage? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Most major exchanges (Binance, MEXC, Bybit) require at least basic KYC (email + ID) to enable withdrawals. Without withdrawal access you cannot move assets between exchanges. Complete KYC on both your buy and sell exchange before attempting arbitrage. For smaller amounts some exchanges offer limited withdrawal limits without full KYC, but this restricts your trading capacity.</p>
+            </details>
+            <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is crypto arbitrage profit taxable? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">In most jurisdictions, yes. Crypto arbitrage profits are treated as capital gains or ordinary income, depending on how long you hold the asset and your local tax laws. Each buy and sell is typically a taxable event. We strongly recommend keeping records of every trade (entry price, exit price, fees, timestamps) and consulting a tax professional in your country. CoinNavigator does not provide tax advice.</p>
             </details>
         </div>
     </section>
@@ -2008,6 +2024,7 @@
         const TABLE_STATE = {
             q: '',
             onlyGt01: false,
+            onlyProfitable: false,
             onlyUsdt: true,
             onlyCex: true,
             hideMissing: true,
@@ -2197,6 +2214,8 @@
             const missingEl = document.getElementById('hide-missing');
             TABLE_STATE.q = qEl ? qEl.value : '';
             TABLE_STATE.onlyGt01 = !!(gtEl && gtEl.checked);
+            const profEl2 = document.getElementById('only-profitable');
+            TABLE_STATE.onlyProfitable = !!(profEl2 && profEl2.checked);
             TABLE_STATE.onlyUsdt = !!(usdtEl && usdtEl.checked);
             TABLE_STATE.onlyCex = !!(cexEl && cexEl.checked);
             TABLE_STATE.hideMissing = !!(missingEl && missingEl.checked);
@@ -2225,6 +2244,8 @@
             if (qEl) qEl.addEventListener('input', onChange);
             if (qEl) qEl.addEventListener('change', onChange);
             if (gtEl) gtEl.addEventListener('change', onChange);
+            const profEl = document.getElementById('only-profitable');
+            if (profEl) profEl.addEventListener('change', onChange);
             if (usdtEl) usdtEl.addEventListener('change', onChange);
             if (cexEl) cexEl.addEventListener('change', onChange);
             if (missingEl) missingEl.addEventListener('change', onChange);
@@ -2283,7 +2304,7 @@
 
             const qRaw = normalizeCoinQuery(TABLE_STATE.q);
             const qTicker = qRaw.replace('USDT', '');
-            const minSpreadPct = TABLE_STATE.onlyGt01 ? 0.1 : 0;
+            const minSpreadPct = TABLE_STATE.onlyProfitable ? 0.3 : (TABLE_STATE.onlyGt01 ? 0.1 : 0);
 
             // Universe: top-20 tickers (plus anything the API already provides)
             const universe = Array.from(new Set([
@@ -2390,7 +2411,7 @@
                     </td>
                     <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${buyReviewUrl}" title="Go to ${info.best_buy.exchange} review (region-aware)"><i class="fas fa-store"></i> ${buyText}</a>` : '<span class="muted">—</span>'}</td>
                     <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${sellReviewUrl}" title="Go to ${info.best_sell.exchange} review (region-aware)"><i class="fas fa-store"></i> ${sellText}</a>` : '<span class="muted">—</span>'}</td>
-                    <td><div class="spread-cell">${displaySpread != null && displaySpread >= 0.5 ? '<span class="hot-badge"><i class="fas fa-fire"></i> HOT</span>' : ''}<span class="spread-val ${spreadColorClass(displaySpread)} ${hasBest ? 'clickable' : 'spread-none'}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></div></td>
+                    <td><div class="spread-cell">${displaySpread != null && displaySpread >= 0.5 ? '<span class="hot-badge"><i class="fas fa-fire"></i> HOT</span>' : (displaySpread != null && displaySpread >= 0.3 ? '<span class="hot-badge" style="background:rgba(16,185,129,0.15);color:#34d399;border-color:rgba(16,185,129,0.35);"><i class="fas fa-circle-check"></i> Profitable</span>' : '')}<span class="spread-val ${spreadColorClass(displaySpread)} ${hasBest ? 'clickable' : 'spread-none'}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></div></td>
                     <td>${actionHtml}</td>
                 `;
                 tbody.appendChild(row);
