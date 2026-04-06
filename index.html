@@ -1329,18 +1329,27 @@
             </div>
         </div>
 
-        <!-- Email Alerts Capture -->
-        <section class="email-section" id="email-alerts">
-            <div class="em-text">
-                <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Never miss a profitable spread</h3>
-                <p>Get emailed the moment BTC, ETH or SOL spread exceeds 0.3% — the sweet spot where profit beats fees. <strong style="color:var(--text-main);">Free forever, one-click unsubscribe.</strong></p>
+        <!-- Email Alerts Capture (Task 8 - Lead Magnet Enhanced) -->
+        <section class="email-section" id="email-alerts" style="flex-direction:column;align-items:stretch;gap:1rem;padding:1.6rem 2rem;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+                <div class="em-text" style="flex:1;min-width:220px;">
+                    <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Never miss a profitable spread</h3>
+                    <p>Join traders who get notified the moment BTC, ETH or SOL spread exceeds 0.3%. <strong style="color:var(--text-main);">Free forever, one-click unsubscribe.</strong></p>
+                </div>
+                <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:14px;padding:0.9rem 1.1rem;min-width:200px;flex:0 0 auto;">
+                    <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#fbbf24;margin-bottom:0.35rem;"><i class="fas fa-gift"></i> Free with signup</div>
+                    <div style="font-weight:800;font-size:0.88rem;color:var(--text-main);">Arbitrage Checklist PDF</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.2rem;">15-point pre-trade checklist to avoid common mistakes</div>
+                </div>
             </div>
-            <form class="email-form" id="email-alert-form" action="https://formspree.io/f/xwpbqvow" method="POST">
-                <input class="email-input" type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+            <form class="email-form" id="email-alert-form" action="https://formspree.io/f/xwpbqvow" method="POST" style="flex-wrap:wrap;width:100%;">
+                <input class="email-input" type="email" name="email" placeholder="your@email.com" required autocomplete="email" style="flex:1;min-width:200px;" />
                 <input type="hidden" name="source" value="homepage_alert_banner" />
-                <button class="btn btn-primary" type="submit" data-track="email_signup"><i class="fas fa-bell"></i> Alert Me — It's Free</button>
+                <input type="hidden" name="lead_magnet" value="arbitrage_checklist_pdf" />
+                <button class="btn btn-primary" type="submit" data-track="email_signup"><i class="fas fa-bell"></i> Get Alerts + Free Checklist</button>
             </form>
-            <span class="email-sent" id="email-sent">✅ You're in! We'll alert you when spreads spike.</span>
+            <span class="email-sent" id="email-sent">✅ You're in! Check your email for the checklist PDF.</span>
+            <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">No spam. Unsubscribe any time. <a href="/subscribe/" style="color:var(--primary-light);">See what we send →</a></p>
         </section>
 
         <section class="cta-section" id="bonuses">
@@ -1544,6 +1553,11 @@
                 <div style="font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#34d399;margin-bottom:0.35rem;">Advanced</div>
                 <div style="font-weight:800;color:var(--text);margin-bottom:0.3rem;line-height:1.35;">Best Crypto Arbitrage Strategies for 2026</div>
                 <div style="font-size:0.82rem;color:var(--text-muted);">Simple, triangular, statistical — which strategy fits your capital?</div>
+            </a>
+            <a href="/blog/sol-arbitrage-guide-2026/" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;text-decoration:none;display:block;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(16,185,129,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#34d399;margin-bottom:0.35rem;"><i class="fas fa-star" style="font-size:0.6rem;"></i> New</div>
+                <div style="font-weight:800;color:var(--text);margin-bottom:0.3rem;line-height:1.35;">SOL Arbitrage 2026: Best Exchanges &amp; Real Profit Numbers</div>
+                <div style="font-size:0.82rem;color:var(--text-muted);">400ms finality, near-zero fees — complete SOL arbitrage walkthrough with 3 profit scenarios.</div>
             </a>
         </div>
     </section>

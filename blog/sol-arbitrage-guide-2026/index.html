@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOL Arbitrage Guide 2026: Best Exchanges, Real Examples &amp; Profit Calculation</title>
+  <meta name="description" content="How to do SOL arbitrage in 2026. Best exchanges, step-by-step trade walkthrough, fee breakdown, real profit examples, and why Solana is one of the best coins for cross-exchange arbitrage." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.coinnavigator.net/blog/sol-arbitrage-guide-2026/" />
+  <meta property="og:title" content="SOL Arbitrage Guide 2026: Best Exchanges, Real Examples &amp; Profit Calculation" />
+  <meta property="og:description" content="Solana's 400ms block time and $0.001 transfer fees make it the fastest coin for arbitrage. Here's exactly how to exploit SOL price gaps across Binance, MEXC, KuCoin and Bybit." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.coinnavigator.net/blog/sol-arbitrage-guide-2026/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SOL Arbitrage Guide 2026: Best Exchanges, Real Examples & Profit Calculation","description":"A complete guide to Solana arbitrage in 2026 — exchanges, fees, step-by-step execution, and real profit calculations.","url":"https://www.coinnavigator.net/blog/sol-arbitrage-guide-2026/","datePublished":"2026-04-06","dateModified":"2026-04-06","author":{"@type":"Organization","name":"CoinNavigator"},"publisher":{"@type":"Organization","name":"CoinNavigator","url":"https://www.coinnavigator.net/"},"articleSection":"Crypto Arbitrage"}</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9L1137PQ6P');</script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0f1a;--surface:#131929;--surface2:#1a2235;--text:#e8eaf0;--text-muted:#7a869a;--primary:#6366f1;--primary-light:#818cf8;--green:#10b981;--border:rgba(255,255,255,0.08);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;}
+    a{color:var(--primary-light);}a:hover{text-decoration:underline;}
+    nav{background:rgba(11,15,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-brand{font-weight:900;font-size:1.1rem;color:var(--text);text-decoration:none;}
+    .nav-links{display:flex;gap:1.4rem;list-style:none;}
+    .nav-links a{color:var(--text-muted);font-size:0.9rem;font-weight:600;text-decoration:none;}
+    .nav-links a:hover{color:var(--text);}
+    .hero{background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(16,185,129,0.04));border-bottom:1px solid var(--border);padding:2.5rem 1.5rem 2rem;text-align:center;}
+    .hero-inner{max-width:760px;margin:0 auto;}
+    .hero-tag{font-size:0.72rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#818cf8;margin-bottom:0.6rem;}
+    .hero h1{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:900;line-height:1.2;margin-bottom:0.7rem;}
+    .hero-meta{font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:0.8rem;}
+    main{max-width:760px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    h2{font-size:1.3rem;font-weight:900;margin:2.2rem 0 0.7rem;color:var(--text);}
+    h3{font-size:1.05rem;font-weight:800;margin:1.5rem 0 0.4rem;color:var(--text);}
+    p{color:var(--text-muted);margin-bottom:0.9rem;}
+    p strong{color:var(--text);}
+    ul,ol{margin:0.4rem 0 1rem 1.3rem;color:var(--text-muted);}
+    ul li,ol li{margin-bottom:0.4rem;}
+    li strong{color:var(--text);}
+    .callout{background:var(--surface);border-left:3px solid var(--primary);border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.2rem 0;}
+    .callout.green{border-color:var(--green);}
+    .callout.yellow{border-color:#fbbf24;}
+    .callout p{margin:0;font-size:0.92rem;}
+    .example-box{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem;margin:1.2rem 0;}
+    .example-box .ex-title{font-size:0.72rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#34d399;margin-bottom:0.6rem;}
+    .steps{counter-reset:steps;display:grid;gap:0.8rem;margin:1rem 0;}
+    .step{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;display:grid;grid-template-columns:2.2rem 1fr;gap:0.8rem;align-items:start;}
+    .step-num{width:2rem;height:2rem;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;color:#818cf8;flex-shrink:0;}
+    .step-body h3{margin:0 0 0.25rem;font-size:0.95rem;}
+    .step-body p{margin:0;font-size:0.88rem;}
+    .fee-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    .fee-table th{background:var(--surface2);padding:0.65rem 0.9rem;text-align:left;font-weight:700;border-bottom:1px solid var(--border);}
+    .fee-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--border);}
+    .fee-table tr:last-child td{border-bottom:none;}
+    .badge-green{display:inline-block;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#34d399;font-size:0.72rem;font-weight:800;padding:0.15rem 0.5rem;border-radius:999px;letter-spacing:0.04em;}
+    .badge-yellow{display:inline-block;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);color:#fbbf24;font-size:0.72rem;font-weight:800;padding:0.15rem 0.5rem;border-radius:999px;letter-spacing:0.04em;}
+    .badge-red{display:inline-block;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;font-size:0.72rem;font-weight:800;padding:0.15rem 0.5rem;border-radius:999px;letter-spacing:0.04em;}
+    .cta-box{background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(16,185,129,0.08));border:1px solid rgba(99,102,241,0.3);border-radius:20px;padding:2rem 1.8rem;text-align:center;margin:2.5rem 0 0;}
+    .cta-box h3{font-size:1.2rem;font-weight:900;margin-bottom:0.4rem;color:var(--text);}
+    .cta-box p{font-size:0.88rem;color:var(--text-muted);margin-bottom:1.2rem;}
+    .cta-btns{display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;}
+    .btn-bnb{background:linear-gradient(135deg,#f0b90b,#f8d33a);color:#000;font-weight:800;font-size:0.9rem;padding:0.7rem 1.3rem;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;transition:transform .2s,box-shadow .2s;}
+    .btn-bnb:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(240,185,11,0.3);}
+    .btn-mexc{background:linear-gradient(135deg,#1a8fff,#0d6efd);color:#fff;font-weight:800;font-size:0.9rem;padding:0.7rem 1.3rem;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;transition:transform .2s,box-shadow .2s;}
+    .btn-mexc:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(26,143,255,0.3);}
+    .btn-bybit{background:linear-gradient(135deg,#f7a600,#ffcc00);color:#000;font-weight:800;font-size:0.9rem;padding:0.7rem 1.3rem;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;transition:transform .2s,box-shadow .2s;}
+    .btn-bybit:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(247,166,0,0.3);}
+    .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.4rem;margin:1.5rem 0;}
+    .toc-title{font-weight:800;font-size:0.9rem;margin-bottom:0.6rem;color:var(--text);}
+    .toc ol{margin:0 0 0 1.1rem;color:var(--text-muted);font-size:0.88rem;}
+    .toc li{margin-bottom:0.3rem;}
+    .compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.85rem;margin:1rem 0;}
+    .compare-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;}
+    .compare-card .ex-name{font-weight:900;font-size:0.95rem;margin-bottom:0.4rem;}
+    .compare-card .ex-stat{font-size:0.82rem;color:var(--text-muted);margin-bottom:0.2rem;}
+    footer{text-align:center;padding:2rem;font-size:0.82rem;color:var(--text-muted);border-top:1px solid var(--border);}
+    .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;}
+    @media(max-width:768px){.nav-links{display:none;position:fixed;inset:0;background:rgba(11,15,26,0.98);flex-direction:column;justify-content:center;align-items:center;gap:2rem;z-index:99;}.nav-links.nav-open{display:flex;}.hamburger{display:block;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-brand"><i class="fas fa-bolt" style="color:#6366f1;"></i> CoinNavigator</a>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('nav-open')"><i class="fas fa-bars"></i></button>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#dashboard">Spread Monitor</a></li>
+    <li><a href="/arbitrage-calculator/">Calculator</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/polymarket/">Polymarket</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><i class="fas fa-bolt"></i> SOL Arbitrage Guide</div>
+    <h1>SOL Arbitrage 2026: Best Exchanges, Step-by-Step Trade &amp; Real Profit Numbers</h1>
+    <p style="color:var(--text-muted);font-size:0.95rem;margin-top:0.6rem;">Solana's 400ms finality and near-zero transfer fees make it one of the most efficient coins for cross-exchange arbitrage. Here's exactly how to do it.</p>
+    <div class="hero-meta">
+      <span><i class="fas fa-calendar"></i> April 2026</span>
+      <span><i class="fas fa-clock"></i> 12 min read</span>
+      <span><i class="fas fa-graduation-cap"></i> Intermediate</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <div class="toc">
+    <div class="toc-title"><i class="fas fa-list"></i> Table of Contents</div>
+    <ol>
+      <li><a href="#why-sol">Why SOL is Ideal for Arbitrage</a></li>
+      <li><a href="#best-exchanges">Best Exchanges for SOL Arbitrage</a></li>
+      <li><a href="#fee-breakdown">Complete Fee Breakdown</a></li>
+      <li><a href="#step-by-step">Step-by-Step: Your First SOL Arbitrage Trade</a></li>
+      <li><a href="#real-example">Real Profit Calculation (with Numbers)</a></li>
+      <li><a href="#finding-spreads">How to Find SOL Spreads in Real Time</a></li>
+      <li><a href="#risks">Risks Specific to SOL Arbitrage</a></li>
+      <li><a href="#scaling">Scaling Up: From $1,000 to $10,000+</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ol>
+  </div>
+
+  <div class="callout green">
+    <p><strong>Key fact:</strong> Solana processes ~65,000 transactions per second with average finality under 1 second and typical transfer fees of $0.001–$0.005. For arbitrage, this means your SOL moves between exchanges faster than almost any other asset — minimizing the window where the spread can disappear.</p>
+  </div>
+
+  <h2 id="why-sol">Why SOL is Ideal for Arbitrage</h2>
+
+  <p>Cross-exchange arbitrage depends on one thing above all: <strong>how fast you can move an asset from the buy exchange to the sell exchange</strong>. Every second you're in transit, the spread can close.</p>
+
+  <p>This is why coin selection matters enormously. Bitcoin takes 10–60 minutes to confirm on-chain. Ethereum can take 5–15 minutes depending on gas fees. But Solana operates on a fundamentally different timeline.</p>
+
+  <h3>SOL's Arbitrage Advantages</h3>
+  <ul>
+    <li><strong>Transfer time:</strong> ~1–5 seconds from withdrawal to arrival (SOL native network)</li>
+    <li><strong>Network fee:</strong> $0.001–0.005 per transaction — negligible for any trade size</li>
+    <li><strong>Exchange support:</strong> Binance, MEXC, Bybit, OKX, KuCoin, Gate.io all support SOL/USDT with high liquidity</li>
+    <li><strong>Spread frequency:</strong> SOL regularly shows spreads of 0.05%–0.25% across exchanges, with occasional spikes above 0.3%</li>
+    <li><strong>Order book depth:</strong> SOL has enough liquidity to execute $5,000–$50,000 trades with minimal slippage on major exchanges</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-title">SOL vs Other Coins: Transfer Speed Comparison</div>
+    <table class="fee-table">
+      <thead><tr><th>Coin</th><th>Avg. Transfer Time</th><th>Network Fee</th><th>Arbitrage Suitability</th></tr></thead>
+      <tbody>
+        <tr><td><strong>SOL</strong></td><td>1–5 seconds</td><td>~$0.001</td><td><span class="badge-green">Excellent</span></td></tr>
+        <tr><td>XRP</td><td>3–5 seconds</td><td>~$0.01</td><td><span class="badge-green">Excellent</span></td></tr>
+        <tr><td>TRX</td><td>3–5 seconds</td><td>~$0.01</td><td><span class="badge-green">Good</span></td></tr>
+        <tr><td>ETH (Arbitrum)</td><td>1–3 minutes</td><td>~$0.20</td><td><span class="badge-yellow">Moderate</span></td></tr>
+        <tr><td>BTC</td><td>10–60 minutes</td><td>$1–$20+</td><td><span class="badge-red">Slow</span></td></tr>
+        <tr><td>ETH (mainnet)</td><td>5–15 minutes</td><td>$2–$30</td><td><span class="badge-red">Slow</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The transfer speed advantage is decisive. By the time your BTC clears on-chain, the 0.3% spread you spotted might have shrunk to 0.05% — no longer profitable. With SOL, your transfer completes in seconds, and the spread you saw is still there.</p>
+
+  <h2 id="best-exchanges">Best Exchanges for SOL Arbitrage</h2>
+
+  <p>You need accounts on at least two exchanges to run SOL arbitrage. The ideal combination is one high-liquidity "buy" exchange (where SOL is usually cheaper) and one "sell" exchange where it tends to trade at a premium.</p>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="ex-name">🟡 Binance</div>
+      <div class="ex-stat"><strong>Role:</strong> Best Buy exchange</div>
+      <div class="ex-stat"><strong>SOL liquidity:</strong> Highest globally</div>
+      <div class="ex-stat"><strong>Maker/Taker fee:</strong> 0.10% / 0.10%</div>
+      <div class="ex-stat"><strong>SOL withdrawal:</strong> ~0.01 SOL (~$1.30)</div>
+      <div class="ex-stat" style="margin-top:0.5rem;"><span class="badge-green">Most liquid</span></div>
+    </div>
+    <div class="compare-card">
+      <div class="ex-name">🔵 MEXC</div>
+      <div class="ex-stat"><strong>Role:</strong> Good Sell exchange</div>
+      <div class="ex-stat"><strong>SOL liquidity:</strong> High</div>
+      <div class="ex-stat"><strong>Maker fee:</strong> 0% (maker), 0.05% (taker)</div>
+      <div class="ex-stat"><strong>SOL withdrawal:</strong> ~0.01 SOL</div>
+      <div class="ex-stat" style="margin-top:0.5rem;"><span class="badge-green">0% maker</span></div>
+    </div>
+    <div class="compare-card">
+      <div class="ex-name">🟠 KuCoin</div>
+      <div class="ex-stat"><strong>Role:</strong> Often Buy exchange</div>
+      <div class="ex-stat"><strong>SOL liquidity:</strong> Good</div>
+      <div class="ex-stat"><strong>Maker/Taker fee:</strong> 0.10% / 0.10%</div>
+      <div class="ex-stat"><strong>SOL withdrawal:</strong> ~0.01 SOL</div>
+      <div class="ex-stat" style="margin-top:0.5rem;"><span class="badge-yellow">Good altcoin depth</span></div>
+    </div>
+    <div class="compare-card">
+      <div class="ex-name">🟡 Bybit</div>
+      <div class="ex-stat"><strong>Role:</strong> Sell exchange</div>
+      <div class="ex-stat"><strong>SOL liquidity:</strong> Very high (spot)</div>
+      <div class="ex-stat"><strong>Maker/Taker fee:</strong> 0.10% / 0.10%</div>
+      <div class="ex-stat"><strong>SOL withdrawal:</strong> ~0.01 SOL</div>
+      <div class="ex-stat" style="margin-top:0.5rem;"><span class="badge-yellow">Strong retail flow</span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Recommended starting setup:</strong> Open accounts on both <strong>Binance</strong> and <strong>MEXC</strong>. Binance is the most liquid and MEXC's 0% maker fee means you save on the sell leg. Use our partner links below for reduced fees on both.</p>
+  </div>
+
+  <h3>Why Not Just Two Accounts?</h3>
+  <p>Two accounts are enough to start. But serious arbitrageurs maintain funded accounts on 3–4 exchanges simultaneously, allowing them to <strong>pre-position capital</strong> — meaning SOL is already on the sell exchange before you buy on the buy exchange, eliminating transfer time entirely.</p>
+
+  <h2 id="fee-breakdown">Complete Fee Breakdown for SOL Arbitrage</h2>
+
+  <p>Understanding every cost is non-negotiable. Most beginners see "0.3% spread" and think "free money." In reality, fees eat into profit from every angle.</p>
+
+  <div class="example-box">
+    <div class="ex-title">All costs in a $5,000 SOL arbitrage trade</div>
+    <table class="fee-table">
+      <thead><tr><th>Cost</th><th>Amount</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Buy fee (Binance, 0.10%)</td><td>$5.00</td><td>On $5,000 trade</td></tr>
+        <tr><td>Sell fee (MEXC, 0.05% taker)</td><td>$2.51</td><td>On $5,002.50</td></tr>
+        <tr><td>SOL withdrawal fee</td><td>~$1.30</td><td>~0.01 SOL on Solana network</td></tr>
+        <tr><td>Network gas fee</td><td>~$0.001</td><td>Negligible on Solana</td></tr>
+        <tr><td><strong>Total costs</strong></td><td><strong>~$8.80</strong></td><td><strong>0.176% of trade value</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-muted);">Break-even spread: ~0.18%. Any spread above this is net profit on a $5,000 trade with these exchanges.</p>
+  </div>
+
+  <div class="callout yellow">
+    <p><strong>Important:</strong> If you use Binance's BNB discount (0.075% maker fee), your total fee drops to ~$8.05, lowering break-even to ~0.16%. Always check whether BNB discount is active on your account.</p>
+  </div>
+
+  <h3>The "Pre-Positioning" Advantage</h3>
+  <p>If you already have USDT on the buy exchange and SOL on the sell exchange, you can execute both legs simultaneously — <strong>no withdrawal needed, no transfer fee, no wait time</strong>. This is how professional arbitrageurs operate. The downside is that your capital is split across exchanges, reducing efficiency.</p>
+
+  <h2 id="step-by-step">Step-by-Step: Your First SOL Arbitrage Trade</h2>
+
+  <p>This is a complete walkthrough of a manual SOL arbitrage trade from zero. We'll assume you're using Binance (buy) and MEXC (sell).</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Open and fund both exchange accounts</h3>
+        <p>Create accounts on Binance and MEXC if you haven't already. Complete KYC (ID verification) on both — you won't be able to withdraw without it. Deposit USDT into your Binance account. Start with $500–$2,000 for your first trade.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Monitor for a SOL spread above your break-even</h3>
+        <p>Check the <a href="/">CoinNavigator live spread monitor</a> for SOL/USDT. You're looking for a spread where MEXC price is higher than Binance by at least 0.25–0.30%. This gives you comfortable margin after fees. The spread shows as a percentage in the "Best Spread" column.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Check the order book depth on both exchanges</h3>
+        <p>On Binance, verify there's enough ask volume at the buy price for your trade size. On MEXC, verify there's enough bid volume at the sell price. Large trades can move the price against you (slippage). For a $1,000 trade, this is rarely an issue on major pairs.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Calculate exact profit using the arbitrage calculator</h3>
+        <p>Before executing, plug your numbers into the <a href="/arbitrage-calculator/">CoinNavigator Profit Calculator</a>: trade amount, spread %, buy fee, sell fee, and withdrawal fee ($1.30 for SOL). Confirm the net profit is positive and worth your time.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Execute the buy on Binance (market or limit order)</h3>
+        <p>Buy SOL/USDT on Binance. For manual arbitrage, a market order is usually faster than a limit order. If you use a limit order (to get the exact price you modeled), set it slightly above the ask to ensure quick fill. Note the exact execution price.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Immediately withdraw SOL to your MEXC wallet</h3>
+        <p>Go to Binance Wallet → Withdraw → SOL. Enter your MEXC SOL deposit address. Select the <strong>Solana network</strong> (not BSC or ERC20 — these are slower and more expensive). Submit the withdrawal. Binance processes most SOL withdrawals within 1–3 minutes, and the on-chain transfer takes ~5 seconds.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h3>Once SOL arrives, sell on MEXC</h3>
+        <p>When your SOL balance appears on MEXC (check the "Spot" wallet), immediately sell SOL/USDT. Compare the current MEXC price with the price you bought at on Binance. If the spread has narrowed significantly, you may want to hold briefly or accept a lower profit. Never hold longer than 30 minutes — arbitrage is not a long-term trade.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-body">
+        <h3>Withdraw USDT back to Binance</h3>
+        <p>After the sell, transfer your USDT back to Binance via TRC20 (lowest fees, usually free on MEXC) to prepare for the next trade. Record the total profit for this round trip.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <p><strong>Pro tip:</strong> Keep a simple spreadsheet. Log each trade: entry price, exit price, fees, transfer time, net profit. After 10–20 trades you'll have a clear picture of your average profit per trade and where you're losing money.</p>
+  </div>
+
+  <h2 id="real-example">Real Profit Calculation: Three Scenarios</h2>
+
+  <p>Let's run the numbers on three realistic trade scenarios. All use Binance (buy, 0.10%) → MEXC (sell, 0.05% taker) → SOL network withdrawal (~$1.30).</p>
+
+  <div class="example-box">
+    <div class="ex-title">Scenario A: Small spread (0.15%) — common, marginal</div>
+    <table class="fee-table">
+      <thead><tr><th>Item</th><th>$1,000 trade</th><th>$5,000 trade</th></tr></thead>
+      <tbody>
+        <tr><td>Gross spread value</td><td>$1.50</td><td>$7.50</td></tr>
+        <tr><td>Total fees</td><td>$2.80</td><td>$8.80</td></tr>
+        <tr><td><strong>Net profit</strong></td><td><strong style="color:#f87171;">-$1.30 (loss)</strong></td><td><strong style="color:#fbbf24;">-$1.30 (near break-even)</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem;margin-top:0.5rem;">At 0.15%, you need a much larger position for profit. Skip these spreads.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title">Scenario B: Good spread (0.35%) — profitable, target this</div>
+    <table class="fee-table">
+      <thead><tr><th>Item</th><th>$1,000 trade</th><th>$5,000 trade</th><th>$10,000 trade</th></tr></thead>
+      <tbody>
+        <tr><td>Gross spread value</td><td>$3.50</td><td>$17.50</td><td>$35.00</td></tr>
+        <tr><td>Total fees</td><td>$2.80</td><td>$8.80</td><td>$16.30</td></tr>
+        <tr><td><strong>Net profit</strong></td><td><strong style="color:#34d399;">+$0.70</strong></td><td><strong style="color:#34d399;">+$8.70</strong></td><td><strong style="color:#34d399;">+$18.70</strong></td></tr>
+        <tr><td>ROI</td><td>0.07%</td><td>0.17%</td><td>0.19%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem;margin-top:0.5rem;">At 0.35%, a $5,000 trade nets ~$8.70. With 3 trades/day, that's $26/day or ~$780/month.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title">Scenario C: Strong spread (0.60%) — rare but high-value</div>
+    <table class="fee-table">
+      <thead><tr><th>Item</th><th>$5,000 trade</th><th>$20,000 trade</th></tr></thead>
+      <tbody>
+        <tr><td>Gross spread value</td><td>$30.00</td><td>$120.00</td></tr>
+        <tr><td>Total fees</td><td>$8.80</td><td>$28.00</td></tr>
+        <tr><td><strong>Net profit</strong></td><td><strong style="color:#34d399;">+$21.20</strong></td><td><strong style="color:#34d399;">+$92.00</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem;margin-top:0.5rem;">Spreads above 0.50% are rare but occur during high volatility or major news events. These are your best opportunities.</p>
+  </div>
+
+  <h2 id="finding-spreads">How to Find SOL Spreads in Real Time</h2>
+
+  <p>The core challenge of manual arbitrage is <strong>discovering the spread before it closes</strong>. You have several options:</p>
+
+  <h3>1. CoinNavigator Live Spread Monitor (Free)</h3>
+  <p>The <a href="/">CoinNavigator monitor</a> tracks SOL/USDT across Binance, MEXC, Bybit, OKX, KuCoin, and Gate.io, updated every 15 minutes. While this isn't tick-by-tick data, it's a reliable indicator of persistent spreads — gaps that stay open for 15+ minutes are usually safe to execute on.</p>
+  <p>Use the <strong>"✓ Profitable >0.3%"</strong> filter to show only spreads that clear fees. When SOL appears in the filtered list, that's your entry signal.</p>
+
+  <h3>2. Set Up Email Alerts</h3>
+  <p>The <a href="/#email-alerts">CoinNavigator email alert</a> notifies you when major spreads spike above 0.3%. This means you don't need to watch the monitor constantly — you get an email when it matters.</p>
+
+  <h3>3. Manual Comparison</h3>
+  <p>Open the SOL/USDT order book on both exchanges simultaneously. Compare the best ask (buy price) on Exchange A with the best bid (sell price) on Exchange B. If bid > ask by more than your fees, you have a spread.</p>
+
+  <div class="callout">
+    <p><strong>Timing matters:</strong> SOL spreads often spike during:</p>
+    <ul style="margin-top:0.4rem;">
+      <li>Major Solana ecosystem announcements or upgrades</li>
+      <li>High general crypto market volatility (rapid BTC moves)</li>
+      <li>Asian trading session open (8:00–10:00 UTC)</li>
+      <li>US market open (13:30–15:00 UTC)</li>
+    </ul>
+  </div>
+
+  <h2 id="risks">Risks Specific to SOL Arbitrage</h2>
+
+  <p>SOL arbitrage has most of the standard arbitrage risks, plus a few Solana-specific ones. Know these before you trade.</p>
+
+  <h3>Network Congestion</h3>
+  <p>The Solana network has experienced congestion events where transactions fail or are dropped. During peak periods (major NFT mints, DeFi events), transaction confirmation can slow to minutes. If this happens mid-trade, your SOL is stuck in transit while the price moves against you.</p>
+  <p><strong>Mitigation:</strong> Check Solana network status before trading. Use high-priority fees during busy periods (most exchanges handle this automatically for withdrawals).</p>
+
+  <h3>Withdrawal Processing Delays</h3>
+  <p>Even with Solana's fast network, exchange withdrawal queues can add 1–15 minutes. Binance and other large exchanges batch withdrawal requests. Your SOL might sit in a queue before the on-chain transaction even starts.</p>
+  <p><strong>Mitigation:</strong> Pre-position capital. Keep SOL on both exchanges at all times — you sell immediately and move funds between exchanges when convenient, not urgently.</p>
+
+  <h3>Spread Collapse During Transfer</h3>
+  <p>The most common failure mode. You buy SOL at $120 on Binance and while waiting for the transfer, MEXC price drops from $120.40 to $120.05. Your 0.33% spread became 0.04% — a loss after fees.</p>
+  <p><strong>Mitigation:</strong> Only act on large spreads (0.35%+). The bigger the spread, the more room for price movement before you lose money.</p>
+
+  <h3>Slippage on Large Orders</h3>
+  <p>If you're trading $50,000+ in SOL, your buy order on Binance will move the price up and your sell will push MEXC price down. The spread you saw in the order book shrinks as you execute.</p>
+  <p><strong>Mitigation:</strong> Break large orders into smaller chunks. Check the order book depth (not just the top of book price) before calculating your expected execution price.</p>
+
+  <h3>Exchange Withdrawal Suspensions</h3>
+  <p>Exchanges occasionally suspend SOL withdrawals for maintenance or network upgrades. If this happens after you've bought but before you've transferred, you're holding SOL with price exposure.</p>
+  <p><strong>Mitigation:</strong> Check exchange maintenance notices. Avoid trading when a major Solana network upgrade is scheduled.</p>
+
+  <h2 id="scaling">Scaling Up: From $1,000 to $10,000+</h2>
+
+  <p>Once you've executed 5–10 successful trades with a small capital, you understand the mechanics. Here's how to scale.</p>
+
+  <h3>Pre-Positioning: The Professional Approach</h3>
+  <p>Instead of transferring after every trade, maintain funded accounts on multiple exchanges. This is the only way to execute arbitrage fast enough to catch smaller, more frequent spreads.</p>
+
+  <div class="example-box">
+    <div class="ex-title">Pre-positioned capital setup ($10,000 total)</div>
+    <table class="fee-table">
+      <thead><tr><th>Exchange</th><th>Capital</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Binance</td><td>$5,000 USDT</td><td>Buy leg — always have USDT ready</td></tr>
+        <tr><td>MEXC</td><td>$3,000 SOL equivalent</td><td>Sell leg — have SOL ready to sell</td></tr>
+        <tr><td>Bybit</td><td>$2,000 USDT</td><td>Backup sell venue</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem;margin-top:0.5rem;">With pre-positioned capital, you can execute the buy and sell simultaneously. No transfer needed — profit is locked instantly.</p>
+  </div>
+
+  <h3>Rebalancing</h3>
+  <p>After each trade, you have more USDT on one exchange and less SOL on another. Rebalance regularly (every 5–10 trades) by transferring assets between exchanges during low-spread periods, when there's no opportunity cost.</p>
+
+  <h3>Adding More Coins</h3>
+  <p>Once your SOL workflow is smooth, run the same system for XRP, TRX, and DOGE. These coins have similar transfer speed advantages. Having 3–4 assets running in parallel means more opportunities throughout the day.</p>
+
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:0.6rem;cursor:pointer;">
+    <summary style="font-weight:700;color:var(--text);list-style:none;">How much capital do I need to start SOL arbitrage? <span style="color:var(--primary-light);">+</span></summary>
+    <p style="margin-top:0.7rem;font-size:0.92rem;">The practical minimum is $500–$1,000 to cover fees and see meaningful net profit. At $500 with a 0.35% spread, you'd net roughly $0.50 per trade. Most traders find $2,000–$5,000 is the sweet spot to generate worthwhile income (say $5–$15 per trade) without needing excessive capital.</p>
+  </details>
+
+  <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:0.6rem;cursor:pointer;">
+    <summary style="font-weight:700;color:var(--text);list-style:none;">Does SOL arbitrage require a bot? <span style="color:var(--primary-light);">+</span></summary>
+    <p style="margin-top:0.7rem;font-size:0.92rem;">No. Manual SOL arbitrage is viable precisely because Solana transfers are so fast — by the time you've bought and initiated the withdrawal, it lands at the sell exchange in seconds. You can execute a full round trip manually in 5–15 minutes. Bots are useful for catching more spreads per day, but they add complexity and require programming knowledge.</p>
+  </details>
+
+  <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:0.6rem;cursor:pointer;">
+    <summary style="font-weight:700;color:var(--text);list-style:none;">How often do profitable SOL spreads appear? <span style="color:var(--primary-light);">+</span></summary>
+    <p style="margin-top:0.7rem;font-size:0.92rem;">SOL spreads above 0.30% (clearly profitable after fees) appear several times per day on average, often lasting 15–45 minutes. During volatile market periods, you may see 5–10 qualifying opportunities in a day. During calm, consolidating markets, there may be 0–1 per day. Monitoring consistently for 2–4 hours per day is typically enough to catch 1–2 good opportunities.</p>
+  </details>
+
+  <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:0.6rem;cursor:pointer;">
+    <summary style="font-weight:700;color:var(--text);list-style:none;">What's the best network to use for SOL transfers between exchanges? <span style="color:var(--primary-light);">+</span></summary>
+    <p style="margin-top:0.7rem;font-size:0.92rem;">Always use the <strong>Solana (SOL) native network</strong> for SOL transfers. Never send SOL via ERC-20 or BEP-20 — those are wrapped tokens on different blockchains, have higher fees, and may not arrive as SOL on the destination exchange. When withdrawing from Binance or MEXC, look for "SOL" in the network dropdown, not "ETH" or "BSC."</p>
+  </details>
+
+  <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:0.6rem;cursor:pointer;">
+    <summary style="font-weight:700;color:var(--text);list-style:none;">Can I use USDC/USDT instead of SOL for the transfer? <span style="color:var(--primary-light);">+</span></summary>
+    <p style="margin-top:0.7rem;font-size:0.92rem;">Yes — sending USDC or USDT via the Solana network (SPL tokens) is also extremely fast and cheap. However, if you're doing SOL/USDT arbitrage, you typically need to transfer the SOL itself (the asset you just bought). Moving stablecoins via Solana is useful for rebalancing between trades.</p>
+  </details>
+
+  <div class="cta-box">
+    <h3>Ready to trade? Open your accounts with reduced fees</h3>
+    <p>Register through these partner links and pay lower fees on every SOL trade — for life. All three exchanges are tracked live on CoinNavigator.</p>
+    <div class="cta-btns">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;">
+        <a class="btn-bnb" href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=blog&utm_campaign=sol_arb_guide" target="_blank" rel="noopener nofollow">
+          <i class="fas fa-building-columns"></i> Open Binance
+        </a>
+        <span class="bonus-tag" style="color:#fbbf24;font-size:0.68rem;">10% fee rebate for life</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;">
+        <a class="btn-mexc" href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=blog&utm_campaign=sol_arb_guide" target="_blank" rel="noopener nofollow">
+          <i class="fas fa-building-columns"></i> Open MEXC
+        </a>
+        <span class="bonus-tag" style="color:#60a5fa;font-size:0.68rem;">0% maker fees</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;">
+        <a class="btn-bybit" href="https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=blog&utm_campaign=sol_arb_guide" target="_blank" rel="noopener nofollow">
+          <i class="fas fa-building-columns"></i> Open Bybit
+        </a>
+        <span class="bonus-tag" style="color:#fbbf24;font-size:0.68rem;">Up to $30,000 bonus</span>
+      </div>
+    </div>
+    <p style="margin-top:1rem;font-size:0.75rem;opacity:0.7;">Partner links — we earn a small commission at no extra cost to you. <a href="/methodology/" style="color:var(--primary-light);">Disclosure</a></p>
+  </div>
+
+  <h2>Related Guides</h2>
+  <ul>
+    <li><a href="/blog/xrp-arbitrage-guide-2026/">XRP Arbitrage Guide 2026</a> — XRP vs SOL: which is faster for arbitrage?</li>
+    <li><a href="/blog/crypto-arbitrage-beginners-guide-2026/">Crypto Arbitrage for Beginners: Complete Guide</a></li>
+    <li><a href="/blog/crypto-arbitrage-risks-7-things-that-can-go-wrong-2026/">7 Arbitrage Risks and How to Avoid Them</a></li>
+    <li><a href="/blog/crypto-arbitrage-bot-vs-manual-2026/">Arbitrage Bot vs Manual Trading: Which Wins?</a></li>
+    <li><a href="/arbitrage-calculator/">Free Arbitrage Profit Calculator</a></li>
+    <li><a href="/">Live SOL Spread Monitor</a></li>
+  </ul>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 CoinNavigator — Crypto Arbitrage Education &amp; Tools | <a href="/privacy-policy/">Privacy</a> | <a href="/terms/">Terms</a> | Not financial advice.</p>
+</footer>
+</body>
+</html>
