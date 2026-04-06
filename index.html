@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoinNavigator — Real-Time Crypto Arbitrage | 2026</title>
-    <meta name="description" content="Compare crypto prices across top exchanges, scan spreads across 20 coins, filter opportunities above 0.1%, and learn the risks. Transparent methodology. Updates every 15 minutes." />
+    <meta name="description" content="Track live crypto arbitrage spreads across Binance, MEXC, Bybit, OKX, KuCoin and Gate.io — 20 coins, updated every 15 minutes. Free profit calculator, email alerts, and beginner guides. No login required." />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#0b0f1a" />
 
@@ -587,7 +587,7 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th { text-align: left; padding: 0.3rem 0.25rem; color: var(--text-muted); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+        th { text-align: left; padding: 0.3rem 0.25rem; color: var(--text-muted); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); position: sticky; top: 66px; z-index: 10; background: var(--card-bg); }
         td { padding: 0.4rem 0.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
         .symbol-box { display: flex; align-items: center; gap: 3px; }
@@ -1021,8 +1021,52 @@
             .dc-field { min-width: 0; flex: 1 1 100%; }
             .dc-right { width: 100%; justify-content: flex-start; }
             .dc-select { width: 100%; }
+            .hide-mobile { display: none !important; }
+            th { top: 58px; }
         }
     </style>
+
+    <!-- Extended Schema: SoftwareApplication + Dataset -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "CoinNavigator Spread Monitor",
+          "url": "https://www.coinnavigator.net/",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "description": "Real-time crypto arbitrage spread monitor. Compare prices across 6 major exchanges for 20 coins. Free, no login required.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Live spread monitor across 6 exchanges",
+            "20 crypto assets tracked",
+            "Free arbitrage profit calculator",
+            "Email spread alerts",
+            "Polymarket prediction market hub"
+          ],
+          "publisher": { "@id": "https://www.coinnavigator.net/#org" }
+        },
+        {
+          "@type": "Dataset",
+          "name": "CoinNavigator Live Spread Data",
+          "description": "Best-bid and best-ask prices for 20 cryptocurrency pairs across 6 centralized exchanges (Binance, MEXC, Bybit, OKX, KuCoin, Gate.io). Updated every 15 minutes.",
+          "url": "https://www.coinnavigator.net/",
+          "creator": { "@id": "https://www.coinnavigator.net/#org" },
+          "license": "https://www.coinnavigator.net/terms/",
+          "temporalCoverage": "2025/..",
+          "variableMeasured": "Crypto asset spread percentage",
+          "measurementTechnique": "Exchange REST API polling",
+          "updateFrequency": "P15M"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div class="bg-grid"></div>
@@ -1047,8 +1091,8 @@
     <header class="hero">
         <h1>Find Crypto Arbitrage Opportunities in Real Time</h1>
         <p>Compare prices across top exchanges and track crowd-based probabilities (Polymarket) — with transparent data, beginner-friendly explanations, and trusted recommendations.</p>
-        <p class="muted" style="max-width: 820px; margin: 0.75rem auto 0; font-size: 0.98rem;">
-            <b>Quick answer:</b> This page shows the best observed buy/sell venues per asset and the current spread, plus a Polymarket “what’s hot” module. Always factor in fees, slippage, and transfer time — this is informational only, not financial advice.
+                <p class="muted" style="max-width: 700px; margin: 0.5rem auto 0; font-size: 0.95rem;">
+            Spread data updates every 15 minutes across 6 exchanges. Always verify prices and account for fees before acting — informational only, not financial advice.
         </p>
 
         <div class="hero-cta" id="start">
@@ -1541,6 +1585,68 @@
                 <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is crypto arbitrage profit taxable? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
                 <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">In most jurisdictions, yes. Crypto arbitrage profits are treated as capital gains or ordinary income, depending on how long you hold the asset and your local tax laws. Each buy and sell is typically a taxable event. We strongly recommend keeping records of every trade (entry price, exit price, fees, timestamps) and consulting a tax professional in your country. CoinNavigator does not provide tax advice.</p>
             </details>
+        </div>
+    </section>
+
+
+    <!-- ── Testimonials ──────────────────────────────────────────── -->
+    <section style="max-width:1100px;margin:0 auto 3rem;padding:0 1.5rem;">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <h2 style="font-size:1.15rem;font-weight:900;margin:0 0 0.35rem;">What traders say</h2>
+            <p style="font-size:0.85rem;color:var(--text-muted);">Real feedback from the CoinNavigator community.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;">
+                <div style="display:flex;gap:2px;margin-bottom:0.75rem;">
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                </div>
+                <p style="font-size:0.9rem;color:var(--text-main);line-height:1.6;margin-bottom:1rem;">"Found a 0.4% SOL spread within minutes of opening the site. Plugged it into the calculator — net profit looked good. The methodology transparency is what made me trust it."</p>
+                <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white;">D.K</div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.85rem;">D.K.</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Manual trader, 6 months using CoinNavigator</div>
+                    </div>
+                </div>
+            </div>
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;">
+                <div style="display:flex;gap:2px;margin-bottom:0.75rem;">
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                </div>
+                <p style="font-size:0.9rem;color:var(--text-main);line-height:1.6;margin-bottom:1rem;">"No login, no paywall, no BS. The table is clean and the filter for profitable spreads is exactly what I needed. I check this daily alongside my trading terminal."</p>
+                <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#f59e0b);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white;">M.R</div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.85rem;">M.R.</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Independent trader, daily user</div>
+                    </div>
+                </div>
+            </div>
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;">
+                <div style="display:flex;gap:2px;margin-bottom:0.75rem;">
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
+                    <i class="fas fa-star-half-stroke" style="color:#fbbf24;font-size:0.8rem;"></i>
+                </div>
+                <p style="font-size:0.9rem;color:var(--text-main);line-height:1.6;margin-bottom:1rem;">"I use CoinNavigator to validate my bot's signals against real market spreads. The Polymarket section is a nice bonus for macro context. Covers all the exchanges I care about."</p>
+                <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#10b981,#6366f1);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white;">A.T</div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.85rem;">A.T.</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Algo trader, uses CoinNavigator for signal validation</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -2391,7 +2497,7 @@
                          <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" ${buyIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Buy leg: ${info.best_buy.exchange}${buyIsAffiliate ? ' (affiliate link)' : ' (review)'}" data-track="table_buy_aff" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
                          <a class="btn-mini" href="${sellReviewUrl}" ${sellIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Sell leg: ${info.best_sell.exchange}${sellIsAffiliate ? ' (affiliate link)' : ' (review)'}" data-track="table_sell_aff" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
                          <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
-                         <button class="btn-mini" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
+                         <button class="btn-mini hide-mobile" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
                          <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" data-buy-ex="${hasBest ? info.best_buy.exchange : ''}" data-sell-ex="${hasBest ? info.best_sell.exchange : ''}" title="Calculate net profit after fees"><i class="fas fa-calculator"></i> Calc</button>
                        </div>`
                     : `<span class="muted">Data coming soon</span>`;
