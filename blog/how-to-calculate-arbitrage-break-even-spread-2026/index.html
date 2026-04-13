@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Calculate Arbitrage Break-Even Spread (2026 Formula + Examples)</title>
+  <meta name="description" content="Learn the exact break-even spread formula for crypto arbitrage in 2026. Includes trading fees, withdrawal costs, slippage, and worked examples for different capital sizes." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://coinnavigator.net/blog/how-to-calculate-arbitrage-break-even-spread-2026/" />
+  <meta property="og:title" content="How to Calculate Arbitrage Break-Even Spread (2026 Formula + Examples)" />
+  <meta property="og:description" content="A practical formula to avoid fake arbitrage opportunities and calculate true net edge." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://coinnavigator.net/blog/how-to-calculate-arbitrage-break-even-spread-2026/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Calculate Arbitrage Break-Even Spread (2026 Formula + Examples)","description":"Step-by-step method to compute net arbitrage profitability after all costs.","url":"https://coinnavigator.net/blog/how-to-calculate-arbitrage-break-even-spread-2026/","datePublished":"2026-04-13","dateModified":"2026-04-13","author":{"@type":"Organization","name":"CoinNavigator"},"publisher":{"@type":"Organization","name":"CoinNavigator","url":"https://coinnavigator.net/"},"articleSection":"Crypto Arbitrage"}</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9L1137PQ6P');</script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0f1a;--surface:#131929;--surface2:#1a2235;--text:#e8eaf0;--text-muted:#7a869a;--primary:#6366f1;--border:rgba(255,255,255,0.08);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;}
+    a{color:#818cf8;}a:hover{text-decoration:underline;}
+    nav{background:rgba(11,15,26,0.97);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-brand{font-weight:900;font-size:1.1rem;color:var(--text);text-decoration:none;}
+    .hero{background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(99,102,241,0.02));border-bottom:1px solid var(--border);padding:2.3rem 1.4rem 2rem;text-align:center;}
+    .hero h1{font-size:clamp(1.7rem,4vw,2.25rem);font-weight:900;line-height:1.2;margin-bottom:0.7rem;}
+    .hero p{color:var(--text-muted);max-width:730px;margin:0 auto;}
+    .hero-meta{margin-top:0.8rem;font-size:0.82rem;color:var(--text-muted);}
+    main{max-width:760px;margin:0 auto;padding:2rem 1.4rem 4rem;}
+    h2{font-size:1.25rem;font-weight:900;margin:2rem 0 0.7rem;}
+    p,li{color:var(--text-muted);}
+    ul{margin:0.4rem 0 1rem 1.2rem;}
+    .formula{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;margin:1rem 0;font-weight:700;color:#c7d2fe;}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th{background:var(--surface2);text-align:left;padding:0.65rem 0.9rem;border-bottom:1px solid var(--border);}
+    td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--border);}
+    .callout{background:var(--surface);border-left:3px solid var(--primary);border-radius:0 12px 12px 0;padding:0.9rem 1.1rem;margin:1rem 0;}
+    footer{text-align:center;padding:2rem;font-size:0.82rem;color:var(--text-muted);border-top:1px solid var(--border);}
+  </style>
+</head>
+<body>
+<nav><a class="nav-brand" href="/"><i class="fas fa-chart-line" style="color:#818cf8"></i> CoinNavigator</a></nav>
+<div class="hero">
+  <h1>How to Calculate Arbitrage Break-Even Spread</h1>
+  <p>The spread you see is not your profit. This formula helps you reject bad trades in seconds.</p>
+  <div class="hero-meta"><i class="fas fa-calendar"></i> April 13, 2026 | <i class="fas fa-clock"></i> 7 min read</div>
+</div>
+<main>
+  <nav aria-label="Breadcrumb" style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.4rem;">
+    <a href="/" style="color:var(--text-muted);">Home</a> > <a href="/blog/" style="color:var(--text-muted);">Blog</a> > Break-Even Formula
+  </nav>
+
+  <h2>The core formula</h2>
+  <div class="formula">
+    Break-even spread (%) = Buy fee + Sell fee + Slippage + (Withdrawal cost / Position size * 100)
+  </div>
+  <p>Only trade when <strong>observed spread</strong> is clearly above break-even, with safety margin for execution delay.</p>
+
+  <h2>Worked examples</h2>
+  <table>
+    <thead><tr><th>Position size</th><th>Total fixed costs</th><th>Break-even spread</th></tr></thead>
+    <tbody>
+      <tr><td>$1,000</td><td>0.10% + 0.10% + 0.03% + $1 withdrawal</td><td>0.33%</td></tr>
+      <tr><td>$5,000</td><td>0.10% + 0.10% + 0.03% + $1 withdrawal</td><td>0.25%</td></tr>
+      <tr><td>$20,000</td><td>0.10% + 0.10% + 0.03% + $1 withdrawal</td><td>0.235%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Execution buffer most traders forget</h2>
+  <ul>
+    <li><strong>Latency buffer:</strong> add +0.03% to +0.08% for volatile sessions.</li>
+    <li><strong>Order-book buffer:</strong> add +0.02% if depth is thin.</li>
+    <li><strong>Operational buffer:</strong> add +0.01% for occasional partial fills.</li>
+  </ul>
+  <div class="callout">
+    <p><strong>Safe rule:</strong> if your calculated break-even is 0.27%, require at least 0.35% displayed spread before acting.</p>
+  </div>
+
+  <h2>Quick checklist before pressing buy</h2>
+  <ul>
+    <li>Network matches on both exchanges (for example, TRC20 to TRC20).</li>
+    <li>Withdrawal status is active on sender exchange.</li>
+    <li>Top-of-book size can absorb your order with acceptable slippage.</li>
+    <li>All fees are verified on the current tier/VIP level of your account.</li>
+  </ul>
+
+  <h2>Use this with CoinNavigator tools</h2>
+  <p>Open the <a href="/">Live Spread Monitor</a>, shortlist routes above your threshold, then validate exact net numbers with the <a href="/arbitrage-calculator/">Arbitrage Calculator</a>.</p>
+  <p>Related reads: <a href="/blog/crypto-arbitrage-fees-profit-calculator-2026/">Fees & Profit Guide</a> | <a href="/blog/crypto-arbitrage-risks-7-things-that-can-go-wrong-2026/">Risk Checklist</a> | <a href="/blog/best-crypto-arbitrage-coins-low-fees-2026/">Best Coins for Arbitrage</a></p>
+</main>
+<footer>
+  <p>&copy; 2026 CoinNavigator. Educational content only, not financial advice.</p>
+</footer>
+</body>
+</html>
