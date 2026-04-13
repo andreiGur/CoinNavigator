@@ -421,7 +421,7 @@
         /* Stats Cards */
         .stats-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem; max-width: 1200px; margin: -3rem auto 3rem; padding: 0 2rem;
+            gap: 1.5rem; max-width: 1200px; margin: 1rem auto 3rem; padding: 0 2rem;
         }
         .stat-card {
             background: var(--card-bg); border: 1px solid var(--border);
@@ -2026,6 +2026,188 @@
             throw lastError ?? new Error('Failed to fetch spread data');
         }
 
+        function computeSpreadPayloadFromExchangePrices(exchangeSnapshots) {
+            const symbolsData = {};
+            const errors = {};
+            const exchanges = Object.keys(exchangeSnapshots || {});
+            const targets = TARGET_SYMBOLS || [];
+
+            for (const symbol of targets) {
+                const prices = {};
+                const symErrors = {};
+
+                for (const ex of exchanges) {
+                    const priceMap = exchangeSnapshots[ex] || {};
+                    const v = priceMap[symbol];
+                    if (typeof v === 'number' && Number.isFinite(v) && v > 0) {
+                        prices[ex] = v;
+                    } else {
+                        symErrors[ex] = 'no_live_price';
+                    }
+                }
+
+                let best_buy = null;
+                let best_sell = null;
+                let absolute_diff = null;
+                let spread_percent = null;
+                if (Object.keys(prices).length > 0) {
+                    const minPrice = Math.min(...Object.values(prices));
+                    const maxPrice = Math.max(...Object.values(prices));
+                    const bestBuyEx = Object.keys(prices).find((k) => prices[k] === minPrice) || null;
+                    const bestSellEx = Object.keys(prices).find((k) => prices[k] === maxPrice) || null;
+                    if (bestBuyEx && bestSellEx) {
+                        best_buy = { exchange: bestBuyEx, price: minPrice };
+                        best_sell = { exchange: bestSellEx, price: maxPrice };
+                        absolute_diff = +(maxPrice - minPrice).toFixed(2);
+                        spread_percent = minPrice > 0 ? +(((maxPrice - minPrice) / minPrice).toFixed(8)) : null;
+                    }
+                }
+
+                symbolsData[symbol] = {
+                    prices,
+                    absolute_diff,
+                    spread_percent,
+                    best_buy,
+                    best_sell,
+                    binance_price: prices.Binance ?? null,
+                    bybit_price: prices.Bybit ?? null,
+                };
+                if (Object.keys(symErrors).length) errors[symbol] = symErrors;
+            }
+
+            return {
+                timestamp: new Date().toISOString(),
+                symbols: symbolsData,
+                errors,
+                exchanges,
+                source: 'browser_live_fallback',
+            };
+        }
+
+        async function fetchLiveSpreadFallback() {
+            const targetSet = new Set(TARGET_SYMBOLS || []);
+            const exchangeRequests = [
+                {
+                    name: 'Binance',
+                    fetcher: async () => {
+                        const res = await fetch('https://api.binance.com/api/v3/ticker/price', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('binance_http_' + res.status);
+                        const arr = await res.json();
+                        const map = {};
+                        for (const row of (Array.isArray(arr) ? arr : [])) {
+                            if (!row || !targetSet.has(row.symbol)) continue;
+                            const p = parseFloat(row.price);
+                            if (Number.isFinite(p) && p > 0) map[row.symbol] = p;
+                        }
+                        return map;
+                    },
+                },
+                {
+                    name: 'MEXC',
+                    fetcher: async () => {
+                        const res = await fetch('https://api.mexc.com/api/v3/ticker/price', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('mexc_http_' + res.status);
+                        const arr = await res.json();
+                        const map = {};
+                        for (const row of (Array.isArray(arr) ? arr : [])) {
+                            if (!row || !targetSet.has(row.symbol)) continue;
+                            const p = parseFloat(row.price);
+                            if (Number.isFinite(p) && p > 0) map[row.symbol] = p;
+                        }
+                        return map;
+                    },
+                },
+                {
+                    name: 'Bybit',
+                    fetcher: async () => {
+                        const res = await fetch('https://api.bybit.com/v5/market/tickers?category=spot', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('bybit_http_' + res.status);
+                        const json = await res.json();
+                        const list = (((json || {}).result || {}).list) || [];
+                        const map = {};
+                        for (const row of list) {
+                            const symbol = row && row.symbol;
+                            if (!symbol || !targetSet.has(symbol)) continue;
+                            const p = parseFloat(row.lastPrice);
+                            if (Number.isFinite(p) && p > 0) map[symbol] = p;
+                        }
+                        return map;
+                    },
+                },
+                {
+                    name: 'OKX',
+                    fetcher: async () => {
+                        const res = await fetch('https://www.okx.com/api/v5/market/tickers?instType=SPOT', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('okx_http_' + res.status);
+                        const json = await res.json();
+                        const list = (json && Array.isArray(json.data)) ? json.data : [];
+                        const map = {};
+                        for (const row of list) {
+                            const instId = row && row.instId;
+                            if (!instId || !instId.endsWith('-USDT')) continue;
+                            const symbol = instId.replace('-', '');
+                            if (!targetSet.has(symbol)) continue;
+                            const p = parseFloat(row.last);
+                            if (Number.isFinite(p) && p > 0) map[symbol] = p;
+                        }
+                        return map;
+                    },
+                },
+                {
+                    name: 'KuCoin',
+                    fetcher: async () => {
+                        const res = await fetch('https://api.kucoin.com/api/v1/market/allTickers', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('kucoin_http_' + res.status);
+                        const json = await res.json();
+                        const list = (((json || {}).data || {}).ticker) || [];
+                        const map = {};
+                        for (const row of list) {
+                            const pair = row && row.symbol;
+                            if (!pair || !pair.endsWith('-USDT')) continue;
+                            const symbol = pair.replace('-', '');
+                            if (!targetSet.has(symbol)) continue;
+                            const p = parseFloat(row.last);
+                            if (Number.isFinite(p) && p > 0) map[symbol] = p;
+                        }
+                        return map;
+                    },
+                },
+                {
+                    name: 'Gate',
+                    fetcher: async () => {
+                        const res = await fetch('https://api.gateio.ws/api/v4/spot/tickers', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('gate_http_' + res.status);
+                        const arr = await res.json();
+                        const map = {};
+                        for (const row of (Array.isArray(arr) ? arr : [])) {
+                            const pair = row && row.currency_pair;
+                            if (!pair || !pair.endsWith('_USDT')) continue;
+                            const symbol = pair.replace('_', '');
+                            if (!targetSet.has(symbol)) continue;
+                            const p = parseFloat(row.last);
+                            if (Number.isFinite(p) && p > 0) map[symbol] = p;
+                        }
+                        return map;
+                    },
+                },
+            ];
+
+            const settled = await Promise.allSettled(exchangeRequests.map((x) => x.fetcher()));
+            const snapshots = {};
+            for (let i = 0; i < exchangeRequests.length; i++) {
+                const name = exchangeRequests[i].name;
+                const result = settled[i];
+                if (result.status === 'fulfilled' && result.value && Object.keys(result.value).length > 0) {
+                    snapshots[name] = result.value;
+                }
+            }
+            const payload = computeSpreadPayloadFromExchangePrices(snapshots);
+            if (!payload.exchanges || payload.exchanges.length < 2) {
+                throw new Error('live_fallback_insufficient_exchanges');
+            }
+            return payload;
+        }
+
         async function fetchPolymarketWithFallback() {
             const origins = [
                 window.location.origin,
@@ -2771,7 +2953,20 @@
         async function updateDashboard() {
             try {
                 console.log('Fetching data...');
-                const data = await fetchJsonWithFallback();
+                let data = await fetchJsonWithFallback();
+                if (data && data.timestamp) {
+                    const ageMinutes = (Date.now() - new Date(data.timestamp).getTime()) / 60000;
+                    if (Number.isFinite(ageMinutes) && ageMinutes > 20) {
+                        try {
+                            const livePayload = await fetchLiveSpreadFallback();
+                            if (livePayload && livePayload.symbols) {
+                                data = livePayload;
+                            }
+                        } catch (liveErr) {
+                            console.warn('Live spread fallback failed:', liveErr);
+                        }
+                    }
+                }
                 console.log('Data received:', data);
 
                 LAST_SPREAD_DATA = data;
