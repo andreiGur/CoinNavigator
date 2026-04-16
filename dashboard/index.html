@@ -7,13 +7,16 @@
   <meta name="description" content="Personal CoinNavigator dashboard: favorite coins, spread history (local), and browser alerts when spreads exceed your threshold." />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#0b0f1a" />
-  <link rel="canonical" href="https://www.coinnavigator.net/dashboard/" />
+  <link rel="canonical" href="https://coinnavigator.net/dashboard/" />
   <meta property="og:site_name" content="CoinNavigator" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Dashboard | CoinNavigator" />
   <meta property="og:description" content="Personal CoinNavigator dashboard: favorite coins, spread history (local), and browser alerts when spreads exceed your threshold." />
-  <meta property="og:url" content="https://www.coinnavigator.net/dashboard/" />
+  <meta property="og:url" content="https://coinnavigator.net/dashboard/" />
+  <meta property="og:image" content="https://coinnavigator.net/og-image.svg" />
+  <meta property="og:image:type" content="image/svg+xml" />
   <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://coinnavigator.net/og-image.svg" />
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -397,7 +400,7 @@
       return await res.json();
     }
     async function fetchWithFallback() {
-      const origins = [window.location.origin, 'https://www.coinnavigator.net'];
+      const origins = [window.location.origin, 'https://coinnavigator.net'];
       const candidates = [];
       origins.forEach((o) => {
         candidates.push(new URL('/data/spread_data.json', o).toString());

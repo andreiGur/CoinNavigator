@@ -15,13 +15,16 @@
   </script>
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#0b0f1a" />
-  <link rel="canonical" href="https://www.coinnavigator.net/polymarket/" />
+  <link rel="canonical" href="https://coinnavigator.net/polymarket/" />
   <meta property="og:site_name" content="CoinNavigator" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="CoinNavigator | Polymarket Hot Events" />
   <meta property="og:description" content="Market sentiment & probability analysis from Polymarket. Track hot prediction markets by volume, see YES/NO prices, and learn what the crowd expects." />
-  <meta property="og:url" content="https://www.coinnavigator.net/polymarket/" />
+  <meta property="og:url" content="https://coinnavigator.net/polymarket/" />
+  <meta property="og:image" content="https://coinnavigator.net/og-image.svg" />
+  <meta property="og:image:type" content="image/svg+xml" />
   <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://coinnavigator.net/og-image.svg" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,14 +37,14 @@
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://www.coinnavigator.net/#org",
+        "@id": "https://coinnavigator.net/#org",
         "name": "CoinNavigator",
-        "url": "https://www.coinnavigator.net/",
-        "logo": "https://www.coinnavigator.net/favicon.svg"
+        "url": "https://coinnavigator.net/",
+        "logo": "https://coinnavigator.net/favicon.svg"
       },
       {
         "@type": "FAQPage",
-        "@id": "https://www.coinnavigator.net/polymarket/#faq",
+        "@id": "https://coinnavigator.net/polymarket/#faq",
         "mainEntity": [
           {
             "@type": "Question",
@@ -490,7 +493,7 @@
     }
 
     async function fetchPolymarketJsonWithFallback() {
-      const origins = [window.location.origin, 'https://www.coinnavigator.net'];
+      const origins = [window.location.origin, 'https://coinnavigator.net'];
       const candidates = [];
       for (const origin of origins) {
         candidates.push(new URL('/polymarket_hot.json', origin).toString());
