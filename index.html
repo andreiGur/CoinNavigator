@@ -162,6 +162,8 @@
             --text-muted: #94a3b8;
             --border: #2d334a;
             --danger: #ef4444;
+            --sticky-nav-height: 66px;
+            --sticky-bar-offset: 0px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -171,6 +173,7 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            padding-bottom: calc(var(--sticky-bar-offset) + env(safe-area-inset-bottom, 0px));
         }
         html { scroll-behavior: smooth; }
 
@@ -461,6 +464,7 @@
 
         /* Main Dashboard */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        [id] { scroll-margin-top: calc(var(--sticky-nav-height) + 12px); }
         
         .dashboard-card {
             background: var(--card-bg);
@@ -587,7 +591,7 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th { text-align: left; padding: 0.3rem 0.25rem; color: var(--text-muted); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); position: sticky; top: 66px; z-index: 10; background: var(--card-bg); }
+        th { text-align: left; padding: 0.3rem 0.25rem; color: var(--text-muted); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); position: sticky; top: var(--sticky-nav-height); z-index: 10; background: var(--card-bg); }
         td { padding: 0.4rem 0.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
         .symbol-box { display: flex; align-items: center; gap: 3px; }
@@ -1022,7 +1026,6 @@
             .dc-right { width: 100%; justify-content: flex-start; }
             .dc-select { width: 100%; }
             .hide-mobile { display: none !important; }
-            th { top: 58px; }
         }
     </style>
 
@@ -3195,6 +3198,36 @@
             });
         })();
 
+        // Keep sticky offsets in sync to avoid clipped UI elements.
+        (function initLayoutOffsets() {
+            const root = document.documentElement;
+            const nav = document.querySelector('nav');
+
+            const updateOffsets = () => {
+                const navHeight = nav ? Math.ceil(nav.getBoundingClientRect().height) : 66;
+                root.style.setProperty('--sticky-nav-height', `${Math.max(navHeight, 58)}px`);
+
+                const bar = document.getElementById('sticky-spread-bar');
+                const barVisible = !!(bar && bar.classList.contains('visible') && !bar.classList.contains('hidden-bar'));
+                const barHeight = barVisible ? Math.ceil(bar.getBoundingClientRect().height) + 8 : 0;
+                root.style.setProperty('--sticky-bar-offset', `${barHeight}px`);
+            };
+
+            updateOffsets();
+            window.addEventListener('resize', updateOffsets, { passive: true });
+            if (window.ResizeObserver && nav) new ResizeObserver(updateOffsets).observe(nav);
+            document.addEventListener('click', (e) => {
+                if (e.target && (e.target.closest('#nav-toggle') || e.target.closest('#ssb-close'))) {
+                    requestAnimationFrame(updateOffsets);
+                }
+            });
+            document.addEventListener('transitionend', (e) => {
+                if (e.target && e.target.id === 'sticky-spread-bar') updateOffsets();
+            });
+
+            window.__updateLayoutOffsets = updateOffsets;
+        })();
+
         // ── Sticky bottom spread bar ──────────────────────────────
         (function initStickyBar() {
             const bar = document.createElement('div');
@@ -3224,13 +3257,17 @@
             document.getElementById('ssb-close').addEventListener('click', () => {
                 bar.classList.remove('visible');
                 dismissed = true;
+                if (typeof window.__updateLayoutOffsets === 'function') window.__updateLayoutOffsets();
             });
 
             // Show bar after user scrolls past hero (300px)
             const showBar = () => {
                 if (dismissed) return;
                 bar.classList.remove('hidden-bar');
-                requestAnimationFrame(() => bar.classList.add('visible'));
+                requestAnimationFrame(() => {
+                    bar.classList.add('visible');
+                    if (typeof window.__updateLayoutOffsets === 'function') window.__updateLayoutOffsets();
+                });
             };
             let shown = false;
             window.addEventListener('scroll', () => {
