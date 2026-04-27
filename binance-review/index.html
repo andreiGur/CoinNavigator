@@ -168,6 +168,42 @@
       try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch {}
     }
 
+    function mapToConversionEvent(name, el, params) {
+      if (!name || !el) return null;
+      const href = (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : '';
+      const lower = name.toLowerCase();
+      const isOutbound = href && /^https?:\/\//i.test(href);
+      const isAffiliate = lower.includes('review_open_exchange') || lower.includes('open_') || lower.includes('aff');
+
+      if (isAffiliate && isOutbound) {
+        return {
+          event: 'affiliate_click',
+          payload: {
+            source_page: 'binance-review',
+            cta_name: name,
+            exchange: params.ex || 'Binance',
+            destination: href,
+            region: params.region || undefined
+          }
+        };
+      }
+
+      if (isOutbound) {
+        return {
+          event: 'outbound_exchange_click',
+          payload: {
+            source_page: 'binance-review',
+            cta_name: name,
+            exchange: params.ex || undefined,
+            destination: href,
+            region: params.region || undefined
+          }
+        };
+      }
+
+      return null;
+    }
+
     initAnalytics();
 
     // Binance affiliate registration link
@@ -189,12 +225,15 @@
       const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
       if (!el) return;
       const name = el.getAttribute('data-track');
-      track(name, {
+      const params = {
         region: localStorage.getItem('coinnavigator_region') || undefined,
         ex: el.getAttribute('data-ex') || undefined,
         href: (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : undefined,
         page: 'binance-review',
-      });
+      };
+      track(name, params);
+      const mapped = mapToConversionEvent(name, el, params);
+      if (mapped) track(mapped.event, mapped.payload);
     });
   </script>
 

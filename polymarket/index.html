@@ -465,6 +465,42 @@
       try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch {}
     }
 
+    function mapToConversionEvent(name, el, params) {
+      if (!name || !el) return null;
+      const href = (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : '';
+      const lower = name.toLowerCase();
+      const isOutbound = href && /^https?:\/\//i.test(href);
+      const isAffiliate = lower.includes('pm_view_market') || lower.includes('open_') || lower.includes('aff');
+
+      if (isAffiliate && isOutbound) {
+        return {
+          event: 'affiliate_click',
+          payload: {
+            source_page: 'polymarket',
+            cta_name: name,
+            exchange: 'Polymarket',
+            destination: href,
+            slug: params.slug || undefined
+          }
+        };
+      }
+
+      if (isOutbound) {
+        return {
+          event: 'outbound_exchange_click',
+          payload: {
+            source_page: 'polymarket',
+            cta_name: name,
+            exchange: 'Polymarket',
+            destination: href,
+            slug: params.slug || undefined
+          }
+        };
+      }
+
+      return null;
+    }
+
     function fmtUsd(v) {
       if (typeof v !== 'number' || Number.isNaN(v)) return '—';
       if (v >= 1_000_000) return '$' + (v / 1_000_000).toFixed(2) + 'M';
@@ -623,11 +659,14 @@
       const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
       if (!el) return;
       const name = el.getAttribute('data-track');
-      track(name, {
+      const params = {
         slug: el.getAttribute('data-slug') || undefined,
         href: (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : undefined,
         page: 'polymarket',
-      });
+      };
+      track(name, params);
+      const mapped = mapToConversionEvent(name, el, params);
+      if (mapped) track(mapped.event, mapped.payload);
     });
 
     // Mobile navigation toggle

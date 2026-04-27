@@ -1904,6 +1904,68 @@
             } catch {}
         }
 
+        function mapToConversionEvent(name, el, params) {
+            if (!name || !el) return null;
+            const href = (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : '';
+            const lower = name.toLowerCase();
+
+            if (lower.includes('email_signup') || lower.includes('exit_intent_email_signup')) {
+                return {
+                    event: 'lead_submit',
+                    payload: {
+                        lead_type: 'email_alert',
+                        source_page: 'home',
+                        source_event: name,
+                        region: params.region || undefined
+                    }
+                };
+            }
+
+            if (lower.includes('contact_submit')) {
+                return {
+                    event: 'lead_submit',
+                    payload: {
+                        lead_type: 'contact',
+                        source_page: 'home',
+                        source_event: name,
+                        region: params.region || undefined
+                    }
+                };
+            }
+
+            const isAffiliateClick = lower.includes('aff') || lower.includes('trade') || lower.includes('exchange') || lower.includes('open_');
+            const isOutbound = href && /^https?:\/\//i.test(href);
+            if (isAffiliateClick && isOutbound) {
+                return {
+                    event: 'affiliate_click',
+                    payload: {
+                        exchange: params.ex || undefined,
+                        symbol: params.sym || undefined,
+                        source_page: 'home',
+                        cta_name: name,
+                        destination: href,
+                        region: params.region || undefined
+                    }
+                };
+            }
+
+            if (isOutbound) {
+                return {
+                    event: 'outbound_exchange_click',
+                    payload: {
+                        exchange: params.ex || undefined,
+                        symbol: params.sym || undefined,
+                        source_page: 'home',
+                        cta_name: name,
+                        destination: href,
+                        region: params.region || undefined
+                    }
+                };
+            }
+
+            return null;
+        }
+
         function getRegionFromQuery() {
             const p = new URLSearchParams(window.location.search);
             const r = p.get('region');
@@ -3176,6 +3238,8 @@
                 href: (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : undefined,
             };
             track(name, params);
+            const mapped = mapToConversionEvent(name, el, params);
+            if (mapped) track(mapped.event, mapped.payload);
         });
 
         // Mobile navigation toggle
@@ -3394,6 +3458,7 @@
                         form.style.display = 'none';
                         if (sentMsg) sentMsg.style.display = 'inline-block';
                         track('email_signup_success', { source: 'homepage' });
+                        track('lead_submit', { lead_type: 'email_alert', source_page: 'home', source_event: 'email_signup_success', region: getRegion() });
                     } else {
                         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> Alert Me'; }
                         alert('Something went wrong. Please try again.');

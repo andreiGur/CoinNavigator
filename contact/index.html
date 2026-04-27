@@ -453,6 +453,11 @@
           status.style.display = 'block';
           if (typeof gtag === 'function') {
             gtag('event', 'contact_submit', { source: 'contact_page_form' });
+            gtag('event', 'lead_submit', {
+              lead_type: 'contact',
+              source_page: 'contact',
+              source_event: 'contact_submit'
+            });
           }
         } catch (err) {
           alert('Could not send your message right now. Please try again in a minute.');
