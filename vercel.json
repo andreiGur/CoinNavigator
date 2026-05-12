@@ -1,0 +1,28 @@
+{
+  "headers": [
+    {
+      "source": "/spread_data.json",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
+        { "key": "Cache-Control", "value": "public, max-age=60, s-maxage=120, stale-while-revalidate=300" }
+      ]
+    },
+    {
+      "source": "/polymarket_hot.json",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600, stale-while-revalidate=1800" }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
+        { "key": "Cache-Control", "value": "public, max-age=60, s-maxage=120, stale-while-revalidate=300" }
+      ]
+    }
+  ]
+}

@@ -14,7 +14,7 @@
         const TABLE_STATE = {
             q: '',
             onlyGt01: false,
-            onlyProfitable: false,
+            onlyProfitable: true,
             onlyUsdt: true,
             onlyCex: true,
             hideMissing: true,
@@ -296,11 +296,25 @@
             const qTicker = qRaw.replace('USDT', '');
             const minSpreadPct = TABLE_STATE.onlyProfitable ? 0.3 : (TABLE_STATE.onlyGt01 ? 0.1 : 0);
 
-            // Universe: top-20 tickers (plus anything the API already provides)
             const universe = Array.from(new Set([
                 ...TARGET_SYMBOLS,
                 ...Object.keys((data && data.symbols) || {}),
             ]));
+
+            let profitableNowCount = 0;
+            let trackedNowCount = 0;
+            try {
+                for (const sym of universe) {
+                    const inf = (data && data.symbols && data.symbols[sym]) ? data.symbols[sym] : null;
+                    if (inf && inf.best_buy && inf.best_sell && typeof inf.spread_percent === 'number') {
+                        trackedNowCount += 1;
+                        if (inf.spread_percent * 100 >= 0.3) profitableNowCount += 1;
+                    }
+                }
+                window.__cn_profitableNow = profitableNowCount;
+                window.__cn_trackedNow = trackedNowCount;
+                document.dispatchEvent(new CustomEvent('cn:opportunities', { detail: { profitable: profitableNowCount, tracked: trackedNowCount } }));
+            } catch {}
 
             const rows = universe.map((symbol) => {
                 const info = (data && data.symbols && data.symbols[symbol]) ? data.symbols[symbol] : null;
@@ -341,6 +355,50 @@
             const fmt = (v) => (typeof v === 'number')
                 ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
                 : 'N/A';
+
+            if (rows.length === 0) {
+                const isFilteringProfitable = TABLE_STATE.onlyProfitable;
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = `
+                    <td colspan="5" style="padding: 2.5rem 1.5rem; text-align: center;">
+                        <div style="max-width: 640px; margin: 0 auto;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">${isFilteringProfitable ? '⏳' : '🔍'}</div>
+                            <h3 style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                                ${isFilteringProfitable
+                                    ? 'No profitable spreads right now'
+                                    : 'No coins match your filters'}
+                            </h3>
+                            <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.1rem; line-height: 1.55;">
+                                ${isFilteringProfitable
+                                    ? `Markets are quiet — none of the ${trackedNowCount || 20} tracked pairs currently show a spread above 0.30% (the threshold to profit after standard 0.10% fees per leg).<br/><strong style="color: var(--text-main);">Profitable spreads typically appear during volatility spikes.</strong> Get an email the moment one opens.`
+                                    : 'Try clearing the search box or toggling off some filters above.'}
+                            </p>
+                            ${isFilteringProfitable ? `
+                            <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.8rem;">
+                                <a class="btn btn-primary" href="#email-alerts" data-track="empty_state_alert_cta" style="font-size: 0.9rem;">
+                                    <i class="fas fa-bell"></i> Alert me when spreads open
+                                </a>
+                                <button type="button" class="btn btn-ghost" id="empty-show-all" data-track="empty_state_show_all" style="font-size: 0.9rem;">
+                                    <i class="fas fa-eye"></i> Show all spreads anyway
+                                </button>
+                            </div>
+                            <div style="font-size: 0.78rem; color: var(--text-muted); padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 0.8rem;">
+                                Meanwhile: <a href="/polymarket/" data-track="empty_state_pm" style="color: var(--primary-light); font-weight: 600;">Check Polymarket movers →</a>
+                                &nbsp; · &nbsp; <a href="/blog/" data-track="empty_state_blog" style="color: var(--primary-light); font-weight: 600;">Read arbitrage guides →</a>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(emptyRow);
+                const showAllBtn = emptyRow.querySelector('#empty-show-all');
+                if (showAllBtn) {
+                    showAllBtn.addEventListener('click', () => {
+                        const cb = document.getElementById('only-profitable');
+                        if (cb) { cb.checked = false; cb.dispatchEvent(new Event('change')); }
+                    });
+                }
+            }
 
             for (const r of rows) {
                 const symbol = r.symbol;
@@ -486,10 +544,25 @@
                 });
             }
 
-            // Update counters
             if (assetCountDiv) assetCountDiv.innerText = TARGET_SYMBOLS.length;
             if (maxSpreadDiv) maxSpreadDiv.innerText = highestSpread > 0 ? (highestSpread.toFixed(3) + '%') : '--';
             if (statusDiv) statusDiv.textContent = `Showing ${rows.length} / ${TARGET_SYMBOLS.length}`;
+
+            const profitableCountEl = document.getElementById('profitable-count');
+            const profitableSubEl = document.getElementById('stat-profitable-sub');
+            if (profitableCountEl) {
+                profitableCountEl.innerText = profitableNowCount;
+                if (profitableNowCount === 0) {
+                    profitableCountEl.style.color = 'var(--text-muted)';
+                    if (profitableSubEl) profitableSubEl.innerHTML = '<span style="color:var(--primary-light);">Get alert when one opens →</span>';
+                } else if (profitableNowCount >= 3) {
+                    profitableCountEl.style.color = '#34d399';
+                    if (profitableSubEl) profitableSubEl.innerText = `HOT — ${profitableNowCount} live opportunities`;
+                } else {
+                    profitableCountEl.style.color = 'var(--accent)';
+                    if (profitableSubEl) profitableSubEl.innerText = 'spreads > 0.30%';
+                }
+            }
 
             if (timestampDiv && data && data.timestamp) {
                 const date = new Date(data.timestamp);

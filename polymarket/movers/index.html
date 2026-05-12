@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polymarket Biggest Movers Today | 24h Probability Shifts — CoinNavigator</title>
+  <meta name="description" content="Live ranking of Polymarket prediction markets with the biggest 24-hour probability shifts. Spot mispriced longshots, value bets and crowd consensus changes — updated daily." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://coinnavigator.net/polymarket/movers/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Polymarket Biggest Movers Today | 24h Probability Shifts" />
+  <meta property="og:description" content="Live ranking of Polymarket prediction markets with the biggest 24h probability shifts. Spot longshots and value bets." />
+  <meta property="og:url" content="https://coinnavigator.net/polymarket/movers/" />
+  <meta property="og:image" content="https://coinnavigator.net/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://coinnavigator.net/og-image.svg" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9L1137PQ6P');
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://coinnavigator.net/#org",
+        "name": "CoinNavigator",
+        "url": "https://coinnavigator.net/",
+        "logo": "https://coinnavigator.net/favicon.svg"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://coinnavigator.net/polymarket/movers/#webpage",
+        "url": "https://coinnavigator.net/polymarket/movers/",
+        "name": "Polymarket Biggest Movers Today",
+        "description": "Live ranking of Polymarket prediction markets with biggest 24h probability shifts, value bets, longshots and consensus picks.",
+        "isPartOf": { "@id": "https://coinnavigator.net/#website" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://coinnavigator.net/" },
+          { "@type": "ListItem", "position": 2, "name": "Polymarket", "item": "https://coinnavigator.net/polymarket/" },
+          { "@type": "ListItem", "position": 3, "name": "Biggest Movers", "item": "https://coinnavigator.net/polymarket/movers/" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does 'biggest movers' mean on Polymarket?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Biggest movers are markets whose YES (or NO) implied probability changed the most in the last 24 hours. A large shift usually reflects new information, news flow, or coordinated betting from informed traders." }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a 'value bet' on Polymarket?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A value bet is when you believe the market's implied probability is incorrect — e.g., the market prices 'Yes' at 12% but you think the true odds are closer to 30%. Identifying value requires research and risk management." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is trading on Polymarket legal?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Polymarket operates as a decentralized prediction market on Polygon. Availability and regulatory treatment vary by jurisdiction. Always check your local laws before participating." }
+          },
+          {
+            "@type": "Question",
+            "name": "How often is this page updated?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Data is refreshed from Polymarket's public API daily. The timestamp at the top of the page shows the last update." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #0b0f1a;
+      --card-bg: #161b2a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #2d334a;
+      --danger: #ef4444;
+      --warning: #fbbf24;
+      --up: #34d399;
+      --down: #f87171;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+    a { color: var(--primary-light); text-decoration: none; }
+    a:hover { color: var(--text-main); }
+
+    .bg-glow {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 55%);
+      z-index: -1; pointer-events: none;
+    }
+
+    nav {
+      background: rgba(11, 15, 26, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 1.1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .logo { font-size: 1.4rem; font-weight: 900; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); font-weight: 600; font-size: 0.9rem; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--primary-light); }
+    .nav-toggle { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); border-radius: 12px; padding: 0.55rem 0.75rem; cursor: pointer; min-height: 44px; min-width: 44px; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .hero { padding: 3.5rem 0 1.75rem; }
+    .breadcrumb { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--text-muted); font-weight: 700; }
+    .breadcrumb a:hover { color: var(--primary-light); }
+    .hero h1 {
+      font-size: 2.6rem; font-weight: 900; letter-spacing: -0.02em;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p.lead { color: var(--text-muted); max-width: 800px; margin-top: 1rem; font-size: 1.05rem; }
+
+    .pill-row { margin-top: 1.25rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.83rem;
+    }
+    .pill.live i { color: var(--up); }
+    .pill.live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--up); box-shadow: 0 0 8px var(--up); animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* Tabs */
+    .tab-bar {
+      margin-top: 2.25rem;
+      display: flex;
+      gap: 0.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-wrap: wrap;
+      overflow-x: auto;
+      padding-bottom: 1px;
+    }
+    .tab {
+      padding: 0.75rem 1.1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .tab:hover { color: var(--text-main); }
+    .tab.active {
+      color: var(--text-main);
+      border-bottom-color: var(--primary-light);
+    }
+    .tab .count {
+      background: rgba(255,255,255,0.06);
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 800;
+    }
+    .tab.active .count { color: var(--primary-light); background: rgba(99,102,241,0.15); }
+
+    .tab-panel-meta {
+      margin-top: 1rem;
+      padding: 1rem 1.25rem;
+      background: rgba(99,102,241,0.06);
+      border: 1px solid rgba(99,102,241,0.18);
+      border-radius: 14px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .tab-panel-meta b { color: var(--text-main); }
+
+    .grid {
+      margin: 1.5rem 0 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .market-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .market-card:hover { border-color: rgba(129,140,248,0.4); transform: translateY(-2px); }
+    .market-card.up::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--up); }
+    .market-card.down::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--down); }
+    .market-card.long::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--warning); }
+
+    .card-head { display: flex; gap: 0.85rem; align-items: flex-start; }
+    .thumb {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      overflow: hidden;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .q { font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; font-size: 0.98rem; }
+    .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 0.85rem; color: var(--text-muted); font-size: 0.78rem; }
+    .meta b { color: var(--text-main); font-weight: 800; }
+
+    .change-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.85rem 0.95rem;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+    }
+    .yes-prob { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.02em; }
+    .yes-prob .lbl { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); font-weight: 800; margin-bottom: 0.15rem; }
+    .delta {
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .delta.up { background: rgba(52,211,153,0.12); color: var(--up); border: 1px solid rgba(52,211,153,0.3); }
+    .delta.down { background: rgba(248,113,113,0.12); color: var(--down); border: 1px solid rgba(248,113,113,0.3); }
+    .delta.neutral { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.08); }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .badge.hot { background: rgba(251,191,36,0.12); color: var(--warning); border-color: rgba(251,191,36,0.3); }
+    .badge.long { background: rgba(167,139,250,0.12); color: #a78bfa; border-color: rgba(167,139,250,0.3); }
+    .badge.cons { background: rgba(99,102,241,0.12); color: var(--primary-light); border-color: rgba(99,102,241,0.3); }
+
+    .actions { margin-top: auto; display: flex; gap: 0.55rem; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-weight: 800;
+      padding: 0.7rem 1rem;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+      cursor: pointer;
+      flex: 1 1 auto;
+      min-height: 42px;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: white !important; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-ghost { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: var(--text-main) !important; flex: 0 1 auto; }
+    .btn-ghost:hover { border-color: rgba(129, 140, 248, 0.6); }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 16px;
+    }
+    .empty .ico { font-size: 2.5rem; margin-bottom: 0.6rem; opacity: 0.6; }
+    .muted { color: var(--text-muted); }
+
+    /* Newsletter banner */
+    .nl-banner {
+      margin: 3rem 0;
+      padding: 2rem 1.75rem;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(167,139,250,0.06));
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nl-banner .text { flex: 1 1 320px; }
+    .nl-banner h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 0.4rem; }
+    .nl-banner p { color: var(--text-muted); font-size: 0.95rem; }
+    .nl-form { display: flex; gap: 0.5rem; flex: 1 1 320px; min-width: 280px; flex-wrap: wrap; }
+    .nl-form input {
+      flex: 1 1 200px;
+      min-width: 180px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .nl-form input:focus { border-color: var(--primary-light); }
+    .nl-success { display: none; color: var(--up); font-weight: 800; }
+    .nl-banner.sent .nl-form { display: none; }
+    .nl-banner.sent .nl-success { display: block; }
+
+    /* Disclosure & content blocks */
+    .content-block {
+      margin: 3rem 0;
+      padding: 1.75rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+    }
+    .content-block h2 { font-size: 1.5rem; margin-bottom: 0.85rem; font-weight: 900; }
+    .content-block h3 { font-size: 1.1rem; margin: 1.25rem 0 0.6rem; font-weight: 800; }
+    .content-block p { color: var(--text-muted); margin-bottom: 0.85rem; line-height: 1.7; font-size: 0.95rem; }
+    .content-block ul { color: var(--text-muted); padding-left: 1.25rem; margin-bottom: 0.85rem; line-height: 1.7; font-size: 0.95rem; }
+    .content-block li { margin-bottom: 0.35rem; }
+    .content-block strong { color: var(--text-main); }
+    .content-block a { color: var(--primary-light); font-weight: 700; }
+
+    .disclosure {
+      margin-top: 2rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .disclosure b { color: var(--text-main); }
+
+    footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-size: 0.88rem; }
+    .footer-links { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; justify-content: center; }
+    .footer-links a { color: var(--text-muted); font-weight: 700; font-size: 0.88rem; }
+    .footer-links a:hover { color: var(--primary-light); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0.9rem 1rem; }
+      .nav-toggle { display: inline-flex; margin-left: auto; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0.5rem; padding: 0.85rem 0; }
+      nav.nav-open .nav-links { display: flex; }
+      .nav-links a {
+        display: flex; padding: 0.7rem 0.85rem; border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02);
+        color: var(--text-main); font-weight: 700;
+      }
+      .hero h1 { font-size: 2rem; }
+      .container { padding: 0 1rem; }
+      .grid { grid-template-columns: 1fr; }
+      .yes-prob { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <nav id="nav">
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/" data-track="nav_home">Home</a></li>
+      <li><a href="/#dashboard" data-track="nav_monitor">Arbitrage Monitor</a></li>
+      <li><a href="/polymarket/" data-track="nav_polymarket">Polymarket</a></li>
+      <li><a href="/polymarket/movers/" aria-current="page" data-track="nav_movers">Movers</a></li>
+      <li><a href="/blog/" data-track="nav_guides">Guides</a></li>
+      <li><a href="/about/" data-track="nav_about">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div class="breadcrumb">
+        <a href="/">Home</a> &raquo; <a href="/polymarket/">Polymarket</a> &raquo; <span>Biggest Movers</span>
+      </div>
+      <h1>Polymarket biggest movers right now</h1>
+      <p class="lead">
+        Live ranking of the prediction markets with the largest 24-hour probability shifts.
+        <b>Big moves often signal new information.</b> Spot longshots, value bets, and consensus picks
+        the crowd is actively repricing — all sourced from Polymarket's public API.
+      </p>
+      <div class="pill-row">
+        <span class="pill live"><i class="fas fa-bolt"></i> Live data</span>
+        <span class="pill"><i class="fas fa-clock"></i> Last updated <span id="pm-last-updated">—</span></span>
+        <span class="pill"><i class="fas fa-database"></i> <span id="pm-total-markets">—</span> markets tracked</span>
+        <a class="pill" href="/methodology/#polymarket" data-track="pm_methodology"><i class="fas fa-shield-halved"></i> Methodology</a>
+      </div>
+    </section>
+
+    <div class="tab-bar" role="tablist" aria-label="Movers categories">
+      <button class="tab active" role="tab" data-tab="movers" data-track="movers_tab_movers">
+        <i class="fas fa-arrow-trend-up"></i> Biggest Movers <span class="count" id="count-movers">—</span>
+      </button>
+      <button class="tab" role="tab" data-tab="up" data-track="movers_tab_up">
+        <i class="fas fa-caret-up" style="color: var(--up);"></i> YES Rising <span class="count" id="count-up">—</span>
+      </button>
+      <button class="tab" role="tab" data-tab="down" data-track="movers_tab_down">
+        <i class="fas fa-caret-down" style="color: var(--down);"></i> YES Falling <span class="count" id="count-down">—</span>
+      </button>
+      <button class="tab" role="tab" data-tab="long" data-track="movers_tab_long">
+        <i class="fas fa-dice"></i> Longshots (&lt;10% YES) <span class="count" id="count-long">—</span>
+      </button>
+      <button class="tab" role="tab" data-tab="cons" data-track="movers_tab_cons">
+        <i class="fas fa-check-double"></i> Consensus (&gt;80% YES) <span class="count" id="count-cons">—</span>
+      </button>
+      <button class="tab" role="tab" data-tab="vol" data-track="movers_tab_vol">
+        <i class="fas fa-fire"></i> Volume Leaders <span class="count" id="count-vol">—</span>
+      </button>
+    </div>
+
+    <div class="tab-panel-meta" id="panel-meta">
+      <b>Biggest Movers:</b> Markets ranked by the absolute size of their 24-hour YES probability change.
+      A large move usually reflects news, fresh capital, or shifting consensus — not a guarantee of accuracy.
+    </div>
+
+    <section>
+      <div class="grid" id="markets-grid">
+        <div class="empty">
+          <div class="ico"><i class="fas fa-circle-notch fa-spin"></i></div>
+          <div>Loading live Polymarket movers…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter capture -->
+    <section class="nl-banner" id="nl-banner">
+      <div class="text">
+        <h3><i class="fas fa-bell" style="color: var(--warning);"></i> Get a daily Polymarket movers digest</h3>
+        <p>One short email with the top 5 biggest probability shifts of the day across politics, sports, crypto and macro. <strong style="color: var(--text-main);">Free, no spam, unsubscribe anytime.</strong></p>
+      </div>
+      <form class="nl-form" action="https://formspree.io/f/xwpbqvow" method="POST" id="nl-form">
+        <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+        <input type="hidden" name="source" value="polymarket_movers" />
+        <input type="hidden" name="list" value="polymarket_daily_digest" />
+        <button class="btn btn-primary" type="submit" data-track="movers_newsletter_signup" style="flex: 0 0 auto;">
+          <i class="fas fa-paper-plane"></i> Get daily digest
+        </button>
+      </form>
+      <div class="nl-success">✅ You're subscribed! Watch for your first digest tomorrow morning.</div>
+    </section>
+
+    <!-- SEO content block -->
+    <section class="content-block">
+      <h2>How to read Polymarket movers</h2>
+      <p>
+        Polymarket prices represent <strong>implied probabilities</strong>, not certainties. A market priced at 18% YES means
+        the crowd collectively believes that outcome has roughly an 18% chance of happening — and traders are willing to buy YES
+        shares at 18¢ that pay $1 if the event resolves YES.
+      </p>
+
+      <h3>What a big 24h move tells you</h3>
+      <p>
+        A &gt;5 percentage-point shift in a single day is meaningful. It typically signals one of three things:
+      </p>
+      <ul>
+        <li><strong>Breaking news</strong> moved the underlying probability (election poll, court ruling, economic data).</li>
+        <li><strong>Coordinated capital</strong> entered the market — usually from a trader or fund with new information.</li>
+        <li><strong>Liquidity gap</strong> got filled — a thinly traded market re-anchored to a new consensus.</li>
+      </ul>
+
+      <h3>Spotting value: longshots and consensus picks</h3>
+      <p>
+        <strong>Longshots</strong> (&lt;10% YES) are interesting when their volume is high relative to other longshots — the crowd is
+        spending real money on what looks like an unlikely outcome. This often reflects asymmetric risk-takers or insider conviction.
+      </p>
+      <p>
+        <strong>Consensus picks</strong> (&gt;80% YES) on high-volume markets can still offer value if you believe the remaining tail risk
+        is mispriced. A 92% YES that should be 98% is a "boring" but capital-efficient trade.
+      </p>
+
+      <h3>How this page is built</h3>
+      <p>
+        We pull the public Polymarket API once per day, filter to active markets, and rank by the absolute 24-hour YES probability change.
+        Volume is the rolling 24-hour USD traded value. Probabilities and prices are taken at the snapshot timestamp shown above.
+      </p>
+
+      <h3>Related tools</h3>
+      <ul>
+        <li><a href="/polymarket/" data-track="movers_related_polymarket">All hot Polymarket events</a> — sorted by 24h volume</li>
+        <li><a href="/blog/how-to-read-polymarket-yes-no-volume-2026/" data-track="movers_related_yesno">How to read Polymarket YES/NO volume</a></li>
+        <li><a href="/blog/polymarket-crypto-sentiment-probabilities-2026/" data-track="movers_related_crypto">Polymarket as a crypto sentiment gauge</a></li>
+        <li><a href="/blog/what-are-prediction-markets-beginners-guide-2026/" data-track="movers_related_beginners">Prediction markets: beginner's guide</a></li>
+      </ul>
+
+      <div class="disclosure">
+        <b>Affiliate disclosure & risk:</b> Links to Polymarket on this page are partner (referral) links — we may earn a small
+        commission at no extra cost to you when you sign up. Prediction markets involve financial risk; only trade with money you can
+        afford to lose. Availability and regulatory treatment of Polymarket varies by jurisdiction — check your local laws.
+        Nothing on this page is financial, tax, or legal advice.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator — Trust-first crypto & prediction markets intelligence.</p>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="/methodology/">Methodology</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    (function initNav(){
+      var nav = document.getElementById('nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav || !btn) return;
+      btn.addEventListener('click', function(){
+        var open = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
+
+    // Tracking shim
+    function track(name, params) {
+      try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch {}
+    }
+    document.addEventListener('click', function(e){
+      var el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+      if (!el) return;
+      var name = el.getAttribute('data-track');
+      if (name) track(name, { source_page: 'polymarket_movers' });
+    });
+
+    // Polymarket referral constant (same as homepage)
+    var PM_REFERRAL = 'Bn0AqAs';
+    var PM_HOME = 'https://polymarket.com';
+
+    function fmtUsd(v) {
+      if (typeof v !== 'number' || !isFinite(v)) return '—';
+      if (v >= 1_000_000) return '$' + (v / 1_000_000).toFixed(2) + 'M';
+      if (v >= 1_000) return '$' + (v / 1_000).toFixed(1) + 'K';
+      return '$' + v.toFixed(0);
+    }
+    function fmtProb(p) {
+      if (typeof p !== 'number' || !isFinite(p)) return '—';
+      return (p * 100).toFixed(1) + '%';
+    }
+    function fmtDelta(d) {
+      if (typeof d !== 'number' || !isFinite(d) || d === 0) return '0.0 pts';
+      var pts = d * 100;
+      return (pts > 0 ? '+' : '') + pts.toFixed(1) + ' pts';
+    }
+    function escapeHtml(s) {
+      if (s == null || typeof s !== 'string') return '';
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function timeRemaining(endDateIso) {
+      if (!endDateIso) return null;
+      var t = Date.parse(endDateIso);
+      if (isNaN(t)) return null;
+      var ms = t - Date.now();
+      var days = Math.floor(ms / (24 * 3600 * 1000));
+      if (days < 0) return 'Ended';
+      if (days === 0) return 'Ends today';
+      if (days === 1) return '1 day left';
+      return days + ' days left';
+    }
+    function buildMarketUrl(url, tag) {
+      if (!url || typeof url !== 'string' || !url.startsWith('http') || !url.includes('polymarket.com/event/')) {
+        url = PM_HOME;
+      }
+      try {
+        var u = new URL(url);
+        u.searchParams.set('via', PM_REFERRAL);
+        u.searchParams.set('utm_source', 'coinnavigator');
+        u.searchParams.set('utm_medium', 'referral');
+        u.searchParams.set('utm_campaign', 'polymarket_movers');
+        u.searchParams.set('utm_content', tag || 'card');
+        return u.toString();
+      } catch {
+        return PM_HOME + '?via=' + encodeURIComponent(PM_REFERRAL);
+      }
+    }
+
+    async function fetchData() {
+      var origins = [window.location.origin, 'https://coinnavigator.net'];
+      var candidates = [];
+      for (var i = 0; i < origins.length; i++) {
+        candidates.push(origins[i] + '/polymarket_hot.json');
+        candidates.push(origins[i] + '/data/polymarket_hot.json');
+      }
+      var lastErr = null;
+      for (var j = 0; j < candidates.length; j++) {
+        var url = candidates[j] + '?v=' + Date.now();
+        try {
+          var res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) { lastErr = new Error('HTTP ' + res.status); continue; }
+          return await res.json();
+        } catch (e) { lastErr = e; }
+      }
+      throw lastErr || new Error('failed_to_fetch_polymarket');
+    }
+
+    function isActive(m) {
+      if (!m.endDate) return true;
+      var t = Date.parse(m.endDate);
+      if (isNaN(t)) return true;
+      return t > Date.now();
+    }
+
+    function categorize(allMarkets) {
+      var active = allMarkets.filter(isActive);
+      var withChange = active.filter(function(m){ return typeof m.oneDayPriceChange === 'number' && isFinite(m.oneDayPriceChange); });
+
+      function byAbsChange(a, b) { return Math.abs(b.oneDayPriceChange) - Math.abs(a.oneDayPriceChange); }
+      function byChangeDesc(a, b) { return (b.oneDayPriceChange || 0) - (a.oneDayPriceChange || 0); }
+      function byChangeAsc(a, b) { return (a.oneDayPriceChange || 0) - (b.oneDayPriceChange || 0); }
+      function byVolDesc(a, b) { return (b.volume24hr || 0) - (a.volume24hr || 0); }
+
+      // Bigger moves first, but require some 24h volume to avoid noise
+      var movers = withChange.filter(function(m){ return Math.abs(m.oneDayPriceChange) >= 0.005 && (m.volume24hr || 0) > 500; }).slice().sort(byAbsChange).slice(0, 24);
+      var up = withChange.filter(function(m){ return m.oneDayPriceChange > 0.005 && (m.volume24hr || 0) > 500; }).slice().sort(byChangeDesc).slice(0, 24);
+      var down = withChange.filter(function(m){ return m.oneDayPriceChange < -0.005 && (m.volume24hr || 0) > 500; }).slice().sort(byChangeAsc).slice(0, 24);
+
+      var longshots = active.filter(function(m){
+        return typeof m.yes === 'number' && m.yes > 0 && m.yes < 0.10 && (m.volume24hr || 0) > 1000;
+      }).slice().sort(byVolDesc).slice(0, 24);
+
+      var consensus = active.filter(function(m){
+        return typeof m.yes === 'number' && m.yes >= 0.80 && m.yes < 1.0 && (m.volume24hr || 0) > 1000;
+      }).slice().sort(byVolDesc).slice(0, 24);
+
+      var volume = active.slice().sort(byVolDesc).slice(0, 24);
+
+      return { movers: movers, up: up, down: down, long: longshots, cons: consensus, vol: volume, totalActive: active.length };
+    }
+
+    function badgesFor(m) {
+      var out = [];
+      if (typeof m.volume24hr === 'number' && m.volume24hr >= 250000) out.push('<span class="badge hot"><i class="fas fa-fire"></i> High volume</span>');
+      if (typeof m.yes === 'number' && m.yes > 0 && m.yes < 0.10) out.push('<span class="badge long"><i class="fas fa-dice"></i> Longshot</span>');
+      if (typeof m.yes === 'number' && m.yes >= 0.80 && m.yes < 1) out.push('<span class="badge cons"><i class="fas fa-check-double"></i> Consensus</span>');
+      return out.join('');
+    }
+
+    function renderCard(m, tag) {
+      var change = typeof m.oneDayPriceChange === 'number' ? m.oneDayPriceChange : 0;
+      var deltaCls = change > 0.005 ? 'up' : (change < -0.005 ? 'down' : 'neutral');
+      var deltaIcon = change > 0.005 ? '<i class="fas fa-arrow-up"></i>' : (change < -0.005 ? '<i class="fas fa-arrow-down"></i>' : '<i class="fas fa-minus"></i>');
+      var cardCls = change > 0.005 ? 'up' : (change < -0.005 ? 'down' : (m.yes && m.yes < 0.1 ? 'long' : ''));
+
+      var img = m.image
+        ? '<img src="' + escapeHtml(m.image) + '" alt="" loading="lazy" onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<i class=fa-solid fa-chart-pie></i>\';" />'
+        : '<i class="fa-solid fa-chart-pie"></i>';
+
+      var marketUrl = buildMarketUrl(m.url, tag || 'card');
+      var endTxt = timeRemaining(m.endDate);
+      var badges = badgesFor(m);
+
+      return '<article class="market-card ' + cardCls + '">' +
+        '<div class="card-head">' +
+          '<div class="thumb">' + img + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div class="q">' + escapeHtml(m.question || '—') + '</div>' +
+            '<div class="meta" style="margin-top:0.45rem;">' +
+              (typeof m.volume24hr === 'number' ? '<span>24h vol: <b>' + fmtUsd(m.volume24hr) + '</b></span>' : '') +
+              (endTxt ? '<span>' + escapeHtml(endTxt) + '</span>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        (badges ? '<div class="badge-row">' + badges + '</div>' : '') +
+        '<div class="change-row">' +
+          '<div class="yes-prob">' +
+            '<span class="lbl">YES probability</span>' +
+            fmtProb(m.yes) +
+          '</div>' +
+          '<div class="delta ' + deltaCls + '">' + deltaIcon + ' ' + fmtDelta(change) + ' 24h</div>' +
+        '</div>' +
+        '<div class="actions">' +
+          '<a class="btn btn-primary" href="' + marketUrl + '" target="_blank" rel="noopener nofollow sponsored" data-track="movers_open_market" data-slug="' + escapeHtml(m.slug || '') + '"><i class="fa-solid fa-arrow-up-right-from-square"></i> Trade on Polymarket</a>' +
+          '<a class="btn btn-ghost" href="/polymarket/" data-track="movers_back_to_hub" title="See all hot Polymarket events"><i class="fa-solid fa-fire"></i></a>' +
+        '</div>' +
+      '</article>';
+    }
+
+    function renderTab(name, list, panelMeta) {
+      var grid = document.getElementById('markets-grid');
+      var meta = document.getElementById('panel-meta');
+      meta.innerHTML = panelMeta || '';
+      if (!list || list.length === 0) {
+        grid.innerHTML = '<div class="empty"><div class="ico"><i class="fa-regular fa-circle-question"></i></div><div>No markets match this view right now.</div><div class="muted small" style="margin-top:0.4rem;">Polymarket data refreshes daily — try again tomorrow.</div></div>';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < list.length; i++) html += renderCard(list[i], name);
+      grid.innerHTML = html;
+    }
+
+    var PANEL_META = {
+      movers: '<b>Biggest Movers:</b> Markets ranked by the absolute size of their 24-hour YES probability change. Filtered to >$500 24h volume to remove noise.',
+      up: '<b>YES Rising:</b> The market is pricing in a higher probability than it was 24 hours ago — usually a sign of positive news or fresh capital backing this outcome.',
+      down: '<b>YES Falling:</b> The market is pricing in a lower probability than 24 hours ago — typically reflects bad news for the outcome or fading conviction.',
+      long: '<b>Longshots (&lt;10% YES):</b> Outcomes the crowd considers unlikely. Worth scanning when 24h volume is high — that means real money is being placed on the tail.',
+      cons: '<b>Consensus picks (&gt;80% YES):</b> Strong crowd belief that this outcome will happen. Useful for spotting mispriced "near-certain" trades with thin remaining edge.',
+      vol: '<b>Volume Leaders:</b> The markets attracting the most 24-hour USD trading — where attention and capital are concentrated today.'
+    };
+
+    function setActiveTab(name, cats) {
+      document.querySelectorAll('.tab').forEach(function(b){
+        b.classList.toggle('active', b.dataset.tab === name);
+        b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false');
+      });
+      renderTab(name, cats[name], PANEL_META[name] || '');
+      try { track('movers_tab_view', { tab: name, count: (cats[name] || []).length }); } catch {}
+    }
+
+    function setCounts(cats) {
+      document.getElementById('count-movers').textContent = cats.movers.length;
+      document.getElementById('count-up').textContent = cats.up.length;
+      document.getElementById('count-down').textContent = cats.down.length;
+      document.getElementById('count-long').textContent = cats.long.length;
+      document.getElementById('count-cons').textContent = cats.cons.length;
+      document.getElementById('count-vol').textContent = cats.vol.length;
+      document.getElementById('pm-total-markets').textContent = cats.totalActive;
+    }
+
+    function fmtAge(iso) {
+      if (!iso) return '—';
+      var t = Date.parse(iso);
+      if (isNaN(t)) return '—';
+      var diffMin = Math.round((Date.now() - t) / 60000);
+      if (diffMin < 60) return diffMin + 'm ago';
+      var diffH = Math.round(diffMin / 60);
+      if (diffH < 36) return diffH + 'h ago';
+      var diffD = Math.round(diffH / 24);
+      return diffD + 'd ago';
+    }
+
+    async function init() {
+      try {
+        var data = await fetchData();
+        document.getElementById('pm-last-updated').textContent = fmtAge(data.timestamp);
+        var cats = categorize(Array.isArray(data.markets) ? data.markets : []);
+        setCounts(cats);
+        setActiveTab('movers', cats);
+
+        document.querySelectorAll('.tab').forEach(function(b){
+          b.addEventListener('click', function(){
+            setActiveTab(b.dataset.tab, cats);
+          });
+        });
+      } catch (e) {
+        console.warn('Movers init failed:', e);
+        document.getElementById('markets-grid').innerHTML = '<div class="empty"><div class="ico"><i class="fa-solid fa-triangle-exclamation"></i></div><div>Could not load Polymarket data right now.</div><div class="muted small" style="margin-top:0.4rem;">Please refresh in a moment.</div></div>';
+      }
+    }
+
+    init();
+
+    // Newsletter form
+    (function initNewsletter(){
+      var form = document.getElementById('nl-form');
+      var banner = document.getElementById('nl-banner');
+      if (!form || !banner) return;
+      form.addEventListener('submit', function(e){
+        try {
+          fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+          e.preventDefault();
+          banner.classList.add('sent');
+          track('lead_submit', { source_page: 'polymarket_movers', list: 'polymarket_daily_digest' });
+        } catch { /* let it submit natively */ }
+      });
+    })();
+  </script>
+</body>
+</html>

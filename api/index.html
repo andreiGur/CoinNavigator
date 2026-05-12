@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoinNavigator API: Real-Time Crypto Spreads & Polymarket Data (Free + Pro)</title>
+  <meta name="description" content="Free real-time crypto arbitrage spread API across 6 exchanges plus Polymarket hot markets. JSON endpoints with 60-second freshness, CORS-enabled, ready for trading bots and analytics." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://coinnavigator.net/api/" />
+  <meta property="og:site_name" content="CoinNavigator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CoinNavigator API: Real-Time Crypto Spreads & Polymarket Data" />
+  <meta property="og:description" content="Free JSON endpoints for live crypto spreads across Binance, OKX, KuCoin, Gate, MEXC, plus Polymarket hot markets." />
+  <meta property="og:url" content="https://coinnavigator.net/api/" />
+  <meta property="og:image" content="https://coinnavigator.net/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://coinnavigator.net/og-image.svg" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9L1137PQ6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9L1137PQ6P');
+  </script>
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebAPI",
+    "name": "CoinNavigator API",
+    "description": "Real-time crypto arbitrage spreads across major exchanges plus Polymarket prediction market data.",
+    "documentation": "https://coinnavigator.net/api/",
+    "provider": { "@type": "Organization", "name": "CoinNavigator", "url": "https://coinnavigator.net/" }
+  }
+  </script>
+
+  <style>
+    :root { --primary: #6366f1; --primary-light: #818cf8; --accent: #10b981; --bg: #0b0f1a; --card-bg: #161b2a; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #2d334a; --warning: #fbbf24; --danger: #ef4444; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.7; }
+    html { scroll-behavior: smooth; }
+    .bg-glow { position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 55%); z-index: -1; pointer-events: none; }
+    nav { background: rgba(11,15,26,0.85); backdrop-filter: blur(12px); padding: 1.1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); gap: 0.75rem; flex-wrap: wrap; }
+    .logo { font-size: 1.35rem; font-weight: 900; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .nav-links a:hover { color: var(--primary-light); }
+    .nav-toggle { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); border-radius: 12px; padding: 0.55rem 0.75rem; cursor: pointer; min-height: 44px; min-width: 44px; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    .hero { padding: 3.5rem 0 2rem; }
+    .breadcrumb { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--text-muted); font-weight: 700; text-decoration: none; }
+    h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--primary-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    h2 { margin-top: 2.75rem; margin-bottom: 0.9rem; font-size: 1.55rem; font-weight: 900; }
+    h3 { margin-top: 1.75rem; margin-bottom: 0.6rem; font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
+    p { margin-bottom: 1rem; color: var(--text-muted); }
+    p strong, li strong, td strong { color: var(--text-main); }
+    .lead { color: var(--text-main); font-size: 1.1rem; margin-bottom: 1.25rem; font-weight: 500; max-width: 760px; }
+    .pill-row { margin: 0.5rem 0 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 0.4rem 0.85rem; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25); color: var(--primary-light); border-radius: 999px; font-weight: 800; font-size: 0.82rem; }
+    .pill i { color: var(--accent); }
+    a { color: var(--primary-light); text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+
+    .endpoint-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.75rem;
+      margin: 1.5rem 0;
+    }
+    .endpoint-card.featured { border-color: rgba(99,102,241,0.4); background: linear-gradient(135deg, rgba(99,102,241,0.06), var(--card-bg) 60%); }
+    .endpoint-head { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .method { background: var(--accent); color: white; padding: 0.3rem 0.7rem; border-radius: 8px; font-size: 0.78rem; font-weight: 900; letter-spacing: 0.05em; }
+    .endpoint-url { font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,0.4); padding: 0.5rem 0.85rem; border-radius: 10px; color: var(--text-main); font-size: 0.92rem; font-weight: 600; flex: 1 1 240px; min-width: 0; overflow-x: auto; }
+    .endpoint-card .meta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .meta-tag { font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 999px; background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.06); font-weight: 700; }
+    .meta-tag.free { background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.25); }
+
+    .code-block {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--text-main);
+      overflow-x: auto;
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .key { color: #818cf8; }
+    .code-block .str { color: #34d399; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .com { color: var(--text-muted); }
+    .code-lang { position: absolute; top: 0.5rem; right: 0.85rem; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .price-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 1.5rem; position: relative; }
+    .price-card.popular { border-color: rgba(251,191,36,0.4); background: linear-gradient(135deg, rgba(251,191,36,0.04), rgba(255,255,255,0.02)); }
+    .price-card.popular::before { content: 'COMING SOON'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--warning); color: var(--bg); padding: 0.25rem 0.85rem; border-radius: 999px; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.1em; }
+    .price-card h3 { margin-top: 0; font-size: 1.2rem; }
+    .price-card .price { font-size: 2rem; font-weight: 900; margin: 0.4rem 0 0.85rem; }
+    .price-card .price .per { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
+    .price-card ul { margin: 0; padding-left: 1.1rem; color: var(--text-muted); font-size: 0.9rem; }
+    .price-card li { margin: 0.4rem 0; }
+    .price-card .cta { margin-top: 1.25rem; display: block; text-align: center; padding: 0.65rem 1rem; border-radius: 10px; font-weight: 800; font-size: 0.88rem; background: rgba(99,102,241,0.1); color: var(--primary-light); border: 1px solid rgba(99,102,241,0.25); text-decoration: none; }
+    .price-card.popular .cta { background: var(--warning); color: var(--bg); border-color: var(--warning); }
+    .price-card .cta:hover { transform: translateY(-1px); }
+
+    .callout { border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.06); border-radius: 14px; padding: 1rem 1.25rem; margin: 1.25rem 0; color: var(--text-muted); font-size: 0.92rem; }
+    .callout strong { color: var(--text-main); }
+
+    footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-size: 0.88rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+    .footer-links { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; justify-content: center; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-weight: 700; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0.9rem 1rem; }
+      .nav-toggle { display: inline-flex; margin-left: auto; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0.5rem; padding: 0.85rem 0; }
+      nav.nav-open .nav-links { display: flex; }
+      .nav-links a { display: flex; padding: 0.7rem 0.85rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); color: var(--text-main); font-weight: 700; }
+      h1 { font-size: 1.85rem; }
+      .container { padding: 0 1rem; }
+      .endpoint-card { padding: 1.25rem; }
+      .endpoint-url { font-size: 0.78rem; padding: 0.5rem 0.65rem; }
+      .code-block { font-size: 0.78rem; padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <nav id="nav">
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#dashboard">Arbitrage Monitor</a></li>
+      <li><a href="/polymarket/">Polymarket</a></li>
+      <li><a href="/polymarket/movers/">Movers</a></li>
+      <li><a href="/api/" aria-current="page" style="color: var(--primary-light);">API</a></li>
+      <li><a href="/blog/">Guides</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <section class="hero">
+      <div class="breadcrumb"><a href="/">Home</a> &raquo; <span>API</span></div>
+      <h1>CoinNavigator Public API</h1>
+      <p class="lead">
+        Real-time crypto arbitrage spreads across 6 exchanges plus Polymarket prediction market data — exposed as simple JSON endpoints.
+        <strong>Free, CORS-enabled, no authentication required.</strong> Built for trading bots, dashboards, research, and Telegram/Discord integrations.
+      </p>
+      <div class="pill-row">
+        <span class="pill"><i class="fas fa-check-circle"></i> Free tier — no API key needed</span>
+        <span class="pill"><i class="fas fa-bolt"></i> 60-second freshness</span>
+        <span class="pill"><i class="fas fa-globe"></i> CORS-enabled</span>
+        <span class="pill"><i class="fas fa-server"></i> Vercel-backed CDN</span>
+      </div>
+    </section>
+
+    <div class="callout">
+      <strong>For non-developers:</strong> these endpoints power the data you see on our <a href="/">homepage</a> and <a href="/polymarket/movers/">movers tracker</a>.
+      If you just want to look at the data, use those pages instead. If you're building something, read on.
+    </div>
+
+    <h2>Endpoints</h2>
+
+    <!-- Spread endpoint -->
+    <div class="endpoint-card featured">
+      <div class="endpoint-head">
+        <span class="method">GET</span>
+        <span class="endpoint-url">https://coinnavigator.net/spread_data.json</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-tag free">Free</span>
+        <span class="meta-tag">Refreshed every 15 min</span>
+        <span class="meta-tag">20 trading pairs</span>
+        <span class="meta-tag">5 exchanges</span>
+      </div>
+      <p>Live cross-exchange price snapshot for top 20 trading pairs (BTC, ETH, SOL, XRP, TON, DOGE, ADA, BNB, TRX, DOT, LINK, LTC, AVAX, MATIC, SHIB, UNI, XLM, NEAR, ATOM, APT — all in USDT). Includes best buy / best sell / spread percentage per asset, raw exchange prices, and per-exchange error states.</p>
+
+      <h3>Example response (truncated)</h3>
+      <pre class="code-block"><span class="code-lang">JSON</span>{
+  <span class="key">"timestamp"</span>: <span class="str">"2026-05-11T09:33:18Z"</span>,
+  <span class="key">"symbols"</span>: {
+    <span class="key">"BTCUSDT"</span>: {
+      <span class="key">"prices"</span>: {
+        <span class="key">"Binance"</span>: <span class="num">80877.50</span>,
+        <span class="key">"MEXC"</span>: <span class="num">80888.19</span>,
+        <span class="key">"OKX"</span>: <span class="num">80880.60</span>,
+        <span class="key">"KuCoin"</span>: <span class="num">80881.60</span>,
+        <span class="key">"Gate"</span>: <span class="num">80893.10</span>
+      },
+      <span class="key">"absolute_diff"</span>: <span class="num">15.60</span>,
+      <span class="key">"spread_percent"</span>: <span class="num">0.00019288</span>,
+      <span class="key">"best_buy"</span>:  { <span class="key">"exchange"</span>: <span class="str">"Binance"</span>, <span class="key">"price"</span>: <span class="num">80877.50</span> },
+      <span class="key">"best_sell"</span>: { <span class="key">"exchange"</span>: <span class="str">"Gate"</span>,    <span class="key">"price"</span>: <span class="num">80893.10</span> }
+    }
+  },
+  <span class="key">"exchanges"</span>: [<span class="str">"Binance"</span>, <span class="str">"MEXC"</span>, <span class="str">"OKX"</span>, <span class="str">"KuCoin"</span>, <span class="str">"Gate"</span>]
+}</pre>
+
+      <h3>Quick start (JavaScript)</h3>
+      <pre class="code-block"><span class="code-lang">JS</span><span class="com">// Browser or Node 18+ (no auth required)</span>
+<span class="key">const</span> r = <span class="key">await</span> fetch(<span class="str">'https://coinnavigator.net/spread_data.json'</span>);
+<span class="key">const</span> data = <span class="key">await</span> r.json();
+
+<span class="key">const</span> profitable = Object.entries(data.symbols)
+  .filter(([, s]) =&gt; s.spread_percent * <span class="num">100</span> &gt;= <span class="num">0.30</span>)
+  .map(([sym, s]) =&gt; ({
+    symbol: sym,
+    spreadPct: (s.spread_percent * <span class="num">100</span>).toFixed(<span class="num">3</span>),
+    buyOn:  s.best_buy.exchange,
+    sellOn: s.best_sell.exchange,
+  }));
+
+console.log(profitable);</pre>
+
+      <h3>Quick start (Python)</h3>
+      <pre class="code-block"><span class="code-lang">PYTHON</span><span class="key">import</span> requests
+
+r = requests.get(<span class="str">'https://coinnavigator.net/spread_data.json'</span>, timeout=<span class="num">10</span>)
+data = r.json()
+
+<span class="key">for</span> sym, info <span class="key">in</span> data[<span class="str">'symbols'</span>].items():
+    spread_pct = (info[<span class="str">'spread_percent'</span>] <span class="key">or</span> <span class="num">0</span>) * <span class="num">100</span>
+    <span class="key">if</span> spread_pct &gt;= <span class="num">0.30</span>:
+        <span class="key">print</span>(<span class="str">f"{sym}: {spread_pct:.3f}% — buy {info['best_buy']['exchange']}, sell {info['best_sell']['exchange']}"</span>)</pre>
+
+      <h3>Field reference</h3>
+      <ul>
+        <li><strong>timestamp</strong> — ISO-8601 UTC timestamp of the snapshot</li>
+        <li><strong>symbols.&lt;PAIR&gt;.prices</strong> — exchange → price map</li>
+        <li><strong>symbols.&lt;PAIR&gt;.spread_percent</strong> — (max − min) / min, as a decimal (multiply by 100 for %)</li>
+        <li><strong>symbols.&lt;PAIR&gt;.best_buy / best_sell</strong> — the cheapest and most expensive venue</li>
+        <li><strong>symbols.&lt;PAIR&gt;.absolute_diff</strong> — max price minus min price, in USDT</li>
+        <li><strong>errors</strong> — per-symbol, per-exchange error reasons if a price failed to fetch</li>
+        <li><strong>exchanges</strong> — list of exchanges polled for this snapshot</li>
+      </ul>
+    </div>
+
+    <!-- Polymarket endpoint -->
+    <div class="endpoint-card">
+      <div class="endpoint-head">
+        <span class="method">GET</span>
+        <span class="endpoint-url">https://coinnavigator.net/polymarket_hot.json</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-tag free">Free</span>
+        <span class="meta-tag">Refreshed daily</span>
+        <span class="meta-tag">~80 hottest markets</span>
+        <span class="meta-tag">Source: Polymarket gamma API</span>
+      </div>
+      <p>Top Polymarket markets by 24h volume with YES/NO prices, 24h probability change, end dates, and full market URLs. Source data is the public Polymarket gamma-api; this endpoint is a curated, CDN-cached snapshot refreshed once per day.</p>
+
+      <h3>Example response (single market)</h3>
+      <pre class="code-block"><span class="code-lang">JSON</span>{
+  <span class="key">"timestamp"</span>: <span class="str">"2026-05-11T02:01:05Z"</span>,
+  <span class="key">"source"</span>: <span class="str">"gamma-api.polymarket.com"</span>,
+  <span class="key">"markets"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="str">"553863"</span>,
+      <span class="key">"slug"</span>: <span class="str">"will-the-lakers-win-the-2026-nba-finals"</span>,
+      <span class="key">"question"</span>: <span class="str">"Will the Los Angeles Lakers win the 2026 NBA Finals?"</span>,
+      <span class="key">"url"</span>: <span class="str">"https://polymarket.com/event/..."</span>,
+      <span class="key">"endDate"</span>: <span class="str">"2026-07-01T00:00:00Z"</span>,
+      <span class="key">"volume24hr"</span>: <span class="num">653681.35</span>,
+      <span class="key">"volume"</span>: <span class="num">22759403.29</span>,
+      <span class="key">"liquidity"</span>: <span class="num">626861.44</span>,
+      <span class="key">"yes"</span>: <span class="num">0.0015</span>,
+      <span class="key">"no"</span>: <span class="num">0.9985</span>,
+      <span class="key">"oneDayPriceChange"</span>: <span class="num">-0.008</span>
+    }
+  ]
+}</pre>
+    </div>
+
+    <h2>Pricing</h2>
+    <p>Both endpoints above are <strong>free, forever</strong>, with reasonable use. Pro tiers (lower latency, custom symbols, historical data, webhooks) are in development — sign up below to be notified when they launch.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Free</h3>
+        <div class="price">$0<span class="per"> / month</span></div>
+        <ul>
+          <li>Both JSON endpoints</li>
+          <li>15-min spread refresh</li>
+          <li>Daily Polymarket refresh</li>
+          <li>CORS-enabled</li>
+          <li>Best-effort uptime</li>
+          <li>Attribution appreciated</li>
+        </ul>
+        <a class="cta" href="#try-it" data-track="api_cta_free">Available now</a>
+      </div>
+      <div class="price-card popular">
+        <h3>Pro</h3>
+        <div class="price">$19<span class="per"> / month</span></div>
+        <ul>
+          <li>1-min spread refresh</li>
+          <li>Historical data (90 days)</li>
+          <li>WebSocket push (planned)</li>
+          <li>Email/Telegram alerts</li>
+          <li>Custom symbol watchlist</li>
+          <li>SLA + priority support</li>
+        </ul>
+        <a class="cta" href="#waitlist" data-track="api_cta_pro">Join waitlist</a>
+      </div>
+      <div class="price-card">
+        <h3>Enterprise</h3>
+        <div class="price">Custom</div>
+        <ul>
+          <li>Sub-second latency</li>
+          <li>Dedicated infrastructure</li>
+          <li>Custom exchanges &amp; pairs</li>
+          <li>Polymarket movers webhooks</li>
+          <li>Direct engineering contact</li>
+          <li>White-label option</li>
+        </ul>
+        <a class="cta" href="/contact/" data-track="api_cta_enterprise">Contact us</a>
+      </div>
+    </div>
+
+    <h2 id="try-it">Try it now</h2>
+    <p>The fastest way to test it: paste either URL into your browser and you'll see the live JSON. Or run this in your terminal:</p>
+    <pre class="code-block"><span class="code-lang">SHELL</span>curl -s https://coinnavigator.net/spread_data.json | jq '.symbols.BTCUSDT'</pre>
+
+    <h2 id="waitlist">Get notified when Pro launches</h2>
+    <p>Drop your email to be first in line for the 1-minute refresh tier, historical data, and webhook alerts.</p>
+    <form action="https://formspree.io/f/xwpbqvow" method="POST" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0 2rem; max-width: 520px;">
+      <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" style="flex: 1 1 220px; min-width: 200px; padding: 0.85rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: var(--text-main); font-size: 0.95rem; font-weight: 600; outline: none;">
+      <input type="hidden" name="source" value="api_waitlist">
+      <input type="hidden" name="list" value="api_pro_waitlist">
+      <button type="submit" data-track="api_waitlist_submit" style="padding: 0.85rem 1.25rem; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-paper-plane"></i> Join waitlist</button>
+    </form>
+
+    <h2>Terms of use (free tier)</h2>
+    <ul>
+      <li><strong>Best-effort uptime.</strong> Free endpoints are hosted on Vercel's static CDN — typically &gt;99.9% but not guaranteed.</li>
+      <li><strong>Attribution appreciated.</strong> If you build a tool or dashboard with our data, a "powered by CoinNavigator" link is welcomed (not required).</li>
+      <li><strong>No abuse.</strong> Don't hammer the endpoint at &gt;1 req/sec — the data only refreshes every 15 minutes anyway. Aggressive polling may get your IP rate-limited.</li>
+      <li><strong>Polymarket data attribution.</strong> The Polymarket data ultimately comes from Polymarket's public gamma API. Their terms apply for downstream commercial use.</li>
+      <li><strong>No warranty.</strong> Data is provided "as-is" for informational use. Verify against exchange APIs before trading.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+
+    <h3>Do I need an API key?</h3>
+    <p>No. Both endpoints are publicly accessible with no authentication. Pro tier (when it launches) will use API keys for the lower-latency endpoints.</p>
+
+    <h3>What's the rate limit on the free tier?</h3>
+    <p>There's no hard limit, but please be reasonable — the data only refreshes every 15 minutes. Polling more than once per minute is wasted bandwidth. Aggressive abuse may get your IP rate-limited by Vercel.</p>
+
+    <h3>Can I use this commercially?</h3>
+    <p>Yes, the free tier is fine for commercial use. We appreciate attribution but don't require it. For high-volume or SLA-backed commercial use, contact us about Enterprise pricing.</p>
+
+    <h3>How fresh is the data?</h3>
+    <p>Spread data: updated every 15 minutes via GitHub Actions polling the exchanges. Polymarket: refreshed once per day around 00:00 UTC. Pro tier will offer 1-minute spread refresh.</p>
+
+    <h3>Are there WebSockets?</h3>
+    <p>Not yet. WebSocket push notifications for price/probability movements are planned for the Pro tier — sign up for the waitlist above.</p>
+
+    <h3>What if an exchange is unreachable?</h3>
+    <p>The endpoint will still return all reachable exchanges in <code>prices</code>, and list unreachable exchanges in <code>errors[symbol][exchange]</code>. Best-buy / best-sell will only consider available prices.</p>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 CoinNavigator — Trust-first crypto & prediction markets intelligence.</p>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/api/">API</a>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/terms/">Terms</a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var nav = document.getElementById('nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav || !btn) return;
+      btn.addEventListener('click', function(){
+        var open = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
+    document.addEventListener('click', function(e){
+      var el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+      if (!el) return;
+      var name = el.getAttribute('data-track');
+      try { if (typeof window.gtag === 'function') window.gtag('event', name, { source_page: 'api_landing' }); } catch {}
+    });
+  </script>
+</body>
+</html>

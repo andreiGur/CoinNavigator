@@ -28,6 +28,44 @@
       gtag('config', 'G-9L1137PQ6P');
     </script>
 
+    <!--
+      AdSense placeholder — replace ca-pub-XXXXXXXXXXXXXXXX with your real publisher ID,
+      then uncomment the script tag below. Apply at https://www.google.com/adsense/.
+      Until approved, slot containers (.ad-slot) stay hidden via CSS.
+    -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+    <style>
+      /* Ad slot styling — hidden until enabled by adding the .ad-enabled class to <html> */
+      .ad-slot { display: none; }
+      html.ad-enabled .ad-slot { display: block; }
+      .ad-slot {
+        margin: 1.5rem auto;
+        max-width: 1200px;
+        padding: 0 2rem;
+      }
+      .ad-slot-inner {
+        background: rgba(255,255,255,0.02);
+        border: 1px dashed rgba(255,255,255,0.08);
+        border-radius: 14px;
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-align: center;
+      }
+      .ad-slot-label {
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-muted);
+        text-align: center;
+        margin-bottom: 0.35rem;
+        opacity: 0.6;
+      }
+    </style>
+
     <!-- Structured data (AEO/SEO) -->
     <script type="application/ld+json">
     {
@@ -1185,22 +1223,35 @@
         </div>
     </div>
 
+    <!-- Ad slot: header banner (hidden until ad-enabled) -->
+    <div class="ad-slot" data-ad-slot="header">
+        <div class="ad-slot-label">Advertisement</div>
+        <div class="ad-slot-inner">
+            <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+            <span>Header banner ad slot (728x90 / responsive)</span>
+        </div>
+    </div>
+
     <div class="stats-grid">
-        <a class="stat-card clickable focus-ring" href="#dashboard" title="Open dashboard">
-            <h4>Total Assets</h4>
-            <div class="value" id="asset-count">9</div>
+        <a class="stat-card clickable focus-ring" href="#dashboard" id="stat-profitable" title="Spreads above 0.30% right now (profitable after fees)">
+            <h4 id="stat-profitable-label">Profitable Now</h4>
+            <div class="value" id="profitable-count" style="color: var(--accent);">—</div>
+            <div id="stat-profitable-sub" style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">spreads &gt; 0.30%</div>
         </a>
         <a class="stat-card clickable focus-ring" href="#dashboard" title="See current top spreads">
             <h4>Highest Spread</h4>
             <div class="value" id="max-spread">--</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">across 20 coins</div>
         </a>
-        <a class="stat-card clickable focus-ring" href="#dashboard" title="View update cadence and latest timestamp">
-            <h4>Update Frequency</h4>
-            <div class="value">15m</div>
+        <a class="stat-card clickable focus-ring" href="/polymarket/" title="Polymarket biggest 24h probability movers">
+            <h4>Polymarket Movers</h4>
+            <div class="value" id="pm-mover-count" style="color: #fbbf24;">—</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">events shifting today</div>
         </a>
-        <a class="stat-card clickable focus-ring" href="/about/" title="How the data works (transparency)">
-            <h4>API Status</h4>
-            <div class="value" style="color: var(--accent)">ONLINE</div>
+        <a class="stat-card clickable focus-ring" href="#email-alerts" title="Get an email when spreads exceed 0.30%">
+            <h4>Get Alerts</h4>
+            <div class="value" style="color: var(--primary-light); font-size: 1.5rem;"><i class="fas fa-bell"></i> Free</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">never miss a spread</div>
         </a>
     </div>
 
@@ -1275,8 +1326,8 @@
                         <input id="only-gt-01" type="checkbox" />
                         Only &gt;0.1%
                     </label>
-                    <label class="dc-check" title="Show only spreads above 0.30% — profitable after standard 0.10% fees per leg" style="border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);">
-                        <input id="only-profitable" type="checkbox" />
+                    <label class="dc-check" title="Show only spreads above 0.30% — profitable after standard 0.10% fees per leg" style="border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);">
+                        <input id="only-profitable" type="checkbox" checked />
                         <span style="color:#34d399;font-weight:800;">✓ Profitable</span> &gt;0.3%
                     </label>
                     <label class="dc-check" title="Show only USDT quoted pairs">
@@ -1330,6 +1381,15 @@
                 <div id="next-update-timer" style="display:none;align-items:center;gap:0.4rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--primary-light);">
                     <i class="fas fa-clock"></i> Next update in <span id="next-update-countdown" style="font-variant-numeric:tabular-nums;min-width:38px;display:inline-block;">—</span>
                 </div>
+            </div>
+        </div>
+
+        <!-- Ad slot: mid-content (hidden until ad-enabled) -->
+        <div class="ad-slot" data-ad-slot="mid">
+            <div class="ad-slot-label">Advertisement</div>
+            <div class="ad-slot-inner">
+                <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                <span>In-content ad slot (responsive)</span>
             </div>
         </div>
 
@@ -1505,6 +1565,14 @@
             <div class="pm-section-header">
                 <h2 class="pm-title"><i class="fas fa-fire"></i> What’s hot on Polymarket</h2>
                 <p class="pm-subtitle">Prediction markets with the most attention right now — sorted by 24h volume. See what the crowd expects.</p>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.85rem;">
+                    <a href="/polymarket/movers/" data-track="pm_open_movers" style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:#fbbf24;padding:0.45rem 0.9rem;border-radius:999px;font-size:0.82rem;font-weight:800;text-decoration:none;">
+                        <i class="fas fa-arrow-trend-up"></i> NEW · Biggest 24h movers
+                    </a>
+                    <a href="/polymarket/" data-track="pm_open_hub_pill" style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text-muted);padding:0.45rem 0.9rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">
+                        <i class="fas fa-fire"></i> All hot events
+                    </a>
+                </div>
             </div>
             <div class="pm-grid" id="pm-grid">
                 <div class="pm-card">
@@ -1514,7 +1582,8 @@
             </div>
             <div class="muted" id="pm-updated" style="text-align: right; margin-top: 0.75rem; font-size: 0.75rem;"></div>
             <div class="pm-cta-row">
-                <a class="btn btn-primary" href="/polymarket/" data-track="pm_open_hub"><i class="fas fa-chart-line"></i> See all hot events</a>
+                <a class="btn btn-primary" href="/polymarket/movers/" data-track="pm_open_movers_main"><i class="fas fa-arrow-trend-up"></i> See biggest 24h movers</a>
+                <a class="btn btn-ghost" href="/polymarket/" data-track="pm_open_hub"><i class="fas fa-fire"></i> All hot events</a>
                 <a class="btn btn-ghost" href="/terms/" data-track="open_terms"><i class="fas fa-shield-halved"></i> Disclosures & risk</a>
             </div>
         </div>
@@ -1744,6 +1813,8 @@
                         <a href="/#dashboard" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='var(--text-muted)'">Spread Monitor</a>
                         <a href="/arbitrage-calculator/" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='var(--text-muted)'">Arbitrage Calculator</a>
                         <a href="/polymarket/" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='var(--text-muted)'">Polymarket Hub</a>
+                        <a href="/polymarket/movers/" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='var(--text-muted)'">Polymarket Movers</a>
+                        <a href="/api/" data-track="footer_api" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='var(--text-muted)'">API <span style="font-size:0.62rem;background:rgba(251,191,36,0.15);color:#fbbf24;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.2rem;font-weight:800;">NEW</span></a>
                         <a href="/dashboard/" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='var(--text-muted)'">Dashboard</a>
                     </div>
                 </div>
@@ -1911,8 +1982,21 @@
             try {
                 const pm = await fetchPolymarketWithFallback();
                 renderPolymarketModule(pm);
+                try {
+                    const markets = (pm && Array.isArray(pm.markets)) ? pm.markets : [];
+                    const moverCountEl = document.getElementById('pm-mover-count');
+                    if (moverCountEl) {
+                        const movers = markets.filter(m => typeof m.oneDayPriceChange === 'number' && Math.abs(m.oneDayPriceChange) >= 0.05 && (m.volume24hr || 0) > 1000);
+                        moverCountEl.innerText = movers.length;
+                        if (movers.length === 0) {
+                            moverCountEl.style.color = 'var(--text-muted)';
+                        }
+                    }
+                } catch (e2) { /* ignore */ }
             } catch (e) {
                 console.warn('Polymarket module failed:', e);
+                const moverCountEl = document.getElementById('pm-mover-count');
+                if (moverCountEl) moverCountEl.innerText = '—';
             }
         })();
 
