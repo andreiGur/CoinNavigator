@@ -599,6 +599,9 @@
             cursor: pointer;
         }
         .dc-status { color: var(--text-muted); font-weight: 800; font-size: 0.85rem; }
+        #refresh-spreads.loading { opacity: 0.75; pointer-events: none; }
+        #refresh-spreads.loading i { animation: refresh-spin 0.75s linear infinite; }
+        @keyframes refresh-spin { to { transform: rotate(360deg); } }
 
         .fav-btn {
             border: 1px solid rgba(255,255,255,0.10);
@@ -629,16 +632,49 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th { text-align: left; padding: 0.3rem 0.25rem; color: var(--text-muted); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); position: sticky; top: var(--sticky-nav-height); z-index: 10; background: var(--card-bg); }
-        td { padding: 0.4rem 0.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        col.col-asset { width: 10%; }
+        col.col-buy { width: 22%; }
+        col.col-sell { width: 22%; }
+        col.col-spread { width: 14%; }
+        col.col-action { width: 32%; }
+        th {
+            text-align: left;
+            padding: 0.65rem 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            vertical-align: bottom;
+            white-space: nowrap;
+        }
+        td {
+            padding: 0.55rem 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: top;
+            overflow: hidden;
+        }
+        td.col-action { padding-right: 0.35rem; }
         
         .symbol-box { display: flex; align-items: center; gap: 3px; }
         .symbol-box .name { font-weight: 700; font-size: 0.7rem; }
         
-        .price-val { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .price-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 0.72rem;
+            line-height: 1.35;
+            word-break: break-word;
+        }
         .spread-val {
-            padding: 0.5rem 1rem; border-radius: 12px; font-weight: 700;
-            background: rgba(16, 185, 129, 0.10); color: var(--accent);
+            padding: 0.35rem 0.55rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            background: rgba(16, 185, 129, 0.10);
+            color: var(--accent);
+            white-space: nowrap;
         }
         .spread-val.spread-high { background: rgba(16,185,129,0.18); color: #34d399; }
         .spread-val.spread-mid  { background: rgba(251,191,36,0.15); color: #fbbf24; }
@@ -675,17 +711,19 @@
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
             color: var(--text-main);
-            padding: 0.55rem 0.9rem;
-            border-radius: 10px;
-            font-size: 0.75rem;
+            padding: 0.4rem 0.55rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
             font-weight: 700;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 4px;
             transition: transform 0.2s, border-color 0.2s, background 0.2s;
-            white-space: normal;
-            line-height: 1.15;
+            white-space: nowrap;
+            line-height: 1.2;
+            min-height: 0;
         }
         .btn-mini:hover { transform: translateY(-2px); border-color: rgba(129, 140, 248, 0.7); }
         .btn-mini-primary { background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.35); }
@@ -710,7 +748,17 @@
         .calc-profit { font-size: 1.25rem; font-weight: 700; color: #34d399; }
         .calc-profit.neg { color: #f87171; }
 
-        .row-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .row-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
+            max-width: 100%;
+        }
+        .row-actions .btn-mini { width: 100%; font-size: 0.68rem; padding: 0.38rem 0.4rem; }
+        .row-actions .btn-mini span.ex-short { opacity: 0.85; font-weight: 600; }
+        .price-val .link-mini { font-size: 0.7rem; padding: 0.3rem 0.45rem; max-width: 100%; }
+        .link-mini .ex-label { display: block; font-size: 0.62rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+        .link-mini .price-line { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; }
         .details-row td { padding-top: 0; }
         .details {
             background: rgba(255,255,255,0.02);
@@ -1351,6 +1399,9 @@
                         <option value="volume_desc" disabled>Sort: volume (coming soon)</option>
                         <option value="updated_desc" disabled>Sort: last update (coming soon)</option>
                     </select>
+                    <button type="button" class="dc-clear" id="refresh-spreads" title="Fetch live prices from exchanges now" data-track="table_refresh_live">
+                        <i class="fas fa-rotate"></i> Refresh
+                    </button>
                     <div class="dc-status" id="table-status">—</div>
                 </div>
             </div>
@@ -1359,6 +1410,13 @@
 
             <div class="table-wrap">
                 <table>
+                    <colgroup>
+                        <col class="col-asset" />
+                        <col class="col-buy" />
+                        <col class="col-sell" />
+                        <col class="col-spread" />
+                        <col class="col-action" />
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>Asset</th>

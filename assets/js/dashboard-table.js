@@ -22,6 +22,49 @@
         };
 
         let LAST_SPREAD_DATA = null;
+        const STALE_SNAPSHOT_MINUTES = 8;
+        const AUTO_REFRESH_MS = 3 * 60 * 1000;
+
+        function getDataAgeMinutes(data) {
+            if (!data || !data.timestamp) return Infinity;
+            const ts = Date.parse(data.timestamp);
+            if (!Number.isFinite(ts)) return Infinity;
+            return (Date.now() - ts) / 60000;
+        }
+
+        function isLiveSource(data) {
+            return !!(data && data.source === 'browser_live_fallback');
+        }
+
+        async function maybeEnrichWithLivePrices(data, forceLive) {
+            const age = getDataAgeMinutes(data);
+            if (!forceLive && age <= STALE_SNAPSHOT_MINUTES) return data;
+            try {
+                const livePayload = await global.fetchLiveSpreadFallback();
+                if (livePayload && livePayload.symbols) return livePayload;
+            } catch (liveErr) {
+                console.warn('Live spread fallback failed:', liveErr);
+            }
+            return data;
+        }
+
+        function shortExLabel(exchange) {
+            if (!exchange) return '—';
+            const map = {
+                'Gate.io': 'Gate',
+                KuCoin: 'KuCoin',
+                Binance: 'Binance',
+                Bybit: 'Bybit',
+                MEXC: 'MEXC',
+                OKX: 'OKX',
+            };
+            return map[exchange] || String(exchange).split(' ')[0];
+        }
+
+        function priceCellHtml(exchange, price, url, isAffiliate) {
+            const rel = isAffiliate ? ' target="_blank" rel="noopener nofollow"' : '';
+            return `<a class="link-mini focus-ring" href="${url}"${rel} title="${exchange} — open review"><span class="ex-label">${shortExLabel(exchange)}</span><span class="price-line">${fmt(price)}</span></a>`;
+        }
 
         // How-To modal helpers (used by table actions)
         function openHowModal(payload) {
@@ -247,6 +290,22 @@
                     onChange();
                 });
             }
+
+            const refreshEl = document.getElementById('refresh-spreads');
+            if (refreshEl) {
+                refreshEl.addEventListener('click', async () => {
+                    if (refreshEl.disabled) return;
+                    refreshEl.disabled = true;
+                    refreshEl.classList.add('loading');
+                    global._forceLiveSpreadRefresh = true;
+                    try {
+                        await updateDashboard();
+                    } finally {
+                        refreshEl.disabled = false;
+                        refreshEl.classList.remove('loading');
+                    }
+                });
+            }
         }
 
         function spreadColorClass(pct) {
@@ -423,9 +482,6 @@
                     if (displaySpread > highestSpread) highestSpread = displaySpread;
                 }
 
-                const buyText = hasBest ? `${info.best_buy.exchange} • ${fmt(info.best_buy.price)}` : '—';
-                const sellText = hasBest ? `${info.best_sell.exchange} • ${fmt(info.best_sell.price)}` : '—';
-
                 const buyUrl = hasBest ? (REVIEW_PAGES[info.best_buy.exchange] || '/binance-review/') : '#';
                 const sellUrl = hasBest ? (REVIEW_PAGES[info.best_sell.exchange] || '/binance-review/') : '#';
                 const buyReviewUrl = hasBest ? buildReviewUrl(buyUrl) : '#';
@@ -436,11 +492,10 @@
                 const sellIsAffiliate = sellReviewUrl.startsWith('http');
                 const actionHtml = hasBest
                     ? `<div class="row-actions">
-                         <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" ${buyIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Buy leg: ${info.best_buy.exchange}${buyIsAffiliate ? ' (affiliate link)' : ' (review)'}" data-track="table_buy_aff" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy on ${info.best_buy.exchange}</a>
-                         <a class="btn-mini" href="${sellReviewUrl}" ${sellIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Sell leg: ${info.best_sell.exchange}${sellIsAffiliate ? ' (affiliate link)' : ' (review)'}" data-track="table_sell_aff" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell on ${info.best_sell.exchange}</a>
-                         <button class="btn-mini" type="button" data-open="how" data-track="table_how" data-sym="${symbol}"><i class="fas fa-wand-magic-sparkles"></i> How</button>
-                         <button class="btn-mini hide-mobile" type="button" data-toggle="details"><i class="fas fa-circle-info"></i> Prices</button>
-                         <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" data-buy-ex="${hasBest ? info.best_buy.exchange : ''}" data-sell-ex="${hasBest ? info.best_sell.exchange : ''}" title="Calculate net profit after fees"><i class="fas fa-calculator"></i> Calc</button>
+                         <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" ${buyIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Buy on ${info.best_buy.exchange}${buyIsAffiliate ? ' (affiliate)' : ''}" data-track="table_buy_aff" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy</a>
+                         <a class="btn-mini" href="${sellReviewUrl}" ${sellIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Sell on ${info.best_sell.exchange}${sellIsAffiliate ? ' (affiliate)' : ''}" data-track="table_sell_aff" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell</a>
+                         <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" data-buy-ex="${info.best_buy.exchange}" data-sell-ex="${info.best_sell.exchange}" title="Net profit after fees"><i class="fas fa-calculator"></i> Calc</button>
+                         <button class="btn-mini hide-mobile" type="button" data-toggle="details" title="All exchange prices"><i class="fas fa-circle-info"></i> Prices</button>
                        </div>`
                     : `<span class="muted">Data coming soon</span>`;
 
@@ -457,10 +512,10 @@
                             <span class="name">${ticker}</span>
                         </div>
                     </td>
-                    <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${buyReviewUrl}" title="Go to ${info.best_buy.exchange} review (region-aware)"><i class="fas fa-store"></i> ${buyText}</a>` : '<span class="muted">—</span>'}</td>
-                    <td class="price-val">${hasBest ? `<a class="link-mini focus-ring" href="${sellReviewUrl}" title="Go to ${info.best_sell.exchange} review (region-aware)"><i class="fas fa-store"></i> ${sellText}</a>` : '<span class="muted">—</span>'}</td>
+                    <td class="price-val">${hasBest ? priceCellHtml(info.best_buy.exchange, info.best_buy.price, buyReviewUrl, buyIsAffiliate) : '<span class="muted">—</span>'}</td>
+                    <td class="price-val">${hasBest ? priceCellHtml(info.best_sell.exchange, info.best_sell.price, sellReviewUrl, sellIsAffiliate) : '<span class="muted">—</span>'}</td>
                     <td><div class="spread-cell">${displaySpread != null && displaySpread >= 0.5 ? '<span class="hot-badge"><i class="fas fa-fire"></i> HOT</span>' : (displaySpread != null && displaySpread >= 0.3 ? '<span class="hot-badge" style="background:rgba(16,185,129,0.15);color:#34d399;border-color:rgba(16,185,129,0.35);"><i class="fas fa-circle-check"></i> Profitable</span>' : '')}<span class="spread-val ${spreadColorClass(displaySpread)} ${hasBest ? 'clickable' : 'spread-none'}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></div></td>
-                    <td>${actionHtml}</td>
+                    <td class="col-action">${actionHtml}</td>
                 `;
                 tbody.appendChild(row);
 
@@ -587,13 +642,19 @@
 
             if (timestampDiv && data && data.timestamp) {
                 const date = new Date(data.timestamp);
-                const ageHours = (Date.now() - date.getTime()) / (1000 * 60 * 60);
-                timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
-                if (ageHours > 1) {
-                    timestampDiv.style.color = 'var(--danger)';
-                    timestampDiv.innerHTML += ` <span class="err">(${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} ago)</span>`;
+                const ageMins = getDataAgeMinutes(data);
+                const ageHours = ageMins / 60;
+                if (isLiveSource(data)) {
+                    timestampDiv.style.color = '#34d399';
+                    timestampDiv.innerHTML = `<i class="fas fa-bolt"></i> Live prices — updated just now`;
                 } else {
-                    timestampDiv.style.color = '';
+                    timestampDiv.innerHTML = `<i class="far fa-clock"></i> Last updated: ${date.toLocaleString()}`;
+                    if (ageHours > 1) {
+                        timestampDiv.style.color = 'var(--danger)';
+                        timestampDiv.innerHTML += ` <span class="err">(${ageHours >= 24 ? Math.floor(ageHours / 24) + ' days' : Math.floor(ageHours) + ' hours'} ago)</span>`;
+                    } else {
+                        timestampDiv.style.color = '';
+                    }
                 }
 
                 // Countdown to next 15-min update
@@ -721,19 +782,9 @@
             try {
                 console.log('Fetching data...');
                 let data = await global.fetchJsonWithFallback();
-                if (data && data.timestamp) {
-                    const ageMinutes = (Date.now() - new Date(data.timestamp).getTime()) / 60000;
-                    if (Number.isFinite(ageMinutes) && ageMinutes > 20) {
-                        try {
-                            const livePayload = await global.fetchLiveSpreadFallback();
-                            if (livePayload && livePayload.symbols) {
-                                data = livePayload;
-                            }
-                        } catch (liveErr) {
-                            console.warn('Live spread fallback failed:', liveErr);
-                        }
-                    }
-                }
+                const forceLive = !!global._forceLiveSpreadRefresh;
+                global._forceLiveSpreadRefresh = false;
+                data = await maybeEnrichWithLivePrices(data, forceLive);
                 console.log('Data received:', data);
 
                 LAST_SPREAD_DATA = data;
@@ -840,23 +891,27 @@
                 const banner = document.getElementById('data-freshness-banner');
                 if (banner) {
                     const date = data.timestamp ? new Date(data.timestamp) : null;
-                    const ageHours = date ? (Date.now() - date.getTime()) / (1000 * 60 * 60) : 999;
+                    const ageMins = getDataAgeMinutes(data);
+                    const ageHours = ageMins / 60;
                     let msg = '';
                     let bannerLevel = 'warn';
-                    const ageMins = ageHours * 60;
-                    if (ageHours > 2) {
-                        msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly.`;
+
+                    if (isLiveSource(data)) {
+                        banner.className = 'data-freshness-banner banner-ok';
+                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — fetched directly from exchange APIs just now. Snapshot file refreshes every ~15 min.</span>`;
+                    } else if (ageHours > 2) {
+                        msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly. Click <strong>Refresh</strong> for live prices.`;
                         bannerLevel = 'error';
-                    } else if (ageHours > 0.5) {
-                        msg = `Spread data is over ${Math.round(ageMins)} minutes old. Prices may have shifted. Always verify before trading.`;
+                        banner.className = `data-freshness-banner banner-${bannerLevel}`;
+                        banner.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${msg}</span>`;
+                    } else if (ageMins > STALE_SNAPSHOT_MINUTES) {
+                        msg = `Snapshot is ${Math.round(ageMins)} min old — live prices load automatically when stale. You can also click <strong>Refresh</strong>.`;
                         bannerLevel = 'warn';
-                    }
-                    if (msg) {
                         banner.className = `data-freshness-banner banner-${bannerLevel}`;
                         banner.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${msg}</span>`;
                     } else if (date) {
                         banner.className = 'data-freshness-banner banner-ok';
-                        banner.innerHTML = `<i class="fas fa-circle-check" aria-hidden="true"></i><span>Data fresh — last updated ${Math.round(ageMins)} min ago.</span>`;
+                        banner.innerHTML = `<i class="fas fa-circle-check" aria-hidden="true"></i><span>Data fresh — last updated ${Math.max(0, Math.round(ageMins))} min ago.</span>`;
                     } else {
                         banner.className = 'data-freshness-banner hidden';
                         banner.innerHTML = '';
@@ -900,7 +955,10 @@
     boot: function () {
       initDashboardControls();
       updateDashboard();
-      setInterval(updateDashboard, 60000);
+      setInterval(updateDashboard, AUTO_REFRESH_MS);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') updateDashboard();
+      });
     }
   };
 })(window);
