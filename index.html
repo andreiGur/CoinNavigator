@@ -1157,7 +1157,7 @@
     }
     </script>
 </head>
-<body>
+<body data-cn-page="home">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
@@ -1457,7 +1457,7 @@
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
                 <div class="em-text" style="flex:1;min-width:220px;">
                     <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Never miss a profitable spread</h3>
-                    <p>Join traders who get notified the moment BTC, ETH or SOL spread exceeds 0.3%. <strong style="color:var(--text-main);">Free forever, one-click unsubscribe.</strong></p>
+                    <p>Choose <strong style="color:var(--text-main);">instant alerts</strong> when spreads exceed 0.3%, or a <strong style="color:var(--text-main);">weekly top-5 digest</strong>. Free forever — one-click unsubscribe.</p>
                 </div>
                 <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:14px;padding:0.9rem 1.1rem;min-width:200px;flex:0 0 auto;">
                     <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#fbbf24;margin-bottom:0.35rem;"><i class="fas fa-gift"></i> Free with signup</div>
@@ -1469,9 +1469,13 @@
                 <input class="email-input" type="email" name="email" placeholder="your@email.com" required autocomplete="email" style="flex:1;min-width:200px;" />
                 <input type="hidden" name="source" value="homepage_alert_banner" />
                 <input type="hidden" name="lead_magnet" value="arbitrage_checklist_pdf" />
+                <div style="display:flex;gap:0.75rem 1.25rem;flex-wrap:wrap;width:100%;font-size:0.82rem;font-weight:700;color:var(--text-muted);">
+                    <label style="display:inline-flex;align-items:center;gap:0.4rem;cursor:pointer;"><input type="radio" name="list_type" value="spread_alerts" checked style="accent-color:var(--primary-light);" /> Instant spread alerts</label>
+                    <label style="display:inline-flex;align-items:center;gap:0.4rem;cursor:pointer;"><input type="radio" name="list_type" value="weekly_digest" style="accent-color:var(--primary-light);" /> Weekly top-5 digest</label>
+                </div>
                 <button class="btn btn-primary" type="submit" data-track="email_signup"><i class="fas fa-bell"></i> Get Alerts + Free Checklist</button>
             </form>
-            <span class="email-sent" id="email-sent">✅ You're in! Check your email for the checklist PDF.</span>
+            <span class="email-sent" id="email-sent" style="display:none;">✅ You're in! <a href="/downloads/arbitrage-checklist/" style="color:var(--primary-light);font-weight:800;">Download your checklist →</a></span>
             <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">No spam. Unsubscribe any time. <a href="/subscribe/" style="color:var(--primary-light);">See what we send →</a></p>
         </section>
 
@@ -1998,6 +2002,8 @@
     </div>
 
     <script src="/assets/js/tracking.js"></script>
+    <script src="/assets/js/lead-capture.js"></script>
+    <script src="/assets/js/site-analytics-boot.js" defer></script>
     <script src="/assets/js/data-client.js"></script>
     <script src="/assets/js/region.js"></script>
     <script src="/assets/js/spread-engine.js"></script>
@@ -2237,6 +2243,8 @@
                         <input type="email" name="email" placeholder="your@email.com" required
                             style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.18);border-radius:10px;color:var(--text);padding:0.7rem 1rem;font-size:0.95rem;flex:1;min-width:180px;" autocomplete="email"/>
                         <input type="hidden" name="source" value="exit_intent"/>
+                        <input type="hidden" name="list_type" value="spread_alerts"/>
+                        <input type="hidden" name="lead_magnet" value="arbitrage_checklist_pdf"/>
                         <button class="btn btn-primary" type="submit" style="white-space:nowrap;"><i class="fas fa-bell"></i> Alert Me — It's Free</button>
                     </form>
                     <p id="exit-sent" style="color:#34d399;font-weight:700;display:none;margin-top:0.8rem;">✅ You're in! We'll alert you when spreads are worth trading.</p>
@@ -2285,36 +2293,13 @@
             }
         })();
 
-        // ── Email alert form (Formspree async submit) ─────────────
-        (function initEmailForm() {
-            const form = document.getElementById('email-alert-form');
-            const sentMsg = document.getElementById('email-sent');
-            if (!form) return;
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const btn = form.querySelector('button[type="submit"]');
-                if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…'; }
-                try {
-                    const data = new FormData(form);
-                    const resp = await fetch(form.action, {
-                        method: 'POST',
-                        body: data,
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (resp.ok) {
-                        form.style.display = 'none';
-                        if (sentMsg) sentMsg.style.display = 'inline-block';
-                        track('email_signup_success', { source: 'homepage' });
-                        track('lead_submit', { lead_type: 'email_alert', source_page: 'home', source_event: 'email_signup_success', region: getRegion() });
-                    } else {
-                        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> Alert Me'; }
-                        alert('Something went wrong. Please try again.');
-                    }
-                } catch {
-                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> Alert Me'; }
-                }
+        if (window.CoinNavigatorLeadCapture) {
+            window.CoinNavigatorLeadCapture.wireForm(document.getElementById('email-alert-form'), {
+                sourcePage: 'home',
+                trackEvent: 'email_signup',
+                redirectThanks: true
             });
-        })();
+        }
     </script>
 </body>
 </html>

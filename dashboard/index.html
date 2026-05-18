@@ -234,7 +234,7 @@
     }
   </style>
 </head>
-<body>
+<body data-cn-page="dashboard">
   <div class="bg-grid"></div>
   <div class="bg-glow"></div>
 
@@ -325,6 +325,16 @@
           </div>
         </div>
       </aside>
+    </section>
+    <section class="card" style="margin-top:1.1rem;">
+      <h2><i class="fas fa-building-columns" style="color:var(--primary-light)"></i> Open your arb stack</h2>
+      <p class="muted small" style="margin-top:0.45rem;">Cross-exchange arbitrage needs accounts on at least two venues. Partner links — fee discounts at no extra cost.</p>
+      <div class="row" style="margin-top:0.85rem;">
+        <a class="btn btn-primary" href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=dashboard&utm_campaign=stack" target="_blank" rel="noopener nofollow" data-track="dashboard_cta_binance" data-ex="Binance"><i class="fas fa-building-columns"></i> Binance</a>
+        <a class="btn btn-ghost" href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=dashboard&utm_campaign=stack" target="_blank" rel="noopener nofollow" data-track="dashboard_cta_mexc" data-ex="MEXC"><i class="fas fa-building-columns"></i> MEXC</a>
+        <a class="btn btn-ghost" href="https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=dashboard&utm_campaign=stack" target="_blank" rel="noopener nofollow" data-track="dashboard_cta_bybit" data-ex="Bybit"><i class="fas fa-building-columns"></i> Bybit</a>
+        <a class="btn btn-ghost" href="/#email-alerts" data-track="dashboard_email_alerts"><i class="fas fa-bell"></i> Email alerts</a>
+      </div>
     </section>
   </main>
 
@@ -614,6 +624,7 @@
     refresh();
     setInterval(refresh, 60000);
   </script>
+    <script src="/assets/js/site-analytics-boot.js" defer></script>
 </body>
 </html>
 

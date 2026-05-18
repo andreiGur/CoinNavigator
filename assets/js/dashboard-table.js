@@ -865,25 +865,36 @@
                         const best = rows2[0];
                         // 0.1% fee per leg × 2 legs = 0.2% total cost
                         const FEE_PCT = 0.20;
+                        const PROFITABLE_PCT = 0.30;
                         if (best && best.sp > FEE_PCT) {
                             const netProfit = Math.round(((best.sp - FEE_PCT) / 100) * 1000 * 10) / 10; // $ on $1k
                             const label = best.sym.replace('USDT','').replace('BUSD','');
                             document.getElementById('opp-coin').textContent   = label + ' arbitrage';
                             document.getElementById('opp-route').textContent  = 'Buy on ' + best.buy + ' → Sell on ' + best.sell;
                             document.getElementById('opp-spread-pct').textContent = best.sp.toFixed(3) + '%';
-                            document.getElementById('opp-profit-val').textContent = '+$' + netProfit.toFixed(1);
-                            // affiliate link for the buy exchange
+                            document.getElementById('opp-profit-val').textContent = netProfit > 0 ? '+$' + netProfit.toFixed(1) : '—';
                             const tradeBtn = document.getElementById('opp-trade-btn');
                             if (tradeBtn) {
                                 const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || (window.AFFILIATE_LINKS_GLOBAL || {}).Binance;
                                 tradeBtn.href = aff;
                                 tradeBtn.setAttribute('data-ex', best.buy);
+                                tradeBtn.setAttribute('data-track', 'hero_opp_trade');
+                                tradeBtn.innerHTML = best.sp >= PROFITABLE_PCT
+                                    ? '<i class="fas fa-bolt"></i> Trade on ' + best.buy
+                                    : '<i class="fas fa-store"></i> Open ' + best.buy;
                             }
                             oppCard.style.display  = 'flex';
                             oppEmpty.style.display = 'none';
+                        } else if (best) {
+                            oppCard.style.display  = 'none';
+                            oppEmpty.style.display = 'flex';
+                            const label = best.sym.replace('USDT','').replace('BUSD','');
+                            const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || (window.AFFILIATE_LINKS_GLOBAL || {}).Binance;
+                            oppEmpty.innerHTML = '<span><i class="fas fa-chart-line"></i> Top spread: <strong>' + label + ' ' + best.sp.toFixed(3) + '%</strong> (' + best.buy + ' → ' + best.sell) — below ~0.30% after fees. <a href="#email-alerts" style="color:var(--primary-light);font-weight:800;">Get alert</a> or <a href="' + aff + '" target="_blank" rel="noopener nofollow" data-track="hero_opp_trade" data-ex="' + best.buy + '" style="color:var(--primary-light);font-weight:800;">open ' + best.buy + '</a>.</span>';
                         } else {
                             oppCard.style.display  = 'none';
                             oppEmpty.style.display = 'flex';
+                            oppEmpty.innerHTML = '<span><i class="fas fa-clock"></i> No spreads right now — <a href="#dashboard" style="color:var(--primary-light)">monitor the table</a> or <a href="#email-alerts" style="color:var(--primary-light)">get an alert</a>.</span>';
                         }
                     }
                 } catch(e) { console.warn('opp-card error', e); }

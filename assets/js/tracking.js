@@ -9,7 +9,15 @@
       localStorage.setItem('coinnavigator_ga4', fromQuery);
     }
     const saved = (localStorage.getItem('coinnavigator_ga4') || '').trim();
-    return fromMeta || saved || null;
+    return fromMeta || saved || 'G-9L1137PQ6P';
+  }
+
+  function getSourcePage() {
+    const fromBody = document.body && document.body.getAttribute('data-cn-page');
+    if (fromBody) return fromBody;
+    const p = (global.location.pathname || '/').replace(/\/$/, '') || '/';
+    if (p === '/' || p === '/index.html') return 'home';
+    return p.replace(/^\//, '');
   }
 
   function initAnalytics() {
@@ -40,12 +48,14 @@
     const href = (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : '';
     const lower = name.toLowerCase();
 
+    const sourcePage = params.source_page || getSourcePage();
+
     if (lower.includes('email_signup') || lower.includes('exit_intent_email_signup')) {
       return {
         event: 'lead_submit',
         payload: {
           lead_type: 'email_alert',
-          source_page: 'home',
+          source_page: sourcePage,
           source_event: name,
           region: params.region || undefined
         }
@@ -57,14 +67,14 @@
         event: 'lead_submit',
         payload: {
           lead_type: 'contact',
-          source_page: 'home',
+          source_page: sourcePage,
           source_event: name,
           region: params.region || undefined
         }
       };
     }
 
-    const isAffiliateClick = lower.includes('aff') || lower.includes('trade') || lower.includes('exchange') || lower.includes('open_');
+    const isAffiliateClick = lower.includes('aff') || lower.includes('trade') || lower.includes('exchange') || lower.includes('open_') || lower.includes('rec_');
     const isOutbound = href && /^https?:\/\//i.test(href);
     if (isAffiliateClick && isOutbound) {
       return {
@@ -72,7 +82,7 @@
         payload: {
           exchange: params.ex || undefined,
           symbol: params.sym || undefined,
-          source_page: 'home',
+          source_page: sourcePage,
           cta_name: name,
           destination: href,
           region: params.region || undefined
@@ -86,7 +96,7 @@
         payload: {
           exchange: params.ex || undefined,
           symbol: params.sym || undefined,
-          source_page: 'home',
+          source_page: sourcePage,
           cta_name: name,
           destination: href,
           region: params.region || undefined

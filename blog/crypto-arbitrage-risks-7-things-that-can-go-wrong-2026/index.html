@@ -319,5 +319,6 @@
     (function(){var btn=document.getElementById('mobile-menu-btn');var links=document.getElementById('nav-links');if(!btn||!links)return;btn.addEventListener('click',function(){var open=links.classList.toggle('open');btn.innerHTML=open?'<i class="fas fa-xmark"></i>':'<i class="fas fa-bars"></i>';btn.setAttribute('aria-expanded',open?'true':'false');});links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){links.classList.remove('open');btn.innerHTML='<i class="fas fa-bars"></i>';btn.setAttribute('aria-expanded','false');});});})();
     document.addEventListener('click',function(e){var el=e.target&&e.target.closest?e.target.closest('[data-track]'):null;if(!el)return;if(typeof gtag==='function')gtag('event',el.getAttribute('data-track'),{page:'arb-risks-article'});});
   </script>
+    <script src="/assets/js/site-analytics-boot.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're subscribed | CoinNavigator</title>
+  <meta name="robots" content="noindex,follow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0b0f1a; --card:#161b2a; --text:#f8fafc; --muted:#94a3b8; --primary:#6366f1; --accent:#10b981; --border:#2d334a; }
+    body { font-family: Inter, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+    .card { max-width: 520px; width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; text-align: center; }
+    h1 { font-size: 1.6rem; margin: 0.75rem 0 0.5rem; }
+    p { color: var(--muted); margin: 0.5rem 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; margin: 0.5rem 0.35rem; padding: 0.75rem 1.15rem; border-radius: 12px; font-weight: 800; text-decoration: none; font-size: 0.92rem; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-accent { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.35); color: #6ee7b7; }
+    .icon { font-size: 2.5rem; color: var(--accent); }
+  </style>
+</head>
+<body data-cn-page="subscribe/thanks">
+  <div class="card">
+    <div class="icon"><i class="fas fa-circle-check"></i></div>
+    <h1>You're on the list</h1>
+    <p id="thanks-msg">We'll email you when spreads are worth a look — and send our weekly top-5 digest when markets move.</p>
+    <p style="margin-top:1.25rem;font-weight:700;color:var(--text);">Your free checklist is ready:</p>
+    <a class="btn btn-accent" href="/downloads/arbitrage-checklist/" data-track="thanks_checklist"><i class="fas fa-file-pdf"></i> Open 15-point checklist</a>
+    <a class="btn btn-primary" href="/#dashboard" data-track="thanks_monitor"><i class="fas fa-table"></i> Live spread monitor</a>
+    <p style="font-size:0.78rem;margin-top:1.25rem;">Tip: use <strong>Print → Save as PDF</strong> on the checklist page to keep an offline copy.</p>
+  </div>
+  <script src="/assets/js/site-analytics-boot.js" defer></script>
+  <script>
+    (function () {
+      const p = new URLSearchParams(location.search);
+      if (p.get('list') === 'weekly_digest') {
+        document.getElementById('thanks-msg').textContent =
+          'You\'ll get our weekly top-5 spread digest (Mondays) plus instant alerts when major pairs exceed 0.3%.';
+      }
+    })();
+  </script>
+</body>
+</html>
