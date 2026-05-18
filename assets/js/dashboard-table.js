@@ -61,6 +61,10 @@
             return map[exchange] || String(exchange).split(' ')[0];
         }
 
+        const fmt = (v) => (typeof v === 'number')
+            ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
+            : 'N/A';
+
         function priceCellHtml(exchange, price, url, isAffiliate) {
             const rel = isAffiliate ? ' target="_blank" rel="noopener nofollow"' : '';
             return `<a class="link-mini focus-ring" href="${url}"${rel} title="${exchange} — open review"><span class="ex-label">${shortExLabel(exchange)}</span><span class="price-line">${fmt(price)}</span></a>`;
@@ -410,10 +414,6 @@
             tbody.innerHTML = '';
             const favs = new Set(getFavs());
             let highestSpread = 0;
-
-            const fmt = (v) => (typeof v === 'number')
-                ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
-                : 'N/A';
 
             if (rows.length === 0) {
                 const isFilteringProfitable = TABLE_STATE.onlyProfitable;
