@@ -14,7 +14,7 @@
         const TABLE_STATE = {
             q: '',
             onlyGt01: false,
-            onlyProfitable: true,
+            onlyProfitable: false,
             onlyUsdt: true,
             onlyCex: true,
             hideMissing: true,
@@ -561,6 +561,27 @@
                 } else {
                     profitableCountEl.style.color = 'var(--accent)';
                     if (profitableSubEl) profitableSubEl.innerText = 'spreads > 0.30%';
+                }
+            }
+
+            const quietBanner = document.getElementById('spread-quiet-banner');
+            if (quietBanner) {
+                const filteringProfitable = TABLE_STATE.onlyProfitable;
+                if (filteringProfitable && rows.length === 0 && trackedNowCount > 0) {
+                    quietBanner.className = 'data-freshness-banner banner-warn';
+                    quietBanner.innerHTML = `<i class="fas fa-filter" aria-hidden="true"></i><span><strong>Profitable filter is on</strong> — no spreads above 0.30% right now (fees are ~0.20% round-trip). <button type="button" id="quiet-show-all-btn" style="margin-left:0.35rem;background:transparent;border:none;color:var(--primary-light);font-weight:800;cursor:pointer;text-decoration:underline;">Show all spreads</button> or <a href="#email-alerts" style="color:var(--primary-light);font-weight:700;">get an alert</a> when one opens.</span>`;
+                    const btn = quietBanner.querySelector('#quiet-show-all-btn');
+                    if (btn) btn.addEventListener('click', () => {
+                        const cb = document.getElementById('only-profitable');
+                        if (cb) { cb.checked = false; cb.dispatchEvent(new Event('change')); }
+                    });
+                } else if (!filteringProfitable && profitableNowCount === 0 && trackedNowCount > 0) {
+                    quietBanner.className = 'data-freshness-banner banner-warn';
+                    const topSp = highestSpread > 0 ? highestSpread.toFixed(3) : '—';
+                    quietBanner.innerHTML = `<i class="fas fa-circle-info" aria-hidden="true"></i><span>Markets are quiet — highest spread right now is <strong>${topSp}%</strong> (below the ~0.30% needed to profit after fees). Showing all tracked pairs. <a href="#email-alerts" style="color:var(--primary-light);font-weight:700;">Get alerts</a> when spreads open.</span>`;
+                } else {
+                    quietBanner.className = 'data-freshness-banner hidden';
+                    quietBanner.innerHTML = '';
                 }
             }
 
