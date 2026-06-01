@@ -890,7 +890,7 @@
                             oppEmpty.style.display = 'flex';
                             const label = best.sym.replace('USDT','').replace('BUSD','');
                             const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || (window.AFFILIATE_LINKS_GLOBAL || {}).Binance;
-                            oppEmpty.innerHTML = '<span><i class="fas fa-chart-line"></i> Top spread: <strong>' + label + ' ' + best.sp.toFixed(3) + '%</strong> (' + best.buy + ' → ' + best.sell) — below ~0.30% after fees. <a href="#email-alerts" style="color:var(--primary-light);font-weight:800;">Get alert</a> or <a href="' + aff + '" target="_blank" rel="noopener nofollow" data-track="hero_opp_trade" data-ex="' + best.buy + '" style="color:var(--primary-light);font-weight:800;">open ' + best.buy + '</a>.</span>';
+                            oppEmpty.innerHTML = '<span><i class="fas fa-chart-line"></i> Top spread: <strong>' + label + ' ' + best.sp.toFixed(3) + '%</strong> (' + best.buy + ' → ' + best.sell + ') — below ~0.30% after fees. <a href="#email-alerts" style="color:var(--primary-light);font-weight:800;">Get alert</a> or <a href="' + aff + '" target="_blank" rel="noopener nofollow" data-track="hero_opp_trade" data-ex="' + best.buy + '" style="color:var(--primary-light);font-weight:800;">open ' + best.buy + '</a>.</span>';
                         } else {
                             oppCard.style.display  = 'none';
                             oppEmpty.style.display = 'flex';
