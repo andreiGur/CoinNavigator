@@ -845,6 +845,33 @@
         }
         .data-freshness-banner i { font-size: 1rem; flex-shrink: 0; }
 
+        .revenue-cta-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+            padding: 1.1rem 1.25rem;
+            border-radius: 14px;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(99, 102, 241, 0.08));
+        }
+        .revenue-cta-banner.hidden { display: none; }
+        .revenue-cta-banner h3 {
+            font-size: 1.05rem;
+            font-weight: 900;
+            margin: 0 0 0.35rem;
+            color: var(--text-main);
+        }
+        .revenue-cta-banner p {
+            margin: 0;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            max-width: 52ch;
+        }
+
         /* Modal */
         .modal {
             position: fixed;
@@ -1435,6 +1462,17 @@
                     </tbody>
                 </table>
             </div>
+            <div id="revenue-cta-banner" class="revenue-cta-banner hidden" aria-hidden="true">
+                <div>
+                    <h3 id="revenue-cta-title">Top spread ready to trade</h3>
+                    <p id="revenue-cta-sub">Partner link — same fees, often lower with our referral.</p>
+                </div>
+                <a id="revenue-cta-btn" class="btn btn-primary" href="#" target="_blank" rel="noopener nofollow"
+                   data-track="revenue_banner_trade" data-cn-affiliate="Binance" data-cn-medium="revenue_banner" data-cn-campaign="profitable_spread"
+                   style="white-space:nowrap;font-size:0.95rem;padding:0.85rem 1.35rem;">
+                    <i class="fas fa-bolt"></i> Open exchange &amp; trade
+                </a>
+            </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;flex-wrap:wrap;gap:0.5rem;">
                 <div id="timestamp" style="color: var(--text-muted); font-size: 0.8rem;"></div>
                 <div id="next-update-timer" style="display:none;align-items:center;gap:0.4rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--primary-light);">
@@ -1489,7 +1527,8 @@
                     <div class="cta-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: stretch;">
                         <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                             <a class="btn btn-primary" id="rec-1"
-                               href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=bonuses&utm_campaign=cta_section"
+                               href="#"
+                               data-cn-affiliate="Binance" data-cn-medium="bonuses" data-cn-campaign="cta_section"
                                target="_blank" rel="noopener nofollow"
                                data-track="rec_exchange" data-ex="Binance"
                                style="font-size: 1rem; padding: 1rem 1.75rem;">
@@ -1499,7 +1538,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                             <a class="btn btn-primary" id="rec-2"
-                               href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=bonuses&utm_campaign=cta_section"
+                               href="#"
+                               data-cn-affiliate="MEXC" data-cn-medium="bonuses" data-cn-campaign="cta_section"
                                target="_blank" rel="noopener nofollow"
                                data-track="rec_exchange" data-ex="MEXC"
                                style="font-size: 1rem; padding: 1rem 1.75rem;">
@@ -1509,7 +1549,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                             <a class="btn btn-primary" id="rec-3"
-                               href="https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=bonuses&utm_campaign=cta_section"
+                               href="#"
+                               data-cn-affiliate="Bybit" data-cn-medium="bonuses" data-cn-campaign="cta_section"
                                target="_blank" rel="noopener nofollow"
                                data-track="rec_exchange" data-ex="Bybit"
                                style="font-size: 1rem; padding: 1rem 1.75rem;">
@@ -2006,13 +2047,14 @@
     <script src="/assets/js/site-analytics-boot.js" defer></script>
     <script src="/assets/js/data-client.js"></script>
     <script src="/assets/js/region.js"></script>
+    <script src="/assets/js/affiliate-links.js"></script>
     <script src="/assets/js/spread-engine.js"></script>
     <script src="/assets/js/polymarket.js"></script>
     <script src="/assets/js/dashboard-table.js"></script>
     <script>
 
         window.fetchJsonWithFallback = async function fetchJsonWithFallback() {
-            const origins = [window.location.origin, 'https://coinnavigator.net'];
+            const origins = [window.location.origin, 'https://www.coinnavigator.net', 'https://coinnavigator.net'];
             const candidates = window.CoinNavigatorDataClient.buildCandidateUrls(origins, [
                 '/data/spread_data.json',
                 '/spread_data.json'
@@ -2216,9 +2258,12 @@
                     }
                     const cta = document.getElementById('ssb-cta');
                     if (cta) {
-                        const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || 'https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=sticky_bar&utm_campaign=sticky';
+                        const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] ||
+                            (window.CoinNavigatorAffiliate && window.CoinNavigatorAffiliate.buildUrl(best.buy, 'sticky_bar', 'sticky')) ||
+                            '#';
                         cta.href = aff;
                         cta.setAttribute('data-ex', best.buy);
+                        cta.innerHTML = '<i class="fas fa-bolt"></i> Open ' + best.buy + ' — trade';
                     }
                 } catch(e) {}
             };

@@ -312,6 +312,42 @@
             }
         }
 
+        function updateRevenueCtaBanner(rows) {
+            const banner = document.getElementById('revenue-cta-banner');
+            if (!banner) return;
+            const sorted = rows.filter((r) => r.hasBest && r.spreadPct != null && r.spreadPct > 0)
+                .sort((a, b) => b.spreadPct - a.spreadPct);
+            const bestRow = sorted[0];
+            if (!bestRow || bestRow.spreadPct < 0.08) {
+                banner.classList.add('hidden');
+                banner.setAttribute('aria-hidden', 'true');
+                return;
+            }
+            const buyEx = bestRow.info.best_buy.exchange;
+            const sellEx = bestRow.info.best_sell.exchange;
+            const sp = bestRow.spreadPct;
+            const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[buyEx] ||
+                (global.CoinNavigatorAffiliate && global.CoinNavigatorAffiliate.buildUrl(buyEx, 'revenue_banner', 'profitable_spread')) ||
+                '#';
+            const netOn1k = Math.max(0, ((sp - 0.2) / 100) * 1000);
+            const title = document.getElementById('revenue-cta-title');
+            const sub = document.getElementById('revenue-cta-sub');
+            const btn = document.getElementById('revenue-cta-btn');
+            if (title) title.textContent = `${bestRow.ticker} spread ${sp.toFixed(3)}% — profitable after fees`;
+            if (sub) {
+                sub.textContent = netOn1k > 0
+                    ? `Buy on ${buyEx}, sell on ${sellEx}. Example net on $1,000: ~$${netOn1k.toFixed(1)} (before withdrawal).`
+                    : `Route: buy ${buyEx} → sell ${sellEx}. Spreads move fast — use accounts on both exchanges.`;
+            }
+            if (btn) {
+                btn.href = aff;
+                btn.setAttribute('data-ex', buyEx);
+                btn.innerHTML = `<i class="fas fa-bolt"></i> Open ${buyEx} — trade`;
+            }
+            banner.classList.remove('hidden');
+            banner.setAttribute('aria-hidden', 'false');
+        }
+
         function spreadColorClass(pct) {
             if (pct == null) return 'spread-none';
             if (pct >= 0.3) return 'spread-high';
@@ -335,25 +371,11 @@
                 return u.pathname + u.search;
             };
 
-            // Direct affiliate links for exchanges we're partnered with.
-            // For others we route through the review page first.
-            const AFFILIATE_LINKS = {
-                Binance: 'https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
-                Bybit:   'https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
-                MEXC:    'https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=table&utm_campaign=arb_table',
-                OKX:     'https://www.okx.com/join/coinnavigator',
-                KuCoin:  'https://www.kucoin.com/ucenter/signup?utm_source=coinnavigator',
-                Gate:    'https://www.gate.io/signup?utm_source=coinnavigator',
-            };
+            const AFFILIATE_LINKS = (global.CoinNavigatorAffiliate && global.CoinNavigatorAffiliate.mapForMedium)
+                ? global.CoinNavigatorAffiliate.mapForMedium('table', 'arb_table')
+                : {};
             window.AFFILIATE_LINKS_GLOBAL = AFFILIATE_LINKS;
-            const REVIEW_PAGES = {
-                Binance: AFFILIATE_LINKS.Binance,
-                MEXC:    AFFILIATE_LINKS.MEXC,
-                Bybit:   AFFILIATE_LINKS.Bybit,
-                OKX:     AFFILIATE_LINKS.OKX,
-                KuCoin:  AFFILIATE_LINKS.KuCoin,
-                Gate:    AFFILIATE_LINKS.Gate,
-            };
+            const REVIEW_PAGES = Object.assign({}, AFFILIATE_LINKS);
 
             const qRaw = normalizeCoinQuery(TABLE_STATE.q);
             const qTicker = qRaw.replace('USDT', '');
@@ -618,6 +640,8 @@
                     if (profitableSubEl) profitableSubEl.innerText = 'spreads > 0.30%';
                 }
             }
+
+            updateRevenueCtaBanner(rows);
 
             const quietBanner = document.getElementById('spread-quiet-banner');
             if (quietBanner) {
