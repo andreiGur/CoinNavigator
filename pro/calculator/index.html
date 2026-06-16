@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arbitrage Profit Calculator — CoinNavigator Starter Pack</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0b0f1a; --card:#131929; --text:#f0f2f8; --muted:#7a869a; --primary:#6366f1; --green:#10b981; --red:#ef4444; --border:#2d334a; --gold:#fbbf24; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .logo { color: #fff; text-decoration: none; font-weight: 900; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 8px; }
+    .logo i { color: var(--primary); }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 0.3rem 0.8rem; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); border-radius: 999px; font-size: 0.72rem; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 0.1em; }
+    .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn { border: none; border-radius: 10px; padding: 0.6rem 1rem; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-family: inherit; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: var(--text); }
+
+    h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.4rem; }
+    .sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+    /* Grid layout */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+    .card h2 { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+
+    /* Inputs */
+    .field { margin-bottom: 1rem; }
+    label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 0.3rem; }
+    input[type="number"] {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.6rem 0.9rem;
+    }
+    input[type="number"]:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
+    .input-hint { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* Result */
+    .result-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .result-card h2 { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1.25rem; }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
+    .r-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 0.85rem; }
+    .r-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; margin-bottom: 0.2rem; }
+    .r-val { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 900; }
+    .r-val.pos { color: var(--green); }
+    .r-val.neg { color: var(--red); }
+    .r-val.warn { color: var(--gold); }
+    .r-val.neutral { color: var(--text); }
+
+    .verdict {
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .verdict.profit { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #34d399; }
+    .verdict.loss   { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #fca5a5; }
+    .verdict.break  { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25); color: #fde68a; }
+
+    /* Exchange table */
+    .exchange-section { margin-top: 1.5rem; }
+    .exchange-section h2 { font-size: 0.9rem; font-weight: 900; margin-bottom: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); border-bottom: 1px solid var(--border); }
+    td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    td:last-child { text-align: right; }
+    .tag { display: inline-block; font-size: 0.68rem; font-weight: 800; border-radius: 6px; padding: 0.15rem 0.4rem; }
+    .tag.low { background: rgba(16,185,129,0.15); color: #34d399; }
+    .tag.mid { background: rgba(251,191,36,0.12); color: #fbbf24; }
+    .tag.high { background: rgba(239,68,68,0.1); color: #fca5a5; }
+
+    /* Print */
+    @media print {
+      body { background: #fff; color: #111; }
+      .card, .result-card { border: 1px solid #ddd; background: #fff; }
+      .btn, .actions { display: none !important; }
+      .r-val.pos { color: #16a34a; }
+      .r-val.neg { color: #dc2626; }
+      .r-val.warn { color: #ca8a04; }
+      label, .r-label, th { color: #64748b; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <div>
+      <div class="badge" style="margin-bottom:0.4rem;"><i class="fas fa-lock"></i> Starter Pack — included</div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Save as PDF</button>
+      <a class="btn btn-ghost" href="/#dashboard"><i class="fas fa-table"></i> Live spreads</a>
+    </div>
+  </div>
+
+  <h1>Arbitrage Profit Calculator</h1>
+  <p class="sub">Enter your trade details below. Results update instantly. Print to PDF to keep a filled copy.</p>
+
+  <div class="grid">
+    <!-- Inputs col 1 -->
+    <div class="card">
+      <h2><i class="fas fa-sliders"></i> Trade Setup</h2>
+      <div class="field">
+        <label>Capital ($)</label>
+        <input type="number" id="capital" value="1000" min="1" step="100" />
+        <div class="input-hint">Amount you're deploying on the buy side</div>
+      </div>
+      <div class="field">
+        <label>Spread (% gross)</label>
+        <input type="number" id="spread" value="0.35" min="0" step="0.01" />
+        <div class="input-hint">From CoinNavigator table (spread_percent × 100)</div>
+      </div>
+      <div class="field">
+        <label>Buy-side fee (%)</label>
+        <input type="number" id="feeBuy" value="0.1" min="0" step="0.01" />
+        <div class="input-hint">Binance spot taker = 0.10% (0.07% with BNB)</div>
+      </div>
+      <div class="field">
+        <label>Sell-side fee (%)</label>
+        <input type="number" id="feeSell" value="0.1" min="0" step="0.01" />
+        <div class="input-hint">MEXC/Bybit spot taker = 0.10%</div>
+      </div>
+    </div>
+
+    <!-- Inputs col 2 -->
+    <div class="card">
+      <h2><i class="fas fa-arrow-right-arrow-left"></i> Transfer Costs</h2>
+      <div class="field">
+        <label>Network withdrawal fee ($)</label>
+        <input type="number" id="feeWithdraw" value="1.5" min="0" step="0.5" />
+        <div class="input-hint">TRC20 USDT ≈ $1 · SOL ≈ $0.05 · ETH ERC20 ≈ $5–30</div>
+      </div>
+      <div class="field">
+        <label>Slippage estimate (%)</label>
+        <input type="number" id="slippage" value="0.05" min="0" step="0.01" />
+        <div class="input-hint">0.05% is typical for liquid pairs with small orders</div>
+      </div>
+      <div class="field">
+        <label>Other costs ($)</label>
+        <input type="number" id="other" value="0" min="0" step="0.5" />
+        <div class="input-hint">Gas, conversion fees, etc.</div>
+      </div>
+      <div class="field">
+        <label>Coin / Pair (optional)</label>
+        <input type="text" id="pair" placeholder="e.g. SOLUSDT" style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:0.95rem;padding:0.6rem 0.9rem;width:100%;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="result-card" id="result-card">
+    <h2><i class="fas fa-calculator"></i> Results</h2>
+    <div class="result-grid" id="result-grid">
+      <div class="r-item"><div class="r-label">Gross spread ($)</div><div class="r-val neutral" id="r-gross">—</div></div>
+      <div class="r-item"><div class="r-label">Total fees ($)</div><div class="r-val neg" id="r-fees">—</div></div>
+      <div class="r-item"><div class="r-label">Net profit ($)</div><div class="r-val" id="r-net">—</div></div>
+      <div class="r-item"><div class="r-label">Net return (%)</div><div class="r-val" id="r-pct">—</div></div>
+      <div class="r-item"><div class="r-label">Break-even spread</div><div class="r-val warn" id="r-break">—</div></div>
+      <div class="r-item"><div class="r-label">ROI on $10k</div><div class="r-val" id="r-10k">—</div></div>
+    </div>
+    <div class="verdict" id="verdict">
+      <i class="fas fa-calculator"></i> <span>Fill in the fields above to see your result.</span>
+    </div>
+  </div>
+
+  <!-- Exchange fee reference -->
+  <div class="exchange-section">
+    <h2>Exchange fee reference</h2>
+    <table>
+      <thead>
+        <tr><th>Exchange</th><th>Spot maker</th><th>Spot taker</th><th>Withdraw (TRC20)</th><th>Rating</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Binance</strong></td><td>0.08%</td><td>0.10%</td><td>~$1</td><td><span class="tag low">Best buy</span></td></tr>
+        <tr><td><strong>MEXC</strong></td><td>0.00%</td><td>0.05%</td><td>~$1</td><td><span class="tag low">Low fees</span></td></tr>
+        <tr><td><strong>Bybit</strong></td><td>0.08%</td><td>0.10%</td><td>~$1</td><td><span class="tag low">Popular</span></td></tr>
+        <tr><td><strong>OKX</strong></td><td>0.08%</td><td>0.10%</td><td>~$1</td><td><span class="tag mid">Solid</span></td></tr>
+        <tr><td><strong>KuCoin</strong></td><td>0.09%</td><td>0.10%</td><td>~$1</td><td><span class="tag mid">Alt-heavy</span></td></tr>
+        <tr><td><strong>Gate.io</strong></td><td>0.20%</td><td>0.20%</td><td>~$1</td><td><span class="tag high">Higher fees</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CTA back to live spreads -->
+  <div style="margin-top:2rem;text-align:center;">
+    <a href="/#dashboard" class="btn btn-primary" style="font-size:1rem;padding:0.85rem 1.5rem;">
+      <i class="fas fa-bolt"></i> See live spreads to plug in here
+    </a>
+    <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--muted);">
+      Figures from CoinNavigator are gross spreads. Always verify on live order books before trading.
+    </p>
+  </div>
+</div>
+
+<script>
+  const ids = ['capital','spread','feeBuy','feeSell','feeWithdraw','slippage','other'];
+  ids.forEach(id => document.getElementById(id).addEventListener('input', calc));
+
+  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function fmt(n) { return '$' + n.toFixed(2); }
+  function fmtPct(n) { return n.toFixed(4) + '%'; }
+
+  function calc() {
+    const capital    = v('capital');
+    const spreadPct  = v('spread');
+    const feeBuy     = v('feeBuy');
+    const feeSell    = v('feeSell');
+    const feeWith    = v('feeWithdraw');
+    const slip       = v('slippage');
+    const other      = v('other');
+
+    const gross      = capital * spreadPct / 100;
+    const buyFee     = capital * feeBuy / 100;
+    const sellFee    = capital * feeSell / 100;
+    const slipCost   = capital * slip / 100;
+    const totalFees  = buyFee + sellFee + feeWith + slipCost + other;
+    const net        = gross - totalFees;
+    const netPct     = capital > 0 ? (net / capital * 100) : 0;
+    const breakEven  = capital > 0 ? (totalFees / capital * 100) : 0;
+    const net10k     = (net / capital) * 10000;
+
+    document.getElementById('r-gross').textContent = fmt(gross);
+    document.getElementById('r-fees').textContent  = fmt(totalFees);
+    document.getElementById('r-net').textContent   = (net >= 0 ? '+' : '') + fmt(net);
+    document.getElementById('r-net').className     = 'r-val ' + (net > 0 ? 'pos' : net < 0 ? 'neg' : 'neutral');
+    document.getElementById('r-pct').textContent   = (netPct >= 0 ? '+' : '') + fmtPct(netPct);
+    document.getElementById('r-pct').className     = 'r-val ' + (netPct > 0 ? 'pos' : netPct < 0 ? 'neg' : 'neutral');
+    document.getElementById('r-break').textContent = fmtPct(breakEven);
+    document.getElementById('r-10k').textContent   = (net10k >= 0 ? '+' : '') + fmt(net10k);
+    document.getElementById('r-10k').className     = 'r-val ' + (net10k > 0 ? 'pos' : 'neg');
+
+    const verdict = document.getElementById('verdict');
+    if (net > 0.5) {
+      verdict.className = 'verdict profit';
+      verdict.innerHTML = '<i class="fas fa-circle-check"></i> <span>Profitable — net <strong>' + fmt(net) + '</strong> (' + fmtPct(netPct) + '). Verify on live order books before executing.</span>';
+    } else if (net > 0) {
+      verdict.className = 'verdict break';
+      verdict.innerHTML = '<i class="fas fa-triangle-exclamation"></i> <span>Marginally profitable — small buffer. Any extra slippage wipes the gain.</span>';
+    } else {
+      verdict.className = 'verdict loss';
+      verdict.innerHTML = '<i class="fas fa-xmark"></i> <span>Not profitable after fees. Need a spread above <strong>' + fmtPct(breakEven) + '</strong> to break even.</span>';
+    }
+  }
+
+  calc();
+</script>
+</body>
+</html>

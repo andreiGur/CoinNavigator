@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Best Crypto Arbitrage Trade Right Now — CoinNavigator Live</title>
+  <meta name="description" content="See the single best crypto arbitrage spread available right now. Live data. Buy low on one exchange, sell high on another — we show you exactly where." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="/assets/js/affiliate-links.js"></script>
+  <style>
+    :root { --bg:#0b0f1a; --card:#131929; --text:#f0f2f8; --muted:#7a869a; --primary:#6366f1; --green:#10b981; --border:#2d334a; --gold:#fbbf24; --red:#ef4444; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+    a { color: inherit; }
+
+    /* NAV */
+    .topnav { padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .logo { text-decoration: none; font-weight: 900; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px; }
+    .logo i { color: var(--primary); }
+    .nav-links { display: flex; gap: 1.25rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.88rem; font-weight: 600; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+    /* Hero */
+    .hero { text-align: center; margin-bottom: 3rem; }
+    .live-dot { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 800; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .live-dot::before { content: ''; width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+    .hero h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 0.6rem; }
+    .hero p { color: var(--muted); font-size: 1rem; max-width: 520px; margin: 0 auto; }
+
+    /* Top opportunity card */
+    #top-opp {
+      background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(99,102,241,0.06));
+      border: 2px solid rgba(16,185,129,0.3);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #top-opp.loading { border-color: var(--border); background: var(--card); }
+    #top-opp::before {
+      content: 'TOP OPPORTUNITY';
+      position: absolute; top: 0.75rem; right: 1rem;
+      font-size: 0.65rem; font-weight: 900; letter-spacing: 0.14em;
+      color: var(--green); opacity: 0.7;
+    }
+    .opp-coin { font-size: 0.8rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+    .opp-spread { font-family: 'JetBrains Mono', monospace; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 0.5rem; }
+    .opp-spread.warn { color: var(--gold); }
+    .opp-spread.low  { color: var(--muted); }
+    .opp-meta { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.5rem; }
+    .opp-meta strong { color: var(--text); }
+
+    /* Exchange action cards */
+    .exchange-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 560px) { .exchange-row { grid-template-columns: 1fr; } .arrow-col { display: none; } }
+    .ex-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+    }
+    .ex-card.buy-side  { border-color: rgba(16,185,129,0.35); }
+    .ex-card.sell-side { border-color: rgba(99,102,241,0.35); }
+    .ex-role { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.35rem; }
+    .ex-role.buy  { color: var(--green); }
+    .ex-role.sell { color: #818cf8; }
+    .ex-name { font-size: 1.15rem; font-weight: 900; margin-bottom: 0.25rem; }
+    .ex-price { font-family: 'JetBrains Mono', monospace; font-size: 0.92rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .ex-price span { color: var(--text); font-weight: 700; }
+    .ex-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      text-decoration: none; font-weight: 900; font-size: 0.9rem;
+      padding: 0.65rem 1rem; border-radius: 10px; width: 100%;
+    }
+    .ex-btn.buy  { background: var(--green); color: #000; }
+    .ex-btn.sell { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
+    .ex-perk { font-size: 0.71rem; color: var(--muted); margin-top: 0.4rem; text-align: center; }
+    .arrow-col { text-align: center; color: var(--muted); font-size: 1.4rem; }
+
+    /* Net profit bar */
+    .profit-bar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    }
+    .profit-item { text-align: center; }
+    .profit-item .pl { font-size: 0.7rem; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .profit-item .pv { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 900; }
+    .pv.pos { color: var(--green); }
+    .pv.neg { color: var(--red); }
+    .pv.warn { color: var(--gold); }
+    .calc-link { font-size: 0.8rem; color: #818cf8; text-decoration: none; font-weight: 700; white-space: nowrap; }
+    .calc-link:hover { text-decoration: underline; }
+
+    /* All spreads table */
+    .section-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 2.5rem 0 0.85rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { text-align: left; padding: 0.5rem 0.85rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); border-bottom: 1px solid var(--border); }
+    td { padding: 0.6rem 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .spread-val { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+    .spread-val.high { color: var(--green); }
+    .spread-val.mid  { color: var(--gold); }
+    .spread-val.low  { color: var(--muted); }
+    .ex-link { color: #818cf8; font-weight: 700; text-decoration: none; font-size: 0.85rem; }
+    .ex-link:hover { text-decoration: underline; }
+
+    /* Product CTA */
+    .product-banner {
+      margin-top: 3rem;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.07));
+      border: 1.5px solid rgba(99,102,241,0.35);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .product-banner .ph { flex: 1; min-width: 200px; }
+    .product-banner .pl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #818cf8; margin-bottom: 0.3rem; }
+    .product-banner h3 { font-size: 1.05rem; font-weight: 900; margin-bottom: 0.2rem; }
+    .product-banner p { font-size: 0.83rem; color: var(--muted); }
+    .product-btn {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff; font-weight: 900; font-size: 0.92rem;
+      padding: 0.8rem 1.35rem; border-radius: 12px;
+      text-decoration: none; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+
+    /* Skeleton */
+    .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    footer { margin-top: 3rem; text-align: center; color: var(--muted); font-size: 0.78rem; padding-bottom: 2rem; }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+  <ul class="nav-links">
+    <li><a href="/#dashboard">Live Monitor</a></li>
+    <li><a href="/blog/">Guides</a></li>
+    <li><a href="/pro/" style="color:#818cf8;font-weight:800;">Starter Pack $9</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="live-dot">Live</div>
+    <h1>Best Arbitrage Trade<br/>Available Right Now</h1>
+    <p>We scan 6 exchanges, 20 coins, every 15 minutes. This is the highest-spread opportunity at this moment.</p>
+  </div>
+
+  <!-- Top opportunity -->
+  <div id="top-opp" class="loading">
+    <div class="opp-coin" id="opp-coin">Loading...</div>
+    <div class="opp-spread" id="opp-spread">—</div>
+    <div class="opp-meta" id="opp-meta">Fetching live data...</div>
+    <div class="exchange-row" id="exchange-row">
+      <div class="ex-card buy-side">
+        <div class="ex-role buy"><i class="fas fa-arrow-down"></i> Step 1 — Buy here</div>
+        <div class="ex-name skeleton" id="buy-name" style="height:1.5rem;width:100px;">&nbsp;</div>
+        <div class="ex-price"><span id="buy-price">—</span></div>
+        <a id="buy-cta" href="#" class="ex-btn buy" data-track="trade_buy_cta" target="_blank" rel="noopener nofollow">
+          <i class="fas fa-arrow-down"></i> Open account →
+        </a>
+        <div class="ex-perk" id="buy-perk"></div>
+      </div>
+      <div class="arrow-col"><i class="fas fa-right-left"></i></div>
+      <div class="ex-card sell-side">
+        <div class="ex-role sell"><i class="fas fa-arrow-up"></i> Step 2 — Sell here</div>
+        <div class="ex-name skeleton" id="sell-name" style="height:1.5rem;width:100px;">&nbsp;</div>
+        <div class="ex-price"><span id="sell-price">—</span></div>
+        <a id="sell-cta" href="#" class="ex-btn sell" data-track="trade_sell_cta" target="_blank" rel="noopener nofollow">
+          <i class="fas fa-arrow-up"></i> Open account →
+        </a>
+        <div class="ex-perk" id="sell-perk"></div>
+      </div>
+    </div>
+    <!-- Net estimate -->
+    <div class="profit-bar" id="profit-bar">
+      <div class="profit-item"><div class="pl">Gross spread</div><div class="pv warn" id="pb-gross">—</div></div>
+      <div class="profit-item"><div class="pl">Est. fees (2×0.10%)</div><div class="pv neg" id="pb-fees">−0.20%</div></div>
+      <div class="profit-item"><div class="pl">Net on $1,000</div><div class="pv" id="pb-net1k">—</div></div>
+      <div class="profit-item"><div class="pl">Net on $5,000</div><div class="pv" id="pb-net5k">—</div></div>
+      <a href="/pro/calculator/" class="calc-link" data-track="trade_calc_link"><i class="fas fa-calculator"></i> Full calculator →</a>
+    </div>
+  </div>
+
+  <!-- All spreads table -->
+  <div class="section-title"><i class="fas fa-table"></i> All spreads — sorted by profit potential</div>
+  <table id="all-table">
+    <thead>
+      <tr>
+        <th>Coin</th>
+        <th>Spread</th>
+        <th>Buy on</th>
+        <th>Sell on</th>
+        <th>Net est. ($1k)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="all-body">
+      <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Loading live data...</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Product CTA -->
+  <div class="product-banner">
+    <div class="ph">
+      <div class="pl"><i class="fas fa-box-open"></i> Starter Pack — $9 one-time</div>
+      <h3>Don't know how to execute this trade?</h3>
+      <p>PDF guide + profit calculator spreadsheet + 15-point pre-trade checklist. Step-by-step from spread to completed trade.</p>
+    </div>
+    <a href="/pro/" class="product-btn" data-track="trade_pro_cta">
+      <i class="fas fa-bolt"></i> Get the Starter Pack — $9
+    </a>
+  </div>
+
+  <footer>
+    Data updates every ~15 minutes. Spreads shown are indicative; always verify on live order books before trading.
+    Not financial advice. <a href="/methodology/" style="color:#818cf8;">Methodology</a> · <a href="/blog/" style="color:#818cf8;">Guides</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Affiliate URLs from affiliate-links.js (global.CoinNavigatorAffiliate)
+  var AFF = window.CoinNavigatorAffiliate || null;
+
+  function affUrl(exchange) {
+    if (!AFF) return '#';
+    try { return AFF.buildUrl(exchange, 'trade_page', 'live_opp'); } catch (_) { return '#'; }
+  }
+
+  function affPerk(exchange) {
+    if (!AFF) return '';
+    try { return (AFF.exchanges[exchange] || {}).perk || ''; } catch (_) { return ''; }
+  }
+
+  var DATA_URLS = [
+    '/data/spread_data.json',
+    'https://www.coinnavigator.net/data/spread_data.json',
+  ];
+  var FEES = 0.002; // 0.10% buy + 0.10% sell
+
+  function fetchData() {
+    var urls = DATA_URLS.slice();
+    function tryNext() {
+      if (!urls.length) return Promise.reject(new Error('no data'));
+      return fetch(urls.shift()).then(function(r) {
+        if (!r.ok) return tryNext();
+        return r.json();
+      }).catch(tryNext);
+    }
+    return tryNext();
+  }
+
+  function spreadClass(pct) {
+    if (pct >= 0.4) return 'high';
+    if (pct >= 0.25) return 'mid';
+    return 'low';
+  }
+
+  function fmt2(n) { return (n >= 0 ? '+' : '') + n.toFixed(2); }
+
+  function render(data) {
+    // data is the JSON object with exchange price maps
+    // Build rows: [{coin, buyEx, sellEx, spread}]
+    var rows = [];
+    var coins = Object.keys(data);
+    coins.forEach(function(coin) {
+      var prices = data[coin];
+      var exNames = Object.keys(prices);
+      if (exNames.length < 2) return;
+      var best = null;
+      for (var i = 0; i < exNames.length; i++) {
+        for (var j = 0; j < exNames.length; j++) {
+          if (i === j) continue;
+          var buyEx = exNames[i];
+          var sellEx = exNames[j];
+          var buyP = parseFloat(prices[buyEx]);
+          var sellP = parseFloat(prices[sellEx]);
+          if (!buyP || !sellP || buyP >= sellP) continue;
+          var spread = (sellP - buyP) / buyP * 100;
+          if (!best || spread > best.spread) {
+            best = { coin: coin, buyEx: buyEx, sellEx: sellEx, buyP: buyP, sellP: sellP, spread: spread };
+          }
+        }
+      }
+      if (best) rows.push(best);
+    });
+    rows.sort(function(a, b) { return b.spread - a.spread; });
+
+    if (!rows.length) {
+      document.getElementById('opp-coin').textContent = 'No spread data available';
+      return;
+    }
+
+    var top = rows[0];
+    renderTop(top);
+    renderTable(rows);
+  }
+
+  function renderTop(r) {
+    var el = document.getElementById('top-opp');
+    el.classList.remove('loading');
+
+    document.getElementById('opp-coin').textContent = r.coin + ' / USDT';
+    var sEl = document.getElementById('opp-spread');
+    sEl.textContent = r.spread.toFixed(3) + '%';
+    sEl.className = 'opp-spread ' + spreadClass(r.spread);
+
+    var net1k = (r.spread / 100 - FEES) * 1000;
+    document.getElementById('opp-meta').innerHTML =
+      'Buy on <strong>' + r.buyEx + '</strong> at $' + r.buyP.toFixed(4) +
+      ' — sell on <strong>' + r.sellEx + '</strong> at $' + r.sellP.toFixed(4) +
+      '. Est. net on $1,000: <strong style="color:' + (net1k > 0 ? 'var(--green)' : 'var(--red)') + '">' + fmt2(net1k) + '</strong>';
+
+    // Exchange cards
+    var buyName = document.getElementById('buy-name');
+    buyName.textContent = r.buyEx;
+    buyName.className = 'ex-name';
+    buyName.style.height = buyName.style.width = '';
+    document.getElementById('buy-price').textContent = '$' + r.buyP.toFixed(4);
+
+    var sellName = document.getElementById('sell-name');
+    sellName.textContent = r.sellEx;
+    sellName.className = 'ex-name';
+    sellName.style.height = sellName.style.width = '';
+    document.getElementById('sell-price').textContent = '$' + r.sellP.toFixed(4);
+
+    var buyBtn = document.getElementById('buy-cta');
+    buyBtn.href = affUrl(r.buyEx);
+    buyBtn.innerHTML = '<i class="fas fa-arrow-down"></i> Open ' + r.buyEx + ' →';
+
+    var sellBtn = document.getElementById('sell-cta');
+    sellBtn.href = affUrl(r.sellEx);
+    sellBtn.innerHTML = '<i class="fas fa-arrow-up"></i> Open ' + r.sellEx + ' →';
+
+    document.getElementById('buy-perk').textContent  = affPerk(r.buyEx);
+    document.getElementById('sell-perk').textContent = affPerk(r.sellEx);
+
+    // Profit bar
+    var gross = r.spread;
+    var net = gross / 100 - FEES;
+    var net1kV = net * 1000;
+    var net5kV = net * 5000;
+
+    document.getElementById('pb-gross').textContent = gross.toFixed(3) + '%';
+    document.getElementById('pb-net1k').textContent = fmt2(net1kV);
+    document.getElementById('pb-net1k').className = 'pv ' + (net1kV > 0 ? 'pos' : 'neg');
+    document.getElementById('pb-net5k').textContent = fmt2(net5kV);
+    document.getElementById('pb-net5k').className = 'pv ' + (net5kV > 0 ? 'pos' : 'neg');
+  }
+
+  function renderTable(rows) {
+    var tbody = document.getElementById('all-body');
+    var html = '';
+    var limit = Math.min(rows.length, 20);
+    for (var i = 0; i < limit; i++) {
+      var r = rows[i];
+      var net1k = (r.spread / 100 - FEES) * 1000;
+      var cls = spreadClass(r.spread);
+      html += '<tr>' +
+        '<td><strong>' + r.coin + '</strong></td>' +
+        '<td><span class="spread-val ' + cls + '">' + r.spread.toFixed(3) + '%</span></td>' +
+        '<td>' + r.buyEx + '</td>' +
+        '<td>' + r.sellEx + '</td>' +
+        '<td class="' + (net1k > 0 ? 'pv pos' : 'pv neg') + '" style="font-family:\'JetBrains Mono\',monospace;font-size:0.85rem;">' + fmt2(net1k) + '</td>' +
+        '<td><a class="ex-link" href="' + affUrl(r.buyEx) + '" target="_blank" rel="noopener nofollow" data-track="table_buy_cta">Buy on ' + r.buyEx + ' →</a></td>' +
+        '</tr>';
+    }
+    tbody.innerHTML = html;
+  }
+
+  // GA tracking
+  document.querySelectorAll('[data-track]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var evt = el.getAttribute('data-track');
+      try { if (typeof gtag !== 'undefined') gtag('event', evt); } catch(_) {}
+    });
+  });
+
+  fetchData().then(render).catch(function(err) {
+    document.getElementById('opp-coin').textContent = 'Unable to load live data. Please refresh.';
+    console.error(err);
+  });
+})();
+</script>
+</body>
+</html>

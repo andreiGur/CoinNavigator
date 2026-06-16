@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Arbitrage Quick-Start Guide — CoinNavigator Starter Pack</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0b0f1a; --card:#131929; --text:#f0f2f8; --muted:#7a869a; --primary:#6366f1; --green:#10b981; --border:#2d334a; --gold:#fbbf24; --red:#ef4444; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    .wrap { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    /* Top bar */
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .logo { color: #fff; text-decoration: none; font-weight: 900; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 8px; }
+    .logo i { color: var(--primary); }
+    .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn { border: none; border-radius: 10px; padding: 0.6rem 1rem; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-family: inherit; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: var(--text); }
+
+    /* Header */
+    .page-header { margin-bottom: 2.5rem; }
+    .badge-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+    .badge-pro { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
+    .badge-print { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #34d399; }
+    h1 { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 0.6rem; }
+    .intro { color: var(--muted); font-size: 1rem; max-width: 600px; }
+
+    /* Steps */
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+    .step { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; align-items: start; }
+    .step-num {
+      width: 3rem; height: 3rem;
+      background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(139,92,246,0.15));
+      border: 1px solid rgba(99,102,241,0.4);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 900; color: #818cf8;
+      flex-shrink: 0;
+    }
+    .step-body h3 { font-size: 1.05rem; font-weight: 900; margin-bottom: 0.35rem; }
+    .step-body p { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .step-body p strong { color: var(--text); }
+
+    /* Tip boxes */
+    .tip {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      background: rgba(251,191,36,0.07);
+      border: 1px solid rgba(251,191,36,0.25);
+      border-radius: 10px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.83rem;
+      color: #fde68a;
+      margin-top: 0.5rem;
+    }
+    .tip i { margin-top: 0.1rem; flex-shrink: 0; }
+    .warn {
+      background: rgba(239,68,68,0.07);
+      border-color: rgba(239,68,68,0.25);
+      color: #fca5a5;
+    }
+
+    /* Rule of thumb box */
+    .rule {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem;
+      margin: 2rem 0;
+    }
+    .rule h3 { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.85rem; }
+    .rule-list { display: grid; gap: 0.5rem; }
+    .rule-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .rule-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .rule-val { font-weight: 800; }
+    .rule-val.green { color: var(--green); }
+    .rule-val.gold { color: var(--gold); }
+    .rule-val.red { color: var(--red); }
+
+    /* Exchange table */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 1rem 0; }
+    th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); border-bottom: 1px solid var(--border); }
+    td { padding: 0.55rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.87rem; }
+    td a { color: #818cf8; font-weight: 700; }
+
+    /* Mistakes */
+    .mistake { display: flex; gap: 0.85rem; align-items: flex-start; margin-bottom: 1rem; }
+    .mistake-icon { width: 2rem; height: 2rem; border-radius: 8px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; color: #fca5a5; }
+    .mistake h4 { font-size: 0.92rem; font-weight: 800; margin-bottom: 0.2rem; }
+    .mistake p { font-size: 0.83rem; color: var(--muted); }
+
+    /* Section header */
+    .section-header { border-top: 1px solid var(--border); margin: 2.5rem 0 1.5rem; padding-top: 1.5rem; }
+    .section-header h2 { font-size: 1.2rem; font-weight: 900; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 3rem; }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      .card, .rule { border: 1px solid #ddd; background: #fff; }
+      .btn, .actions { display: none !important; }
+      .tip { background: #fffbeb; border-color: #fbbf24; color: #92400e; }
+      .warn { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+      .step-num { background: #ede9fe; border-color: #a78bfa; color: #5b21b6; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a href="/" class="logo"><i class="fas fa-bolt"></i> CoinNavigator</a>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Save as PDF</button>
+      <a class="btn btn-ghost" href="/pro/calculator/"><i class="fas fa-calculator"></i> Profit Calculator</a>
+      <a class="btn btn-ghost" href="/#dashboard"><i class="fas fa-table"></i> Live spreads</a>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div class="badge-row">
+      <span class="badge badge-pro"><i class="fas fa-lock"></i> Starter Pack</span>
+      <span class="badge badge-print"><i class="fas fa-print"></i> Print-friendly</span>
+    </div>
+    <h1>Crypto Arbitrage<br/>Quick-Start Guide</h1>
+    <p class="intro">A step-by-step walkthrough to find, verify, and execute your first cross-exchange arbitrage trade — from zero to completed trade.</p>
+  </div>
+
+  <!-- Rule of thumb -->
+  <div class="rule">
+    <h3><i class="fas fa-ruler"></i> Quick reference: profitability thresholds</h3>
+    <div class="rule-list">
+      <div class="rule-item"><span>Break-even spread (standard 0.10% fees × 2 legs)</span><span class="rule-val gold">0.20%</span></div>
+      <div class="rule-item"><span>Comfortable profit after fees</span><span class="rule-val green">≥ 0.30%</span></div>
+      <div class="rule-item"><span>Strong opportunity (trade quickly)</span><span class="rule-val green">≥ 0.50%</span></div>
+      <div class="rule-item"><span>Net on $1,000 at 0.30% spread after 0.20% fees</span><span class="rule-val green">+$1.00</span></div>
+      <div class="rule-item"><span>Net on $10,000 at 0.30% spread after 0.20% fees</span><span class="rule-val green">+$10.00</span></div>
+      <div class="rule-item"><span>Maximum order size (to avoid slippage)</span><span class="rule-val gold">≤ 0.5% of 24h volume</span></div>
+    </div>
+  </div>
+
+  <!-- Step-by-step -->
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Find a spread on CoinNavigator</h3>
+        <p>Go to <strong>coinnavigator.net/#dashboard</strong>. Sort by "Spread high → low". Look for anything <strong>≥ 0.30%</strong> — that's the threshold to profit after standard fees.</p>
+        <p>Note the coin, best-buy exchange, and best-sell exchange.</p>
+        <div class="tip"><i class="fas fa-lightbulb"></i> Filter: enable "Profitable >0.3%" checkbox. If nothing shows, markets are quiet — check back during volatility or news events.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Verify on live order books (critical)</h3>
+        <p>CoinNavigator updates every ~15 min. <strong>Always verify on the exchange before trading.</strong> Open the best-buy and best-sell exchanges in two tabs.</p>
+        <p>Check: <strong>ask price on buy exchange</strong> vs <strong>bid price on sell exchange</strong>. The spread must survive after your order size hits the book.</p>
+        <div class="tip warn"><i class="fas fa-triangle-exclamation"></i> If spread disappears in the order book, abort. Stale data is the #1 cause of failed arbitrage.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Calculate net profit</h3>
+        <p>Use the <a href="/pro/calculator/">Profit Calculator</a> in this pack. Enter: capital, spread %, buy fee, sell fee, withdrawal fee, slippage.</p>
+        <p>Only proceed if net profit is <strong>clearly positive</strong> — at least $1–2 on your trade size. A marginal profit disappears under slippage.</p>
+        <div class="tip"><i class="fas fa-calculator"></i> Formula: Net = (Spread% × Capital) − (BuyFee + SellFee + WithdrawFee + Slippage)</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Check withdrawal status</h3>
+        <p>Before buying: confirm that <strong>withdrawal is enabled</strong> on the buy exchange for this coin. Many arbitrage attempts fail here.</p>
+        <p>Where to check: Exchange status page (e.g. <em>binance.com/en/my/settings/profile</em> → withdrawal) or search "[exchange] [coin] withdrawal status".</p>
+        <div class="tip warn"><i class="fas fa-triangle-exclamation"></i> If withdrawals are suspended, do not buy — you cannot complete the trade.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Match the transfer network</h3>
+        <p>Select the <strong>same network</strong> on send and receive sides. Wrong network = lost funds.</p>
+        <p>For USDT: prefer <strong>TRC20</strong> (≈$1, 1 min) over ERC20 (≈$5–30). For SOL: Solana network (sub-$0.01). For BTC: Bitcoin network (30–60 min).</p>
+        <div class="tip"><i class="fas fa-arrow-right-arrow-left"></i> Best for fast arb: SOL, XRP, TRX — finality in seconds, fees under $0.05.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Execute buy → transfer → sell</h3>
+        <p><strong>Buy</strong> on the cheaper exchange (market or limit order). <strong>Withdraw immediately</strong> to your address on the sell exchange. <strong>Sell</strong> as soon as funds arrive.</p>
+        <p>Speed matters — spreads can close. Pre-fund both exchanges if possible to eliminate transfer time entirely.</p>
+        <div class="tip"><i class="fas fa-bolt"></i> Pro move: keep standing balances on both exchanges. Then it's just "buy on A, sell on B simultaneously" — no transfer needed.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h3>Record and review</h3>
+        <p>Log every trade: entry price, exit price, fees, transfer time, net profit. After 5–10 trades, patterns emerge — which pairs, which time of day, which exchanges.</p>
+        <div class="tip"><i class="fas fa-table"></i> Use the profit calculator spreadsheet (included in this pack) to track all trades in one place.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Exchange accounts -->
+  <div class="section-header"><h2>Recommended exchange accounts</h2></div>
+  <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem;">You need accounts on at least two exchanges to arbitrage between them. These are the 6 exchanges tracked by CoinNavigator.</p>
+  <table>
+    <thead><tr><th>Exchange</th><th>Best for</th><th>Spot taker fee</th><th>Sign up</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Binance</strong></td><td>Best liquidity, lowest slippage on majors</td><td>0.10%</td><td><a href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=quickstart&utm_campaign=starter_pack" target="_blank" rel="noopener nofollow" data-track="quickstart_binance">10% rebate →</a></td></tr>
+      <tr><td><strong>MEXC</strong></td><td>Often higher prices on altcoins (sell side)</td><td>0.05%</td><td><a href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=quickstart&utm_campaign=starter_pack" target="_blank" rel="noopener nofollow" data-track="quickstart_mexc">0% maker →</a></td></tr>
+      <tr><td><strong>Bybit</strong></td><td>Reliable, good altcoin depth</td><td>0.10%</td><td><a href="https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=quickstart&utm_campaign=starter_pack" target="_blank" rel="noopener nofollow" data-track="quickstart_bybit">Bonus →</a></td></tr>
+      <tr><td><strong>OKX</strong></td><td>Wide coin selection, low fees</td><td>0.10%</td><td><a href="https://www.okx.com/join/coinnavigator" target="_blank" rel="noopener nofollow" data-track="quickstart_okx">Sign up →</a></td></tr>
+      <tr><td><strong>KuCoin</strong></td><td>Altcoin spreads, small-cap coins</td><td>0.10%</td><td><a href="https://www.kucoin.com/ucenter/signup?utm_source=coinnavigator" target="_blank" rel="noopener nofollow" data-track="quickstart_kucoin">Sign up →</a></td></tr>
+      <tr><td><strong>Gate.io</strong></td><td>Largest altcoin selection</td><td>0.20%</td><td><a href="https://www.gate.io/signup?utm_source=coinnavigator" target="_blank" rel="noopener nofollow" data-track="quickstart_gate">Sign up →</a></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Mistakes -->
+  <div class="section-header"><h2>7 mistakes that cost beginners money</h2></div>
+
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-hourglass"></i></div>
+    <div><h4>Trading on stale data</h4><p>CoinNavigator snapshot is up to 15 min old. Always verify on the live order book before pressing buy.</p></div>
+  </div>
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-network-wired"></i></div>
+    <div><h4>Wrong transfer network</h4><p>Sending ERC20 to a TRC20 address (or vice versa) can result in permanent loss. Triple-check before confirming withdrawal.</p></div>
+  </div>
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-ban"></i></div>
+    <div><h4>Not checking withdrawal status</h4><p>Buying an asset you can't withdraw means you're stuck. Check before buying, every time.</p></div>
+  </div>
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-calculator"></i></div>
+    <div><h4>Ignoring slippage</h4><p>A 0.35% paper spread with 0.20% fees looks profitable. Add 0.10% slippage and you're at break-even. Size orders below 0.5% of 24h volume.</p></div>
+  </div>
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-clock"></i></div>
+    <div><h4>Underestimating transfer time</h4><p>BTC transfers take 30–60 min. Spread can vanish in seconds. Use fast chains (SOL, XRP) or pre-position funds.</p></div>
+  </div>
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-lock"></i></div>
+    <div><h4>Missing KYC on the sell exchange</h4><p>You need full withdrawal access on both exchanges. Incomplete KYC = withdrawal blocked = can't complete the trade.</p></div>
+  </div>
+  <div class="mistake">
+    <div class="mistake-icon"><i class="fas fa-arrow-up-right-dots"></i></div>
+    <div><h4>Scaling too fast</h4><p>Start with $200–500. Learn the process. Mistakes at $200 cost $2. The same mistake at $5,000 costs $50+.</p></div>
+  </div>
+
+  <hr />
+
+  <p style="text-align:center;color:var(--muted);font-size:0.88rem;">
+    See live spreads at <a href="/#dashboard" style="color:#818cf8;font-weight:700;">coinnavigator.net/#dashboard</a> · 
+    Use the <a href="/pro/calculator/" style="color:#818cf8;font-weight:700;">profit calculator</a> to verify before every trade.
+  </p>
+
+  <footer>
+    © 2026 CoinNavigator · Educational content only, not financial advice.
+  </footer>
+</div>
+
+<script src="/assets/js/tracking.js"></script>
+<script>
+  try { initAnalytics(); } catch(_) {}
+  document.querySelectorAll('[data-track]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      try { track(el.getAttribute('data-track'), { page: 'quickstart' }); } catch(_) {}
+    });
+  });
+</script>
+</body>
+</html>
