@@ -1,7 +1,31 @@
 {
-  "timestamp": "2026-06-20T02:12:37.632169Z",
+  "timestamp": "2026-06-21T02:37:29.946554Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
+    {
+      "id": "558966",
+      "slug": "will-ivory-coast-win-the-2026-fifa-world-cup",
+      "question": "Will Ivory Coast win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-ivory-coast-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-ivory-coast-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 7334861.276939015,
+      "volume": 79878763.87629426,
+      "liquidity": 6206210.75774,
+      "yes": 0.0055,
+      "no": 0.9945,
+      "oneDayPriceChange": 0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0055
+        },
+        {
+          "name": "No",
+          "price": 0.9945
+        }
+      ]
+    },
     {
       "id": "558943",
       "slug": "will-usa-win-the-2026-fifa-world-cup-467",
@@ -9,60 +33,36 @@
       "url": "https://polymarket.com/event/world-cup-winner/will-usa-win-the-2026-fifa-world-cup-467",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-usa-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 5254050.8567340085,
-      "volume": 84260769.46004549,
-      "liquidity": 3011564.89832,
-      "yes": 0.0335,
-      "no": 0.9665,
-      "oneDayPriceChange": 0.011,
+      "volume24hr": 5313727.2476589745,
+      "volume": 89598806.39651217,
+      "liquidity": 2645705.47456,
+      "yes": 0.0345,
+      "no": 0.9655,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0335
+          "price": 0.0345
         },
         {
           "name": "No",
-          "price": 0.9665
+          "price": 0.9655
         }
       ]
     },
     {
-      "id": "558945",
-      "slug": "will-mexico-win-the-2026-fifa-world-cup-529",
-      "question": "Will Mexico win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-mexico-win-the-2026-fifa-world-cup-529",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-mexico-flag-20260603-192743.png",
+      "id": "558955",
+      "slug": "will-ecuador-win-the-2026-fifa-world-cup-986",
+      "question": "Will Ecuador win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-ecuador-win-the-2026-fifa-world-cup-986",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-ecuador-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 5224541.897242999,
-      "volume": 77457728.53942539,
-      "liquidity": 6691659.19697,
-      "yes": 0.0145,
-      "no": 0.9855,
-      "oneDayPriceChange": 0.002,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0145
-        },
-        {
-          "name": "No",
-          "price": 0.9855
-        }
-      ]
-    },
-    {
-      "id": "558968",
-      "slug": "will-egypt-win-the-2026-fifa-world-cup",
-      "question": "Will Egypt win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-egypt-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-egypt-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 2993591.072656999,
-      "volume": 68775314.36994277,
-      "liquidity": 7398337.65945,
+      "volume24hr": 4609866.944071001,
+      "volume": 65428961.1252325,
+      "liquidity": 5078093.31024,
       "yes": 0.0015,
       "no": 0.9985,
-      "oneDayPriceChange": -0.001,
+      "oneDayPriceChange": -0.003,
       "outcomes": [
         {
           "name": "Yes",
@@ -75,42 +75,66 @@
       ]
     },
     {
-      "id": "558961",
-      "slug": "will-south-korea-win-the-2026-fifa-world-cup-485",
-      "question": "Will South Korea win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-south-korea-win-the-2026-fifa-world-cup-485",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-south-korea-flag-20260603-192743.png",
+      "id": "558968",
+      "slug": "will-egypt-win-the-2026-fifa-world-cup",
+      "question": "Will Egypt win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-egypt-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-egypt-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 2742134.4262900013,
-      "volume": 85263401.88010247,
-      "liquidity": 7610572.14108,
-      "yes": 0.0035,
-      "no": 0.9965,
-      "oneDayPriceChange": null,
+      "volume24hr": 4500206.596083002,
+      "volume": 73275836.30902562,
+      "liquidity": 10341410.28289,
+      "yes": 0.0025,
+      "no": 0.9975,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0035
+          "price": 0.0025
         },
         {
           "name": "No",
-          "price": 0.9965
+          "price": 0.9975
         }
       ]
     },
     {
-      "id": "558967",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-ghana-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-ghana-flag-20260603-192743.png",
+      "id": "558980",
+      "slug": "will-sweden-win-the-2026-fifa-world-cup",
+      "question": "Will Sweden win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-sweden-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-sweden-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 2187687.7489169994,
-      "volume": 54240699.74135849,
-      "liquidity": 18844631.39115,
+      "volume24hr": 4328639.972579003,
+      "volume": 53754166.411973394,
+      "liquidity": 8653092.37088,
+      "yes": 0.0025,
+      "no": 0.9975,
+      "oneDayPriceChange": -0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0025
+        },
+        {
+          "name": "No",
+          "price": 0.9975
+        }
+      ]
+    },
+    {
+      "id": "558969",
+      "slug": "will-algeria-win-the-2026-fifa-world-cup",
+      "question": "Will Algeria win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-algeria-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-algeria-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 4007363.5400000005,
+      "volume": 67021159.79721537,
+      "liquidity": 14901377.48458,
       "yes": 0.0005,
       "no": 0.9995,
-      "oneDayPriceChange": -0.001,
+      "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
@@ -123,162 +147,42 @@
       ]
     },
     {
-      "id": "558949",
-      "slug": "will-japan-win-the-2026-fifa-world-cup-112",
-      "question": "Will Japan win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-japan-win-the-2026-fifa-world-cup-112",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-japan-flag-20260603-192743.png",
+      "id": "558941",
+      "slug": "will-netherlands-win-the-2026-fifa-world-cup-739",
+      "question": "Will Netherlands win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-netherlands-win-the-2026-fifa-world-cup-739",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-netherlands-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 2158069.61939,
-      "volume": 60694808.602371804,
-      "liquidity": 2646654.20912,
-      "yes": 0.0135,
-      "no": 0.9865,
-      "oneDayPriceChange": -0.003,
+      "volume24hr": 3777495.908785976,
+      "volume": 58284473.099827185,
+      "liquidity": 1878033.94252,
+      "yes": 0.058,
+      "no": 0.942,
+      "oneDayPriceChange": 0.0185,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0135
+          "price": 0.058
         },
         {
           "name": "No",
-          "price": 0.9865
+          "price": 0.942
         }
       ]
     },
     {
-      "id": "558936",
-      "slug": "will-france-win-the-2026-fifa-world-cup-924",
-      "question": "Will France win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-france-win-the-2026-fifa-world-cup-924",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-france-flag-20260603-192743.png",
+      "id": "558956",
+      "slug": "will-paraguay-win-the-2026-fifa-world-cup-967",
+      "question": "Will Paraguay win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-paraguay-win-the-2026-fifa-world-cup-967",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-paraguay-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 2108743.092880002,
-      "volume": 62987756.98846146,
-      "liquidity": 6776765.75168,
-      "yes": 0.1845,
-      "no": 0.8155,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.1845
-        },
-        {
-          "name": "No",
-          "price": 0.8155
-        }
-      ]
-    },
-    {
-      "id": "558937",
-      "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
-      "question": "Will Brazil win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-brazil-win-the-2026-fifa-world-cup-183",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-brazil-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 2108066.199049,
-      "volume": 46354377.97182132,
-      "liquidity": 3570082.15085,
-      "yes": 0.0655,
-      "no": 0.9345,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0655
-        },
-        {
-          "name": "No",
-          "price": 0.9345
-        }
-      ]
-    },
-    {
-      "id": "558952",
-      "slug": "will-canada-win-the-2026-fifa-world-cup-755",
-      "question": "Will Canada win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-canada-win-the-2026-fifa-world-cup-755",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-canada-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1923110.6339440001,
-      "volume": 62968221.72502033,
-      "liquidity": 8064212.36747,
-      "yes": 0.0035,
-      "no": 0.9965,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0035
-        },
-        {
-          "name": "No",
-          "price": 0.9965
-        }
-      ]
-    },
-    {
-      "id": "558963",
-      "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
-      "question": "Will Morocco win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-morocco-win-the-2026-fifa-world-cup-464",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-morocco-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1906123.0009539996,
-      "volume": 62593123.23702191,
-      "liquidity": 1394357.80185,
-      "yes": 0.0265,
-      "no": 0.9735,
-      "oneDayPriceChange": 0.003,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0265
-        },
-        {
-          "name": "No",
-          "price": 0.9735
-        }
-      ]
-    },
-    {
-      "id": "558940",
-      "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
-      "question": "Will Portugal win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-portugal-win-the-2026-fifa-world-cup-912",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-portugal-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1702527.6622099974,
-      "volume": 57291864.6413659,
-      "liquidity": 5558679.56598,
-      "yes": 0.0735,
-      "no": 0.9265,
-      "oneDayPriceChange": -0.004,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0735
-        },
-        {
-          "name": "No",
-          "price": 0.9265
-        }
-      ]
-    },
-    {
-      "id": "558973",
-      "slug": "will-scotland-win-the-2026-fifa-world-cup",
-      "question": "Will Scotland win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-scotland-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-scotland-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1700234.6155149997,
-      "volume": 62268883.02093034,
-      "liquidity": 6621885.90575,
+      "volume24hr": 3493489.416,
+      "volume": 65963457.68998737,
+      "liquidity": 10999183.56525,
       "yes": 0.0015,
       "no": 0.9985,
-      "oneDayPriceChange": -0.001,
+      "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
@@ -291,50 +195,170 @@
       ]
     },
     {
+      "id": "558949",
+      "slug": "will-japan-win-the-2026-fifa-world-cup-112",
+      "question": "Will Japan win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-japan-win-the-2026-fifa-world-cup-112",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-japan-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 3244158.910826007,
+      "volume": 63953617.70462601,
+      "liquidity": 1954752.99315,
+      "yes": 0.0135,
+      "no": 0.9865,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0135
+        },
+        {
+          "name": "No",
+          "price": 0.9865
+        }
+      ]
+    },
+    {
       "id": "558939",
       "slug": "will-germany-win-the-2026-fifa-world-cup-467",
       "question": "Will Germany win the 2026 FIFA World Cup?",
       "url": "https://polymarket.com/event/world-cup-winner/will-germany-win-the-2026-fifa-world-cup-467",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-germany-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1555267.7151490033,
-      "volume": 55588890.53920095,
-      "liquidity": 5673770.47383,
-      "yes": 0.0605,
-      "no": 0.9395,
-      "oneDayPriceChange": 0.002,
+      "volume24hr": 3125407.664392003,
+      "volume": 58796247.50936001,
+      "liquidity": 3114539.3893,
+      "yes": 0.0535,
+      "no": 0.9465,
+      "oneDayPriceChange": -0.008,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0605
+          "price": 0.0535
         },
         {
           "name": "No",
-          "price": 0.9395
+          "price": 0.9465
         }
       ]
     },
     {
-      "id": "558966",
-      "slug": "will-ivory-coast-win-the-2026-fifa-world-cup",
-      "question": "Will Ivory Coast win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-ivory-coast-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-ivory-coast-flag-20260603-192743.png",
+      "id": "558947",
+      "slug": "will-colombia-win-the-2026-fifa-world-cup-734",
+      "question": "Will Colombia win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-colombia-win-the-2026-fifa-world-cup-734",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-colombia-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1415350.882,
-      "volume": 72543824.96910527,
-      "liquidity": 9928229.36944,
-      "yes": 0.0045,
-      "no": 0.9955,
+      "volume24hr": 2559811.970944001,
+      "volume": 60098977.49448192,
+      "liquidity": 5536917.52659,
+      "yes": 0.0145,
+      "no": 0.9855,
+      "oneDayPriceChange": -0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0145
+        },
+        {
+          "name": "No",
+          "price": 0.9855
+        }
+      ]
+    },
+    {
+      "id": "558967",
+      "slug": "will-ghana-win-the-2026-fifa-world-cup",
+      "question": "Will Ghana win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-ghana-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-ghana-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 2346225.08,
+      "volume": 56587003.00135844,
+      "liquidity": 18358282.49979,
+      "yes": 0.0005,
+      "no": 0.9995,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0045
+          "price": 0.0005
         },
         {
           "name": "No",
-          "price": 0.9955
+          "price": 0.9995
+        }
+      ]
+    },
+    {
+      "id": "558936",
+      "slug": "will-france-win-the-2026-fifa-world-cup-924",
+      "question": "Will France win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-france-win-the-2026-fifa-world-cup-924",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-france-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 2170800.1243820065,
+      "volume": 65165810.33697333,
+      "liquidity": 7420052.37198,
+      "yes": 0.1975,
+      "no": 0.8025,
+      "oneDayPriceChange": 0.013,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.1975
+        },
+        {
+          "name": "No",
+          "price": 0.8025
+        }
+      ]
+    },
+    {
+      "id": "558935",
+      "slug": "will-england-win-the-2026-fifa-world-cup-937",
+      "question": "Will England win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-england-win-the-2026-fifa-world-cup-937",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-england-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 1979022.9359979965,
+      "volume": 49443224.790167354,
+      "liquidity": 7328028.64466,
+      "yes": 0.1255,
+      "no": 0.8745,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.1255
+        },
+        {
+          "name": "No",
+          "price": 0.8745
+        }
+      ]
+    },
+    {
+      "id": "558945",
+      "slug": "will-mexico-win-the-2026-fifa-world-cup-529",
+      "question": "Will Mexico win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-mexico-win-the-2026-fifa-world-cup-529",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-mexico-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 1781523.5055699993,
+      "volume": 79239577.61244242,
+      "liquidity": 8472424.36941,
+      "yes": 0.0125,
+      "no": 0.9875,
+      "oneDayPriceChange": -0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0125
+        },
+        {
+          "name": "No",
+          "price": 0.9875
         }
       ]
     },
@@ -345,9 +369,9 @@
       "url": "https://polymarket.com/event/world-cup-winner/will-belgium-win-the-2026-fifa-world-cup-358",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-belgium-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1363124.0023080003,
-      "volume": 58994533.23501867,
-      "liquidity": 5434421.49633,
+      "volume24hr": 1721620.5426439997,
+      "volume": 60716400.78766265,
+      "liquidity": 5273266.92917,
       "yes": 0.0155,
       "no": 0.9845,
       "oneDayPriceChange": null,
@@ -363,74 +387,98 @@
       ]
     },
     {
-      "id": "558956",
-      "slug": "will-paraguay-win-the-2026-fifa-world-cup-967",
-      "question": "Will Paraguay win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-paraguay-win-the-2026-fifa-world-cup-967",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-paraguay-flag-20260603-192743.png",
+      "id": "558944",
+      "slug": "will-uruguay-win-the-2026-fifa-world-cup-932",
+      "question": "Will Uruguay win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-uruguay-win-the-2026-fifa-world-cup-932",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-uruguay-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1329105.4239999999,
-      "volume": 62469912.92098737,
-      "liquidity": 13750276.71278,
-      "yes": 0.0015,
-      "no": 0.9985,
+      "volume24hr": 1713788.9187800002,
+      "volume": 61957030.001803376,
+      "liquidity": 11234347.07623,
+      "yes": 0.0055,
+      "no": 0.9945,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0015
+          "price": 0.0055
         },
         {
           "name": "No",
-          "price": 0.9985
+          "price": 0.9945
         }
       ]
     },
     {
-      "id": "558935",
-      "slug": "will-england-win-the-2026-fifa-world-cup-937",
-      "question": "Will England win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-england-win-the-2026-fifa-world-cup-937",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-england-flag-20260603-192743.png",
+      "id": "558974",
+      "slug": "will-switzerland-win-the-2026-fifa-world-cup",
+      "question": "Will Switzerland win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-switzerland-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-switzerland-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1327952.933076001,
-      "volume": 47458942.44845916,
-      "liquidity": 6767855.72886,
-      "yes": 0.1255,
-      "no": 0.8745,
-      "oneDayPriceChange": -0.003,
+      "volume24hr": 1597290.5618559995,
+      "volume": 59554293.046613365,
+      "liquidity": 4179620.36347,
+      "yes": 0.0065,
+      "no": 0.9935,
+      "oneDayPriceChange": -0.002,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.1255
+          "price": 0.0065
         },
         {
           "name": "No",
-          "price": 0.8745
+          "price": 0.9935
         }
       ]
     },
     {
-      "id": "558985",
-      "slug": "will-turkiye-win-the-2026-fifa-world-cup",
-      "question": "Will Turkiye win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-turkiye-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-turkiye-flag-20260603-192743.png",
+      "id": "558937",
+      "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
+      "question": "Will Brazil win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-brazil-win-the-2026-fifa-world-cup-183",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-brazil-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1261036.9724999997,
-      "volume": 58707709.95959024,
-      "liquidity": 7203647.18968,
-      "yes": 0.0045,
-      "no": 0.9955,
+      "volume24hr": 1559031.098787996,
+      "volume": 48016364.05304294,
+      "liquidity": 7100076.27005,
+      "yes": 0.0595,
+      "no": 0.9405,
+      "oneDayPriceChange": -0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0595
+        },
+        {
+          "name": "No",
+          "price": 0.9405
+        }
+      ]
+    },
+    {
+      "id": "558952",
+      "slug": "will-canada-win-the-2026-fifa-world-cup-755",
+      "question": "Will Canada win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-canada-win-the-2026-fifa-world-cup-755",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-canada-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 1502858.0796299998,
+      "volume": 64478917.91465035,
+      "liquidity": 8949466.55915,
+      "yes": 0.0035,
+      "no": 0.9965,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0045
+          "price": 0.0035
         },
         {
           "name": "No",
-          "price": 0.9955
+          "price": 0.9965
         }
       ]
     },
@@ -441,9 +489,9 @@
       "url": "https://polymarket.com/event/world-cup-winner/will-croatia-win-the-2026-fifa-world-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-croatia-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1248275.167522,
-      "volume": 64574740.62123366,
-      "liquidity": 4385308.23934,
+      "volume24hr": 1455221.8975720003,
+      "volume": 66031725.67130468,
+      "liquidity": 4872931.9359,
       "yes": 0.0065,
       "no": 0.9935,
       "oneDayPriceChange": null,
@@ -459,111 +507,15 @@
       ]
     },
     {
-      "id": "558981",
-      "slug": "will-congo-dr-win-the-2026-fifa-world-cup",
-      "question": "Will Congo DR win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-congo-dr-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-congo-dr-flag-20260603-192743.png",
+      "id": "558970",
+      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
+      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-cape-verde-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-cape-verde-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1242570.063,
-      "volume": 77032519.1090717,
-      "liquidity": 22130505.50152,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "558951",
-      "slug": "will-norway-win-the-2026-fifa-world-cup-893",
-      "question": "Will Norway win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-norway-win-the-2026-fifa-world-cup-893",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-norway-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1163102.346268,
-      "volume": 56484720.51485984,
-      "liquidity": 3544440.07686,
-      "yes": 0.0245,
-      "no": 0.9755,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0245
-        },
-        {
-          "name": "No",
-          "price": 0.9755
-        }
-      ]
-    },
-    {
-      "id": "558974",
-      "slug": "will-switzerland-win-the-2026-fifa-world-cup",
-      "question": "Will Switzerland win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-switzerland-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-switzerland-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1080357.0678179995,
-      "volume": 57956287.52475739,
-      "liquidity": 4347426.39672,
-      "yes": 0.0085,
-      "no": 0.9915,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0085
-        },
-        {
-          "name": "No",
-          "price": 0.9915
-        }
-      ]
-    },
-    {
-      "id": "558980",
-      "slug": "will-sweden-win-the-2026-fifa-world-cup",
-      "question": "Will Sweden win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-sweden-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-sweden-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1062088.9165589996,
-      "volume": 49419149.72664445,
-      "liquidity": 11265590.10114,
-      "yes": 0.0045,
-      "no": 0.9955,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0045
-        },
-        {
-          "name": "No",
-          "price": 0.9955
-        }
-      ]
-    },
-    {
-      "id": "558959",
-      "slug": "will-iran-win-the-2026-fifa-world-cup-788",
-      "question": "Will Iran win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-iran-win-the-2026-fifa-world-cup-788",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-iran-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1041407.05,
-      "volume": 57360496.2767898,
-      "liquidity": 16443928.96099,
+      "volume24hr": 1370803.0000000002,
+      "volume": 50517119.237164065,
+      "liquidity": 20127159.47533,
       "yes": 0.0005,
       "no": 0.9995,
       "oneDayPriceChange": null,
@@ -579,135 +531,15 @@
       ]
     },
     {
-      "id": "558965",
-      "slug": "will-senegal-win-the-2026-fifa-world-cup",
-      "question": "Will Senegal win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-senegal-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-senegal-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 1002983.9801589999,
-      "volume": 54447353.484063014,
-      "liquidity": 8773670.62355,
-      "yes": 0.0055,
-      "no": 0.9945,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0055
-        },
-        {
-          "name": "No",
-          "price": 0.9945
-        }
-      ]
-    },
-    {
-      "id": "558941",
-      "slug": "will-netherlands-win-the-2026-fifa-world-cup-739",
-      "question": "Will Netherlands win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-netherlands-win-the-2026-fifa-world-cup-739",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-netherlands-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 985941.8122589997,
-      "volume": 54497405.00104058,
-      "liquidity": 2929358.79184,
-      "yes": 0.0395,
-      "no": 0.9605,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0395
-        },
-        {
-          "name": "No",
-          "price": 0.9605
-        }
-      ]
-    },
-    {
-      "id": "558958",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-australia-win-the-2026-fifa-world-cup-816",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-australia-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 801229.292986,
-      "volume": 70048364.93064243,
-      "liquidity": 15789665.80087,
-      "yes": 0.0035,
-      "no": 0.9965,
-      "oneDayPriceChange": -0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0035
-        },
-        {
-          "name": "No",
-          "price": 0.9965
-        }
-      ]
-    },
-    {
-      "id": "558955",
-      "slug": "will-ecuador-win-the-2026-fifa-world-cup-986",
-      "question": "Will Ecuador win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-ecuador-win-the-2026-fifa-world-cup-986",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-ecuador-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 752666.3742499996,
-      "volume": 60805648.13916151,
-      "liquidity": 8180351.57107,
-      "yes": 0.0045,
-      "no": 0.9955,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0045
-        },
-        {
-          "name": "No",
-          "price": 0.9955
-        }
-      ]
-    },
-    {
-      "id": "558944",
-      "slug": "will-uruguay-win-the-2026-fifa-world-cup-932",
-      "question": "Will Uruguay win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-uruguay-win-the-2026-fifa-world-cup-932",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-uruguay-flag-20260603-192743.png",
-      "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 729891.755452,
-      "volume": 60232625.41962332,
-      "liquidity": 12052845.72159,
-      "yes": 0.0055,
-      "no": 0.9945,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0055
-        },
-        {
-          "name": "No",
-          "price": 0.9945
-        }
-      ]
-    },
-    {
       "id": "558938",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "url": "https://polymarket.com/event/world-cup-winner/will-argentina-win-the-2026-fifa-world-cup-245",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-argentina-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 548489.1048830006,
-      "volume": 61253016.835225366,
-      "liquidity": 7522342.80749,
+      "volume24hr": 1317542.3928229986,
+      "volume": 62575598.371938035,
+      "liquidity": 8180238.69377,
       "yes": 0.1175,
       "no": 0.8825,
       "oneDayPriceChange": null,
@@ -723,98 +555,98 @@
       ]
     },
     {
-      "id": "558969",
-      "slug": "will-algeria-win-the-2026-fifa-world-cup",
-      "question": "Will Algeria win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-algeria-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-algeria-flag-20260603-192743.png",
+      "id": "558940",
+      "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
+      "question": "Will Portugal win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-portugal-win-the-2026-fifa-world-cup-912",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-portugal-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 528928.075,
-      "volume": 63012787.25721535,
-      "liquidity": 14498518.02627,
-      "yes": 0.0005,
-      "no": 0.9995,
-      "oneDayPriceChange": -0.001,
+      "volume24hr": 1221297.7768210033,
+      "volume": 58521262.79142363,
+      "liquidity": 6335093.68782,
+      "yes": 0.0715,
+      "no": 0.9285,
+      "oneDayPriceChange": -0.002,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0005
+          "price": 0.0715
         },
         {
           "name": "No",
-          "price": 0.9995
+          "price": 0.9285
         }
       ]
     },
     {
-      "id": "558947",
-      "slug": "will-colombia-win-the-2026-fifa-world-cup-734",
-      "question": "Will Colombia win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-colombia-win-the-2026-fifa-world-cup-734",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-colombia-flag-20260603-192743.png",
+      "id": "558963",
+      "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
+      "question": "Will Morocco win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-morocco-win-the-2026-fifa-world-cup-464",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-morocco-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 483185.77123699983,
-      "volume": 57535742.48471491,
-      "liquidity": 4602637.39125,
-      "yes": 0.0165,
-      "no": 0.9835,
-      "oneDayPriceChange": null,
+      "volume24hr": 1172524.960945001,
+      "volume": 63766664.745427996,
+      "liquidity": 1840903.87334,
+      "yes": 0.0225,
+      "no": 0.9775,
+      "oneDayPriceChange": -0.004,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0165
+          "price": 0.0225
         },
         {
           "name": "No",
-          "price": 0.9835
+          "price": 0.9775
         }
       ]
     },
     {
-      "id": "558977",
-      "slug": "will-haiti-win-the-2026-fifa-world-cup",
-      "question": "Will Haiti win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-haiti-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-haiti-flag-20260603-192743.png",
+      "id": "558951",
+      "slug": "will-norway-win-the-2026-fifa-world-cup-893",
+      "question": "Will Norway win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-norway-win-the-2026-fifa-world-cup-893",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-norway-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 430920.0,
-      "volume": 33265911.54182009,
-      "liquidity": 26583691.62959,
-      "yes": 0.0005,
-      "no": 0.9995,
+      "volume24hr": 1121747.4509790014,
+      "volume": 57614696.155838825,
+      "liquidity": 3821715.21755,
+      "yes": 0.0245,
+      "no": 0.9755,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0005
+          "price": 0.0245
         },
         {
           "name": "No",
-          "price": 0.9995
+          "price": 0.9755
         }
       ]
     },
     {
-      "id": "558970",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "url": "https://polymarket.com/event/world-cup-winner/will-cape-verde-win-the-2026-fifa-world-cup",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-cape-verde-flag-20260603-192743.png",
+      "id": "558961",
+      "slug": "will-south-korea-win-the-2026-fifa-world-cup-485",
+      "question": "Will South Korea win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-south-korea-win-the-2026-fifa-world-cup-485",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-south-korea-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 408771.78,
-      "volume": 49146316.23716406,
-      "liquidity": 20736954.32097,
-      "yes": 0.0005,
-      "no": 0.9995,
+      "volume24hr": 1111773.442639,
+      "volume": 86405552.03773953,
+      "liquidity": 7570574.66425,
+      "yes": 0.0035,
+      "no": 0.9965,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0005
+          "price": 0.0035
         },
         {
           "name": "No",
-          "price": 0.9995
+          "price": 0.9965
         }
       ]
     },
@@ -825,20 +657,44 @@
       "url": "https://polymarket.com/event/world-cup-winner/will-austria-win-the-2026-fifa-world-cup",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-austria-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 376011.92125,
-      "volume": 60439519.74407626,
-      "liquidity": 6419575.6718,
-      "yes": 0.0045,
-      "no": 0.9955,
+      "volume24hr": 1088229.899247,
+      "volume": 61528226.085573256,
+      "liquidity": 6704026.4527,
+      "yes": 0.0035,
+      "no": 0.9965,
+      "oneDayPriceChange": -0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0035
+        },
+        {
+          "name": "No",
+          "price": 0.9965
+        }
+      ]
+    },
+    {
+      "id": "558973",
+      "slug": "will-scotland-win-the-2026-fifa-world-cup",
+      "question": "Will Scotland win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-scotland-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-scotland-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 961150.858,
+      "volume": 63231202.097930364,
+      "liquidity": 14929061.84995,
+      "yes": 0.0015,
+      "no": 0.9985,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0045
+          "price": 0.0015
         },
         {
           "name": "No",
-          "price": 0.9955
+          "price": 0.9985
         }
       ]
     },
@@ -849,9 +705,9 @@
       "url": "https://polymarket.com/event/world-cup-winner/will-spain-win-the-2026-fifa-world-cup-963",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-spain-flag-20260603-192743.png",
       "endDate": "2026-07-20T00:00:00Z",
-      "volume24hr": 346272.8662369999,
-      "volume": 54069651.794492766,
-      "liquidity": 8983069.50671,
+      "volume24hr": 853753.7505500002,
+      "volume": 54926732.30606563,
+      "liquidity": 9763179.20962,
       "yes": 0.1365,
       "no": 0.8635,
       "oneDayPriceChange": null,
@@ -863,6 +719,150 @@
         {
           "name": "No",
           "price": 0.8635
+        }
+      ]
+    },
+    {
+      "id": "558981",
+      "slug": "will-congo-dr-win-the-2026-fifa-world-cup",
+      "question": "Will Congo DR win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-congo-dr-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-congo-dr-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 798714.594,
+      "volume": 77831621.9180717,
+      "liquidity": 22406405.88771,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "558959",
+      "slug": "will-iran-win-the-2026-fifa-world-cup-788",
+      "question": "Will Iran win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-iran-win-the-2026-fifa-world-cup-788",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-iran-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 681283.59,
+      "volume": 58041779.8667898,
+      "liquidity": 16672545.97197,
+      "yes": 0.0005,
+      "no": 0.9995,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0005
+        },
+        {
+          "name": "No",
+          "price": 0.9995
+        }
+      ]
+    },
+    {
+      "id": "558958",
+      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
+      "question": "Will Australia win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-australia-win-the-2026-fifa-world-cup-816",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-australia-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 648157.84015,
+      "volume": 70696619.73079035,
+      "liquidity": 17103087.97461,
+      "yes": 0.0025,
+      "no": 0.9975,
+      "oneDayPriceChange": -0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0025
+        },
+        {
+          "name": "No",
+          "price": 0.9975
+        }
+      ]
+    },
+    {
+      "id": "558965",
+      "slug": "will-senegal-win-the-2026-fifa-world-cup",
+      "question": "Will Senegal win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-senegal-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-senegal-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 554892.2729219999,
+      "volume": 55002462.59038504,
+      "liquidity": 9028995.36837,
+      "yes": 0.0055,
+      "no": 0.9945,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0055
+        },
+        {
+          "name": "No",
+          "price": 0.9945
+        }
+      ]
+    },
+    {
+      "id": "558983",
+      "slug": "will-bosnia-herzegovina-win-the-2026-fifa-world-cup",
+      "question": "Will Bosnia-Herzegovina win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-bosnia-herzegovina-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-bosnia-herzegovina-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 501880.06999999995,
+      "volume": 46693957.57571778,
+      "liquidity": 11140749.27236,
+      "yes": 0.0005,
+      "no": 0.9995,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0005
+        },
+        {
+          "name": "No",
+          "price": 0.9995
+        }
+      ]
+    },
+    {
+      "id": "558984",
+      "slug": "will-czechia-win-the-2026-fifa-world-cup",
+      "question": "Will Czechia win the 2026 FIFA World Cup?",
+      "url": "https://polymarket.com/event/world-cup-winner/will-czechia-win-the-2026-fifa-world-cup",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/world-cup-winner-czechia-flag-20260603-192743.png",
+      "endDate": "2026-07-20T00:00:00Z",
+      "volume24hr": 187564.22,
+      "volume": 57373387.343015656,
+      "liquidity": 15618111.87958,
+      "yes": 0.0005,
+      "no": 0.9995,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0005
+        },
+        {
+          "name": "No",
+          "price": 0.9995
         }
       ]
     }
