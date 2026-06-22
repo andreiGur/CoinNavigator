@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
   <script src="/assets/js/affiliate-links.js"></script>
+  <script src="/assets/js/site-analytics-boot.js" defer></script>
   <style>
     :root { --bg:#0b0f1a; --card:#131929; --text:#f0f2f8; --muted:#7a869a; --primary:#6366f1; --green:#10b981; --border:#2d334a; --gold:#fbbf24; --red:#ef4444; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -276,31 +277,51 @@
   function fmt2(n) { return (n >= 0 ? '+' : '') + n.toFixed(2); }
 
   function render(data) {
-    // data is the JSON object with exchange price maps
-    // Build rows: [{coin, buyEx, sellEx, spread}]
+    // data shape: { timestamp, symbols: { "BTCUSDT": { prices:{}, spread_percent, best_buy:{}, best_sell:{} }, ... } }
+    var symbols = (data && data.symbols) ? data.symbols : data; // fallback for flat shape
     var rows = [];
-    var coins = Object.keys(data);
-    coins.forEach(function(coin) {
-      var prices = data[coin];
-      var exNames = Object.keys(prices);
-      if (exNames.length < 2) return;
-      var best = null;
-      for (var i = 0; i < exNames.length; i++) {
-        for (var j = 0; j < exNames.length; j++) {
-          if (i === j) continue;
-          var buyEx = exNames[i];
-          var sellEx = exNames[j];
-          var buyP = parseFloat(prices[buyEx]);
-          var sellP = parseFloat(prices[sellEx]);
-          if (!buyP || !sellP || buyP >= sellP) continue;
-          var spread = (sellP - buyP) / buyP * 100;
-          if (!best || spread > best.spread) {
-            best = { coin: coin, buyEx: buyEx, sellEx: sellEx, buyP: buyP, sellP: sellP, spread: spread };
+
+    Object.keys(symbols).forEach(function(sym) {
+      var info = symbols[sym];
+      if (!info) return;
+
+      // Prefer precomputed best_buy / best_sell from the server
+      var buyEx   = info.best_buy  && info.best_buy.exchange  ? info.best_buy.exchange  : null;
+      var sellEx  = info.best_sell && info.best_sell.exchange ? info.best_sell.exchange : null;
+      var buyP    = info.best_buy  && info.best_buy.price     ? info.best_buy.price     : null;
+      var sellP   = info.best_sell && info.best_sell.price    ? info.best_sell.price    : null;
+      // spread_percent is a raw decimal (e.g. 0.00354 = 0.354%)
+      var spreadPct = typeof info.spread_percent === 'number' ? info.spread_percent * 100 : null;
+
+      // Fallback: compute from prices map if precomputed values missing
+      if (!buyEx || !sellEx || !buyP || !sellP || spreadPct === null) {
+        var prices = info.prices || info;
+        var exNames = Object.keys(prices).filter(function(k) { return typeof prices[k] === 'number'; });
+        if (exNames.length < 2) return;
+        var bestComputed = null;
+        for (var i = 0; i < exNames.length; i++) {
+          for (var j = 0; j < exNames.length; j++) {
+            if (i === j) continue;
+            var bEx = exNames[i], sEx = exNames[j];
+            var bP = prices[bEx], sP = prices[sEx];
+            if (!bP || !sP || bP >= sP) continue;
+            var sp = (sP - bP) / bP * 100;
+            if (!bestComputed || sp > bestComputed.spread) {
+              bestComputed = { buyEx: bEx, sellEx: sEx, buyP: bP, sellP: sP, spread: sp };
+            }
           }
         }
+        if (!bestComputed) return;
+        buyEx = bestComputed.buyEx; sellEx = bestComputed.sellEx;
+        buyP  = bestComputed.buyP;  sellP  = bestComputed.sellP;
+        spreadPct = bestComputed.spread;
       }
-      if (best) rows.push(best);
+
+      // Strip "USDT" suffix for display coin name
+      var coin = sym.replace(/USDT$/i, '');
+      rows.push({ sym: sym, coin: coin, buyEx: buyEx, sellEx: sellEx, buyP: buyP, sellP: sellP, spread: spreadPct });
     });
+
     rows.sort(function(a, b) { return b.spread - a.spread; });
 
     if (!rows.length) {
@@ -323,9 +344,15 @@
     sEl.className = 'opp-spread ' + spreadClass(r.spread);
 
     var net1k = (r.spread / 100 - FEES) * 1000;
+    function fmtPrice(p) {
+      if (p >= 1000) return '$' + p.toLocaleString('en-US', { maximumFractionDigits: 2 });
+      if (p >= 1)    return '$' + p.toFixed(4);
+      return '$' + p.toFixed(6);
+    }
+
     document.getElementById('opp-meta').innerHTML =
-      'Buy on <strong>' + r.buyEx + '</strong> at $' + r.buyP.toFixed(4) +
-      ' — sell on <strong>' + r.sellEx + '</strong> at $' + r.sellP.toFixed(4) +
+      'Buy on <strong>' + r.buyEx + '</strong> at ' + fmtPrice(r.buyP) +
+      ' — sell on <strong>' + r.sellEx + '</strong> at ' + fmtPrice(r.sellP) +
       '. Est. net on $1,000: <strong style="color:' + (net1k > 0 ? 'var(--green)' : 'var(--red)') + '">' + fmt2(net1k) + '</strong>';
 
     // Exchange cards
@@ -333,13 +360,13 @@
     buyName.textContent = r.buyEx;
     buyName.className = 'ex-name';
     buyName.style.height = buyName.style.width = '';
-    document.getElementById('buy-price').textContent = '$' + r.buyP.toFixed(4);
+    document.getElementById('buy-price').textContent = fmtPrice(r.buyP);
 
     var sellName = document.getElementById('sell-name');
     sellName.textContent = r.sellEx;
     sellName.className = 'ex-name';
     sellName.style.height = sellName.style.width = '';
-    document.getElementById('sell-price').textContent = '$' + r.sellP.toFixed(4);
+    document.getElementById('sell-price').textContent = fmtPrice(r.sellP);
 
     var buyBtn = document.getElementById('buy-cta');
     buyBtn.href = affUrl(r.buyEx);
@@ -395,7 +422,8 @@
 
   fetchData().then(render).catch(function(err) {
     document.getElementById('opp-coin').textContent = 'Unable to load live data. Please refresh.';
-    console.error(err);
+    var tbody = document.getElementById('all-body');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Could not load data — please refresh the page.</td></tr>';
   });
 })();
 </script>

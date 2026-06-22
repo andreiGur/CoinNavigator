@@ -562,7 +562,9 @@
                                 <span><i class="fas fa-chart-line"></i> 24h price (USD)</span>
                                 <span class="muted" data-spark-status="${symbol}">Open “Prices” to load chart</span>
                             </div>
-                            <canvas class="spark-canvas" data-spark="${symbol}" height="70"></canvas>
+                            <div class="spark-canvas-wrap">
+                                <canvas class="spark-canvas" data-spark="${symbol}"></canvas>
+                            </div>
                         </div>
                     </div>
                 </td>`;
@@ -745,25 +747,32 @@
         }
 
         async function ensureSparkline(symbol, ticker, detailsRowEl) {
+            // Defer by one frame so the row is visible and the browser has
+            // computed layout dimensions before Chart.js tries to size itself.
+            await new Promise(resolve => setTimeout(resolve, 0));
             try {
+                const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
                 if (SPARK_CHARTS.has(symbol)) {
-                    const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
                     if (status) status.textContent = 'Loaded';
                     return;
                 }
                 if (!window.Chart) {
-                    const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
                     if (status) status.textContent = 'Chart.js not available';
                     return;
                 }
                 const cgId = COINGECKO_IDS[ticker];
-                const status = detailsRowEl.querySelector(`[data-spark-status="${symbol}"]`);
                 if (!cgId) {
                     if (status) status.textContent = 'No chart source yet';
                     return;
                 }
                 const canvas = detailsRowEl.querySelector(`canvas[data-spark="${symbol}"]`);
                 if (!canvas) return;
+                // Explicitly size the canvas to its wrapper to avoid Chart.js
+                // runaway-resize inside a fixed-layout table cell.
+                const wrap = canvas.closest('.spark-canvas-wrap') || canvas.parentElement;
+                const wrapW = wrap ? wrap.offsetWidth : 600;
+                canvas.width  = wrapW;
+                canvas.height = 70;
                 const pts = await fetchCoinGecko1d(cgId);
                 const ys = pts.map(p => p && typeof p[1] === 'number' ? p[1] : null).filter(v => v != null);
                 if (!ys.length) {
@@ -787,7 +796,7 @@
                         }],
                     },
                     options: {
-                        responsive: true,
+                        responsive: false,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false }, tooltip: { enabled: false } },
                         scales: { x: { display: false }, y: { display: false } },
@@ -804,12 +813,10 @@
 
         async function updateDashboard() {
             try {
-                console.log('Fetching data...');
                 let data = await global.fetchJsonWithFallback();
                 const forceLive = !!global._forceLiveSpreadRefresh;
                 global._forceLiveSpreadRefresh = false;
                 data = await maybeEnrichWithLivePrices(data, forceLive);
-                console.log('Data received:', data);
 
                 LAST_SPREAD_DATA = data;
                 recordHistorySnapshot(data);
