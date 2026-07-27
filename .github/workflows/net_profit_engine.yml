@@ -1,0 +1,35 @@
+name: Net profit engine
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/net-profit/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'tsup.config.ts'
+      - 'vitest.config.ts'
+      - '.github/workflows/net_profit_engine.yml'
+  pull_request:
+    paths:
+      - 'src/net-profit/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'tsup.config.ts'
+      - 'vitest.config.ts'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Typecheck, test, build
+        run: npm run check

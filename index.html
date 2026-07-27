@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoinNavigator — Real-Time Crypto Arbitrage | 2026</title>
-    <meta name="description" content="Track live crypto arbitrage spreads across Binance, MEXC, Bybit, OKX, KuCoin and Gate.io — 20 coins, updated every 15 minutes. Free profit calculator, email alerts, and beginner guides. No login required." />
+    <title>CoinNavigator — Crypto Arbitrage After Real Costs | 2026</title>
+    <meta name="description" content="Compare crypto exchange prices and estimate trading fees, withdrawal costs and slippage before deciding whether a spread may be worth executing. Updated about every 15 minutes." />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#0b0f1a" />
 
@@ -12,8 +12,8 @@
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <meta property="og:site_name" content="CoinNavigator" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="CoinNavigator | Crypto Arbitrage Opportunities in Real Time" />
-    <meta property="og:description" content="Compare crypto prices across top exchanges, learn how arbitrage works, and choose the right exchange with trustworthy, transparent recommendations." />
+    <meta property="og:title" content="CoinNavigator | Crypto Arbitrage Opportunities, Calculated After Costs" />
+    <meta property="og:description" content="Compare exchange prices and estimate fees, withdrawal costs and slippage before deciding whether a spread may be worth executing." />
     <meta property="og:url" content="https://coinnavigator.net/" />
     <meta property="og:image" content="https://coinnavigator.net/og-image.svg" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -698,8 +698,10 @@
         .btn-mini-calc { background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
         .btn-mini-calc:hover { background: rgba(251,191,36,0.2); }
 
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
-        .calc-label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: var(--text-muted); }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.75rem; }
+        .calc-label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.78rem; color: var(--text-muted); font-weight: 700; }
+        .calc-label-full { grid-column: 1 / -1; }
+        .calc-hint { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); opacity: 0.9; line-height: 1.35; }
         .calc-input {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
             border-radius: 8px; color: var(--text); padding: 0.5rem 0.7rem;
@@ -715,6 +717,90 @@
         .calc-result.loss { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); }
         .calc-profit { font-size: 1.25rem; font-weight: 700; color: #34d399; }
         .calc-profit.neg { color: #f87171; }
+
+        #calc-modal .modal-card { max-width: min(560px, calc(100vw - 1.5rem)); width: 100%; }
+        .calc-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.4; }
+        .calc-price-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+        .calc-warn-banner {
+            background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.28);
+            color: #fde68a; border-radius: 10px; padding: 0.65rem 0.8rem; font-size: 0.78rem;
+            margin-bottom: 0.75rem; line-height: 1.4;
+        }
+        .calc-form-error {
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5; border-radius: 10px; padding: 0.65rem 0.8rem; font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+        .calc-form-error ul { margin: 0; padding-left: 1.1rem; }
+        .calc-advanced {
+            margin: 0.5rem 0 0.85rem; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 0.55rem 0.75rem; background: rgba(255,255,255,0.02);
+        }
+        .calc-advanced > summary {
+            cursor: pointer; font-weight: 800; font-size: 0.8rem; color: var(--text-main);
+            list-style: none; display: flex; align-items: center; gap: 0.4rem;
+        }
+        .calc-advanced > summary::-webkit-details-marker { display: none; }
+        .calc-advanced[open] > summary { margin-bottom: 0.75rem; }
+        .calc-result-panel {
+            border-radius: 14px; padding: 1rem; margin-top: 0.25rem;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
+        }
+        .calc-result-panel.verdict-profitable { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.06); }
+        .calc-result-panel.verdict-marginal { border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.06); }
+        .calc-result-panel.verdict-not_profitable { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05); }
+        .calc-result-panel.verdict-invalid { border-color: rgba(148,163,184,0.3); }
+        .calc-verdict-badge {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 0.3rem 0.65rem; border-radius: 999px; margin-bottom: 0.75rem;
+            background: rgba(255,255,255,0.06); color: var(--text-muted);
+        }
+        .calc-verdict-badge[data-verdict="profitable"] { background: rgba(16,185,129,0.15); color: #34d399; }
+        .calc-verdict-badge[data-verdict="marginal"] { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .calc-verdict-badge[data-verdict="not_profitable"] { background: rgba(239,68,68,0.12); color: #f87171; }
+        .calc-metrics {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem 0.85rem;
+            font-size: 0.8rem; margin-bottom: 0.75rem;
+        }
+        .calc-metric-label { color: var(--text-muted); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .calc-metric-value { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: var(--text-main); font-size: 0.92rem; }
+        .calc-metric-value.net-pos { color: #34d399; }
+        .calc-metric-value.net-neg { color: #f87171; }
+        .calc-disclaimer { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; margin: 0.5rem 0 0.75rem; }
+        .calc-warnings { display: grid; gap: 0.4rem; margin-bottom: 0.75rem; }
+        .calc-warn-item {
+            font-size: 0.75rem; color: #fde68a; background: rgba(251,191,36,0.07);
+            border: 1px solid rgba(251,191,36,0.2); border-radius: 8px; padding: 0.45rem 0.6rem;
+            display: flex; gap: 0.45rem; align-items: flex-start; line-height: 1.35;
+        }
+        .calc-breakdown {
+            margin-top: 0.35rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.55rem;
+        }
+        .calc-breakdown > summary {
+            cursor: pointer; font-size: 0.78rem; font-weight: 800; color: var(--text-muted);
+            list-style: none;
+        }
+        .calc-breakdown > summary::-webkit-details-marker { display: none; }
+        .calc-bk-row {
+            display: flex; justify-content: space-between; gap: 0.75rem;
+            font-size: 0.78rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .calc-bk-row span:first-child { color: var(--text-muted); font-family: inherit; font-weight: 600; }
+        .calc-aff-actions { margin-top: 0.85rem; }
+        .calc-aff-label { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.45rem; }
+        .calc-aff-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .calc-aff-btn {
+            background: rgba(255,255,255,0.04) !important; border: 1px solid rgba(255,255,255,0.12) !important;
+            color: var(--text-muted) !important; font-weight: 700 !important;
+        }
+        .calc-aff-btn:hover { border-color: rgba(129,140,248,0.45) !important; color: var(--text-main) !important; }
+        @media (max-width: 480px) {
+            .calc-grid { grid-template-columns: 1fr; }
+            .calc-metrics { grid-template-columns: 1fr; }
+            #calc-modal .modal-card { max-width: calc(100vw - 1rem); }
+        }
 
         .row-actions {
             display: grid;
@@ -1107,7 +1193,9 @@
             .dc-right { width: 100%; justify-content: flex-start; }
             .dc-select { width: 100%; }
             .hide-mobile { display: none !important; }
+            .show-mobile-only { display: inline !important; }
         }
+        .show-mobile-only { display: none; }
     </style>
 
     <!-- Extended Schema: SoftwareApplication + Dataset -->
@@ -1121,18 +1209,17 @@
           "url": "https://coinnavigator.net/",
           "applicationCategory": "FinanceApplication",
           "operatingSystem": "Web",
-          "description": "Real-time crypto arbitrage spread monitor. Compare prices across 6 major exchanges for 20 coins. Free, no login required.",
+          "description": "Crypto arbitrage spread monitor. Compare prices across 6 major exchanges for 20 coins and estimate costs before deciding. Free, no login required.",
           "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
           },
           "featureList": [
-            "Live spread monitor across 6 exchanges",
+            "Spread monitor across 6 exchanges",
             "20 crypto assets tracked",
-            "Free arbitrage profit calculator",
-            "Email spread alerts",
-            "Polymarket prediction market hub"
+            "Check Real Profit cost estimator",
+            "Email spread alerts"
           ],
           "publisher": { "@id": "https://coinnavigator.net/#org" }
         },
@@ -1165,7 +1252,6 @@
             <li><a href="/" aria-current="page" data-track="nav_home">Home <i class="fas fa-house" aria-hidden="true"></i></a></li>
             <li><a href="/#dashboard" data-track="nav_monitor">Arbitrage Monitor <i class="fas fa-table" aria-hidden="true"></i></a></li>
             <li><a href="/dashboard/" data-track="nav_dashboard">Dashboard <i class="fas fa-star" aria-hidden="true"></i></a></li>
-            <li><a href="/polymarket/" data-track="nav_polymarket">Polymarket <i class="fas fa-fire" aria-hidden="true"></i></a></li>
             <li><a href="/blog/" data-track="nav_guides">Guides <i class="fas fa-graduation-cap" aria-hidden="true"></i></a></li>
             <li><a href="/binance-review/" data-track="nav_reviews">Reviews <i class="fas fa-building-columns" aria-hidden="true"></i></a></li>
             <li><a href="/about/" data-track="nav_about">About <i class="fas fa-circle-info" aria-hidden="true"></i></a></li>
@@ -1175,10 +1261,10 @@
     </nav>
 
     <header class="hero">
-        <h1>Find Crypto Arbitrage Opportunities in Real Time</h1>
-        <p>Compare prices across top exchanges and track crowd-based probabilities (Polymarket) — with transparent data, beginner-friendly explanations, and trusted recommendations.</p>
+        <h1>Crypto Arbitrage Opportunities, Calculated After Real Costs</h1>
+        <p>Compare exchange prices and estimate trading fees, withdrawal costs and slippage before deciding whether a spread may be worth executing.</p>
                 <p class="muted" style="max-width: 700px; margin: 0.5rem auto 0; font-size: 0.95rem;">
-            Spread data updates every 15 minutes across 6 exchanges. Always verify prices and account for fees before acting — informational only, not financial advice.
+            Spread data updates about every 15 minutes across 6 exchanges. Always verify live order books and fees before acting — informational only, not financial advice.
         </p>
 
         <div class="hero-cta" id="start">
@@ -1207,7 +1293,7 @@
             </div>
             <div class="opp-actions">
                 <a class="btn btn-primary" id="opp-trade-btn" href="/trade/" data-track="hero_opp_trade"><i class="fas fa-bolt"></i> Trade This Spread</a>
-                <span class="opp-sub">After standard 0.1% fees per leg</span>
+                <span class="opp-sub">Estimate only — use Check Real Profit for costs</span>
             </div>
         </div>
         <div class="opp-card opp-empty" id="opp-empty" style="display:none; justify-content:center; text-align:center;">
@@ -1217,8 +1303,8 @@
         <div class="hero-viz" id="hero-viz" aria-live="polite">
             <div class="viz-head">
                 <div>
-                    <div class="viz-title">Live snapshot: top spreads right now</div>
-                    <div class="viz-sub" id="hero-viz-sub">Loading live data…</div>
+                    <div class="viz-title">Latest snapshot: top spreads</div>
+                    <div class="viz-sub" id="hero-viz-sub">Loading latest data…</div>
                 </div>
                 <a class="btn btn-ghost" href="#dashboard" style="padding: 0.75rem 1rem; font-size: 0.9rem; box-shadow: none;" data-track="hero_snapshot_open">
                     <i class="fas fa-table" aria-hidden="true"></i> Open monitor
@@ -1262,8 +1348,6 @@
             <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-lock-open" style="color:#fbbf24;font-size:0.75rem;"></i> <strong style="color:var(--text-main);">100% free</strong> — no login needed</span>
             <span style="color:rgba(255,255,255,0.1);">|</span>
             <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-shield-halved" style="color:var(--primary-light);font-size:0.75rem;"></i> Transparent <a href="/methodology/" style="color:var(--primary-light);font-weight:700;">methodology</a></span>
-            <span style="color:rgba(255,255,255,0.1);">|</span>
-            <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-users" style="color:#a78bfa;font-size:0.75rem;"></i> Used daily by <strong style="color:var(--text-main);">crypto traders</strong> worldwide</span>
         </div>
     </div>
 
@@ -1274,8 +1358,8 @@
     </div>
 
     <div class="stats-grid">
-        <a class="stat-card clickable focus-ring" href="#dashboard" id="stat-profitable" title="Spreads above 0.30% right now (profitable after fees)">
-            <h4 id="stat-profitable-label">Profitable Now</h4>
+        <a class="stat-card clickable focus-ring" href="#dashboard" id="stat-profitable" title="Spreads above 0.30% right now (gross — check real costs)">
+            <h4 id="stat-profitable-label">Above 0.30%</h4>
             <div class="value" id="profitable-count" style="color: var(--accent);">—</div>
             <div id="stat-profitable-sub" style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">spreads &gt; 0.30%</div>
         </a>
@@ -1284,10 +1368,10 @@
             <div class="value" id="max-spread">--</div>
             <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">across 20 coins</div>
         </a>
-        <a class="stat-card clickable focus-ring" href="/polymarket/" title="Polymarket biggest 24h probability movers">
-            <h4>Polymarket Movers</h4>
-            <div class="value" id="pm-mover-count" style="color: #fbbf24;">—</div>
-            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">events shifting today</div>
+        <a class="stat-card clickable focus-ring" href="/methodology/" title="How spreads and costs are estimated">
+            <h4>Methodology</h4>
+            <div class="value" style="color: #a78bfa; font-size: 1.35rem;"><i class="fas fa-flask"></i></div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;font-weight:600;">how we estimate costs</div>
         </a>
         <a class="stat-card clickable focus-ring" href="#email-alerts" title="Get an email when spreads exceed 0.30%">
             <h4>Get Alerts</h4>
@@ -1475,8 +1559,8 @@
         <section class="email-section" id="email-alerts" style="flex-direction:column;align-items:stretch;gap:1rem;padding:1.6rem 2rem;">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
                 <div class="em-text" style="flex:1;min-width:220px;">
-                    <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Never miss a profitable spread</h3>
-                    <p>Choose <strong style="color:var(--text-main);">instant alerts</strong> when spreads exceed 0.3%, or a <strong style="color:var(--text-main);">weekly top-5 digest</strong>. Free forever — one-click unsubscribe.</p>
+                    <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Get alerted when spreads widen</h3>
+                    <p>Choose <strong style="color:var(--text-main);">instant alerts</strong> when spreads exceed 0.3%, or a <strong style="color:var(--text-main);">weekly top-5 digest</strong>. Free forever — one-click unsubscribe. Always verify costs before trading.</p>
                 </div>
                 <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:14px;padding:0.9rem 1.1rem;min-width:200px;flex:0 0 auto;">
                     <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#fbbf24;margin-bottom:0.35rem;"><i class="fas fa-gift"></i> Free with signup</div>
@@ -1502,8 +1586,8 @@
             <div class="cta-card">
                 <div class="cta-inner">
                     <div>
-                        <h3>Start trading — fee discounts via our partner links</h3>
-                        <p>These are the exchanges we track. Register through our links for exclusive reduced fees or welcome bonuses — you pay the same price either way. Region: <b id="region-label">—</b></p>
+                        <h3>Open an exchange account</h3>
+                        <p>These are exchanges we track. Partner links support CoinNavigator at no extra cost to you. Region: <b id="region-label">—</b></p>
                     </div>
                     <div class="cta-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: stretch;">
                         <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
@@ -1515,7 +1599,6 @@
                                style="font-size: 1rem; padding: 1rem 1.75rem;">
                                 <i class="fas fa-building-columns"></i> Open Binance
                             </a>
-                            <span style="font-size:0.72rem;font-weight:700;color:#34d399;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);border-radius:999px;padding:0.2rem 0.6rem;"><i class="fas fa-tag"></i> 10% fee rebate for life</span>
                         </div>
                         <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                             <a class="btn btn-primary" id="rec-2"
@@ -1526,7 +1609,6 @@
                                style="font-size: 1rem; padding: 1rem 1.75rem;">
                                 <i class="fas fa-building-columns"></i> Open MEXC
                             </a>
-                            <span style="font-size:0.72rem;font-weight:700;color:#fbbf24;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);border-radius:999px;padding:0.2rem 0.6rem;"><i class="fas fa-tag"></i> 0% maker fees + bonus</span>
                         </div>
                         <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                             <a class="btn btn-primary" id="rec-3"
@@ -1537,7 +1619,6 @@
                                style="font-size: 1rem; padding: 1rem 1.75rem;">
                                 <i class="fas fa-building-columns"></i> Open Bybit
                             </a>
-                            <span style="font-size:0.72rem;font-weight:700;color:#818cf8;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);border-radius:999px;padding:0.2rem 0.6rem;"><i class="fas fa-tag"></i> Up to $30,000 welcome bonus</span>
                         </div>
                     </div>
             </div>
@@ -1645,34 +1726,8 @@
         </div>
     </section>
 
-    <section class="pm-section pm-hero" id="polymarket">
-        <div class="container">
-            <div class="pm-section-header">
-                <h2 class="pm-title"><i class="fas fa-fire"></i> What’s hot on Polymarket</h2>
-                <p class="pm-subtitle">Prediction markets with the most attention right now — sorted by 24h volume. See what the crowd expects.</p>
-                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.85rem;">
-                    <a href="/polymarket/movers/" data-track="pm_open_movers" style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:#fbbf24;padding:0.45rem 0.9rem;border-radius:999px;font-size:0.82rem;font-weight:800;text-decoration:none;">
-                        <i class="fas fa-arrow-trend-up"></i> NEW · Biggest 24h movers
-                    </a>
-                    <a href="/polymarket/" data-track="pm_open_hub_pill" style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text-muted);padding:0.45rem 0.9rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">
-                        <i class="fas fa-fire"></i> All hot events
-                    </a>
-                </div>
-            </div>
-            <div class="pm-grid" id="pm-grid">
-                <div class="pm-card">
-                    <div class="pm-q">Loading Polymarket events…</div>
-                    <div class="pm-meta">If this takes too long, the data file may still be updating.</div>
-                </div>
-            </div>
-            <div class="muted" id="pm-updated" style="text-align: right; margin-top: 0.75rem; font-size: 0.75rem;"></div>
-            <div class="pm-cta-row">
-                <a class="btn btn-primary" href="/polymarket/movers/" data-track="pm_open_movers_main"><i class="fas fa-arrow-trend-up"></i> See biggest 24h movers</a>
-                <a class="btn btn-ghost" href="/polymarket/" data-track="pm_open_hub"><i class="fas fa-fire"></i> All hot events</a>
-                <a class="btn btn-ghost" href="/terms/" data-track="open_terms"><i class="fas fa-shield-halved"></i> Disclosures & risk</a>
-            </div>
-        </div>
-    </section>
+        <!-- Polymarket homepage promo removed from primary surface; route /polymarket/ remains -->
+
 
 
     <!-- ── Latest from Blog ─────────────────────────────────────── -->
@@ -1752,8 +1807,8 @@
                 <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Yes. Cross-exchange crypto arbitrage is legal in most jurisdictions — it's a normal market activity that helps equalize prices. Always comply with your local tax regulations and exchange KYC/AML requirements.</p>
             </details>
             <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
-                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">What spread size is profitable after fees? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
-                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Standard exchanges charge 0.10% per trade. A round trip (buy + sell) costs <strong style="color:var(--text);">0.20%</strong>. You need a spread above 0.20% to profit. Spreads of 0.30%+ are clearly profitable. Use our <a href="/arbitrage-calculator/" style="color:var(--primary-light);">free calculator</a> to estimate your exact profit.</p>
+                <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">When might a spread cover estimated costs? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
+                <p style="margin-top:0.7rem;color:var(--text-muted);font-size:0.92rem;">Fees vary by exchange and account tier. Many retail spot accounts charge around 0.05%–0.20% per leg, plus withdrawal and slippage. A gross spread above ~0.30% is a common starting screen — then use <strong style="color:var(--text);">Check Real Profit</strong> to estimate your own costs. Estimates are not guarantees.</p>
             </details>
             <details style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;">
                 <summary style="font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is CoinNavigator free? <span style="color:var(--primary-light);font-size:1.1rem;">+</span></summary>
@@ -1776,75 +1831,14 @@
     </section>
 
 
-    <!-- ── Testimonials ──────────────────────────────────────────── -->
-    <section style="max-width:1100px;margin:0 auto 3rem;padding:0 1.5rem;">
-        <div style="text-align:center;margin-bottom:1.5rem;">
-            <h2 style="font-size:1.15rem;font-weight:900;margin:0 0 0.35rem;">What traders say</h2>
-            <p style="font-size:0.85rem;color:var(--text-muted);">Real feedback from the CoinNavigator community.</p>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
-            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;">
-                <div style="display:flex;gap:2px;margin-bottom:0.75rem;">
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                </div>
-                <p style="font-size:0.9rem;color:var(--text-main);line-height:1.6;margin-bottom:1rem;">"Found a 0.4% SOL spread within minutes of opening the site. Plugged it into the calculator — net profit looked good. The methodology transparency is what made me trust it."</p>
-                <div style="display:flex;align-items:center;gap:0.6rem;">
-                    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white;">D.K</div>
-                    <div>
-                        <div style="font-weight:700;font-size:0.85rem;">D.K.</div>
-                        <div style="font-size:0.75rem;color:var(--text-muted);">Manual trader, 6 months using CoinNavigator</div>
-                    </div>
-                </div>
-            </div>
-            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;">
-                <div style="display:flex;gap:2px;margin-bottom:0.75rem;">
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                </div>
-                <p style="font-size:0.9rem;color:var(--text-main);line-height:1.6;margin-bottom:1rem;">"No login, no paywall, no BS. The table is clean and the filter for profitable spreads is exactly what I needed. I check this daily alongside my trading terminal."</p>
-                <div style="display:flex;align-items:center;gap:0.6rem;">
-                    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#f59e0b);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white;">M.R</div>
-                    <div>
-                        <div style="font-weight:700;font-size:0.85rem;">M.R.</div>
-                        <div style="font-size:0.75rem;color:var(--text-muted);">Independent trader, daily user</div>
-                    </div>
-                </div>
-            </div>
-            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;">
-                <div style="display:flex;gap:2px;margin-bottom:0.75rem;">
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star" style="color:#fbbf24;font-size:0.8rem;"></i>
-                    <i class="fas fa-star-half-stroke" style="color:#fbbf24;font-size:0.8rem;"></i>
-                </div>
-                <p style="font-size:0.9rem;color:var(--text-main);line-height:1.6;margin-bottom:1rem;">"I use CoinNavigator to validate my bot's signals against real market spreads. The Polymarket section is a nice bonus for macro context. Covers all the exchanges I care about."</p>
-                <div style="display:flex;align-items:center;gap:0.6rem;">
-                    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#10b981,#6366f1);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white;">A.T</div>
-                    <div>
-                        <div style="font-weight:700;font-size:0.85rem;">A.T.</div>
-                        <div style="font-size:0.75rem;color:var(--text-muted);">Algo trader, uses CoinNavigator for signal validation</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Final CTA Section -->
     <section style="max-width:900px;margin:0 auto 3rem;padding:0 1.5rem;">
         <div style="background:linear-gradient(135deg,rgba(99,102,241,0.1) 0%,rgba(16,185,129,0.07) 100%);border:1px solid rgba(99,102,241,0.25);border-radius:28px;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;">
             <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(99,102,241,0.12),transparent 60%);pointer-events:none;"></div>
             <div style="position:relative;">
                 <div style="font-size:0.72rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#818cf8;margin-bottom:0.6rem;"><i class="fas fa-bolt"></i> Ready to start trading?</div>
-                <h2 style="font-size:clamp(1.4rem,4vw,2rem);font-weight:900;line-height:1.2;margin-bottom:0.7rem;">Turn spread data into profit — open your accounts now</h2>
-                <p style="color:var(--text-muted);font-size:0.95rem;max-width:560px;margin:0 auto 1.75rem;">All three exchanges below are tracked by CoinNavigator. Register through our partner links and you'll pay lower fees on every single trade — for life.</p>
+                <h2 style="font-size:clamp(1.4rem,4vw,2rem);font-weight:900;line-height:1.2;margin-bottom:0.7rem;">Ready to trade? Open an exchange account</h2>
+                <p style="color:var(--text-muted);font-size:0.95rem;max-width:560px;margin:0 auto 1.75rem;">These exchanges are tracked by CoinNavigator. Partner links support the free monitor at no extra cost to you.</p>
                 <div style="display:flex;gap:0.85rem;flex-wrap:wrap;justify-content:center;align-items:flex-start;">
                     <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                         <a href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=final_cta&utm_campaign=bottom_cta"
@@ -1855,7 +1849,6 @@
                            data-track="final_cta_binance">
                             <i class="fas fa-building-columns"></i> Open Binance
                         </a>
-                        <span style="font-size:0.72rem;font-weight:700;color:#fbbf24;"><i class="fas fa-tag"></i> 10% fee rebate for life</span>
                     </div>
                     <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                         <a href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=final_cta&utm_campaign=bottom_cta"
@@ -1866,7 +1859,6 @@
                            data-track="final_cta_mexc">
                             <i class="fas fa-building-columns"></i> Open MEXC
                         </a>
-                        <span style="font-size:0.72rem;font-weight:700;color:#60a5fa;"><i class="fas fa-tag"></i> 0% maker fees + deposit bonus</span>
                     </div>
                     <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
                         <a href="https://partner.bybit.com/b/153018?utm_source=coinnavigator&utm_medium=final_cta&utm_campaign=bottom_cta"
@@ -1877,7 +1869,6 @@
                            data-track="final_cta_bybit">
                             <i class="fas fa-building-columns"></i> Open Bybit
                         </a>
-                        <span style="font-size:0.72rem;font-weight:700;color:#fbbf24;"><i class="fas fa-tag"></i> Up to $30,000 welcome bonus</span>
                     </div>
                 </div>
                 <p style="font-size:0.72rem;color:var(--text-muted);margin-top:1.2rem;opacity:0.75;">Partner links — we earn a small commission at no extra cost to you. <a href="/methodology/" style="color:var(--primary-light);">Disclosure</a></p>
@@ -1891,7 +1882,7 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;text-align:left;margin-bottom:2.5rem;">
                 <div>
                     <div style="font-weight:900;font-size:1rem;margin-bottom:0.85rem;color:var(--text-main);"><i class="fas fa-bolt" style="color:var(--primary);"></i> CoinNavigator</div>
-                    <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Free real-time crypto arbitrage monitor across 6 major exchanges. Transparent, no login required.</p>
+                    <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Free crypto arbitrage monitor across 6 major exchanges. Frequently updated. Transparent, no login required.</p>
                 </div>
                 <div>
                     <div style="font-weight:800;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.75rem;">Tools</div>
@@ -1986,40 +1977,114 @@
         </div>
     </div>
 
-    <!-- Arbitrage Calculator Modal -->
+    <!-- Arbitrage / Check Real Profit Modal -->
     <div class="modal" id="calc-modal" aria-hidden="true">
         <div class="modal-backdrop" data-close="calc"></div>
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="calc-title" style="max-width:440px">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="calc-title">
             <div class="modal-header">
                 <div>
-                    <div class="muted" style="font-weight:800;letter-spacing:0.06em;font-size:0.6rem;text-transform:uppercase;">Net Profit</div>
-                    <div class="modal-title" id="calc-title"><i class="fas fa-calculator"></i> Arbitrage Calculator</div>
+                    <div class="muted" style="font-weight:800;letter-spacing:0.06em;font-size:0.6rem;text-transform:uppercase;">Decision tool</div>
+                    <div class="modal-title" id="calc-title"><i class="fas fa-calculator"></i> Check Real Profit</div>
                 </div>
                 <button class="modal-close" type="button" data-close="calc">Close</button>
             </div>
             <div class="modal-body">
-                <div id="calc-coin-label" class="muted" style="margin-bottom:0.9rem;font-size:0.85rem;">—</div>
+                <div id="calc-coin-label" class="calc-meta">—</div>
+                <div id="calc-price-meta" class="calc-price-meta">—</div>
+
+                <div id="calc-fee-unknown-warn" class="calc-warn-banner" hidden></div>
+                <div id="calc-zero-cost-warn" class="calc-warn-banner">
+                    Leaving withdrawal / slippage at 0 does <strong>not</strong> mean real costs are zero — verify on the exchange before trading.
+                </div>
+                <div id="calc-form-error" class="calc-form-error" role="alert" hidden></div>
+
                 <div class="calc-grid">
-                    <label class="calc-label">Trade amount (USDT)
-                        <input id="calc-amount" class="calc-input" type="number" value="1000" min="1" step="100" />
+                    <label class="calc-label calc-label-full" for="calc-amount">Trade amount, excluding fees
+                        <input id="calc-amount" class="calc-input" type="number" inputmode="decimal" value="1000" min="0" step="any" />
+                        <span class="calc-hint">Trading fees are added to this amount.</span>
                     </label>
-                    <label class="calc-label">Buy-side fee (%)
-                        <input id="calc-fee-buy" class="calc-input" type="number" value="0.1" min="0" step="0.01" />
+                    <label class="calc-label" for="calc-fee-buy">Buy trading fee (%) · Estimated
+                        <input id="calc-fee-buy" class="calc-input" type="number" inputmode="decimal" value="" min="0" step="any" />
+                        <span id="calc-fee-buy-hint" class="calc-hint">Estimated</span>
                     </label>
-                    <label class="calc-label">Sell-side fee (%)
-                        <input id="calc-fee-sell" class="calc-input" type="number" value="0.1" min="0" step="0.01" />
-                    </label>
-                    <label class="calc-label">Withdrawal fee (USDT)
-                        <input id="calc-fee-withdraw" class="calc-input" type="number" value="1" min="0" step="0.5" />
+                    <label class="calc-label" for="calc-fee-sell">Sell trading fee (%) · Estimated
+                        <input id="calc-fee-sell" class="calc-input" type="number" inputmode="decimal" value="" min="0" step="any" />
+                        <span id="calc-fee-sell-hint" class="calc-hint">Estimated</span>
                     </label>
                 </div>
-                <div id="calc-result" class="calc-result"></div>
-                <div id="calc-trade-cta" style="display:none;margin-top:1rem;background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(99,102,241,0.08));border:1px solid rgba(16,185,129,0.3);border-radius:14px;padding:1rem 1.1rem;">
-                    <div style="font-size:0.75rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#34d399;margin-bottom:0.5rem;"><i class="fas fa-bolt"></i> Profitable spread detected</div>
-                    <div style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.7rem;">This trade is profitable after fees. Open your account now with a fee discount via our partner link.</div>
-                    <a id="calc-trade-btn" class="btn btn-primary" href="#" target="_blank" rel="noopener nofollow" data-track="calc_cta_trade" style="font-size:0.88rem;padding:0.65rem 1.25rem;width:100%;justify-content:center;"><i class="fas fa-arrow-up-right-from-square"></i> <span id="calc-trade-btn-label">Open Exchange Account</span></a>
+
+                <details class="calc-advanced" id="calc-advanced">
+                    <summary><i class="fas fa-sliders" aria-hidden="true"></i> Advanced costs</summary>
+                    <div class="calc-grid">
+                        <label class="calc-label" for="calc-fee-withdraw">Withdrawal fee (asset units)
+                            <input id="calc-fee-withdraw" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
+                            <span class="calc-hint">Reduces sellable quantity</span>
+                        </label>
+                        <label class="calc-label" for="calc-fee-network">Network fee (asset units)
+                            <input id="calc-fee-network" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
+                        </label>
+                        <label class="calc-label" for="calc-slip-buy">Buy slippage (%)
+                            <input id="calc-slip-buy" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
+                        </label>
+                        <label class="calc-label" for="calc-slip-sell">Sell slippage (%)
+                            <input id="calc-slip-sell" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
+                        </label>
+                        <label class="calc-label calc-label-full" for="calc-additional">Fixed additional cost (USD)
+                            <input id="calc-additional" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
+                        </label>
+                    </div>
+                </details>
+
+                <div id="calc-result-panel" class="calc-result-panel" aria-live="polite" hidden>
+                    <div id="calc-verdict-badge" class="calc-verdict-badge">—</div>
+                    <div class="calc-metrics">
+                        <div>
+                            <div class="calc-metric-label">Est. net profit</div>
+                            <div id="calc-out-net" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Net profit %</div>
+                            <div id="calc-out-net-pct" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Gross spread</div>
+                            <div id="calc-out-gross" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Total est. costs</div>
+                            <div id="calc-out-costs" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Break-even spread</div>
+                            <div id="calc-out-be" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Est. net proceeds</div>
+                            <div id="calc-out-proceeds" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Purchased qty</div>
+                            <div id="calc-out-purchased" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Sellable qty</div>
+                            <div id="calc-out-sellable" class="calc-metric-value">—</div>
+                        </div>
+                    </div>
+                    <p class="calc-disclaimer">Estimate only. Prices, liquidity, fees, transfer availability and execution conditions can change before a trade is completed.</p>
+                    <div id="calc-warnings" class="calc-warnings" hidden></div>
+                    <details class="calc-breakdown">
+                        <summary>Cost breakdown</summary>
+                        <div class="calc-bk-row"><span>Buy trading fee</span><span id="calc-bk-buy-fee">—</span></div>
+                        <div class="calc-bk-row"><span>Sell trading fee</span><span id="calc-bk-sell-fee">—</span></div>
+                        <div class="calc-bk-row"><span>Withdrawal cost</span><span id="calc-bk-wd">—</span></div>
+                        <div class="calc-bk-row"><span>Network cost</span><span id="calc-bk-network">—</span></div>
+                        <div class="calc-bk-row"><span>Slippage cost</span><span id="calc-bk-slip">—</span></div>
+                        <div class="calc-bk-row"><span>Fixed additional</span><span id="calc-bk-additional">—</span></div>
+                    </details>
                 </div>
-                <p class="muted" style="font-size:0.72rem;margin-top:0.7rem;">Fees are exchange spot trading fees. Typical CEX fee: 0.1%. Enable VIP / use BNB/OKB to reduce further.</p>
+
+                <div id="calc-aff-actions" class="calc-aff-actions" hidden></div>
             </div>
         </div>
     </div>
@@ -2031,6 +2096,8 @@
     <script src="/assets/js/region.js"></script>
     <script src="/assets/js/affiliate-links.js"></script>
     <script src="/assets/js/spread-engine.js"></script>
+    <script src="/assets/js/net-profit-engine.js"></script>
+    <script src="/assets/js/profit-calculator-ui.js"></script>
     <script src="/assets/js/polymarket.js"></script>
     <script src="/assets/js/dashboard-table.js"></script>
     <script>
@@ -2066,9 +2133,10 @@
 
         window.CoinNavigatorDashboard.boot();
 
-        // Polymarket module init (best-effort)
+        // Polymarket module init only if section exists on page
         (async function initPolymarketModule() {
             try {
+                if (!document.getElementById('polymarket') && !document.getElementById('pm-grid')) return;
                 const pm = await fetchPolymarketWithFallback();
                 renderPolymarketModule(pm);
                 try {

@@ -37,18 +37,43 @@
 
   function track(name, params) {
     try {
+      const payload = params || {};
       if (typeof global.gtag === 'function') {
-        global.gtag('event', name, params || {});
+        global.gtag('event', name, payload);
+        return;
+      }
+      global.dataLayer = global.dataLayer || [];
+      if (Array.isArray(global.dataLayer)) {
+        global.dataLayer.push({ event: name, ...payload });
+        return;
       }
     } catch (_err) {}
+    try {
+      const host = (global.location && global.location.hostname) || '';
+      if (host === 'localhost' || host === '127.0.0.1') {
+        // Local-only debug — never required in production.
+        // eslint-disable-next-line no-console
+        console.debug('[cn-analytics]', name, params || {});
+      }
+    } catch (_err2) {}
+  }
+
+  function bucketAmountUsd(amount) {
+    if (global.CoinNavigatorNetProfit && typeof global.CoinNavigatorNetProfit.bucketAmountUsd === 'function') {
+      return global.CoinNavigatorNetProfit.bucketAmountUsd(amount);
+    }
+    if (!Number.isFinite(amount) || amount < 100) return 'under_100';
+    if (amount < 500) return '100_499';
+    if (amount < 1000) return '500_999';
+    if (amount < 5000) return '1000_4999';
+    return '5000_plus';
   }
 
   function mapToConversionEvent(name, el, params) {
     if (!name || !el) return null;
     const href = (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : '';
     const lower = name.toLowerCase();
-
-    const sourcePage = params.source_page || getSourcePage();
+    const sourcePage = (params && params.source_page) || getSourcePage();
 
     if (lower.includes('email_signup') || lower.includes('exit_intent_email_signup')) {
       return {
@@ -111,7 +136,8 @@
     getGa4MeasurementId: getGa4MeasurementId,
     initAnalytics: initAnalytics,
     track: track,
-    mapToConversionEvent: mapToConversionEvent
+    mapToConversionEvent: mapToConversionEvent,
+    bucketAmountUsd: bucketAmountUsd,
   };
 
   global.getGa4MeasurementId = getGa4MeasurementId;

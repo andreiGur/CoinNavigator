@@ -1,37 +1,44 @@
 // Single source of truth for partner exchange URLs (revenue).
+// Perk / bonus text is intentionally omitted unless verified with source + date.
 (function attachAffiliateLinks(global) {
   'use strict';
 
   const EXCHANGES = {
     Binance: {
       base: 'https://accounts.binance.com/register?ref=308417308',
-      perk: '10% fee rebate for life',
+      perk: null,
+      perkVerified: false,
     },
     MEXC: {
       base: 'https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2',
-      perk: '0% maker fees + bonus',
+      perk: null,
+      perkVerified: false,
     },
     Bybit: {
       base: 'https://partner.bybit.com/b/153018',
-      perk: 'Up to $30,000 welcome bonus',
+      perk: null,
+      perkVerified: false,
     },
     OKX: {
       base: 'https://www.okx.com/join/coinnavigator',
       perk: null,
+      perkVerified: false,
     },
     KuCoin: {
       base: 'https://www.kucoin.com/ucenter/signup',
       perk: null,
+      perkVerified: false,
     },
     Gate: {
       base: 'https://www.gate.io/signup',
       perk: null,
+      perkVerified: false,
     },
   };
 
   function buildUrl(exchange, medium, campaign) {
-    const key = EXCHANGES[exchange] ? exchange : 'Binance';
-    const ex = EXCHANGES[key];
+    if (!EXCHANGES[exchange]) return null;
+    const ex = EXCHANGES[exchange];
     const u = new URL(ex.base);
     u.searchParams.set('utm_source', 'coinnavigator');
     if (medium) u.searchParams.set('utm_medium', medium);
@@ -59,11 +66,13 @@
       if (!ex) return;
       const medium = a.getAttribute('data-cn-medium') || 'site';
       const campaign = a.getAttribute('data-cn-campaign') || 'default';
-      a.href = buildUrl(ex, medium, campaign);
+      const url = buildUrl(ex, medium, campaign);
+      if (!url) return;
+      a.href = url;
       if (!a.getAttribute('data-ex')) a.setAttribute('data-ex', ex);
       if (!a.getAttribute('target')) {
         a.target = '_blank';
-        a.rel = 'noopener nofollow';
+        a.rel = 'sponsored noopener noreferrer';
       }
     });
   }

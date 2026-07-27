@@ -92,76 +92,24 @@
                 el.addEventListener('click', closeHowModal);
             });
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') { closeHowModal(); closeCalcModal(); }
+                if (e.key === 'Escape') closeHowModal();
             });
         })();
 
-        let _calcSpread = 0;
-        let _calcBuyEx = '';
-        function openCalcModal(ticker, spreadPct, buyEx) {
-            _calcSpread = spreadPct;
-            _calcBuyEx = buyEx || '';
-            const modal = document.getElementById('calc-modal');
-            const label = document.getElementById('calc-coin-label');
-            if (!modal) return;
-            if (label) label.textContent = `${ticker} — Raw spread: ${spreadPct.toFixed(4)}%`;
-            modal.classList.add('open');
-            modal.setAttribute('aria-hidden', 'false');
-            updateCalcResult();
+        // Calc modal is owned by CoinNavigatorProfitCalc (net-profit engine). Keep thin wrappers.
+        let _lastDataUpdatedAt = '';
+        function openCalcModal(opportunity, triggerEl) {
+            if (global.CoinNavigatorProfitCalc && typeof global.CoinNavigatorProfitCalc.open === 'function') {
+                global.CoinNavigatorProfitCalc.open(opportunity, triggerEl || null);
+                return;
+            }
+            console.warn('CoinNavigatorProfitCalc not loaded');
         }
         function closeCalcModal() {
-            const modal = document.getElementById('calc-modal');
-            if (!modal) return;
-            modal.classList.remove('open');
-            modal.setAttribute('aria-hidden', 'true');
-        }
-        function updateCalcResult() {
-            const amount = parseFloat(document.getElementById('calc-amount')?.value) || 0;
-            const feeBuy = parseFloat(document.getElementById('calc-fee-buy')?.value) || 0;
-            const feeSell = parseFloat(document.getElementById('calc-fee-sell')?.value) || 0;
-            const feeW = parseFloat(document.getElementById('calc-fee-withdraw')?.value) || 0;
-            const spreadUSDT = amount * _calcSpread / 100;
-            const buyCost = amount * feeBuy / 100;
-            const sellCost = amount * feeSell / 100;
-            const net = spreadUSDT - buyCost - sellCost - feeW;
-            const pct = amount > 0 ? (net / amount * 100) : 0;
-            const el = document.getElementById('calc-result');
-            if (!el) return;
-            el.className = 'calc-result' + (net < 0 ? ' loss' : '');
-            el.innerHTML = `
-                <div>Gross spread: <b>$${spreadUSDT.toFixed(2)}</b></div>
-                <div>Buy fee: <b>−$${buyCost.toFixed(2)}</b></div>
-                <div>Sell fee: <b>−$${sellCost.toFixed(2)}</b></div>
-                <div>Withdrawal: <b>−$${feeW.toFixed(2)}</b></div>
-                <hr style="border-color:rgba(255,255,255,0.08);margin:0.5rem 0">
-                <div class="calc-profit ${net < 0 ? 'neg' : ''}">Net profit: ${net >= 0 ? '+' : ''}$${net.toFixed(2)} (${pct.toFixed(3)}%)</div>
-            `;
-            // Show affiliate CTA only when profitable
-            const ctaBox = document.getElementById('calc-trade-cta');
-            const ctaBtn = document.getElementById('calc-trade-btn');
-            const ctaBtnLabel = document.getElementById('calc-trade-btn-label');
-            if (ctaBox && ctaBtn) {
-                if (net > 0 && _calcBuyEx) {
-                    const affLinks = window.AFFILIATE_LINKS_GLOBAL || {};
-                    const affUrl = affLinks[_calcBuyEx] || affLinks['Binance'] || '#';
-                    ctaBtn.href = affUrl;
-                    ctaBtn.setAttribute('data-ex', _calcBuyEx);
-                    if (ctaBtnLabel) ctaBtnLabel.textContent = `Open ${_calcBuyEx} — Start Trading`;
-                    ctaBox.style.display = 'block';
-                } else {
-                    ctaBox.style.display = 'none';
-                }
+            if (global.CoinNavigatorProfitCalc && typeof global.CoinNavigatorProfitCalc.close === 'function') {
+                global.CoinNavigatorProfitCalc.close();
             }
         }
-        (function initCalcModalOnce() {
-            document.querySelectorAll('[data-close="calc"]').forEach((el) => {
-                el.addEventListener('click', closeCalcModal);
-            });
-            ['calc-amount','calc-fee-buy','calc-fee-sell','calc-fee-withdraw'].forEach((id) => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('input', updateCalcResult);
-            });
-        })();
 
         function normalizeCoinQuery(q) {
             const s = (q || '').toString().trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -327,22 +275,21 @@
             const sellEx = bestRow.info.best_sell.exchange;
             const sp = bestRow.spreadPct;
             const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[buyEx] ||
-                (global.CoinNavigatorAffiliate && global.CoinNavigatorAffiliate.buildUrl(buyEx, 'revenue_banner', 'profitable_spread')) ||
+                (global.CoinNavigatorAffiliate && global.CoinNavigatorAffiliate.buildUrl(buyEx, 'revenue_banner', 'spread_cta')) ||
                 '#';
-            const netOn1k = Math.max(0, ((sp - 0.2) / 100) * 1000);
             const title = document.getElementById('revenue-cta-title');
             const sub = document.getElementById('revenue-cta-sub');
             const btn = document.getElementById('revenue-cta-btn');
-            if (title) title.textContent = `${bestRow.ticker} spread ${sp.toFixed(3)}% — profitable after fees`;
+            if (title) title.textContent = `${bestRow.ticker} spread ${sp.toFixed(3)}% — check costs before trading`;
             if (sub) {
-                sub.textContent = netOn1k > 0
-                    ? `Buy on ${buyEx}, sell on ${sellEx}. Example net on $1,000: ~$${netOn1k.toFixed(1)} (before withdrawal).`
-                    : `Route: buy ${buyEx} → sell ${sellEx}. Spreads move fast — use accounts on both exchanges.`;
+                sub.textContent = `Buy on ${buyEx}, sell on ${sellEx}. Use Check Real Profit to estimate fees, withdrawal and slippage — not a guaranteed profit.`;
             }
             if (btn) {
-                btn.href = aff;
+                btn.href = aff && aff !== '#' ? aff : '#dashboard';
                 btn.setAttribute('data-ex', buyEx);
-                btn.innerHTML = `<i class="fas fa-bolt"></i> Open ${buyEx} — trade`;
+                btn.innerHTML = aff && aff !== '#'
+                    ? `<i class="fas fa-bolt"></i> Open ${buyEx}`
+                    : `<i class="fas fa-table"></i> View monitor`;
             }
             banner.classList.remove('hidden');
             banner.setAttribute('aria-hidden', 'false');
@@ -362,6 +309,8 @@
             const assetCountDiv = document.getElementById('asset-count');
             const statusDiv = document.getElementById('table-status');
             if (!tbody) return;
+
+            _lastDataUpdatedAt = (data && data.timestamp) ? String(data.timestamp) : '';
 
             const region = global.getRegion();
             const buildReviewUrl = (path) => {
@@ -512,11 +461,13 @@
                 const calcSpread = hasSpread ? displaySpread.toFixed(4) : '0';
                 const buyIsAffiliate = buyReviewUrl.startsWith('http');
                 const sellIsAffiliate = sellReviewUrl.startsWith('http');
+                const buyPx = hasBest ? info.best_buy.price : '';
+                const sellPx = hasBest ? info.best_sell.price : '';
                 const actionHtml = hasBest
                     ? `<div class="row-actions">
                          <a class="btn-mini btn-mini-primary" href="${buyReviewUrl}" ${buyIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Buy on ${info.best_buy.exchange}${buyIsAffiliate ? ' (affiliate)' : ''}" data-track="table_buy_aff" data-ex="${info.best_buy.exchange}" data-sym="${symbol}"><i class="fas fa-cart-shopping"></i> Buy</a>
                          <a class="btn-mini" href="${sellReviewUrl}" ${sellIsAffiliate ? 'target="_blank" rel="noopener nofollow"' : ''} title="Sell on ${info.best_sell.exchange}${sellIsAffiliate ? ' (affiliate)' : ''}" data-track="table_sell_aff" data-ex="${info.best_sell.exchange}" data-sym="${symbol}"><i class="fas fa-right-left"></i> Sell</a>
-                         <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" data-buy-ex="${info.best_buy.exchange}" data-sell-ex="${info.best_sell.exchange}" title="Net profit after fees"><i class="fas fa-calculator"></i> Calc</button>
+                         <button class="btn-mini btn-mini-calc" type="button" data-open="calc" data-spread="${calcSpread}" data-sym="${symbol}" data-ticker="${ticker}" data-buy-ex="${info.best_buy.exchange}" data-sell-ex="${info.best_sell.exchange}" data-buy-price="${buyPx}" data-sell-price="${sellPx}" data-updated="${_lastDataUpdatedAt}" title="Check real profit after estimated costs"><i class="fas fa-calculator"></i> <span class="hide-mobile">Check Real Profit</span><span class="show-mobile-only">Profit</span></button>
                          <button class="btn-mini hide-mobile" type="button" data-toggle="details" title="All exchange prices"><i class="fas fa-circle-info"></i> Prices</button>
                        </div>`
                     : `<span class="muted">Data coming soon</span>`;
@@ -536,7 +487,7 @@
                     </td>
                     <td class="price-val">${hasBest ? priceCellHtml(info.best_buy.exchange, info.best_buy.price, buyReviewUrl, buyIsAffiliate) : '<span class="muted">—</span>'}</td>
                     <td class="price-val">${hasBest ? priceCellHtml(info.best_sell.exchange, info.best_sell.price, sellReviewUrl, sellIsAffiliate) : '<span class="muted">—</span>'}</td>
-                    <td><div class="spread-cell">${displaySpread != null && displaySpread >= 0.5 ? '<span class="hot-badge"><i class="fas fa-fire"></i> HOT</span>' : (displaySpread != null && displaySpread >= 0.3 ? '<span class="hot-badge" style="background:rgba(16,185,129,0.15);color:#34d399;border-color:rgba(16,185,129,0.35);"><i class="fas fa-circle-check"></i> Profitable</span>' : '')}<span class="spread-val ${spreadColorClass(displaySpread)} ${hasBest ? 'clickable' : 'spread-none'}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></div></td>
+                    <td><div class="spread-cell">${displaySpread != null && displaySpread >= 0.5 ? '<span class="hot-badge"><i class="fas fa-fire"></i> HOT</span>' : (displaySpread != null && displaySpread >= 0.3 ? '<span class="hot-badge" style="background:rgba(16,185,129,0.15);color:#34d399;border-color:rgba(16,185,129,0.35);"><i class="fas fa-circle-check"></i> Above ~0.30%</span>' : '')}<span class="spread-val ${spreadColorClass(displaySpread)} ${hasBest ? 'clickable' : 'spread-none'}" data-open="how" title="${spreadDetails}${hasBest ? ' (click for how)' : ''}">${displaySpreadText}</span></div></td>
                     <td class="col-action">${actionHtml}</td>
                 `;
                 tbody.appendChild(row);
@@ -619,7 +570,20 @@
 
                 const calcBtn = row.querySelector('button[data-open="calc"]');
                 if (calcBtn) calcBtn.addEventListener('click', () => {
-                    openCalcModal(ticker, parseFloat(calcBtn.dataset.spread) || 0, calcBtn.dataset.buyEx || '');
+                    if (global.CoinNavigatorProfitCalc && typeof global.CoinNavigatorProfitCalc.openFromButton === 'function') {
+                        global.CoinNavigatorProfitCalc.openFromButton(calcBtn);
+                        return;
+                    }
+                    openCalcModal({
+                        symbol: symbol,
+                        ticker: ticker,
+                        buyExchange: info.best_buy.exchange,
+                        sellExchange: info.best_sell.exchange,
+                        buyPrice: info.best_buy.price,
+                        sellPrice: info.best_sell.price,
+                        rawSpreadPct: displaySpread || 0,
+                        updatedAt: _lastDataUpdatedAt,
+                    }, calcBtn);
                 });
             }
 
@@ -636,10 +600,10 @@
                     if (profitableSubEl) profitableSubEl.innerHTML = '<span style="color:var(--primary-light);">Get alert when one opens →</span>';
                 } else if (profitableNowCount >= 3) {
                     profitableCountEl.style.color = '#34d399';
-                    if (profitableSubEl) profitableSubEl.innerText = `HOT — ${profitableNowCount} live opportunities`;
+                    if (profitableSubEl) profitableSubEl.innerText = `gross spreads > 0.30% — verify costs`;
                 } else {
                     profitableCountEl.style.color = 'var(--accent)';
-                    if (profitableSubEl) profitableSubEl.innerText = 'spreads > 0.30%';
+                    if (profitableSubEl) profitableSubEl.innerText = 'gross spreads > 0.30%';
                 }
             }
 
