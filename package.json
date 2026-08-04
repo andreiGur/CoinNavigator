@@ -9,14 +9,16 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build:engine": "tsup --config tsup.config.ts && node -e \"const fs=require('fs'); const a='assets/js/net-profit-engine.global.js'; const b='assets/js/net-profit-engine.js'; if (fs.existsSync(a)) { fs.renameSync(a,b); }\"",
-    "build": "npm run typecheck && npm run build:engine",
+    "build:alerts": "tsup --config tsup.alerts.config.ts",
+    "build": "npm run typecheck && npm run build:engine && npm run build:alerts",
     "lint": "npm run typecheck",
-    "check": "npm run typecheck && npm run test && npm run build:engine && node --check assets/js/net-profit-engine.js"
+    "check": "npm run typecheck && npm run test && npm run build:engine && npm run build:alerts && node --check assets/js/net-profit-engine.js && node --check api/alerts/index.js && node --check api/alerts/unsubscribe.js"
   },
   "dependencies": {
     "decimal.js": "^10.5.0"
   },
   "devDependencies": {
+    "@types/node": "^26.1.2",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"

@@ -18,9 +18,10 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "dist/net-profit",
-    "rootDir": "src"
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"]
   },
-  "include": ["src/net-profit/**/*.ts"],
-  "exclude": ["node_modules", "dist", "assets"]
+  "include": ["src/net-profit/**/*.ts", "src/alerts/**/*.ts"],
+  "exclude": ["node_modules", "dist", "assets", "api"]
 }

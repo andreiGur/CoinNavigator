@@ -718,7 +718,14 @@
         .calc-profit { font-size: 1.25rem; font-weight: 700; color: #34d399; }
         .calc-profit.neg { color: #f87171; }
 
-        #calc-modal .modal-card { max-width: min(560px, calc(100vw - 1.5rem)); width: 100%; }
+        #calc-modal .modal-card {
+            max-width: min(560px, calc(100vw - 1.5rem));
+            width: 100%;
+            max-height: min(92vh, 920px);
+            overflow-y: auto;
+            margin: 4vh auto;
+            -webkit-overflow-scrolling: touch;
+        }
         .calc-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.4; }
         .calc-price-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.85rem; font-family: 'JetBrains Mono', monospace; }
         .calc-warn-banner {
@@ -796,6 +803,72 @@
             color: var(--text-muted) !important; font-weight: 700 !important;
         }
         .calc-aff-btn:hover { border-color: rgba(129,140,248,0.45) !important; color: var(--text-main) !important; }
+        .calc-alert-section {
+            margin-top: 0.95rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .calc-alert-cta {
+            width: 100%;
+            justify-content: center;
+            background: rgba(99,102,241,0.14) !important;
+            border: 1px solid rgba(129,140,248,0.35) !important;
+            color: #c7d2fe !important;
+            font-weight: 800 !important;
+        }
+        .calc-alert-form {
+            margin-top: 0.75rem;
+            display: grid;
+            gap: 0.65rem;
+        }
+        .calc-alert-form .calc-grid { margin-bottom: 0; }
+        .calc-alert-consent {
+            display: flex;
+            gap: 0.55rem;
+            align-items: flex-start;
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .calc-alert-consent input {
+            margin-top: 0.15rem;
+            flex: 0 0 auto;
+        }
+        .calc-alert-consent a { color: var(--primary-light); }
+        .calc-alert-error {
+            font-size: 0.78rem;
+            color: #fca5a5;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 10px;
+            padding: 0.55rem 0.7rem;
+        }
+        .calc-alert-success {
+            margin-top: 0.75rem;
+            padding: 0.85rem 0.9rem;
+            border-radius: 12px;
+            border: 1px solid rgba(16,185,129,0.3);
+            background: rgba(16,185,129,0.08);
+        }
+        .calc-alert-success h4 {
+            margin: 0 0 0.35rem;
+            font-size: 0.95rem;
+            color: #34d399;
+        }
+        .calc-alert-success p {
+            margin: 0;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+        .calc-alert-hp {
+            position: absolute !important;
+            left: -9999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+        }
         @media (max-width: 480px) {
             .calc-grid { grid-template-columns: 1fr; }
             .calc-metrics { grid-template-columns: 1fr; }
@@ -2085,6 +2158,56 @@
                 </div>
 
                 <div id="calc-aff-actions" class="calc-aff-actions" hidden></div>
+
+                <div id="calc-alert-section" class="calc-alert-section" hidden>
+                    <button type="button" class="btn-mini calc-alert-cta" id="calc-alert-cta" aria-expanded="false" aria-controls="calc-alert-form">
+                        <i class="fas fa-bell" aria-hidden="true"></i> Alert me about similar opportunities
+                    </button>
+                    <form id="calc-alert-form" class="calc-alert-form" hidden novalidate>
+                        <div id="calc-alert-error" class="calc-alert-error" role="alert" aria-live="assertive" hidden></div>
+                        <div class="calc-grid">
+                            <label class="calc-label calc-label-full" for="calc-alert-email">Email address
+                                <input id="calc-alert-email" class="calc-input" type="email" name="email" autocomplete="email" required inputmode="email" />
+                            </label>
+                            <label class="calc-label calc-label-full" for="calc-alert-scope">Alert scope
+                                <select id="calc-alert-scope" class="calc-input" name="alert_scope">
+                                    <option value="exact_pair">This exchange pair</option>
+                                    <option value="any_pair">Any exchange pair for this asset</option>
+                                </select>
+                            </label>
+                            <label class="calc-label" for="calc-alert-asset">Asset
+                                <input id="calc-alert-asset" class="calc-input" type="text" name="asset" maxlength="12" required />
+                            </label>
+                            <label class="calc-label" for="calc-alert-min-pct">Min net profit %
+                                <input id="calc-alert-min-pct" class="calc-input" type="number" name="minimum_net_profit_pct" min="0" max="100" step="any" inputmode="decimal" />
+                            </label>
+                            <label class="calc-label" for="calc-alert-buy">Buy exchange
+                                <select id="calc-alert-buy" class="calc-input" name="buy_exchange"></select>
+                            </label>
+                            <label class="calc-label" for="calc-alert-sell">Sell exchange
+                                <select id="calc-alert-sell" class="calc-input" name="sell_exchange"></select>
+                            </label>
+                            <label class="calc-label calc-label-full" for="calc-alert-min-usd">Min estimated profit (USD, optional)
+                                <input id="calc-alert-min-usd" class="calc-input" type="number" name="minimum_net_profit_usd" min="0" step="any" inputmode="decimal" />
+                            </label>
+                        </div>
+                        <label class="calc-alert-hp" for="calc-alert-website" aria-hidden="true">Company website
+                            <input id="calc-alert-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+                        </label>
+                        <label class="calc-alert-consent" for="calc-alert-consent">
+                            <input id="calc-alert-consent" type="checkbox" name="consent" value="1" required />
+                            <span>I agree to receive CoinNavigator opportunity alerts and understand that they are estimates, not financial advice. See <a href="/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a>, <a href="/terms/" target="_blank" rel="noopener">Terms</a>, and unsubscribe info in our emails / privacy page.</span>
+                        </label>
+                        <button type="submit" class="btn-mini calc-alert-cta" id="calc-alert-submit">
+                            Create alert
+                        </button>
+                    </form>
+                    <div id="calc-alert-success" class="calc-alert-success" role="status" aria-live="polite" hidden>
+                        <h4>Alert created</h4>
+                        <p>We’ll notify you when CoinNavigator detects a matching opportunity. Market conditions may change before execution.</p>
+                        <div id="calc-alert-success-aff" class="calc-aff-actions" style="margin-top:0.75rem;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

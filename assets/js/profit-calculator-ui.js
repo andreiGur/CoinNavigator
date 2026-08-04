@@ -3,13 +3,19 @@
   'use strict';
 
   var STALE_MS = 20 * 60 * 1000; // warn when snapshot older than ~20 min (refresh is ~15)
+  var EXCHANGES = ['Binance', 'MEXC', 'Bybit', 'OKX', 'KuCoin', 'Gate'];
+  var CONSENT_VERSION = 'alerts-v1-2026-08-04';
+
   var state = {
     opportunity: null,
     triggerEl: null,
     lastVerdict: null,
+    lastResult: null,
     advancedOpenedTracked: false,
     focusables: [],
     prevFocus: null,
+    alertFormStarted: false,
+    alertCreated: false,
   };
 
   function engine() {
@@ -318,6 +324,36 @@
 
     renderAffiliateActions(opp, result);
     state.lastVerdict = result.verdict;
+    state.lastResult = result;
+    syncAlertSection(opp, result);
+  }
+
+  function buildAffiliateButtonsHtml(opp, context, verdict) {
+    var buyUrl = affiliateUrl(opp.buyExchange);
+    var sellUrl = affiliateUrl(opp.sellExchange);
+    var html = '<div class="calc-aff-label">Next step (optional)</div><div class="calc-aff-row">';
+    if (buyUrl) {
+      html += '<a class="btn-mini calc-aff-btn" href="' + escapeHtml(buyUrl) + '" target="_blank" rel="sponsored noopener noreferrer" data-ex="' + escapeHtml(opp.buyExchange) + '" data-aff-side="buy" data-aff-context="' + escapeHtml(context) + '">Open ' + escapeHtml(opp.buyExchange) + '</a>';
+    }
+    if (sellUrl) {
+      html += '<a class="btn-mini calc-aff-btn" href="' + escapeHtml(sellUrl) + '" target="_blank" rel="sponsored noopener noreferrer" data-ex="' + escapeHtml(opp.sellExchange) + '" data-aff-side="sell" data-aff-context="' + escapeHtml(context) + '">Open ' + escapeHtml(opp.sellExchange) + '</a>';
+    }
+    html += '</div>';
+    return { html: html, verdict: verdict };
+  }
+
+  function wireAffiliateClicks(wrap, opp, result, context) {
+    if (!wrap) return;
+    wrap.querySelectorAll('[data-ex]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        track('affiliate_exchange_clicked', {
+          exchange: a.getAttribute('data-ex'),
+          asset: opp.ticker || opp.symbol,
+          context: context,
+          verdict: result.verdict,
+        });
+      });
+    });
   }
 
   function renderAffiliateActions(opp, result) {
@@ -328,28 +364,303 @@
       wrap.innerHTML = '';
       return;
     }
-    var buyUrl = affiliateUrl(opp.buyExchange);
-    var sellUrl = affiliateUrl(opp.sellExchange);
-    var html = '<div class="calc-aff-label">Next step (optional)</div><div class="calc-aff-row">';
-    if (buyUrl) {
-      html += '<a class="btn-mini calc-aff-btn" href="' + escapeHtml(buyUrl) + '" target="_blank" rel="sponsored noopener noreferrer" data-ex="' + escapeHtml(opp.buyExchange) + '" data-aff-side="buy">Open ' + escapeHtml(opp.buyExchange) + '</a>';
-    }
-    if (sellUrl) {
-      html += '<a class="btn-mini calc-aff-btn" href="' + escapeHtml(sellUrl) + '" target="_blank" rel="sponsored noopener noreferrer" data-ex="' + escapeHtml(opp.sellExchange) + '" data-aff-side="sell">Open ' + escapeHtml(opp.sellExchange) + '</a>';
-    }
-    html += '</div>';
-    wrap.innerHTML = html;
+    var built = buildAffiliateButtonsHtml(opp, 'profit_calculator', result.verdict);
+    wrap.innerHTML = built.html;
     wrap.hidden = false;
-    wrap.querySelectorAll('[data-ex]').forEach(function (a) {
-      a.addEventListener('click', function () {
-        track('affiliate_exchange_clicked', {
-          exchange: a.getAttribute('data-ex'),
-          asset: opp.ticker || opp.symbol,
-          context: 'profit_calculator',
-          verdict: result.verdict,
-        });
-      });
+    wireAffiliateClicks(wrap, opp, result, 'profit_calculator');
+  }
+
+  function fillExchangeSelect(selectEl, selected) {
+    if (!selectEl) return;
+    selectEl.innerHTML = EXCHANGES.map(function (ex) {
+      return '<option value="' + escapeHtml(ex) + '"' + (ex === selected ? ' selected' : '') + '>' + escapeHtml(ex) + '</option>';
+    }).join('');
+  }
+
+  function defaultMinPct(result) {
+    var pct = result && Number.isFinite(result.estimatedNetProfitPct)
+      ? result.estimatedNetProfitPct
+      : 0.25;
+    var rounded = Math.floor(pct * 100) / 100;
+    if (!Number.isFinite(rounded) || rounded < 0.25) return 0.25;
+    return rounded;
+  }
+
+  function resetAlertUi() {
+    state.alertFormStarted = false;
+    state.alertCreated = false;
+    var form = $('calc-alert-form');
+    var success = $('calc-alert-success');
+    var cta = $('calc-alert-cta');
+    var err = $('calc-alert-error');
+    if (form) form.hidden = true;
+    if (success) success.hidden = true;
+    if (cta) {
+      cta.hidden = false;
+      cta.setAttribute('aria-expanded', 'false');
+    }
+    if (err) {
+      err.hidden = true;
+      err.textContent = '';
+    }
+    var consent = $('calc-alert-consent');
+    if (consent) consent.checked = false;
+    var website = $('calc-alert-website');
+    if (website) website.value = '';
+  }
+
+  function syncAlertSection(opp, result) {
+    var section = $('calc-alert-section');
+    if (!section) return;
+    if (!result || result.verdict === 'invalid' || state.alertCreated) {
+      if (!state.alertCreated) section.hidden = true;
+      return;
+    }
+    section.hidden = false;
+    if ($('calc-alert-form') && !$('calc-alert-form').hidden) {
+      // Keep user edits while recalculating; only refresh defaults when form closed
+      return;
+    }
+    var asset = (opp.ticker || opp.symbol || '').replace(/USDT$/i, '');
+    var assetEl = $('calc-alert-asset');
+    var minPct = $('calc-alert-min-pct');
+    var minUsd = $('calc-alert-min-usd');
+    if (assetEl) assetEl.value = asset;
+    fillExchangeSelect($('calc-alert-buy'), opp.buyExchange);
+    fillExchangeSelect($('calc-alert-sell'), opp.sellExchange);
+    if (minPct) minPct.value = String(defaultMinPct(result));
+    if (minUsd) {
+      minUsd.value = (result.estimatedNetProfitUsd > 0)
+        ? String(Math.round(result.estimatedNetProfitUsd * 100) / 100)
+        : '';
+    }
+    updateAlertScopeUi();
+  }
+
+  function updateAlertScopeUi() {
+    var scope = $('calc-alert-scope');
+    var buy = $('calc-alert-buy');
+    var sell = $('calc-alert-sell');
+    var any = scope && scope.value === 'any_pair';
+    if (buy) buy.disabled = !!any;
+    if (sell) sell.disabled = !!any;
+  }
+
+  function openAlertForm() {
+    var opp = state.opportunity;
+    var result = state.lastResult;
+    if (!opp || !result || result.verdict === 'invalid') return;
+    var form = $('calc-alert-form');
+    var cta = $('calc-alert-cta');
+    var success = $('calc-alert-success');
+    if (!form) return;
+    if (success) success.hidden = true;
+    form.hidden = false;
+    if (cta) {
+      cta.setAttribute('aria-expanded', 'true');
+      cta.hidden = true;
+    }
+    syncAlertSection(opp, result);
+    // Force prefills when opening
+    var asset = (opp.ticker || opp.symbol || '').replace(/USDT$/i, '');
+    var assetEl = $('calc-alert-asset');
+    if (assetEl) assetEl.value = asset;
+    fillExchangeSelect($('calc-alert-buy'), opp.buyExchange);
+    fillExchangeSelect($('calc-alert-sell'), opp.sellExchange);
+    var minPct = $('calc-alert-min-pct');
+    var minUsd = $('calc-alert-min-usd');
+    if (minPct) minPct.value = String(defaultMinPct(result));
+    if (minUsd) {
+      minUsd.value = (result.estimatedNetProfitUsd > 0)
+        ? String(Math.round(result.estimatedNetProfitUsd * 100) / 100)
+        : '';
+    }
+    updateAlertScopeUi();
+
+    var scope = ($('calc-alert-scope') && $('calc-alert-scope').value) || 'exact_pair';
+    track('arbitrage_alert_cta_clicked', {
+      asset: asset,
+      buy_exchange: opp.buyExchange,
+      sell_exchange: opp.sellExchange,
+      verdict: result.verdict,
+      alert_scope: scope,
     });
+    if (!state.alertFormStarted) {
+      state.alertFormStarted = true;
+      track('arbitrage_alert_form_started', {
+        asset: asset,
+        alert_scope: scope,
+      });
+    }
+    var email = $('calc-alert-email');
+    if (email) {
+      try { email.focus(); } catch (_e) {}
+    }
+  }
+
+  function showAlertError(message) {
+    var err = $('calc-alert-error');
+    if (!err) return;
+    err.hidden = false;
+    err.textContent = message;
+  }
+
+  function clearAlertError() {
+    var err = $('calc-alert-error');
+    if (!err) return;
+    err.hidden = true;
+    err.textContent = '';
+  }
+
+  function showAlertSuccess(opp, result) {
+    var form = $('calc-alert-form');
+    var success = $('calc-alert-success');
+    var cta = $('calc-alert-cta');
+    var aff = $('calc-alert-success-aff');
+    if (form) form.hidden = true;
+    if (cta) cta.hidden = true;
+    if (success) success.hidden = false;
+    if (aff) {
+      var built = buildAffiliateButtonsHtml(opp, 'alert_success', result.verdict);
+      aff.innerHTML = built.html;
+      wireAffiliateClicks(aff, opp, result, 'alert_success');
+    }
+    state.alertCreated = true;
+    try { success && success.focus && success.focus(); } catch (_e) {}
+  }
+
+  function parseOptionalThreshold(raw) {
+    if (raw == null || String(raw).trim() === '') return null;
+    var n = Number(raw);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  async function submitAlertForm(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    clearAlertError();
+    var opp = state.opportunity;
+    var result = state.lastResult;
+    if (!opp || !result) return;
+
+    var emailEl = $('calc-alert-email');
+    var consentEl = $('calc-alert-consent');
+    var scopeEl = $('calc-alert-scope');
+    var assetEl = $('calc-alert-asset');
+    var buyEl = $('calc-alert-buy');
+    var sellEl = $('calc-alert-sell');
+    var minPctEl = $('calc-alert-min-pct');
+    var minUsdEl = $('calc-alert-min-usd');
+    var websiteEl = $('calc-alert-website');
+    var submitBtn = $('calc-alert-submit');
+
+    var alertScope = (scopeEl && scopeEl.value) || 'exact_pair';
+    var asset = assetEl ? assetEl.value.trim() : '';
+    var minPct = parseOptionalThreshold(minPctEl && minPctEl.value);
+    var minUsd = parseOptionalThreshold(minUsdEl && minUsdEl.value);
+
+    if (!emailEl || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      showAlertError('Enter a valid email address.');
+      track('arbitrage_alert_failed', {
+        failure_category: 'invalid_email',
+        asset: asset,
+        alert_scope: alertScope,
+      });
+      return;
+    }
+    if (!consentEl || !consentEl.checked) {
+      showAlertError('Please confirm consent to create an alert.');
+      track('arbitrage_alert_failed', {
+        failure_category: 'missing_consent',
+        asset: asset,
+        alert_scope: alertScope,
+      });
+      return;
+    }
+    if (Number.isNaN(minPct) || Number.isNaN(minUsd) || (minPct != null && minPct < 0) || (minUsd != null && minUsd < 0)) {
+      showAlertError('Profit thresholds must be valid non-negative numbers.');
+      track('arbitrage_alert_failed', {
+        failure_category: 'validation',
+        asset: asset,
+        alert_scope: alertScope,
+      });
+      return;
+    }
+
+    var payload = {
+      email: emailEl.value.trim(),
+      asset: asset,
+      buy_exchange: buyEl ? buyEl.value : opp.buyExchange,
+      sell_exchange: sellEl ? sellEl.value : opp.sellExchange,
+      alert_scope: alertScope,
+      minimum_net_profit_pct: minPct,
+      minimum_net_profit_usd: minUsd,
+      source_page: 'home',
+      source_context: 'check_real_profit',
+      consent: true,
+      consent_version: CONSENT_VERSION,
+      website: websiteEl ? websiteEl.value : '',
+    };
+
+    track('arbitrage_alert_submitted', {
+      asset: asset,
+      alert_scope: alertScope,
+      has_net_profit_pct_threshold: minPct != null,
+      has_net_profit_usd_threshold: minUsd != null,
+    });
+
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      var res = await fetch('/api/alerts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      var data = null;
+      try { data = await res.json(); } catch (_e) { data = null; }
+
+      if (res.ok && data && data.ok) {
+        track('arbitrage_alert_created', {
+          asset: asset,
+          alert_scope: alertScope,
+        });
+        // Clear email from DOM after success — do not echo it
+        emailEl.value = '';
+        showAlertSuccess(opp, result);
+        return;
+      }
+
+      var category = 'server_error';
+      var message = 'Unable to create your alert right now. Please try again later.';
+      if (res.status === 429) {
+        category = 'rate_limited';
+        message = 'Too many requests. Please try again later.';
+      } else if (data && data.error && data.error.code === 'MISSING_CONFIG') {
+        category = 'missing_config';
+        message = 'Alert storage is temporarily unavailable.';
+      } else if (data && data.error && data.error.code === 'VALIDATION_ERROR') {
+        category = 'validation';
+        message = data.error.message || message;
+      } else if (!res.ok && res.status >= 500) {
+        category = 'server_unavailable';
+      } else if (!res.ok) {
+        category = 'network_failure';
+      }
+      track('arbitrage_alert_failed', {
+        failure_category: category,
+        asset: asset,
+        alert_scope: alertScope,
+      });
+      showAlertError(message);
+    } catch (_err) {
+      track('arbitrage_alert_failed', {
+        failure_category: 'network_failure',
+        asset: asset,
+        alert_scope: alertScope,
+      });
+      showAlertError('Network error. Please try again.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   }
 
   function runCalc() {
@@ -444,6 +755,9 @@
     clearError();
     show('calc-result-panel', false);
     show('calc-aff-actions', false);
+    resetAlertUi();
+    show('calc-alert-section', false);
+    state.lastResult = null;
 
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -533,6 +847,13 @@
     }
 
     document.addEventListener('keydown', onKeydown);
+
+    var alertCta = $('calc-alert-cta');
+    if (alertCta) alertCta.addEventListener('click', openAlertForm);
+    var alertForm = $('calc-alert-form');
+    if (alertForm) alertForm.addEventListener('submit', submitAlertForm);
+    var scopeEl = $('calc-alert-scope');
+    if (scopeEl) scopeEl.addEventListener('change', updateAlertScopeUi);
   }
 
   if (document.readyState === 'loading') {

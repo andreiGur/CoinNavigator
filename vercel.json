@@ -5,6 +5,13 @@
   "outputDirectory": ".",
   "headers": [
     {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
       "source": "/spread_data.json",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
