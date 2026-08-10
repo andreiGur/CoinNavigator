@@ -378,6 +378,11 @@ var UpstreamError = class extends Error {
     this.name = "UpstreamError";
   }
 };
+var DEFAULT_HEADERS = {
+  Accept: "application/json",
+  // Some exchanges block blank / serverless default UAs.
+  "User-Agent": "CoinNavigator/1.0 (+https://coinnavigator.net)"
+};
 async function fetchJson(url, opts = {}) {
   const timeoutMs = opts.timeoutMs ?? UPSTREAM_TIMEOUT_MS;
   const controller = new AbortController();
@@ -386,7 +391,7 @@ async function fetchJson(url, opts = {}) {
     const res = await fetch(url, {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        ...DEFAULT_HEADERS,
         ...opts.headers ?? {}
       },
       signal: controller.signal
@@ -408,6 +413,22 @@ async function fetchJson(url, opts = {}) {
     clearTimeout(timer);
   }
 }
+async function fetchJsonWithFallbacks(urls, opts = {}) {
+  if (!urls.length) throw new UpstreamError("no_urls", "unavailable");
+  let last = null;
+  for (const url of urls) {
+    try {
+      return await fetchJson(url, opts);
+    } catch (err) {
+      if (err instanceof UpstreamError) {
+        last = err;
+        continue;
+      }
+      last = new UpstreamError("unavailable", "unavailable");
+    }
+  }
+  throw last ?? new UpstreamError("unavailable", "unavailable");
+}
 function normalizeLevels(raw) {
   if (!Array.isArray(raw)) throw new UpstreamError("malformed_levels", "malformed");
   const out = [];
@@ -423,12 +444,22 @@ function normalizeLevels(raw) {
   return out.slice(0, ORDER_BOOK_LIMIT);
 }
 
+// src/route-validator/adapters/hosts.ts
+var BINANCE_API_HOSTS = [
+  "https://api.binance.com",
+  "https://data-api.binance.vision"
+];
+var BYBIT_API_HOSTS = [
+  "https://api.bybit.com",
+  "https://api.bytick.com"
+];
+
 // src/route-validator/adapters/binance.ts
 var binanceAdapter = {
   exchange: "Binance",
   async fetchOrderBook(symbol) {
-    const url = `https://api.binance.com/api/v3/depth?symbol=${encodeURIComponent(symbol)}&limit=${ORDER_BOOK_LIMIT}`;
-    const json = await fetchJson(url);
+    const path = `/api/v3/depth?symbol=${encodeURIComponent(symbol)}&limit=${ORDER_BOOK_LIMIT}`;
+    const json = await fetchJsonWithFallbacks(BINANCE_API_HOSTS.map((h) => h + path));
     if (!json || typeof json !== "object") throw new UpstreamError("malformed", "malformed");
     const body = json;
     const bids = normalizeLevels(body.bids);
@@ -453,8 +484,8 @@ var binanceAdapter = {
 var bybitAdapter = {
   exchange: "Bybit",
   async fetchOrderBook(symbol) {
-    const url = `https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${encodeURIComponent(symbol)}&limit=${ORDER_BOOK_LIMIT}`;
-    const json = await fetchJson(url);
+    const path = `/v5/market/orderbook?category=spot&symbol=${encodeURIComponent(symbol)}&limit=${ORDER_BOOK_LIMIT}`;
+    const json = await fetchJsonWithFallbacks(BYBIT_API_HOSTS.map((h) => h + path));
     if (!json || typeof json !== "object") throw new UpstreamError("malformed", "malformed");
     const body = json;
     if (body.retCode !== 0 || !body.result) {

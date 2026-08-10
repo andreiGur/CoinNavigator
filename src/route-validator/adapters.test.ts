@@ -101,6 +101,56 @@ describe('exchange adapters normalization', () => {
       category: 'http',
     });
   });
+
+  it('Binance falls back to data-api.binance.vision', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        const u = String(url);
+        if (u.includes('api.binance.com')) {
+          return { ok: false, status: 451, json: async () => ({}) };
+        }
+        if (u.includes('data-api.binance.vision')) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              bids: [['100', '1']],
+              asks: [['101', '1']],
+            }),
+          };
+        }
+        return { ok: false, status: 500, json: async () => ({}) };
+      }),
+    );
+    const book = await binanceAdapter.fetchOrderBook('BTCUSDT');
+    expect(book.bids[0]!.price).toBe('100');
+  });
+
+  it('Bybit falls back to api.bytick.com', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        const u = String(url);
+        if (u.includes('api.bybit.com')) {
+          return { ok: false, status: 403, json: async () => ({}) };
+        }
+        if (u.includes('api.bytick.com')) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              retCode: 0,
+              result: { b: [['110', '1']], a: [['111', '1']], ts: 1 },
+            }),
+          };
+        }
+        return { ok: false, status: 500, json: async () => ({}) };
+      }),
+    );
+    const book = await bybitAdapter.fetchOrderBook('ETHUSDT');
+    expect(book.bids[0]!.price).toBe('110');
+  });
 });
 
 describe('display helpers', () => {

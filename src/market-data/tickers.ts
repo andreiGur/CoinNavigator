@@ -1,5 +1,6 @@
-import { UpstreamError, fetchJson } from './upstream.js';
+import { UpstreamError, fetchJson, fetchJsonWithFallbacks } from './upstream.js';
 import type { TickerPriceMap } from './types.js';
+import { BINANCE_API_HOSTS, BYBIT_API_HOSTS } from '../route-validator/adapters/hosts.js';
 
 function filterMap(
   symbols: ReadonlySet<string>,
@@ -14,26 +15,7 @@ function filterMap(
   return map;
 }
 
-export async function fetchBinanceTickers(
-  symbols: ReadonlySet<string>,
-): Promise<TickerPriceMap> {
-  const json = await fetchJson('https://api.binance.com/api/v3/ticker/price');
-  if (!Array.isArray(json)) throw new UpstreamError('malformed', 'malformed');
-  const rows: Array<{ symbol: string; price: number }> = [];
-  for (const row of json) {
-    if (!row || typeof row !== 'object') continue;
-    const r = row as { symbol?: unknown; price?: unknown };
-    if (typeof r.symbol !== 'string') continue;
-    const p = parseFloat(String(r.price));
-    rows.push({ symbol: r.symbol, price: p });
-  }
-  return filterMap(symbols, rows);
-}
-
-export async function fetchMexcTickers(
-  symbols: ReadonlySet<string>,
-): Promise<TickerPriceMap> {
-  const json = await fetchJson('https://api.mexc.com/api/v3/ticker/price');
+function parseBinanceTickerArray(json: unknown): Array<{ symbol: string; price: number }> {
   if (!Array.isArray(json)) throw new UpstreamError('malformed', 'malformed');
   const rows: Array<{ symbol: string; price: number }> = [];
   for (const row of json) {
@@ -42,13 +24,31 @@ export async function fetchMexcTickers(
     if (typeof r.symbol !== 'string') continue;
     rows.push({ symbol: r.symbol, price: parseFloat(String(r.price)) });
   }
-  return filterMap(symbols, rows);
+  return rows;
+}
+
+export async function fetchBinanceTickers(
+  symbols: ReadonlySet<string>,
+): Promise<TickerPriceMap> {
+  const json = await fetchJsonWithFallbacks(
+    BINANCE_API_HOSTS.map((h) => `${h}/api/v3/ticker/price`),
+  );
+  return filterMap(symbols, parseBinanceTickerArray(json));
+}
+
+export async function fetchMexcTickers(
+  symbols: ReadonlySet<string>,
+): Promise<TickerPriceMap> {
+  const json = await fetchJson('https://api.mexc.com/api/v3/ticker/price');
+  return filterMap(symbols, parseBinanceTickerArray(json));
 }
 
 export async function fetchBybitTickers(
   symbols: ReadonlySet<string>,
 ): Promise<TickerPriceMap> {
-  const json = await fetchJson('https://api.bybit.com/v5/market/tickers?category=spot');
+  const json = await fetchJsonWithFallbacks(
+    BYBIT_API_HOSTS.map((h) => `${h}/v5/market/tickers?category=spot`),
+  );
   if (!json || typeof json !== 'object') throw new UpstreamError('malformed', 'malformed');
   const body = json as { result?: { list?: unknown } };
   const list = Array.isArray(body.result?.list) ? body.result!.list! : [];
@@ -115,8 +115,23 @@ export async function fetchGateTickers(
 }
 
 export async function fetchBinanceReferencePrice(symbol: string): Promise<number> {
-  const url = `https://api.binance.com/api/v3/ticker/price?symbol=${encodeURIComponent(symbol)}`;
-  const json = await fetchJson(url);
+  const json = await fetchJsonWithFallbacks(
+    BINANCE_API_HOSTS.map(
+      (h) => `${h}/api/v3/ticker/price?symbol=${encodeURIComponent(symbol)}`,
+    ),
+  );
+  if (!json || typeof json !== 'object') throw new UpstreamError('malformed', 'malformed');
+  const body = json as { symbol?: unknown; price?: unknown };
+  const p = parseFloat(String(body.price));
+  if (!Number.isFinite(p) || p <= 0) throw new UpstreamError('malformed_price', 'malformed');
+  return p;
+}
+
+/** Fallback reference when Binance hosts are unreachable from the runtime. */
+export async function fetchMexcReferencePrice(symbol: string): Promise<number> {
+  const json = await fetchJson(
+    `https://api.mexc.com/api/v3/ticker/price?symbol=${encodeURIComponent(symbol)}`,
+  );
   if (!json || typeof json !== 'object') throw new UpstreamError('malformed', 'malformed');
   const body = json as { symbol?: unknown; price?: unknown };
   const p = parseFloat(String(body.price));

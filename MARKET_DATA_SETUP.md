@@ -32,6 +32,17 @@ npm run build:market-data
 - Errors: ~2s dampening only
 - In-memory / best-effort on Vercel isolates
 
+## Host fallbacks (cloud IP blocks)
+
+Some exchanges geo-block common serverless IP ranges. The gateway tries:
+
+| Exchange | Hosts |
+|---|---|
+| Binance | `api.binance.com` → `data-api.binance.vision` |
+| Bybit | `api.bybit.com` → `api.bytick.com` |
+
+`reference_price` prefers Binance; if all Binance hosts fail it falls back to MEXC and reports the exchange actually used.
+
 ## Env vars
 
 None. Public exchange endpoints only.

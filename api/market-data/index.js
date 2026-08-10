@@ -198,6 +198,11 @@ var UpstreamError = class extends Error {
     this.name = "UpstreamError";
   }
 };
+var DEFAULT_HEADERS = {
+  Accept: "application/json",
+  // Some exchanges block blank / serverless default UAs.
+  "User-Agent": "CoinNavigator/1.0 (+https://coinnavigator.net)"
+};
 async function fetchJson(url, opts = {}) {
   const timeoutMs = opts.timeoutMs ?? UPSTREAM_TIMEOUT_MS;
   const controller = new AbortController();
@@ -206,7 +211,7 @@ async function fetchJson(url, opts = {}) {
     const res = await fetch(url, {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        ...DEFAULT_HEADERS,
         ...opts.headers ?? {}
       },
       signal: controller.signal
@@ -228,6 +233,32 @@ async function fetchJson(url, opts = {}) {
     clearTimeout(timer);
   }
 }
+async function fetchJsonWithFallbacks(urls, opts = {}) {
+  if (!urls.length) throw new UpstreamError("no_urls", "unavailable");
+  let last = null;
+  for (const url of urls) {
+    try {
+      return await fetchJson(url, opts);
+    } catch (err) {
+      if (err instanceof UpstreamError) {
+        last = err;
+        continue;
+      }
+      last = new UpstreamError("unavailable", "unavailable");
+    }
+  }
+  throw last ?? new UpstreamError("unavailable", "unavailable");
+}
+
+// src/route-validator/adapters/hosts.ts
+var BINANCE_API_HOSTS = [
+  "https://api.binance.com",
+  "https://data-api.binance.vision"
+];
+var BYBIT_API_HOSTS = [
+  "https://api.bybit.com",
+  "https://api.bytick.com"
+];
 
 // src/market-data/tickers.ts
 function filterMap(symbols, rows) {
@@ -239,21 +270,7 @@ function filterMap(symbols, rows) {
   }
   return map;
 }
-async function fetchBinanceTickers(symbols) {
-  const json = await fetchJson("https://api.binance.com/api/v3/ticker/price");
-  if (!Array.isArray(json)) throw new UpstreamError("malformed", "malformed");
-  const rows = [];
-  for (const row of json) {
-    if (!row || typeof row !== "object") continue;
-    const r = row;
-    if (typeof r.symbol !== "string") continue;
-    const p = parseFloat(String(r.price));
-    rows.push({ symbol: r.symbol, price: p });
-  }
-  return filterMap(symbols, rows);
-}
-async function fetchMexcTickers(symbols) {
-  const json = await fetchJson("https://api.mexc.com/api/v3/ticker/price");
+function parseBinanceTickerArray(json) {
   if (!Array.isArray(json)) throw new UpstreamError("malformed", "malformed");
   const rows = [];
   for (const row of json) {
@@ -262,10 +279,22 @@ async function fetchMexcTickers(symbols) {
     if (typeof r.symbol !== "string") continue;
     rows.push({ symbol: r.symbol, price: parseFloat(String(r.price)) });
   }
-  return filterMap(symbols, rows);
+  return rows;
+}
+async function fetchBinanceTickers(symbols) {
+  const json = await fetchJsonWithFallbacks(
+    BINANCE_API_HOSTS.map((h) => `${h}/api/v3/ticker/price`)
+  );
+  return filterMap(symbols, parseBinanceTickerArray(json));
+}
+async function fetchMexcTickers(symbols) {
+  const json = await fetchJson("https://api.mexc.com/api/v3/ticker/price");
+  return filterMap(symbols, parseBinanceTickerArray(json));
 }
 async function fetchBybitTickers(symbols) {
-  const json = await fetchJson("https://api.bybit.com/v5/market/tickers?category=spot");
+  const json = await fetchJsonWithFallbacks(
+    BYBIT_API_HOSTS.map((h) => `${h}/v5/market/tickers?category=spot`)
+  );
   if (!json || typeof json !== "object") throw new UpstreamError("malformed", "malformed");
   const body = json;
   const list = Array.isArray(body.result?.list) ? body.result.list : [];
@@ -322,8 +351,21 @@ async function fetchGateTickers(symbols) {
   return filterMap(symbols, rows);
 }
 async function fetchBinanceReferencePrice(symbol) {
-  const url = `https://api.binance.com/api/v3/ticker/price?symbol=${encodeURIComponent(symbol)}`;
-  const json = await fetchJson(url);
+  const json = await fetchJsonWithFallbacks(
+    BINANCE_API_HOSTS.map(
+      (h) => `${h}/api/v3/ticker/price?symbol=${encodeURIComponent(symbol)}`
+    )
+  );
+  if (!json || typeof json !== "object") throw new UpstreamError("malformed", "malformed");
+  const body = json;
+  const p = parseFloat(String(body.price));
+  if (!Number.isFinite(p) || p <= 0) throw new UpstreamError("malformed_price", "malformed");
+  return p;
+}
+async function fetchMexcReferencePrice(symbol) {
+  const json = await fetchJson(
+    `https://api.mexc.com/api/v3/ticker/price?symbol=${encodeURIComponent(symbol)}`
+  );
   if (!json || typeof json !== "object") throw new UpstreamError("malformed", "malformed");
   const body = json;
   const p = parseFloat(String(body.price));
@@ -396,33 +438,57 @@ async function buildReferencePrice(raw, opts = {}) {
   if (!asset) return { ok: false, category: "unsupported", reason: "unsupported_asset" };
   const quote = typeof raw.quote === "string" && raw.quote.trim() ? raw.quote.trim().toUpperCase() : "USDT";
   if (quote !== "USDT") return { ok: false, category: "unsupported", reason: "unsupported_quote" };
-  const exchange = normalizeMarketExchange(raw.exchange ?? "Binance");
-  if (!exchange) return { ok: false, category: "unsupported", reason: "unsupported_exchange" };
-  if (exchange !== "Binance") {
+  const requested = normalizeMarketExchange(raw.exchange ?? "Binance");
+  if (!requested) return { ok: false, category: "unsupported", reason: "unsupported_exchange" };
+  if (requested !== "Binance" && requested !== "MEXC") {
     return { ok: false, category: "unsupported", reason: "reference_exchange_unsupported" };
   }
   const symbol = toSpotSymbol(asset);
-  const cacheKey = `op=reference_price&ex=${exchange}&sym=${symbol}`;
+  const cacheKey = `op=reference_price&ex=${requested}&sym=${symbol}`;
   if (!opts.skipCache) {
     const hit = cacheGet(cacheKey);
     if (hit) return { ok: true, data: hit, warnings: [], cacheHit: true };
   }
-  try {
-    const price = await fetchBinanceReferencePrice(symbol);
-    const data = {
-      asset,
-      quote: "USDT",
-      exchange: "Binance",
-      price,
-      fetched_at: (/* @__PURE__ */ new Date()).toISOString(),
-      source: "live_gateway"
-    };
-    cacheSet(cacheKey, data, REFERENCE_PRICE_TTL_MS);
-    return { ok: true, data, warnings: [], cacheHit: false };
-  } catch {
+  const warnings = [];
+  let price = null;
+  let usedExchange = requested === "MEXC" ? "MEXC" : "Binance";
+  if (requested === "Binance") {
+    try {
+      price = await fetchBinanceReferencePrice(symbol);
+      usedExchange = "Binance";
+    } catch {
+      try {
+        price = await fetchMexcReferencePrice(symbol);
+        usedExchange = "MEXC";
+        warnings.push(
+          "Binance reference price unavailable from this runtime; used MEXC public ticker instead."
+        );
+      } catch {
+        price = null;
+      }
+    }
+  } else {
+    try {
+      price = await fetchMexcReferencePrice(symbol);
+      usedExchange = "MEXC";
+    } catch {
+      price = null;
+    }
+  }
+  if (price == null) {
     cacheSet(cacheKey + ":fail", { failed: true }, ERROR_CACHE_TTL_MS);
     return { ok: false, category: "unavailable", reason: "upstream_failed" };
   }
+  const data = {
+    asset,
+    quote: "USDT",
+    exchange: usedExchange,
+    price,
+    fetched_at: (/* @__PURE__ */ new Date()).toISOString(),
+    source: "live_gateway"
+  };
+  cacheSet(cacheKey, data, REFERENCE_PRICE_TTL_MS);
+  return { ok: true, data, warnings, cacheHit: false };
 }
 
 // src/market-data/http.ts

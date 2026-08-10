@@ -1,5 +1,6 @@
 import type { ExchangeAdapter } from './base.js';
-import { fetchJson, normalizeLevels, UpstreamError } from './base.js';
+import { fetchJsonWithFallbacks, normalizeLevels, UpstreamError } from './base.js';
+import { BYBIT_API_HOSTS } from './hosts.js';
 import type { NormalizedOrderBook } from '../types.js';
 import { ORDER_BOOK_LIMIT } from '../symbols.js';
 
@@ -7,10 +8,10 @@ export const bybitAdapter: ExchangeAdapter = {
   exchange: 'Bybit',
 
   async fetchOrderBook(symbol: string): Promise<NormalizedOrderBook> {
-    const url =
-      `https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${encodeURIComponent(symbol)}` +
+    const path =
+      `/v5/market/orderbook?category=spot&symbol=${encodeURIComponent(symbol)}` +
       `&limit=${ORDER_BOOK_LIMIT}`;
-    const json = await fetchJson(url);
+    const json = await fetchJsonWithFallbacks(BYBIT_API_HOSTS.map((h) => h + path));
     if (!json || typeof json !== 'object') throw new UpstreamError('malformed', 'malformed');
     const body = json as {
       retCode?: number;

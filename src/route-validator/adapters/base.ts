@@ -11,6 +11,12 @@ export class UpstreamError extends Error {
   }
 }
 
+const DEFAULT_HEADERS: Record<string, string> = {
+  Accept: 'application/json',
+  // Some exchanges block blank / serverless default UAs.
+  'User-Agent': 'CoinNavigator/1.0 (+https://coinnavigator.net)',
+};
+
 export async function fetchJson(
   url: string,
   opts: { timeoutMs?: number; headers?: Record<string, string> } = {},
@@ -22,7 +28,7 @@ export async function fetchJson(
     const res = await fetch(url, {
       method: 'GET',
       headers: {
-        Accept: 'application/json',
+        ...DEFAULT_HEADERS,
         ...(opts.headers ?? {}),
       },
       signal: controller.signal,
@@ -43,6 +49,30 @@ export async function fetchJson(
   } finally {
     clearTimeout(timer);
   }
+}
+
+/**
+ * Try public host mirrors in order (e.g. Binance / Bybit geo blocks on cloud IPs).
+ * Returns the first successful JSON body.
+ */
+export async function fetchJsonWithFallbacks(
+  urls: readonly string[],
+  opts: { timeoutMs?: number; headers?: Record<string, string> } = {},
+): Promise<unknown> {
+  if (!urls.length) throw new UpstreamError('no_urls', 'unavailable');
+  let last: UpstreamError | null = null;
+  for (const url of urls) {
+    try {
+      return await fetchJson(url, opts);
+    } catch (err) {
+      if (err instanceof UpstreamError) {
+        last = err;
+        continue;
+      }
+      last = new UpstreamError('unavailable', 'unavailable');
+    }
+  }
+  throw last ?? new UpstreamError('unavailable', 'unavailable');
 }
 
 export function normalizeLevels(raw: unknown): OrderBookLevel[] {

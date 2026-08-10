@@ -306,6 +306,29 @@ describe('spread payload + service', () => {
     }
   });
 
+  it('reference price falls back to MEXC when Binance hosts fail', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+      const u = String(url);
+      if (u.includes('binance') || u.includes('binance.vision')) {
+        return { ok: false, status: 451, json: async () => ({}) };
+      }
+      if (u.includes('mexc.com') && u.includes('symbol=BTCUSDT')) {
+        return { ok: true, status: 200, json: async () => ({ symbol: 'BTCUSDT', price: '64000' }) };
+      }
+      return { ok: false, status: 500, json: async () => ({}) };
+    }));
+    const out = await buildReferencePrice(
+      { asset: 'BTC', quote: 'USDT', exchange: 'Binance' },
+      { skipCache: true },
+    );
+    expect(out.ok).toBe(true);
+    if (out.ok) {
+      expect(out.data.exchange).toBe('MEXC');
+      expect(out.data.price).toBe(64000);
+      expect(out.warnings.length).toBeGreaterThan(0);
+    }
+  });
+
   it('controlled concurrency pool', async () => {
     let peak = 0;
     let current = 0;

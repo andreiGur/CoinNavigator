@@ -13,7 +13,7 @@ import {
 import { cacheGet, cacheSet } from './cache.js';
 import { mapPool } from './concurrency.js';
 import { computeSpreadPayloadFromExchangePrices } from './spread.js';
-import { fetchBinanceReferencePrice } from './tickers.js';
+import { fetchBinanceReferencePrice, fetchMexcReferencePrice } from './tickers.js';
 import { TICKER_FETCHERS } from './tickers-index.js';
 import type {
   ReferencePriceData,
@@ -78,7 +78,6 @@ export async function buildSpreadSnapshot(
   }
 
   if (Object.keys(snapshots).length < 2) {
-    // Short-lived negative cache to dampen storms; not long-lived.
     cacheSet(cacheKey + ':fail', { failed: true }, ERROR_CACHE_TTL_MS);
     return { ok: false, category: 'unavailable', reason: 'insufficient_exchanges' };
   }
@@ -106,34 +105,60 @@ export async function buildReferencePrice(
       : 'USDT';
   if (quote !== 'USDT') return { ok: false, category: 'unsupported', reason: 'unsupported_quote' };
 
-  const exchange = normalizeMarketExchange(raw.exchange ?? 'Binance');
-  if (!exchange) return { ok: false, category: 'unsupported', reason: 'unsupported_exchange' };
-  // Freshness check historically used Binance only — keep allowlist tight.
-  if (exchange !== 'Binance') {
+  const requested = normalizeMarketExchange(raw.exchange ?? 'Binance');
+  if (!requested) return { ok: false, category: 'unsupported', reason: 'unsupported_exchange' };
+  if (requested !== 'Binance' && requested !== 'MEXC') {
     return { ok: false, category: 'unsupported', reason: 'reference_exchange_unsupported' };
   }
 
   const symbol = toSpotSymbol(asset);
-  const cacheKey = `op=reference_price&ex=${exchange}&sym=${symbol}`;
+  const cacheKey = `op=reference_price&ex=${requested}&sym=${symbol}`;
   if (!opts.skipCache) {
     const hit = cacheGet<ReferencePriceData>(cacheKey);
     if (hit) return { ok: true, data: hit, warnings: [], cacheHit: true };
   }
 
-  try {
-    const price = await fetchBinanceReferencePrice(symbol);
-    const data: ReferencePriceData = {
-      asset,
-      quote: 'USDT',
-      exchange: 'Binance',
-      price,
-      fetched_at: new Date().toISOString(),
-      source: 'live_gateway',
-    };
-    cacheSet(cacheKey, data, REFERENCE_PRICE_TTL_MS);
-    return { ok: true, data, warnings: [], cacheHit: false };
-  } catch {
+  const warnings: string[] = [];
+  let price: number | null = null;
+  let usedExchange: 'Binance' | 'MEXC' = requested === 'MEXC' ? 'MEXC' : 'Binance';
+
+  if (requested === 'Binance') {
+    try {
+      price = await fetchBinanceReferencePrice(symbol);
+      usedExchange = 'Binance';
+    } catch {
+      try {
+        price = await fetchMexcReferencePrice(symbol);
+        usedExchange = 'MEXC';
+        warnings.push(
+          'Binance reference price unavailable from this runtime; used MEXC public ticker instead.',
+        );
+      } catch {
+        price = null;
+      }
+    }
+  } else {
+    try {
+      price = await fetchMexcReferencePrice(symbol);
+      usedExchange = 'MEXC';
+    } catch {
+      price = null;
+    }
+  }
+
+  if (price == null) {
     cacheSet(cacheKey + ':fail', { failed: true }, ERROR_CACHE_TTL_MS);
     return { ok: false, category: 'unavailable', reason: 'upstream_failed' };
   }
+
+  const data: ReferencePriceData = {
+    asset,
+    quote: 'USDT',
+    exchange: usedExchange,
+    price,
+    fetched_at: new Date().toISOString(),
+    source: 'live_gateway',
+  };
+  cacheSet(cacheKey, data, REFERENCE_PRICE_TTL_MS);
+  return { ok: true, data, warnings, cacheHit: false };
 }
