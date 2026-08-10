@@ -33,7 +33,7 @@
         }
 
         function isLiveSource(data) {
-            return !!(data && data.source === 'browser_live_fallback');
+            return !!(data && (data.source === 'live_gateway' || data.source === 'browser_live_fallback'));
         }
 
         async function maybeEnrichWithLivePrices(data, forceLive) {
@@ -672,6 +672,9 @@
         }
 
         // Sparkline charts (CoinGecko + Chart.js)
+        // CoinGecko is decorative chart history only — not used for spreads, freshness,
+        // execution estimates, or financial calculations. Intentionally retained as a
+        // browser third-party call (not an exchange market API).
         const COINGECKO_IDS = {
             BTC: 'bitcoin',
             ETH: 'ethereum',
@@ -904,7 +907,7 @@
 
                     if (isLiveSource(data)) {
                         banner.className = 'data-freshness-banner banner-ok';
-                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — fetched directly from exchange APIs just now. Snapshot file refreshes every ~15 min.</span>`;
+                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — refreshed via CoinNavigator market-data gateway. Snapshot file refreshes every ~15 min.</span>`;
                     } else if (ageHours > 2) {
                         msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly. Click <strong>Refresh</strong> for live prices.`;
                         bannerLevel = 'error';
@@ -925,25 +928,28 @@
                 }
 
                 if (data.symbols && data.symbols.BTCUSDT && banner) {
-                    fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { cache: 'no-store' })
-                        .then(r => r.ok ? r.json() : null)
-                        .then(live => {
-                            if (!live || typeof live.price !== 'string') return;
-                            const livePrice = parseFloat(live.price);
-                            if (!Number.isFinite(livePrice)) return;
-                            const cached = data.symbols.BTCUSDT.binance_price || data.symbols.BTCUSDT.best_buy?.price;
-                            if (cached == null) return;
-                            const diffPct = Math.abs(cached - livePrice) / livePrice;
-                            if (diffPct > 0.05) {
-                                const bannerEl = document.getElementById('data-freshness-banner');
-                                if (!bannerEl) return;
-                                const existing = bannerEl.textContent || '';
-                                const priceMsg = ` Table shows BTC ~$${cached.toLocaleString(undefined, { maximumFractionDigits: 0 })} but current Binance price is ~$${livePrice.toLocaleString(undefined, { maximumFractionDigits: 0 })}.`;
-                                bannerEl.className = 'data-freshness-banner';
-                                bannerEl.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${existing ? existing + ' ' : ''}Price mismatch:${priceMsg}</span>`;
-                            }
-                        })
-                        .catch(() => {});
+                    const refFn =
+                        (global.CoinNavigatorSpreadEngine && global.CoinNavigatorSpreadEngine.fetchReferencePrice) ||
+                        null;
+                    if (refFn) {
+                        refFn({ asset: 'BTC', quote: 'USDT', exchange: 'Binance' })
+                            .then((live) => {
+                                if (!live || !Number.isFinite(live.price)) return;
+                                const livePrice = live.price;
+                                const cached = data.symbols.BTCUSDT.binance_price || data.symbols.BTCUSDT.best_buy?.price;
+                                if (cached == null) return;
+                                const diffPct = Math.abs(cached - livePrice) / livePrice;
+                                if (diffPct > 0.05) {
+                                    const bannerEl = document.getElementById('data-freshness-banner');
+                                    if (!bannerEl) return;
+                                    const existing = bannerEl.textContent || '';
+                                    const priceMsg = ` Table shows BTC ~$${cached.toLocaleString(undefined, { maximumFractionDigits: 0 })} but current Binance price is ~$${livePrice.toLocaleString(undefined, { maximumFractionDigits: 0 })}.`;
+                                    bannerEl.className = 'data-freshness-banner';
+                                    bannerEl.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${existing ? existing + ' ' : ''}Price mismatch:${priceMsg}</span>`;
+                                }
+                            })
+                            .catch(() => {});
+                    }
                 }
                 
             } catch (error) {

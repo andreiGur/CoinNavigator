@@ -22,6 +22,6 @@
     "rootDir": "src",
     "types": ["node"]
   },
-  "include": ["src/net-profit/**/*.ts", "src/alerts/**/*.ts"],
+  "include": ["src/net-profit/**/*.ts", "src/alerts/**/*.ts", "src/route-validator/**/*.ts", "src/market-data/**/*.ts"],
   "exclude": ["node_modules", "dist", "assets", "api"]
 }

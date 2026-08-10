@@ -11,12 +11,18 @@
     triggerEl: null,
     lastVerdict: null,
     lastResult: null,
+    lastLiveVerdict: null,
+    lastLiveResult: null,
+    liveInFlight: false,
     advancedOpenedTracked: false,
     focusables: [],
     prevFocus: null,
     alertFormStarted: false,
     alertCreated: false,
   };
+
+  var LIVE_SUPPORTED_EXCHANGES = { Binance: 1, Bybit: 1, MEXC: 1 };
+  var LIVE_SUPPORTED_ASSETS = { BTC: 1, ETH: 1, SOL: 1, XRP: 1 };
 
   function engine() {
     return global.CoinNavigatorNetProfit || null;
@@ -368,6 +374,386 @@
     wrap.innerHTML = built.html;
     wrap.hidden = false;
     wireAffiliateClicks(wrap, opp, result, 'profit_calculator');
+  }
+
+  function liveVerdictLabel(v) {
+    var map = {
+      potentially_executable: 'Potentially executable',
+      marginal: 'Marginal after estimated costs',
+      not_profitable: 'Not profitable after estimated costs',
+      insufficient_liquidity: 'Insufficient liquidity',
+      transfer_unverified: 'Transfer route not verified',
+      transfer_unavailable: 'Transfer unavailable',
+      stale_data: 'Stale data',
+      unsupported: 'Unsupported route',
+      unavailable: 'Live data unavailable',
+    };
+    return map[v] || 'Live data unavailable';
+  }
+
+  function fmtLiveNum(n, digits) {
+    if (n == null || !Number.isFinite(n)) return 'Unavailable';
+    return Number(n).toFixed(digits == null ? 4 : digits);
+  }
+
+  function fmtLiveUsd(n) {
+    if (n == null || !Number.isFinite(n)) return 'Unavailable';
+    return formatUsd(n, true);
+  }
+
+  function fmtLivePct(n) {
+    if (n == null || !Number.isFinite(n)) return 'Unavailable';
+    return formatPct(n, true);
+  }
+
+  function fmtTransferBool(v) {
+    if (v === true) return 'Open';
+    if (v === false) return 'Closed';
+    return 'Unavailable';
+  }
+
+  function amountBucket(amount) {
+    if (global.CoinNavigatorTracking && global.CoinNavigatorTracking.bucketAmountUsd) {
+      return global.CoinNavigatorTracking.bucketAmountUsd(amount);
+    }
+    var eng = engine();
+    if (eng && eng.bucketAmountUsd) return eng.bucketAmountUsd(amount);
+    return 'unknown';
+  }
+
+  function latencyBucket(ms) {
+    if (!Number.isFinite(ms) || ms < 0) return 'unknown';
+    if (ms < 500) return 'under_500ms';
+    if (ms < 1500) return '500_1499ms';
+    if (ms < 3000) return '1500_2999ms';
+    return '3000ms_plus';
+  }
+
+  function netProfitBucket(net) {
+    var eng = engine();
+    if (eng && eng.bucketNetProfitUsd && net != null && Number.isFinite(net)) {
+      return eng.bucketNetProfitUsd(net);
+    }
+    if (net == null || !Number.isFinite(net)) return 'unknown';
+    if (net < 0) return 'negative';
+    if (net < 1) return '0_1';
+    if (net < 10) return '1_10';
+    if (net < 50) return '10_50';
+    return '50_plus';
+  }
+
+  function liveAsset(opp) {
+    return String(opp.ticker || opp.symbol || '')
+      .toUpperCase()
+      .replace(/USDT$/i, '')
+      .replace(/[^A-Z0-9]/g, '');
+  }
+
+  function isLiveRouteSupported(opp) {
+    if (!opp) return false;
+    var asset = liveAsset(opp);
+    return !!(LIVE_SUPPORTED_ASSETS[asset] && LIVE_SUPPORTED_EXCHANGES[opp.buyExchange] && LIVE_SUPPORTED_EXCHANGES[opp.sellExchange]);
+  }
+
+  function overrideIfTouched(id) {
+    var el = $(id);
+    if (!el || el.dataset.userTouched !== '1') return null;
+    var n = parseField(id);
+    if (n === null || !Number.isFinite(n) || n < 0) return null;
+    return n;
+  }
+
+  function clearLiveError() {
+    var box = $('calc-live-error');
+    if (box) {
+      box.hidden = true;
+      box.innerHTML = '';
+    }
+  }
+
+  function showLiveError(message) {
+    var box = $('calc-live-error');
+    if (!box) return;
+    box.hidden = false;
+    box.innerHTML = '<ul><li>' + escapeHtml(message) + '</li></ul>';
+  }
+
+  function resetLiveUi() {
+    clearLiveError();
+    show('calc-live-loading', false);
+    show('calc-live-panel', false);
+    show('calc-live-recheck', false);
+    var aff = $('calc-live-aff');
+    if (aff) {
+      aff.hidden = true;
+      aff.innerHTML = '';
+    }
+    state.lastLiveResult = null;
+    state.lastLiveVerdict = null;
+    var btn = $('calc-live-validate');
+    if (btn) btn.disabled = false;
+  }
+
+  function renderLiveAffiliate(opp, result) {
+    var wrap = $('calc-live-aff');
+    if (!wrap) return;
+    var built = buildAffiliateButtonsHtml(opp, 'live_route_validator', result.verdict);
+    wrap.innerHTML = built.html;
+    wrap.hidden = false;
+    wireAffiliateClicks(wrap, opp, result, 'live_route_validator');
+  }
+
+  function renderLiveResult(opp, result, meta) {
+    clearLiveError();
+    show('calc-live-loading', false);
+    show('calc-live-panel', true);
+    show('calc-live-recheck', true);
+
+    var panel = $('calc-live-panel');
+    if (panel) panel.className = 'calc-result-panel calc-live-panel verdict-' + result.verdict;
+
+    setText('calc-live-verdict', liveVerdictLabel(result.verdict));
+    var badge = $('calc-live-verdict');
+    if (badge) badge.setAttribute('data-verdict', result.verdict);
+    setText('calc-live-confidence', 'Confidence: ' + (result.confidence || '—'));
+
+    var ageSec = result.freshness_seconds;
+    if (meta && meta.clientFetchedAt) {
+      var age = Math.max(0, Math.round((Date.now() - meta.clientFetchedAt) / 1000));
+      ageSec = age;
+    }
+    setText(
+      'calc-live-freshness',
+      'Checked ' + ageSec + ' second' + (ageSec === 1 ? '' : 's') + ' ago' +
+        (result.expires_at ? ' · Expires ' + new Date(result.expires_at).toLocaleTimeString() : '')
+    );
+
+    var buy = result.buy_market || {};
+    var sell = result.sell_market || {};
+    var tr = result.transfer_route || {};
+    var np = result.net_profit || {};
+
+    setHtml(
+      'calc-live-buy-prices',
+      escapeHtml(fmtLiveNum(buy.bestPrice, 6)) + ' / ' + escapeHtml(fmtLiveNum(buy.averageExecutionPrice, 6)) +
+        ' <span class="calc-source-tag">' + escapeHtml(buy.sourceType || 'live') + '</span>'
+    );
+    setHtml(
+      'calc-live-sell-prices',
+      escapeHtml(fmtLiveNum(sell.bestPrice, 6)) + ' / ' + escapeHtml(fmtLiveNum(sell.averageExecutionPrice, 6)) +
+        ' <span class="calc-source-tag">' + escapeHtml(sell.sourceType || 'live') + '</span>'
+    );
+    setText(
+      'calc-live-slip',
+      fmtLiveNum(buy.estimatedSlippagePct, 4) + '% / ' + fmtLiveNum(sell.estimatedSlippagePct, 4) + '%'
+    );
+    setText(
+      'calc-live-fill',
+      (buy.fullyFillable ? 'Buy filled' : 'Buy partial') + ' · ' + (sell.fullyFillable ? 'Sell filled' : 'Sell partial')
+    );
+    setText('calc-live-buy-depth', fmtLiveNum(buy.availableDepthUsd, 2));
+    setText('calc-live-sell-depth', fmtLiveNum(sell.availableDepthUsd, 2));
+
+    var networkLabel;
+    if (tr.commonNetworks && tr.commonNetworks.length && tr.selectedNetwork) {
+      networkLabel = tr.selectedNetwork + ' (verified common)';
+    } else if (!tr.selectedNetwork) {
+      networkLabel = 'Unavailable';
+    } else {
+      networkLabel = tr.selectedNetwork + ' (preferred, not verified)';
+    }
+    setText('calc-live-network', networkLabel);
+    setText(
+      'calc-live-transfer-status',
+      'Dep ' + fmtTransferBool(tr.depositEnabled) + ' / Wd ' + fmtTransferBool(tr.withdrawalEnabled)
+    );
+
+    var wdKind = (result.fee_sources && result.fee_sources.withdrawal_fee_kind) || tr.sourceType || 'unavailable';
+    var wdText = fmtLiveNum(tr.withdrawalFeeAsset, 8);
+    if (wdText !== 'Unavailable') {
+      wdText += wdKind === 'estimated' ? ' (user-provided / estimated)' : ' (' + wdKind + ')';
+    }
+    setText('calc-live-wd-fee', wdText);
+
+    var netEl = $('calc-live-net');
+    setText('calc-live-net', fmtLiveUsd(np.estimatedNetProfitUsd));
+    if (netEl) {
+      netEl.className = 'calc-metric-value ' + (
+        np.estimatedNetProfitUsd > 0 ? 'net-pos' : np.estimatedNetProfitUsd < 0 ? 'net-neg' : ''
+      );
+    }
+    setText('calc-live-net-pct', fmtLivePct(np.netProfitPct));
+    setText(
+      'calc-live-route',
+      (result.request && result.request.asset ? result.request.asset : liveAsset(opp)) +
+        ' · Buy ' + opp.buyExchange + ' → Sell ' + opp.sellExchange +
+        ' · $' + fmtLiveNum(result.request && result.request.trade_amount_usd, 2)
+    );
+
+    var warnings = (result.warnings || []).slice();
+    var wEl = $('calc-live-warnings');
+    if (wEl) {
+      if (warnings.length) {
+        wEl.hidden = false;
+        wEl.innerHTML = warnings.map(function (w) {
+          return '<div class="calc-warn-item"><i class="fas fa-triangle-exclamation" aria-hidden="true"></i> ' + escapeHtml(w) + '</div>';
+        }).join('');
+      } else {
+        wEl.hidden = true;
+        wEl.innerHTML = '';
+      }
+    }
+
+    var unavailable = result.unavailable_fields || [];
+    var uWrap = $('calc-live-unavailable-wrap');
+    var uList = $('calc-live-unavailable');
+    if (uWrap && uList) {
+      if (unavailable.length) {
+        uWrap.hidden = false;
+        uList.innerHTML = unavailable.map(function (f) {
+          return '<li>' + escapeHtml(f) + '</li>';
+        }).join('');
+      } else {
+        uWrap.hidden = true;
+        uList.innerHTML = '';
+      }
+    }
+
+    renderLiveAffiliate(opp, result);
+    state.lastLiveVerdict = result.verdict;
+    state.lastLiveResult = result;
+  }
+
+  async function runLiveValidation(opts) {
+    opts = opts || {};
+    var opp = state.opportunity;
+    if (!opp || state.liveInFlight) return;
+
+    clearLiveError();
+    if (!isLiveRouteSupported(opp)) {
+      showLiveError('Live validation currently supports BTC, ETH, SOL, XRP on Binance, Bybit and MEXC only.');
+      track('live_route_validation_failed', {
+        asset: liveAsset(opp),
+        failure_category: 'unsupported_route',
+        exchange_category: 'allowlist',
+      });
+      return;
+    }
+
+    var amount = parseField('calc-amount');
+    if (amount === null || !(amount >= 10) || amount > 100000) {
+      showLiveError('Enter a trade amount between $10 and $100,000 for live validation.');
+      track('live_route_validation_failed', {
+        asset: liveAsset(opp),
+        failure_category: 'validation_error',
+      });
+      return;
+    }
+
+    var buyFee = parseField('calc-fee-buy');
+    var sellFee = parseField('calc-fee-sell');
+    var wdOverride = overrideIfTouched('calc-fee-withdraw');
+    var netOverride = overrideIfTouched('calc-fee-network');
+    var preferredEl = $('calc-preferred-network');
+    var preferred = preferredEl && preferredEl.value.trim() ? preferredEl.value.trim().slice(0, 32) : null;
+
+    var prevVerdict = state.lastLiveVerdict;
+    var startedAt = Date.now();
+    state.liveInFlight = true;
+    show('calc-live-loading', true);
+    show('calc-live-panel', false);
+    var btn = $('calc-live-validate');
+    var recheck = $('calc-live-recheck');
+    if (btn) btn.disabled = true;
+    if (recheck) recheck.disabled = true;
+
+    track('live_route_validation_started', {
+      asset: liveAsset(opp),
+      buy_exchange: opp.buyExchange,
+      sell_exchange: opp.sellExchange,
+      amount_bucket: amountBucket(amount),
+    });
+
+    try {
+      var payload = {
+        asset: liveAsset(opp),
+        quote: 'USDT',
+        buy_exchange: opp.buyExchange,
+        sell_exchange: opp.sellExchange,
+        trade_amount_usd: amount,
+        preferred_network: preferred,
+        overrides: {
+          buy_fee_pct: buyFee,
+          sell_fee_pct: sellFee,
+          withdrawal_fee_asset: wdOverride,
+          network_fee_asset: netOverride,
+        },
+      };
+
+      var res = await fetch('/api/route-validator', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      var data = null;
+      try {
+        data = await res.json();
+      } catch (_e) {
+        data = null;
+      }
+
+      var latency = Date.now() - startedAt;
+      if (!res.ok || !data || !data.ok) {
+        var code = data && data.error && data.error.code ? data.error.code : 'SERVER_ERROR';
+        var msg = data && data.error && data.error.message
+          ? data.error.message
+          : 'Live market data is temporarily unavailable.';
+        show('calc-live-loading', false);
+        showLiveError(msg);
+        track('live_route_validation_failed', {
+          asset: liveAsset(opp),
+          failure_category: code === 'RATE_LIMITED' ? 'rate_limited' : code === 'VALIDATION_ERROR' ? 'validation_error' : 'market_unavailable',
+          exchange_category: 'upstream',
+        });
+        return;
+      }
+
+      renderLiveResult(opp, data.result, { clientFetchedAt: Date.now() });
+      if (opts.recheck) {
+        track('live_route_rechecked', {
+          asset: liveAsset(opp),
+          verdict_previous: prevVerdict || 'none',
+          verdict_new: data.result.verdict,
+        });
+      }
+      track('live_route_validation_completed', {
+        asset: liveAsset(opp),
+        buy_exchange: opp.buyExchange,
+        sell_exchange: opp.sellExchange,
+        verdict: data.result.verdict,
+        confidence: data.result.confidence,
+        amount_bucket: amountBucket(amount),
+        fully_fillable: !!(data.result.buy_market && data.result.buy_market.fullyFillable &&
+          data.result.sell_market && data.result.sell_market.fullyFillable),
+        transfer_verified: !!(data.result.transfer_route && data.result.transfer_route.sourceType === 'live' &&
+          data.result.transfer_route.selectedNetwork &&
+          data.result.transfer_route.depositEnabled === true &&
+          data.result.transfer_route.withdrawalEnabled === true),
+        net_profit_bucket: netProfitBucket(data.result.net_profit && data.result.net_profit.estimatedNetProfitUsd),
+        latency_bucket: latencyBucket(latency),
+      });
+    } catch (_err) {
+      show('calc-live-loading', false);
+      showLiveError('Network error while validating the live route. Please try again.');
+      track('live_route_validation_failed', {
+        asset: liveAsset(opp),
+        failure_category: 'network_failure',
+      });
+    } finally {
+      state.liveInFlight = false;
+      if (btn) btn.disabled = false;
+      if (recheck) recheck.disabled = false;
+    }
   }
 
   function fillExchangeSelect(selectEl, selected) {
@@ -755,9 +1141,15 @@
     clearError();
     show('calc-result-panel', false);
     show('calc-aff-actions', false);
+    resetLiveUi();
     resetAlertUi();
     show('calc-alert-section', false);
     state.lastResult = null;
+
+    var liveBtn = $('calc-live-validate');
+    if (liveBtn) {
+      liveBtn.hidden = !isLiveRouteSupported(opportunity);
+    }
 
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -854,6 +1246,19 @@
     if (alertForm) alertForm.addEventListener('submit', submitAlertForm);
     var scopeEl = $('calc-alert-scope');
     if (scopeEl) scopeEl.addEventListener('change', updateAlertScopeUi);
+
+    var liveBtn = $('calc-live-validate');
+    if (liveBtn) {
+      liveBtn.addEventListener('click', function () {
+        runLiveValidation({ recheck: false });
+      });
+    }
+    var recheckBtn = $('calc-live-recheck');
+    if (recheckBtn) {
+      recheckBtn.addEventListener('click', function () {
+        runLiveValidation({ recheck: true });
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

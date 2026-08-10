@@ -757,6 +757,45 @@
         .calc-result-panel.verdict-marginal { border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.06); }
         .calc-result-panel.verdict-not_profitable { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05); }
         .calc-result-panel.verdict-invalid { border-color: rgba(148,163,184,0.3); }
+        .calc-result-panel.verdict-potentially_executable { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.06); }
+        .calc-result-panel.verdict-transfer_unverified,
+        .calc-result-panel.verdict-transfer_unavailable,
+        .calc-result-panel.verdict-stale_data,
+        .calc-result-panel.verdict-insufficient_liquidity,
+        .calc-result-panel.verdict-unavailable,
+        .calc-result-panel.verdict-unsupported { border-color: rgba(251,191,36,0.28); background: rgba(251,191,36,0.05); }
+        .calc-live-actions {
+            display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.85rem 0 0.35rem;
+        }
+        .calc-live-actions .btn-mini { flex: 1 1 140px; justify-content: center; min-width: 0; }
+        .calc-live-panel .calc-metrics { word-break: break-word; }
+        .calc-live-panel .calc-metric-value { font-size: 0.82rem; overflow-wrap: anywhere; }
+        .btn-mini-live {
+            background: rgba(16,185,129,0.12) !important;
+            border-color: rgba(16,185,129,0.35) !important;
+            color: #6ee7b7 !important;
+            font-weight: 800 !important;
+        }
+        .btn-mini-live:disabled { opacity: 0.55; cursor: wait; }
+        .calc-live-panel { margin-top: 0.85rem; }
+        .calc-live-loading {
+            font-size: 0.8rem; color: var(--text-muted); padding: 0.75rem 0.85rem;
+            border-radius: 12px; border: 1px dashed rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.02); line-height: 1.45;
+        }
+        .calc-live-freshness { font-size: 0.72rem; color: var(--text-muted); margin: 0 0 0.65rem; }
+        .calc-live-confidence {
+            display: inline-flex; margin-left: 0.45rem; font-size: 0.65rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);
+            padding: 0.2rem 0.45rem; border-radius: 999px; background: rgba(255,255,255,0.05);
+        }
+        .calc-source-tag {
+            font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+            color: var(--text-muted); margin-left: 0.25rem;
+        }
+        .calc-unavailable-list {
+            font-size: 0.74rem; color: #fde68a; margin: 0.35rem 0 0.75rem; padding-left: 1.1rem;
+        }
         .calc-verdict-badge {
             display: inline-flex; align-items: center; gap: 0.35rem;
             font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em;
@@ -1554,7 +1593,7 @@
                         <option value="volume_desc" disabled>Sort: volume (coming soon)</option>
                         <option value="updated_desc" disabled>Sort: last update (coming soon)</option>
                     </select>
-                    <button type="button" class="dc-clear" id="refresh-spreads" title="Fetch live prices from exchanges now" data-track="table_refresh_live">
+                    <button type="button" class="dc-clear" id="refresh-spreads" title="Refresh live prices via CoinNavigator market-data gateway" data-track="table_refresh_live">
                         <i class="fas fa-rotate"></i> Refresh
                     </button>
                     <div class="dc-status" id="table-status">—</div>
@@ -2091,7 +2130,7 @@
                     <div class="calc-grid">
                         <label class="calc-label" for="calc-fee-withdraw">Withdrawal fee (asset units)
                             <input id="calc-fee-withdraw" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
-                            <span class="calc-hint">Reduces sellable quantity</span>
+                            <span class="calc-hint">For live validation, edit this field to set a User-provided override when fee is unavailable (missing ≠ 0).</span>
                         </label>
                         <label class="calc-label" for="calc-fee-network">Network fee (asset units)
                             <input id="calc-fee-network" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
@@ -2105,8 +2144,89 @@
                         <label class="calc-label calc-label-full" for="calc-additional">Fixed additional cost (USD)
                             <input id="calc-additional" class="calc-input" type="number" inputmode="decimal" value="0" min="0" step="any" />
                         </label>
+                        <label class="calc-label calc-label-full" for="calc-preferred-network">Preferred network (live validation)
+                            <input id="calc-preferred-network" class="calc-input" type="text" maxlength="32" placeholder="e.g. BTC, ETH, SOL, TRC20" autocomplete="off" />
+                            <span class="calc-hint">Optional. Used only when both exchanges clearly support it.</span>
+                        </label>
                     </div>
                 </details>
+
+                <div class="calc-live-actions">
+                    <button type="button" class="btn-mini btn-mini-live" id="calc-live-validate">
+                        <i class="fas fa-satellite-dish" aria-hidden="true"></i> Validate Live Route
+                    </button>
+                    <button type="button" class="btn-mini" id="calc-live-recheck" hidden>
+                        Recheck live route
+                    </button>
+                </div>
+                <div id="calc-live-error" class="calc-form-error" role="alert" hidden></div>
+                <div id="calc-live-loading" class="calc-live-loading" hidden>
+                    Checking live prices, liquidity and transfer route…
+                </div>
+                <div id="calc-live-panel" class="calc-result-panel calc-live-panel" aria-live="polite" hidden>
+                    <div>
+                        <span id="calc-live-verdict" class="calc-verdict-badge">—</span>
+                        <span id="calc-live-confidence" class="calc-live-confidence">—</span>
+                    </div>
+                    <p id="calc-live-freshness" class="calc-live-freshness">—</p>
+                    <div class="calc-metrics">
+                        <div>
+                            <div class="calc-metric-label">Best ask / avg buy</div>
+                            <div id="calc-live-buy-prices" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Best bid / avg sell</div>
+                            <div id="calc-live-sell-prices" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Buy / sell slippage</div>
+                            <div id="calc-live-slip" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Fillability</div>
+                            <div id="calc-live-fill" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Buy depth (USD)</div>
+                            <div id="calc-live-buy-depth" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Sell depth (USD)</div>
+                            <div id="calc-live-sell-depth" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Common network</div>
+                            <div id="calc-live-network" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Deposit / withdrawal</div>
+                            <div id="calc-live-transfer-status" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Withdrawal fee</div>
+                            <div id="calc-live-wd-fee" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Est. net profit</div>
+                            <div id="calc-live-net" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Est. net profit %</div>
+                            <div id="calc-live-net-pct" class="calc-metric-value">—</div>
+                        </div>
+                        <div>
+                            <div class="calc-metric-label">Route</div>
+                            <div id="calc-live-route" class="calc-metric-value">—</div>
+                        </div>
+                    </div>
+                    <p class="calc-disclaimer">Live validation is an estimate based on current public exchange data. Prices, liquidity, fees and transfer availability can change before execution. CoinNavigator does not execute trades.</p>
+                    <div id="calc-live-warnings" class="calc-warnings" hidden></div>
+                    <div id="calc-live-unavailable-wrap" hidden>
+                        <div class="calc-metric-label">Unavailable fields</div>
+                        <ul id="calc-live-unavailable" class="calc-unavailable-list"></ul>
+                    </div>
+                    <div id="calc-live-aff" class="calc-aff-actions" hidden></div>
+                </div>
 
                 <div id="calc-result-panel" class="calc-result-panel" aria-live="polite" hidden>
                     <div id="calc-verdict-badge" class="calc-verdict-badge">—</div>

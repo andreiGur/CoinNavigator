@@ -1,4 +1,5 @@
-// Shared spread payload computation and live exchange fallback.
+// Shared spread payload computation and live gateway fallback.
+// Browser must NOT call exchange market APIs — only CoinNavigator endpoints / static JSON.
 (function attachSpreadEngine(global) {
   function computeSpreadPayloadFromExchangePrices(exchangeSnapshots, targetSymbols) {
     var symbolsData = {};
@@ -58,143 +59,145 @@
       symbols: symbolsData,
       errors: errors,
       exchanges: exchanges,
-      source: 'browser_live_fallback'
+      source: 'live_gateway'
     };
   }
 
-  async function fetchLiveSpreadFallback(targetSymbols) {
-    var targetSet = new Set(targetSymbols || []);
-    var exchangeRequests = [
-      {
-        name: 'Binance',
-        fetcher: async function () {
-          var res = await fetch('https://api.binance.com/api/v3/ticker/price', { cache: 'no-store' });
-          if (!res.ok) throw new Error('binance_http_' + res.status);
-          var arr = await res.json();
-          var map = {};
-          for (var i = 0; i < (Array.isArray(arr) ? arr : []).length; i++) {
-            var row = arr[i];
-            if (!row || !targetSet.has(row.symbol)) continue;
-            var p = parseFloat(row.price);
-            if (Number.isFinite(p) && p > 0) map[row.symbol] = p;
-          }
-          return map;
-        }
-      },
-      {
-        name: 'MEXC',
-        fetcher: async function () {
-          var res = await fetch('https://api.mexc.com/api/v3/ticker/price', { cache: 'no-store' });
-          if (!res.ok) throw new Error('mexc_http_' + res.status);
-          var arr = await res.json();
-          var map = {};
-          for (var i = 0; i < (Array.isArray(arr) ? arr : []).length; i++) {
-            var row = arr[i];
-            if (!row || !targetSet.has(row.symbol)) continue;
-            var p = parseFloat(row.price);
-            if (Number.isFinite(p) && p > 0) map[row.symbol] = p;
-          }
-          return map;
-        }
-      },
-      {
-        name: 'Bybit',
-        fetcher: async function () {
-          var res = await fetch('https://api.bybit.com/v5/market/tickers?category=spot', { cache: 'no-store' });
-          if (!res.ok) throw new Error('bybit_http_' + res.status);
-          var json = await res.json();
-          var list = (((json || {}).result || {}).list) || [];
-          var map = {};
-          for (var i = 0; i < list.length; i++) {
-            var row = list[i];
-            var symbol = row && row.symbol;
-            if (!symbol || !targetSet.has(symbol)) continue;
-            var p = parseFloat(row.lastPrice);
-            if (Number.isFinite(p) && p > 0) map[symbol] = p;
-          }
-          return map;
-        }
-      },
-      {
-        name: 'OKX',
-        fetcher: async function () {
-          var res = await fetch('https://www.okx.com/api/v5/market/tickers?instType=SPOT', { cache: 'no-store' });
-          if (!res.ok) throw new Error('okx_http_' + res.status);
-          var json = await res.json();
-          var list = (json && Array.isArray(json.data)) ? json.data : [];
-          var map = {};
-          for (var i = 0; i < list.length; i++) {
-            var row = list[i];
-            var instId = row && row.instId;
-            if (!instId || !instId.endsWith('-USDT')) continue;
-            var symbol = instId.replace('-', '');
-            if (!targetSet.has(symbol)) continue;
-            var p = parseFloat(row.last);
-            if (Number.isFinite(p) && p > 0) map[symbol] = p;
-          }
-          return map;
-        }
-      },
-      {
-        name: 'KuCoin',
-        fetcher: async function () {
-          var res = await fetch('https://api.kucoin.com/api/v1/market/allTickers', { cache: 'no-store' });
-          if (!res.ok) throw new Error('kucoin_http_' + res.status);
-          var json = await res.json();
-          var list = (((json || {}).data || {}).ticker) || [];
-          var map = {};
-          for (var i = 0; i < list.length; i++) {
-            var row = list[i];
-            var pair = row && row.symbol;
-            if (!pair || !pair.endsWith('-USDT')) continue;
-            var symbol = pair.replace('-', '');
-            if (!targetSet.has(symbol)) continue;
-            var p = parseFloat(row.last);
-            if (Number.isFinite(p) && p > 0) map[symbol] = p;
-          }
-          return map;
-        }
-      },
-      {
-        name: 'Gate',
-        fetcher: async function () {
-          var res = await fetch('https://api.gateio.ws/api/v4/spot/tickers', { cache: 'no-store' });
-          if (!res.ok) throw new Error('gate_http_' + res.status);
-          var arr = await res.json();
-          var map = {};
-          for (var i = 0; i < (Array.isArray(arr) ? arr : []).length; i++) {
-            var row = arr[i];
-            var pair = row && row.currency_pair;
-            if (!pair || !pair.endsWith('_USDT')) continue;
-            var symbol = pair.replace('_', '');
-            if (!targetSet.has(symbol)) continue;
-            var p = parseFloat(row.last);
-            if (Number.isFinite(p) && p > 0) map[symbol] = p;
-          }
-          return map;
-        }
+  function trackGatewayFailed(props) {
+    try {
+      if (typeof global.track === 'function') {
+        global.track('market_data_gateway_failed', props || {});
       }
-    ];
+    } catch (_e) {}
+  }
 
-    var settled = await Promise.allSettled(exchangeRequests.map(function (x) { return x.fetcher(); }));
-    var snapshots = {};
-    for (var i = 0; i < exchangeRequests.length; i++) {
-      var name = exchangeRequests[i].name;
-      var result = settled[i];
-      if (result.status === 'fulfilled' && result.value && Object.keys(result.value).length > 0) {
-        snapshots[name] = result.value;
-      }
+  /**
+   * Live fallback via CoinNavigator market-data gateway (no browser→exchange calls).
+   * Preserves the existing payload contract expected by the homepage dashboard.
+   */
+  async function fetchLiveSpreadFallback(targetSymbols) {
+    var res;
+    try {
+      res = await fetch('/api/market-data?operation=spread_snapshot', {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        cache: 'no-store',
+      });
+    } catch (_err) {
+      trackGatewayFailed({
+        operation: 'spread_snapshot',
+        failure_category: 'network_failure',
+        partial_success: false,
+        unavailable_exchange_count: 0,
+      });
+      throw new Error('live_gateway_network');
     }
 
-    var payload = computeSpreadPayloadFromExchangePrices(snapshots, targetSymbols || []);
-    if (!payload.exchanges || payload.exchanges.length < 2) {
+    var body = null;
+    try {
+      body = await res.json();
+    } catch (_e) {
+      body = null;
+    }
+
+    if (!res.ok || !body || !body.ok || !body.data) {
+      var unavailable = (body && body.data && body.data.unavailable_exchanges) || [];
+      trackGatewayFailed({
+        operation: 'spread_snapshot',
+        failure_category: res.status === 429 ? 'rate_limited' : 'market_unavailable',
+        partial_success: false,
+        unavailable_exchange_count: Array.isArray(unavailable) ? unavailable.length : 0,
+      });
+      throw new Error('live_gateway_unavailable');
+    }
+
+    var payload = body.data;
+    // Ensure source tag for freshness banner
+    if (!payload.source) payload.source = 'live_gateway';
+
+    if (!payload.exchanges || payload.exchanges.length < 2 || !payload.symbols) {
+      trackGatewayFailed({
+        operation: 'spread_snapshot',
+        failure_category: 'insufficient_exchanges',
+        partial_success: !!(payload.exchanges && payload.exchanges.length > 0),
+        unavailable_exchange_count: Array.isArray(payload.unavailable_exchanges)
+          ? payload.unavailable_exchanges.length
+          : 0,
+      });
       throw new Error('live_fallback_insufficient_exchanges');
     }
+
+    // Optional: if caller passed a subset, filter is already server-side allowlisted.
+    void targetSymbols;
     return payload;
+  }
+
+  /**
+   * Reference price via gateway (replaces direct Binance ticker fetch).
+   */
+  var _refCache = { key: '', ts: 0, price: null };
+
+  async function fetchReferencePrice(opts) {
+    opts = opts || {};
+    var asset = opts.asset || 'BTC';
+    var quote = opts.quote || 'USDT';
+    var exchange = opts.exchange || 'Binance';
+    var key = asset + '/' + quote + '@' + exchange;
+    if (_refCache.key === key && _refCache.price != null && (Date.now() - _refCache.ts) < 8000) {
+      return { price: _refCache.price, fetched_at: null, cache_hit: true };
+    }
+
+    var url =
+      '/api/market-data?operation=reference_price' +
+      '&asset=' + encodeURIComponent(asset) +
+      '&quote=' + encodeURIComponent(quote) +
+      '&exchange=' + encodeURIComponent(exchange);
+
+    var res;
+    try {
+      res = await fetch(url, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        cache: 'no-store',
+      });
+    } catch (_err) {
+      trackGatewayFailed({
+        operation: 'reference_price',
+        failure_category: 'network_failure',
+        partial_success: false,
+        unavailable_exchange_count: 1,
+      });
+      return null;
+    }
+
+    var body = null;
+    try {
+      body = await res.json();
+    } catch (_e2) {
+      body = null;
+    }
+
+    if (!res.ok || !body || !body.ok || !body.data || !Number.isFinite(body.data.price)) {
+      trackGatewayFailed({
+        operation: 'reference_price',
+        failure_category: res.status === 429 ? 'rate_limited' : 'market_unavailable',
+        partial_success: false,
+        unavailable_exchange_count: 1,
+      });
+      return null;
+    }
+
+    _refCache = { key: key, ts: Date.now(), price: body.data.price };
+    return {
+      price: body.data.price,
+      fetched_at: body.data.fetched_at || null,
+      cache_hit: !!body.cache_hit,
+    };
   }
 
   global.CoinNavigatorSpreadEngine = {
     computeSpreadPayloadFromExchangePrices: computeSpreadPayloadFromExchangePrices,
-    fetchLiveSpreadFallback: fetchLiveSpreadFallback
+    fetchLiveSpreadFallback: fetchLiveSpreadFallback,
+    fetchReferencePrice: fetchReferencePrice,
   };
 })(window);

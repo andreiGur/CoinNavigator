@@ -10,15 +10,20 @@
     "test:watch": "vitest",
     "build:engine": "tsup --config tsup.config.ts && node -e \"const fs=require('fs'); const a='assets/js/net-profit-engine.global.js'; const b='assets/js/net-profit-engine.js'; if (fs.existsSync(a)) { fs.renameSync(a,b); }\"",
     "build:alerts": "tsup --config tsup.alerts.config.ts",
-    "build": "npm run typecheck && npm run build:engine && npm run build:alerts",
+    "build:route-validator": "tsup --config tsup.route-validator.config.ts",
+    "build:market-data": "tsup --config tsup.market-data.config.ts",
+    "build": "npm run typecheck && npm run build:engine && npm run build:alerts && npm run build:route-validator && npm run build:market-data",
     "lint": "npm run typecheck",
-    "check": "npm run typecheck && npm run test && npm run build:engine && npm run build:alerts && node --check assets/js/net-profit-engine.js && node --check api/alerts/index.js && node --check api/alerts/unsubscribe.js"
+    "check": "npm run typecheck && npm run test && npm run build:engine && npm run build:alerts && npm run build:route-validator && npm run build:market-data && node --check assets/js/net-profit-engine.js && node --check api/alerts/index.js && node --check api/alerts/unsubscribe.js && node --check api/route-validator/index.js && node --check api/market-data/index.js && node --check assets/js/profit-calculator-ui.js && node --check assets/js/spread-engine.js && node --check assets/js/dashboard-table.js",
+    "smoke:route-validator": "node scripts/smoke-route-validator.mjs",
+    "smoke:market-data": "node scripts/smoke-market-data.mjs"
   },
   "dependencies": {
     "decimal.js": "^10.5.0"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
+    "playwright": "^1.54.2",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
