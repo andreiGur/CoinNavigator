@@ -1,5 +1,6 @@
-import type { AlertStorage } from './storage.js';
+import type { MatcherStorage } from './storage.js';
 import type { AlertSubscription, ValidatedCreateAlert } from './types.js';
+import type { AlertDelivery, InsertDeliveryInput } from './match/types.js';
 
 function samePair(a: AlertSubscription, b: ValidatedCreateAlert): boolean {
   if (a.asset !== b.asset) return false;
@@ -8,11 +9,17 @@ function samePair(a: AlertSubscription, b: ValidatedCreateAlert): boolean {
   return a.buy_exchange === b.buy_exchange && a.sell_exchange === b.sell_exchange;
 }
 
-export class MemoryAlertStorage implements AlertStorage {
+function deliveryKey(alertId: string, fingerprint: string): string {
+  return `${alertId}:${fingerprint}`;
+}
+
+export class MemoryAlertStorage implements MatcherStorage {
   private rows = new Map<string, AlertSubscription>();
+  private deliveries = new Map<string, AlertDelivery>();
 
   clear(): void {
     this.rows.clear();
+    this.deliveries.clear();
   }
 
   async findActiveDuplicate(input: ValidatedCreateAlert): Promise<AlertSubscription | null> {
@@ -53,6 +60,7 @@ export class MemoryAlertStorage implements AlertStorage {
       alert_scope: input.alert_scope,
       minimum_net_profit_pct: input.minimum_net_profit_pct,
       minimum_net_profit_usd: input.minimum_net_profit_usd,
+      trade_amount_usd: input.trade_amount_usd,
       source_page: input.source_page,
       source_context: input.source_context,
       created_at: meta.now,
@@ -80,6 +88,7 @@ export class MemoryAlertStorage implements AlertStorage {
       alert_scope: input.alert_scope,
       minimum_net_profit_pct: input.minimum_net_profit_pct,
       minimum_net_profit_usd: input.minimum_net_profit_usd,
+      trade_amount_usd: input.trade_amount_usd,
       source_page: input.source_page,
       source_context: input.source_context,
       consent_version: input.consent_version,
@@ -105,8 +114,105 @@ export class MemoryAlertStorage implements AlertStorage {
     return 'unsubscribed';
   }
 
+  async listActiveAlerts(opts: { afterId?: string; limit: number }): Promise<AlertSubscription[]> {
+    const all = [...this.rows.values()]
+      .filter((r) => r.status === 'active')
+      .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    const after = opts.afterId;
+    const sliced = after ? all.filter((r) => r.id > after) : all;
+    return sliced.slice(0, opts.limit);
+  }
+
+  async insertDeliveryPending(row: InsertDeliveryInput): Promise<'inserted' | 'duplicate'> {
+    const key = deliveryKey(row.alert_id, row.opportunity_fingerprint);
+    if (this.deliveries.has(key)) return 'duplicate';
+    const delivery: AlertDelivery = {
+      ...row,
+      email_status: 'pending',
+      email_provider: null,
+      provider_message_id: null,
+      sent_at: null,
+      failure_category: null,
+    };
+    this.deliveries.set(key, delivery);
+    return 'inserted';
+  }
+
+  async getDelivery(alertId: string, fingerprint: string): Promise<AlertDelivery | null> {
+    return this.deliveries.get(deliveryKey(alertId, fingerprint)) ?? null;
+  }
+
+  async getLastSentForRoute(
+    alertId: string,
+    asset: string,
+    buyExchange: string,
+    sellExchange: string,
+  ): Promise<AlertDelivery | null> {
+    let best: AlertDelivery | null = null;
+    for (const row of this.deliveries.values()) {
+      if (row.alert_id !== alertId) continue;
+      if (row.email_status !== 'sent') continue;
+      if (row.asset !== asset || row.buy_exchange !== buyExchange || row.sell_exchange !== sellExchange) {
+        continue;
+      }
+      const ts = row.sent_at || row.matched_at;
+      if (!best || (best.sent_at || best.matched_at) < ts) best = row;
+    }
+    return best;
+  }
+
+  async markDeliverySent(
+    id: string,
+    meta: { sentAt: string; provider: string; providerMessageId: string | null },
+  ): Promise<void> {
+    for (const row of this.deliveries.values()) {
+      if (row.id !== id) continue;
+      row.email_status = 'sent';
+      row.sent_at = meta.sentAt;
+      row.email_provider = meta.provider;
+      row.provider_message_id = meta.providerMessageId;
+      row.failure_category = null;
+      return;
+    }
+  }
+
+  async markDeliveryFailed(id: string, category: string): Promise<void> {
+    for (const row of this.deliveries.values()) {
+      if (row.id !== id) continue;
+      row.email_status = 'failed';
+      row.failure_category = category;
+      return;
+    }
+  }
+
+  async markDeliverySkipped(id: string, category: string): Promise<void> {
+    for (const row of this.deliveries.values()) {
+      if (row.id !== id) continue;
+      row.email_status = 'skipped';
+      row.failure_category = category;
+      return;
+    }
+  }
+
+  async updateLatestMatchingOpportunity(alertId: string, at: string): Promise<void> {
+    const row = this.rows.get(alertId);
+    if (!row) return;
+    row.latest_matching_opportunity_at = at;
+    row.updated_at = at;
+  }
+
   /** Test helper */
   getAll(): AlertSubscription[] {
     return [...this.rows.values()];
+  }
+
+  /** Test helper */
+  getDeliveries(): AlertDelivery[] {
+    return [...this.deliveries.values()];
+  }
+
+  /** Test helper — seed a legacy row without trade amount. */
+  seed(row: AlertSubscription): void {
+    this.rows.set(row.id, row);
   }
 }

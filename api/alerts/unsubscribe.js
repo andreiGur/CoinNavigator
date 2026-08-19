@@ -70,6 +70,10 @@ var SUPPORTED_ASSETS = [
 var EXCHANGE_SET = new Set(SUPPORTED_EXCHANGES);
 var ASSET_SET = new Set(SUPPORTED_ASSETS);
 
+// src/alerts/match/policies.ts
+var MATCHER_STALE_MS = 20 * 60 * 1e3;
+var ROUTE_COOLDOWN_MS = 6 * 60 * 60 * 1e3;
+
 // src/alerts/validate.ts
 function validateUnsubscribeToken(raw) {
   if (typeof raw !== "string") return null;
@@ -154,6 +158,7 @@ function mapRow(row) {
     alert_scope: row.alert_scope,
     minimum_net_profit_pct: row.minimum_net_profit_pct === null || row.minimum_net_profit_pct === void 0 ? null : Number(row.minimum_net_profit_pct),
     minimum_net_profit_usd: row.minimum_net_profit_usd === null || row.minimum_net_profit_usd === void 0 ? null : Number(row.minimum_net_profit_usd),
+    trade_amount_usd: row.trade_amount_usd === null || row.trade_amount_usd === void 0 ? null : Number(row.trade_amount_usd),
     source_page: String(row.source_page ?? ""),
     source_context: String(row.source_context ?? ""),
     created_at: String(row.created_at),
@@ -163,6 +168,26 @@ function mapRow(row) {
     consent_version: String(row.consent_version ?? ""),
     user_agent_hash: row.user_agent_hash == null ? null : String(row.user_agent_hash),
     latest_matching_opportunity_at: row.latest_matching_opportunity_at == null ? null : String(row.latest_matching_opportunity_at)
+  };
+}
+function mapDelivery(row) {
+  return {
+    id: String(row.id),
+    alert_id: String(row.alert_id),
+    opportunity_fingerprint: String(row.opportunity_fingerprint),
+    asset: String(row.asset),
+    buy_exchange: String(row.buy_exchange),
+    sell_exchange: String(row.sell_exchange),
+    estimated_net_profit_pct: row.estimated_net_profit_pct === null || row.estimated_net_profit_pct === void 0 ? null : Number(row.estimated_net_profit_pct),
+    estimated_net_profit_usd: row.estimated_net_profit_usd === null || row.estimated_net_profit_usd === void 0 ? null : Number(row.estimated_net_profit_usd),
+    opportunity_data_timestamp: row.opportunity_data_timestamp == null ? null : String(row.opportunity_data_timestamp),
+    matched_at: String(row.matched_at),
+    email_status: row.email_status,
+    email_provider: row.email_provider == null ? null : String(row.email_provider),
+    provider_message_id: row.provider_message_id == null ? null : String(row.provider_message_id),
+    sent_at: row.sent_at == null ? null : String(row.sent_at),
+    failure_category: row.failure_category == null ? null : String(row.failure_category),
+    created_at: String(row.created_at)
   };
 }
 async function rest(cfg, path, init = {}) {
@@ -236,6 +261,7 @@ var SupabaseAlertStorage = class _SupabaseAlertStorage {
       alert_scope: input.alert_scope,
       minimum_net_profit_pct: input.minimum_net_profit_pct,
       minimum_net_profit_usd: input.minimum_net_profit_usd,
+      trade_amount_usd: input.trade_amount_usd,
       source_page: input.source_page,
       source_context: input.source_context,
       created_at: meta.now,
@@ -268,6 +294,7 @@ var SupabaseAlertStorage = class _SupabaseAlertStorage {
       alert_scope: input.alert_scope,
       minimum_net_profit_pct: input.minimum_net_profit_pct,
       minimum_net_profit_usd: input.minimum_net_profit_usd,
+      trade_amount_usd: input.trade_amount_usd,
       source_page: input.source_page,
       source_context: input.source_context,
       consent_version: input.consent_version,
@@ -307,6 +334,139 @@ var SupabaseAlertStorage = class _SupabaseAlertStorage {
       throw new StorageFailureError(`unsubscribe failed (${status}): ${text.slice(0, 120)}`);
     }
     return "unsubscribed";
+  }
+  async listActiveAlerts(opts) {
+    let query = `arbitrage_alerts?select=*&status=eq.active&order=id.asc&limit=${encodeURIComponent(String(opts.limit))}`;
+    if (opts.afterId) {
+      query += `&id=gt.${encodeURIComponent(opts.afterId)}`;
+    }
+    const { status, json, text } = await rest(this.cfg, query, {
+      method: "GET"
+    });
+    if (status >= 400) {
+      throw new StorageFailureError(`listActiveAlerts failed (${status}): ${text.slice(0, 120)}`);
+    }
+    const rows = Array.isArray(json) ? json : [];
+    return rows.map(mapRow);
+  }
+  async insertDeliveryPending(row) {
+    const payload = {
+      id: row.id,
+      alert_id: row.alert_id,
+      opportunity_fingerprint: row.opportunity_fingerprint,
+      asset: row.asset,
+      buy_exchange: row.buy_exchange,
+      sell_exchange: row.sell_exchange,
+      estimated_net_profit_pct: row.estimated_net_profit_pct,
+      estimated_net_profit_usd: row.estimated_net_profit_usd,
+      opportunity_data_timestamp: row.opportunity_data_timestamp,
+      matched_at: row.matched_at,
+      email_status: "pending",
+      email_provider: null,
+      provider_message_id: null,
+      sent_at: null,
+      failure_category: null,
+      created_at: row.created_at
+    };
+    const { status, text } = await rest(this.cfg, "arbitrage_alert_deliveries", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      prefer: "return=minimal"
+    });
+    if (status === 409) return "duplicate";
+    if (status >= 400) {
+      throw new StorageFailureError(`insertDeliveryPending failed (${status}): ${text.slice(0, 120)}`);
+    }
+    return "inserted";
+  }
+  async getDelivery(alertId, fingerprint) {
+    const query = `arbitrage_alert_deliveries?select=*&alert_id=eq.${encodeURIComponent(alertId)}&opportunity_fingerprint=eq.${encodeURIComponent(fingerprint)}&limit=1`;
+    const { status, json, text } = await rest(this.cfg, query, {
+      method: "GET"
+    });
+    if (status >= 400) {
+      throw new StorageFailureError(`getDelivery failed (${status}): ${text.slice(0, 120)}`);
+    }
+    const rows = Array.isArray(json) ? json : [];
+    return rows.length ? mapDelivery(rows[0]) : null;
+  }
+  async getLastSentForRoute(alertId, asset, buyExchange, sellExchange) {
+    const query = `arbitrage_alert_deliveries?select=*&alert_id=eq.${encodeURIComponent(alertId)}&asset=eq.${encodeURIComponent(asset)}&buy_exchange=eq.${encodeURIComponent(buyExchange)}&sell_exchange=eq.${encodeURIComponent(sellExchange)}&email_status=eq.sent&order=sent_at.desc.nullslast&limit=1`;
+    const { status, json, text } = await rest(this.cfg, query, {
+      method: "GET"
+    });
+    if (status >= 400) {
+      throw new StorageFailureError(`getLastSentForRoute failed (${status}): ${text.slice(0, 120)}`);
+    }
+    const rows = Array.isArray(json) ? json : [];
+    return rows.length ? mapDelivery(rows[0]) : null;
+  }
+  async markDeliverySent(id, meta) {
+    const { status, text } = await rest(
+      this.cfg,
+      `arbitrage_alert_deliveries?id=eq.${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          email_status: "sent",
+          sent_at: meta.sentAt,
+          email_provider: meta.provider,
+          provider_message_id: meta.providerMessageId,
+          failure_category: null
+        }),
+        prefer: "return=minimal"
+      }
+    );
+    if (status >= 400) {
+      throw new StorageFailureError(`markDeliverySent failed (${status}): ${text.slice(0, 120)}`);
+    }
+  }
+  async markDeliveryFailed(id, category) {
+    const { status, text } = await rest(
+      this.cfg,
+      `arbitrage_alert_deliveries?id=eq.${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ email_status: "failed", failure_category: category }),
+        prefer: "return=minimal"
+      }
+    );
+    if (status >= 400) {
+      throw new StorageFailureError(`markDeliveryFailed failed (${status}): ${text.slice(0, 120)}`);
+    }
+  }
+  async markDeliverySkipped(id, category) {
+    const { status, text } = await rest(
+      this.cfg,
+      `arbitrage_alert_deliveries?id=eq.${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ email_status: "skipped", failure_category: category }),
+        prefer: "return=minimal"
+      }
+    );
+    if (status >= 400) {
+      throw new StorageFailureError(`markDeliverySkipped failed (${status}): ${text.slice(0, 120)}`);
+    }
+  }
+  async updateLatestMatchingOpportunity(alertId, at) {
+    const { status, text } = await rest(
+      this.cfg,
+      `arbitrage_alerts?id=eq.${encodeURIComponent(alertId)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          latest_matching_opportunity_at: at,
+          updated_at: at
+        }),
+        prefer: "return=minimal"
+      }
+    );
+    if (status >= 400) {
+      throw new StorageFailureError(
+        `updateLatestMatchingOpportunity failed (${status}): ${text.slice(0, 120)}`
+      );
+    }
   }
 };
 

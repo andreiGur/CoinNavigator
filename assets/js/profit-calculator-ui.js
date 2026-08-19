@@ -972,6 +972,17 @@
       return;
     }
 
+    var tradeAmount = parseField('calc-amount');
+    if (tradeAmount === null || tradeAmount < 10 || tradeAmount > 100000) {
+      showAlertError('Enter a trade amount between $10 and $100,000. This amount is stored with the alert so estimated net profit USD is not invented later.');
+      track('arbitrage_alert_failed', {
+        failure_category: 'invalid_amount',
+        asset: asset,
+        alert_scope: alertScope,
+      });
+      return;
+    }
+
     var payload = {
       email: emailEl.value.trim(),
       asset: asset,
@@ -985,6 +996,7 @@
       consent: true,
       consent_version: CONSENT_VERSION,
       website: websiteEl ? websiteEl.value : '',
+      trade_amount_usd: tradeAmount,
     };
 
     track('arbitrage_alert_submitted', {

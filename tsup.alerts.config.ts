@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: 'src/alerts/vercel/create.ts',
     unsubscribe: 'src/alerts/vercel/unsubscribe.ts',
+    match: 'src/alerts/vercel/match.ts',
   },
   format: ['esm'],
   outDir: 'api/alerts',

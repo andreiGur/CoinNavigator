@@ -6,6 +6,7 @@ import {
   type CreateAlertInput,
   type ValidatedCreateAlert,
 } from './types.js';
+import { MAX_TRADE_AMOUNT_USD, MIN_TRADE_AMOUNT_USD } from './match/policies.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_SOURCE_LEN = 120;
@@ -91,6 +92,15 @@ export function validateCreateAlertInput(raw: unknown): ValidationResult {
     return { ok: false, reason: 'invalid_threshold' };
   }
 
+  const tradeAmount = asFiniteNumber(body.trade_amount_usd);
+  if (
+    tradeAmount === null ||
+    tradeAmount < MIN_TRADE_AMOUNT_USD ||
+    tradeAmount > MAX_TRADE_AMOUNT_USD
+  ) {
+    return { ok: false, reason: 'invalid_amount' };
+  }
+
   const consent_version =
     typeof body.consent_version === 'string' && body.consent_version.trim()
       ? body.consent_version.trim().slice(0, 64)
@@ -106,6 +116,7 @@ export function validateCreateAlertInput(raw: unknown): ValidationResult {
       alert_scope,
       minimum_net_profit_pct: minPct,
       minimum_net_profit_usd: minUsd,
+      trade_amount_usd: tradeAmount,
       source_page: clipSource(body.source_page, 'home'),
       source_context: clipSource(body.source_context, 'check_real_profit'),
       consent_version,

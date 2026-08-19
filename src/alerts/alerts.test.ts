@@ -18,6 +18,7 @@ function baseBody(overrides: Record<string, unknown> = {}) {
     alert_scope: 'exact_pair',
     minimum_net_profit_pct: 0.35,
     minimum_net_profit_usd: null,
+    trade_amount_usd: 500,
     source_page: 'home',
     source_context: 'check_real_profit',
     consent: true,
@@ -82,6 +83,12 @@ describe('alert validation', () => {
     if (!result.ok) expect(result.reason).toBe('unsupported_asset');
   });
 
+  it('rejects missing or out-of-range trade amount', () => {
+    expect(validateCreateAlertInput(baseBody({ trade_amount_usd: null })).ok).toBe(false);
+    expect(validateCreateAlertInput(baseBody({ trade_amount_usd: 5 })).ok).toBe(false);
+    expect(validateCreateAlertInput(baseBody({ trade_amount_usd: 100001 })).ok).toBe(false);
+  });
+
   it('rejects negative thresholds', () => {
     const result = validateCreateAlertInput(baseBody({ minimum_net_profit_pct: -1 }));
     expect(result.ok).toBe(false);
@@ -118,6 +125,11 @@ describe('alert service', () => {
 
   beforeEach(() => {
     storage = new MemoryAlertStorage();
+  });
+
+  it('stores trade_amount_usd from Check Real Profit', async () => {
+    await createAlertSubscription(baseBody({ trade_amount_usd: 750 }), { storage });
+    expect(storage.getAll()[0]!.trade_amount_usd).toBe(750);
   });
 
   it('creates a valid alert', async () => {

@@ -1,101 +1,137 @@
-# Arbitrage Opportunity Alerts — Production Setup
+# Arbitrage Opportunity Alerts + Matcher — Production Setup
 
-MVP status: **collect + store subscriptions**. Opportunity delivery emails are **not** sent in this release.
+CoinNavigator can collect alert subscriptions **and** email qualified opportunities from the shared `spread_data.json` snapshot.
 
-Confirmation email (Resend) remains optional and **disabled** unless `RESEND_API_KEY` is set. The UI never claims that an email was sent.
+This is **candidate detection**, not live execution. The email tells the subscriber to open CoinNavigator and run **Validate Live Route** before trading.
 
 ## Architecture
 
 - Frontend CTA inside Check Real Profit (`assets/js/profit-calculator-ui.js`)
-- API: `POST /api/alerts`, `GET|POST /api/alerts/unsubscribe`
-- Storage: Supabase table `arbitrage_alerts` via service-role REST (server only)
-- Email (optional): Resend confirmation adapter — not required for create
+- `POST /api/alerts` creates/reactivates subscriptions
+- `GET|POST /api/alerts/unsubscribe?token=` (existing token; idempotent)
+- `GET|POST /api/alerts/match` — protected matcher (cron / GitHub Actions)
+- Storage: Supabase `arbitrage_alerts` + `arbitrage_alert_deliveries` via **service role only**
+- Opportunity source: shared `data/spread_data.json` (never per-alert exchange calls, never Live Route Validator)
+- Net profit: existing `src/net-profit` engine (estimated VIP0 taker fees)
+- Email: Resend, one recipient per send, unsubscribe link on every opportunity email
 
-## 1) Create Supabase project + run migration
+## Matching rules (do not change silently)
 
-1. Create a project at https://supabase.com
-2. Open **SQL Editor**
-3. Paste and run `supabase/migrations/001_arbitrage_alerts.sql`
-4. Confirm table `public.arbitrage_alerts` exists
-5. Confirm **RLS is enabled** and there are **no policies** for `anon` / `authenticated`
+| Scope | Behavior |
+| --- | --- |
+| `exact_pair` | Only the stored buy/sell route for that asset |
+| `any_pair` | Any supported buy/sell pair for that asset; **one email** for the **best** estimated net % |
 
-The Vercel function uses the **service role** key. Browser clients must never receive that key.
+Thresholds:
 
-## 2) Vercel environment variables (exact)
+- Only `%` set → estimated net `%` must be ≥ that value
+- Only USD set → estimated net USD must be ≥ that value
+- Both set → **both** must pass
+- Neither set → require **≥ 0.25% estimated net** (same floor as the Check Real Profit alert form). This is **not** a hidden 0% alert.
+- Explicit `0` is allowed if the subscriber stored it
 
-In the Vercel project for CoinNavigator → **Settings → Environment Variables** → add for **Production** (and Preview if desired):
+Trade amount:
 
-| Variable | Required | Example / notes |
-|----------|----------|-----------------|
-| `SUPABASE_URL` | **Yes** | `https://YOUR_PROJECT.supabase.co` |
-| `SUPABASE_SERVICE_ROLE_KEY` | **Yes** | Supabase → Settings → API → `service_role` (secret) |
-| `ALERTS_SITE_ORIGIN` | Recommended | `https://coinnavigator.net` |
-| `RESEND_API_KEY` | No — leave unset | Opportunity emails stay off; confirmation adapter stays disabled |
-| `ALERTS_FROM_EMAIL` | No | Only used if Resend is enabled later |
+- New subscriptions **require** `trade_amount_usd` ($10–$100,000), taken from Check Real Profit `calc-amount`
+- Legacy rows with `NULL` trade amount are **skipped** (matcher will not invent $100 / $1,000)
 
-Then **Redeploy** the Production deployment (Deployments → … → Redeploy) so functions pick up the new env.
+Freshness:
 
-### Without Supabase env
+- Snapshot older than **20 minutes** → no emails, `skip_reason: stale_data`, no delivery rows marked sent
+- Homepage live fallback is 8 minutes; matcher is looser because the Python snapshot refreshes every ~15 minutes plus deploy lag
 
-`POST /api/alerts` returns HTTP **503**:
+Dedup / cooldown:
 
-```json
-{
-  "ok": false,
-  "error": {
-    "code": "MISSING_CONFIG",
-    "message": "Alert storage is temporarily unavailable."
-  }
-}
-```
+- Fingerprint: `asset + buy + sell + snapshot timestamp` (hashed; **no email**)
+- Unique `(alert_id, opportunity_fingerprint)` prevents concurrent double-sends
+- Route cooldown: **6 hours** after a **sent** email for the same alert + route
+- Material improvement exception: estimated net `%` ≥ last sent `%` + **0.50** percentage points
+- `latest_matching_opportunity_at` updates **only after Resend accepts** the message
 
-No configuration details are exposed.
+## 1) Supabase — run these NEW migrations (do not edit `001`)
 
-## 3) Verify after deploy
+`001_arbitrage_alerts.sql` is already applied in production. **Do not re-run or edit it.**
+
+1. Open Supabase → **SQL Editor**
+2. Paste and run `supabase/migrations/002_alert_trade_amount.sql`
+3. Paste and run `supabase/migrations/003_alert_deliveries.sql`
+4. Confirm:
+   - `arbitrage_alerts.trade_amount_usd` exists (nullable)
+   - table `public.arbitrage_alert_deliveries` exists
+   - RLS enabled on both tables
+   - **no** `anon` / `authenticated` policies
+
+## 2) Resend (manual)
+
+Do not put real API keys in git.
+
+1. Create or log in at https://resend.com
+2. Add domain `coinnavigator.net`
+3. Add the DNS records Resend shows (typically SPF, DKIM, and MX/verification as instructed)
+4. Wait until the domain is **Verified**
+5. Create an API key (sending access only)
+6. Recommended sender: `CoinNavigator Alerts <alerts@coinnavigator.net>`
+
+Until the key is on Vercel, the matcher evaluates matches but **does not send** (`skip_reason: missing_config`).
+
+## 3) Vercel environment variables
+
+Production (and Preview if you want matcher tests there):
+
+| Variable | Required | Notes |
+| --- | --- | --- |
+| `SUPABASE_URL` | Yes | Project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Service role. **Never** in browser code |
+| `ALERTS_SITE_ORIGIN` | Yes | `https://coinnavigator.net` — unsubscribe + CTA origin |
+| `CRON_SECRET` | Yes | Long random secret. Matcher returns 401 without a matching `Authorization: Bearer` header. 503 if unset |
+| `RESEND_API_KEY` | Yes for sending | Leave unset until domain is verified if you only want dry-run |
+| `ALERTS_FROM_EMAIL` | Recommended | `CoinNavigator Alerts <alerts@coinnavigator.net>` |
+
+Then **Redeploy** Production so serverless functions pick up env vars.
+
+## 4) GitHub Actions scheduler
+
+Primary schedule: **minute 5, 20, 35, 50** every hour (`5,20,35,50 * * * *`), ~5 minutes after `spread_data.json` refresh (`*/15`).
+
+Add repository secrets:
+
+| Secret | Value |
+| --- | --- |
+| `CRON_SECRET` | **Same value** as Vercel `CRON_SECRET` |
+| `ALERT_MATCHER_URL` | Optional. Defaults to `https://coinnavigator.net/api/alerts/match` |
+
+Workflow: `.github/workflows/alert_matcher.yml`  
+Manual dry-run: Actions → **Alert matcher** → Run workflow → `dry_run` = true.
+
+Vercel Cron is **not** enabled in `vercel.json` (Hobby plans often allow only a daily cron and would fail deploy). GitHub Actions is the scheduler.
+
+## 5) Dry-run (authorized only)
 
 ```bash
-# Expect 503 MISSING_CONFIG until Supabase env is set; then 201 created
-curl -s -X POST https://coinnavigator.net/api/alerts \
-  -H 'content-type: application/json' \
-  -d '{
-    "email":"you@example.com",
-    "asset":"BTC",
-    "buy_exchange":"Binance",
-    "sell_exchange":"MEXC",
-    "alert_scope":"exact_pair",
-    "minimum_net_profit_pct":0.35,
-    "minimum_net_profit_usd":null,
-    "source_page":"home",
-    "source_context":"check_real_profit",
-    "consent":true,
-    "consent_version":"alerts-v1-2026-08-04",
-    "website":""
-  }'
+curl -sS -H "Authorization: Bearer $CRON_SECRET" \
+  "https://coinnavigator.net/api/alerts/match?dry_run=1"
 ```
 
-Browser checklist:
+Dry-run loads alerts, evaluates the snapshot, returns counts, **does not send email**, **does not mark deliveries sent**.
 
-1. Open https://coinnavigator.net (incognito)
-2. Check Real Profit → Alert me about similar opportunities
-3. Invalid email / missing consent → errors
-4. Valid submit → **Alert created** (no “email sent” claim)
-5. Row in Supabase: lowercase email, `consent_version`, unique `unsubscribe_token`, `status=active`
-6. Duplicate submit → `already_exists` / success without second active row
-7. Unsubscribe URL with token → success; repeat → already unsubscribed
+Unauthorized callers get a generic `401`. The JSON never includes emails, tokens, or secrets.
 
-## Email delivery status
+## Measurement (privacy-safe)
 
-| Condition | Behavior |
-|-----------|----------|
-| `RESEND_API_KEY` missing | `email_delivery: "disabled"` — UI does not claim a confirmation email |
-| Key present | Adapter may queue a confirmation email only; still no opportunity matcher |
+No subscriber emails are sent to GA4.
+
+| Step | How it is measured |
+| --- | --- |
+| `alert_created` | Existing frontend event (no email property) |
+| `alert_email_sent` | Supabase `arbitrage_alert_deliveries.email_status = sent` |
+| `alert_email_return` | CTA UTMs: `utm_source=alert_email&utm_medium=email&utm_campaign=arbitrage_alert` |
+| `live_route_validation_started` | Existing Validate Live Route client event |
+| `affiliate_exchange_clicked` | Existing affiliate click tracking |
 
 ## Known limitations
 
-- No alert matcher / scheduler yet (collection-only MVP)
-- Rate limiting is per serverless instance (best-effort)
-- Without Supabase env vars, API returns `MISSING_CONFIG` (503)
-
-## Recommended next product task
-
-Build a matcher job that reads `spread_data.json` + active alerts and sends qualified notifications through one email provider.
+- Matcher uses the shared snapshot, not live order books
+- Withdrawal/network fees are **unavailable** (not treated as verified zero); copy says **estimated** net profit
+- Legacy alerts without `trade_amount_usd` never match until the user recreates the alert
+- Bybit prices are often missing in the snapshot; those routes simply do not match
+- Rate limits on create/unsubscribe remain per-instance

@@ -9,3 +9,7 @@ export * from './supabase-storage.js';
 export * from './email.js';
 export * from './service.js';
 export * from './http.js';
+export * from './match/policies.js';
+export * from './match/evaluate.js';
+export * from './match/runner.js';
+export * from './match/http.js';

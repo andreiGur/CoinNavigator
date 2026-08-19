@@ -1,0 +1,72 @@
+# Alert matcher — scheduled opportunity emails
+
+# Primary scheduler: GitHub Actions (~every 15 min, 5 min after spread_data refresh).
+# Protects /api/alerts/match with Authorization: Bearer ${{ secrets.CRON_SECRET }}.
+# Must match Vercel env CRON_SECRET. Do not log the secret.
+
+name: Alert matcher
+
+on:
+  schedule:
+    # Spread detector runs at :00/:15/:30/:45. Matcher waits for deploy lag.
+    - cron: '5,20,35,50 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Evaluate matches without sending email or marking deliveries sent'
+        type: boolean
+        default: false
+
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Trigger production matcher
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          MATCHER_URL: ${{ secrets.ALERT_MATCHER_URL }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "CRON_SECRET GitHub secret is not set. Add it (same value as Vercel CRON_SECRET)."
+            exit 1
+          fi
+          URL="${MATCHER_URL:-https://coinnavigator.net/api/alerts/match}"
+          if [ "$DRY_RUN" = "true" ]; then
+            SEP='?'
+            case "$URL" in
+              *\?*) SEP='&' ;;
+            esac
+            URL="${URL}${SEP}dry_run=1"
+          fi
+          CODE=$(curl -sS -o /tmp/matcher-body.json -w "%{http_code}" \
+            -X GET \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            -H "Accept: application/json" \
+            "$URL")
+          echo "http_status=${CODE}"
+          python3 - <<'PY'
+          import json, sys
+          raw = open("/tmp/matcher-body.json", "r", encoding="utf-8").read()
+          try:
+            body = json.loads(raw)
+          except json.JSONDecodeError:
+            print("non_json_response")
+            sys.exit(1)
+          text = json.dumps(body)
+          lowered = text.lower()
+          banned = ["@", "unsubscribe_token", "resend", "service_role", "cron_secret"]
+          # Allow the word resend only as email_provider in counts? We never return it.
+          if "unsubscribe_token" in lowered or "service_role" in lowered or "cron_secret" in lowered:
+            print("unsafe_fields_in_response")
+            sys.exit(1)
+          if "@" in text:
+            print("email_like_value_in_response")
+            sys.exit(1)
+          print(json.dumps(body, indent=2))
+          PY
+          if [ "$CODE" -lt 200 ] || [ "$CODE" -ge 300 ]; then
+            exit 1
+          fi

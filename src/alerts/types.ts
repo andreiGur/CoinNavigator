@@ -14,6 +14,11 @@ export interface AlertSubscription {
   alert_scope: AlertScope;
   minimum_net_profit_pct: number | null;
   minimum_net_profit_usd: number | null;
+  /**
+   * USD notional used for estimated net profit.
+   * Null on legacy rows created before matcher launch — matcher will not invent an amount.
+   */
+  trade_amount_usd: number | null;
   source_page: string;
   source_context: string;
   created_at: string;
@@ -33,6 +38,7 @@ export interface CreateAlertInput {
   alert_scope: AlertScope;
   minimum_net_profit_pct: number | null;
   minimum_net_profit_usd: number | null;
+  trade_amount_usd: number | null;
   source_page: string;
   source_context: string;
   consent: boolean;
@@ -50,6 +56,7 @@ export interface ValidatedCreateAlert {
   alert_scope: AlertScope;
   minimum_net_profit_pct: number | null;
   minimum_net_profit_usd: number | null;
+  trade_amount_usd: number | null;
   source_page: string;
   source_context: string;
   consent_version: string;
@@ -64,7 +71,8 @@ export type ApiErrorCode =
   | 'SERVER_ERROR'
   | 'METHOD_NOT_ALLOWED'
   | 'PAYLOAD_TOO_LARGE'
-  | 'NOT_FOUND';
+  | 'NOT_FOUND'
+  | 'UNAUTHORIZED';
 
 export interface ApiErrorBody {
   ok: false;
