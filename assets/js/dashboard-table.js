@@ -24,6 +24,105 @@
         let LAST_SPREAD_DATA = null;
         const STALE_SNAPSHOT_MINUTES = 8;
         const AUTO_REFRESH_MS = 3 * 60 * 1000;
+        const SUPPORTED_EXCHANGES = new Set(['Binance', 'MEXC', 'Bybit', 'OKX', 'KuCoin', 'Gate']);
+        let _alertDeepLinkHandled = false;
+
+        function normalizeDeepLinkAsset(raw) {
+            let s = (raw || '').toString().trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (!s) return '';
+            if (s.endsWith('USDT') && s.length > 4) s = s.slice(0, -4);
+            return TARGET_TICKERS.includes(s) ? s : '';
+        }
+
+        function normalizeDeepLinkExchange(raw) {
+            const trimmed = (raw || '').toString().trim();
+            if (!trimmed) return '';
+            if (SUPPORTED_EXCHANGES.has(trimmed)) return trimmed;
+            const aliases = {
+                binance: 'Binance',
+                mexc: 'MEXC',
+                bybit: 'Bybit',
+                okx: 'OKX',
+                kucoin: 'KuCoin',
+                gate: 'Gate',
+                'gate.io': 'Gate',
+                gateio: 'Gate',
+            };
+            return aliases[trimmed.toLowerCase()] || '';
+        }
+
+        function readAlertDeepLinkParams() {
+            try {
+                const p = new URLSearchParams(global.location.search || '');
+                const asset = normalizeDeepLinkAsset(p.get('asset'));
+                const buy = normalizeDeepLinkExchange(p.get('buy'));
+                const sell = normalizeDeepLinkExchange(p.get('sell'));
+                if (!asset || !buy || !sell || buy === sell) return null;
+                return {
+                    asset,
+                    buy,
+                    sell,
+                    fromAlertEmail: (p.get('utm_source') || '') === 'alert_email',
+                    utmCampaign: (p.get('utm_campaign') || '').slice(0, 64),
+                };
+            } catch (_e) {
+                return null;
+            }
+        }
+
+        /**
+         * Email CTA already links to /?asset=&buy=&sell=&utm_*.
+         * After the shared snapshot loads, open Check Real Profit for that route once.
+         */
+        function maybeOpenAlertEmailDeepLink(data) {
+            if (_alertDeepLinkHandled) return;
+            const link = readAlertDeepLinkParams();
+            if (!link) return;
+            _alertDeepLinkHandled = true;
+
+            const symbol = link.asset + 'USDT';
+            const row = data && data.symbols ? data.symbols[symbol] : null;
+            const prices = row && row.prices ? row.prices : null;
+            const buyPrice = prices ? Number(prices[link.buy]) : NaN;
+            const sellPrice = prices ? Number(prices[link.sell]) : NaN;
+            if (!Number.isFinite(buyPrice) || buyPrice <= 0 || !Number.isFinite(sellPrice) || sellPrice <= 0) {
+                global.track('alert_email_return', {
+                    outcome: 'route_prices_missing',
+                    asset: link.asset,
+                    buy_exchange: link.buy,
+                    sell_exchange: link.sell,
+                    from_alert_email: link.fromAlertEmail,
+                });
+                const dash = document.getElementById('dashboard');
+                if (dash && typeof dash.scrollIntoView === 'function') {
+                    dash.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                return;
+            }
+
+            const rawSpreadPct = ((sellPrice - buyPrice) / buyPrice) * 100;
+            const opportunity = {
+                symbol: symbol,
+                ticker: link.asset,
+                buyExchange: link.buy,
+                sellExchange: link.sell,
+                buyPrice: buyPrice,
+                sellPrice: sellPrice,
+                rawSpreadPct: Number.isFinite(rawSpreadPct) ? rawSpreadPct : 0,
+                updatedAt: (data && data.timestamp) ? String(data.timestamp) : _lastDataUpdatedAt,
+            };
+
+            global.track('alert_email_return', {
+                outcome: 'opened_profit_check',
+                asset: link.asset,
+                buy_exchange: link.buy,
+                sell_exchange: link.sell,
+                from_alert_email: link.fromAlertEmail,
+                utm_campaign: link.utmCampaign || undefined,
+            });
+
+            openCalcModal(opportunity, null);
+        }
 
         function getDataAgeMinutes(data) {
             if (!data || !data.timestamp) return Infinity;
@@ -790,6 +889,7 @@
                 syncCoinDatalist((data && data.symbols) || {});
                 readControlsIntoState();
                 renderDashboardTable(data);
+                maybeOpenAlertEmailDeepLink(data);
 
                 global.track('dashboard_render', { assets: TARGET_SYMBOLS.length });
                 if (typeof window._stickyBarPopulate === 'function') window._stickyBarPopulate(data);

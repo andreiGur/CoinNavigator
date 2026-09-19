@@ -33,7 +33,9 @@ jobs:
             echo "CRON_SECRET GitHub secret is not set. Add it (same value as Vercel CRON_SECRET)."
             exit 1
           fi
-          URL="${MATCHER_URL:-https://coinnavigator.net/api/alerts/match}"
+          # Prefer www: apex coinnavigator.net redirects and curl without -L
+          # returns HTML "Redirecting..." which fails JSON parse (scheduled red X).
+          URL="${MATCHER_URL:-https://www.coinnavigator.net/api/alerts/match}"
           if [ "$DRY_RUN" = "true" ]; then
             SEP='?'
             case "$URL" in
@@ -41,7 +43,7 @@ jobs:
             esac
             URL="${URL}${SEP}dry_run=1"
           fi
-          CODE=$(curl -sS -o /tmp/matcher-body.json -w "%{http_code}" \
+          CODE=$(curl -sS -L --max-redirs 5 -o /tmp/matcher-body.json -w "%{http_code}" \
             -X GET \
             -H "Authorization: Bearer ${CRON_SECRET}" \
             -H "Accept: application/json" \

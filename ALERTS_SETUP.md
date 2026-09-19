@@ -98,7 +98,7 @@ Add repository secrets:
 | Secret | Value |
 | --- | --- |
 | `CRON_SECRET` | **Same value** as Vercel `CRON_SECRET` |
-| `ALERT_MATCHER_URL` | Optional. Defaults to `https://coinnavigator.net/api/alerts/match` |
+| `ALERT_MATCHER_URL` | Optional. Defaults to `https://www.coinnavigator.net/api/alerts/match` (use www; apex redirects break the workflow without follow) |
 
 Workflow: `.github/workflows/alert_matcher.yml`  
 Manual dry-run: Actions → **Alert matcher** → Run workflow → `dry_run` = true.
@@ -108,8 +108,8 @@ Vercel Cron is **not** enabled in `vercel.json` (Hobby plans often allow only a 
 ## 5) Dry-run (authorized only)
 
 ```bash
-curl -sS -H "Authorization: Bearer $CRON_SECRET" \
-  "https://coinnavigator.net/api/alerts/match?dry_run=1"
+curl -sS -L -H "Authorization: Bearer $CRON_SECRET" \
+  "https://www.coinnavigator.net/api/alerts/match?dry_run=1"
 ```
 
 Dry-run loads alerts, evaluates the snapshot, returns counts, **does not send email**, **does not mark deliveries sent**.
@@ -124,7 +124,7 @@ No subscriber emails are sent to GA4.
 | --- | --- |
 | `alert_created` | Existing frontend event (no email property) |
 | `alert_email_sent` | Supabase `arbitrage_alert_deliveries.email_status = sent` |
-| `alert_email_return` | CTA UTMs: `utm_source=alert_email&utm_medium=email&utm_campaign=arbitrage_alert` |
+| `alert_email_return` | CTA UTMs + homepage deep-link opens Check Real Profit for `asset`/`buy`/`sell`; client event `alert_email_return` |
 | `live_route_validation_started` | Existing Validate Live Route client event |
 | `affiliate_exchange_clicked` | Existing affiliate click tracking |
 
