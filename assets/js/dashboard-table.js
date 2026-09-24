@@ -1007,7 +1007,7 @@
 
                     if (isLiveSource(data)) {
                         banner.className = 'data-freshness-banner banner-ok';
-                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — refreshed via CoinNavigator market-data gateway. Snapshot file refreshes every ~15 min.</span>`;
+                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — auto-refreshing via CoinNavigator market-data gateway. <span style="opacity:.82">Spreads can change quickly — verify prices and fees before trading.</span></span>`;
                     } else if (ageHours > 2) {
                         msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly. Click <strong>Refresh</strong> for live prices.`;
                         bannerLevel = 'error';
@@ -1111,7 +1111,7 @@
 
                     if (isLiveSource(data)) {
                         banner.className = 'data-freshness-banner banner-ok';
-                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — refreshed via CoinNavigator market-data gateway. Snapshot file refreshes every ~15 min.</span>`;
+                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — auto-refreshing via CoinNavigator market-data gateway. <span style="opacity:.82">Spreads can change quickly — verify prices and fees before trading.</span></span>`;
                     } else if (ageHours > 2) {
                         msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly. Click <strong>Refresh</strong> for live prices.`;
                         bannerLevel = 'error';
