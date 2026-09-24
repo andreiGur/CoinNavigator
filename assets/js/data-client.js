@@ -60,6 +60,15 @@
     throw lastError || new Error('Failed to fetch JSON');
   }
 
+  // Homepage growth enhancement: keep the legacy dashboard as a safe fallback.
+  if (global.location && (global.location.pathname === '/' || global.location.pathname === '/index.html')) {
+    const script = document.createElement('script');
+    script.src = '/assets/js/live-scanner-v2.js';
+    script.defer = true;
+    script.dataset.cnLiveScanner = 'v2';
+    document.head.appendChild(script);
+  }
+
   global.CoinNavigatorDataClient = {
     buildCandidateUrls: buildCandidateUrls,
     fetchFirstJson: fetchFirstJson,
