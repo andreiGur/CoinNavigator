@@ -65,4 +65,14 @@
     fetchFirstJson: fetchFirstJson,
     fetchNewestByTimestamp: fetchNewestByTimestamp
   };
+
+  // Homepage progressive enhancement: load Live Scanner V2 without coupling it
+  // to the legacy dashboard bundle. Other pages keep the shared data client only.
+  if (global.location && (global.location.pathname === '/' || global.location.pathname === '/index.html')) {
+    const script = document.createElement('script');
+    script.src = '/assets/js/live-scanner-v2.js';
+    script.defer = true;
+    script.dataset.cnLiveScanner = 'v2';
+    document.head.appendChild(script);
+  }
 })(window);
