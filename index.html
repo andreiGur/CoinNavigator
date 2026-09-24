@@ -1338,7 +1338,7 @@
         {
           "@type": "Dataset",
           "name": "CoinNavigator Live Spread Data",
-          "description": "Best-bid and best-ask prices for 20 cryptocurrency pairs across 6 centralized exchanges (Binance, MEXC, Bybit, OKX, KuCoin, Gate.io). Updated every 15 minutes.",
+          "description": "Best-bid and best-ask prices for 20 cryptocurrency pairs across 6 centralized exchanges (Binance, MEXC, Bybit, OKX, KuCoin, Gate.io). Refreshed frequently while the scanner is active.",
           "url": "https://coinnavigator.net/",
           "creator": { "@id": "https://coinnavigator.net/#org" },
           "license": "https://coinnavigator.net/terms/",
@@ -1376,7 +1376,7 @@
         <h1>Crypto Arbitrage Opportunities, Calculated After Real Costs</h1>
         <p>Compare exchange prices and estimate trading fees, withdrawal costs and slippage before deciding whether a spread may be worth executing.</p>
                 <p class="muted" style="max-width: 700px; margin: 0.5rem auto 0; font-size: 0.95rem;">
-            Spread data updates about every 15 minutes across 6 exchanges. Always verify live order books and fees before acting — informational only, not financial advice.
+            Live scanner refreshes frequently while this page is open. Always verify live order books, fees and transfer availability before acting — informational only, not financial advice.
         </p>
 
         <div class="hero-cta" id="start">
@@ -1400,12 +1400,12 @@
                 </div>
                 <div class="opp-profit">
                     <div class="big" id="opp-profit-val">—</div>
-                    <div class="label">est. profit on $1,000</div>
+                    <div class="label">after est. trading fees only*</div>
                 </div>
             </div>
             <div class="opp-actions">
                 <a class="btn btn-primary" id="opp-trade-btn" href="/trade/" data-track="hero_opp_trade"><i class="fas fa-bolt"></i> Trade This Spread</a>
-                <span class="opp-sub">Estimate only — use Check Real Profit for costs</span>
+                <span class="opp-sub">*Excludes withdrawal/network costs and slippage — use Check Real Profit</span>
             </div>
         </div>
         <div class="opp-card opp-empty" id="opp-empty" style="display:none; justify-content:center; text-align:center;">
@@ -1455,7 +1455,7 @@
             <span style="color:rgba(255,255,255,0.1);">|</span>
             <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-building-columns" style="color:var(--primary-light);font-size:0.75rem;"></i> <strong style="color:var(--text-main);">6 exchanges</strong> monitored</span>
             <span style="color:rgba(255,255,255,0.1);">|</span>
-            <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-clock" style="color:#34d399;font-size:0.75rem;"></i> Updates every <strong style="color:var(--text-main);">15 minutes</strong></span>
+            <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-clock" style="color:#34d399;font-size:0.75rem;"></i> Live scanner <strong style="color:var(--text-main);">refreshes frequently</strong></span>
             <span style="color:rgba(255,255,255,0.1);">|</span>
             <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;"><i class="fas fa-lock-open" style="color:#fbbf24;font-size:0.75rem;"></i> <strong style="color:var(--text-main);">100% free</strong> — no login needed</span>
             <span style="color:rgba(255,255,255,0.1);">|</span>

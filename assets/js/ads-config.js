@@ -11,6 +11,9 @@
 (function (global) {
   'use strict';
 
+  // Ads are intentionally disabled until a real provider/unit is configured.
+  // Keep every placeholder hidden so an extension or malformed third-party injection
+  // cannot create an empty/black block above the homepage hero.
   global.COINNAVIGATOR_ADS = {
 
     // ── Coinzilla (crypto ad network — enable first while waiting for AdSense) ──
