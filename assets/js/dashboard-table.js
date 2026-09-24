@@ -965,12 +965,116 @@
                         const FEE_PCT = 0.20;
                         const PROFITABLE_PCT = 0.30;
                         if (best && best.sp > FEE_PCT) {
-                            const netProfit = Math.round(((best.sp - FEE_PCT) / 100) * 1000 * 10) / 10; // $ on $1k
+                            const afterTradingFees = Math.round(((best.sp - FEE_PCT) / 100) * 1000 * 10) / 10; // illustrative $1k result; excludes withdrawal/network costs + slippage
                             const label = best.sym.replace('USDT','').replace('BUSD','');
                             document.getElementById('opp-coin').textContent   = label + ' arbitrage';
                             document.getElementById('opp-route').textContent  = 'Buy on ' + best.buy + ' → Sell on ' + best.sell;
                             document.getElementById('opp-spread-pct').textContent = best.sp.toFixed(3) + '%';
-                            document.getElementById('opp-profit-val').textContent = netProfit > 0 ? '+$' + netProfit.toFixed(1) : '—';
+                            document.getElementById('opp-profit-val').textContent = afterTradingFees > 0 ? '+
+                            const tradeBtn = document.getElementById('opp-trade-btn');
+                            if (tradeBtn) {
+                                const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || (window.AFFILIATE_LINKS_GLOBAL || {}).Binance;
+                                tradeBtn.href = aff;
+                                tradeBtn.setAttribute('data-ex', best.buy);
+                                tradeBtn.setAttribute('data-track', 'hero_opp_trade');
+                                tradeBtn.innerHTML = best.sp >= PROFITABLE_PCT
+                                    ? '<i class="fas fa-bolt"></i> Trade on ' + best.buy
+                                    : '<i class="fas fa-store"></i> Open ' + best.buy;
+                            }
+                            oppCard.style.display  = 'flex';
+                            oppEmpty.style.display = 'none';
+                        } else if (best) {
+                            oppCard.style.display  = 'none';
+                            oppEmpty.style.display = 'flex';
+                            const label = best.sym.replace('USDT','').replace('BUSD','');
+                            const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || (window.AFFILIATE_LINKS_GLOBAL || {}).Binance;
+                            oppEmpty.innerHTML = '<span><i class="fas fa-chart-line"></i> Top spread: <strong>' + label + ' ' + best.sp.toFixed(3) + '%</strong> (' + best.buy + ' → ' + best.sell + ') — below ~0.30% after fees. <a href="#email-alerts" style="color:var(--primary-light);font-weight:800;">Get alert</a> or <a href="' + aff + '" target="_blank" rel="noopener nofollow" data-track="hero_opp_trade" data-ex="' + best.buy + '" style="color:var(--primary-light);font-weight:800;">open ' + best.buy + '</a>.</span>';
+                        } else {
+                            oppCard.style.display  = 'none';
+                            oppEmpty.style.display = 'flex';
+                            oppEmpty.innerHTML = '<span><i class="fas fa-clock"></i> No spreads right now — <a href="#dashboard" style="color:var(--primary-light)">monitor the table</a> or <a href="#email-alerts" style="color:var(--primary-light)">get an alert</a>.</span>';
+                        }
+                    }
+                } catch(e) { console.warn('opp-card error', e); }
+
+                const banner = document.getElementById('data-freshness-banner');
+                if (banner) {
+                    const date = data.timestamp ? new Date(data.timestamp) : null;
+                    const ageMins = getDataAgeMinutes(data);
+                    const ageHours = ageMins / 60;
+                    let msg = '';
+                    let bannerLevel = 'warn';
+
+                    if (isLiveSource(data)) {
+                        banner.className = 'data-freshness-banner banner-ok';
+                        banner.innerHTML = `<i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Live prices</strong> — refreshed via CoinNavigator market-data gateway. Snapshot file refreshes every ~15 min.</span>`;
+                    } else if (ageHours > 2) {
+                        msg = `Spread data is ${ageHours >= 24 ? Math.floor(ageHours / 24) + ' day(s)' : Math.floor(ageHours) + ' hour(s)'} old — prices may have changed significantly. Click <strong>Refresh</strong> for live prices.`;
+                        bannerLevel = 'error';
+                        banner.className = `data-freshness-banner banner-${bannerLevel}`;
+                        banner.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${msg}</span>`;
+                    } else if (ageMins > STALE_SNAPSHOT_MINUTES) {
+                        msg = `Snapshot is ${Math.round(ageMins)} min old — live prices load automatically when stale. You can also click <strong>Refresh</strong>.`;
+                        bannerLevel = 'warn';
+                        banner.className = `data-freshness-banner banner-${bannerLevel}`;
+                        banner.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${msg}</span>`;
+                    } else if (date) {
+                        banner.className = 'data-freshness-banner banner-ok';
+                        banner.innerHTML = `<i class="fas fa-circle-check" aria-hidden="true"></i><span>Data fresh — last updated ${Math.max(0, Math.round(ageMins))} min ago.</span>`;
+                    } else {
+                        banner.className = 'data-freshness-banner hidden';
+                        banner.innerHTML = '';
+                    }
+                }
+
+                if (data.symbols && data.symbols.BTCUSDT && banner) {
+                    const refFn =
+                        (global.CoinNavigatorSpreadEngine && global.CoinNavigatorSpreadEngine.fetchReferencePrice) ||
+                        null;
+                    if (refFn) {
+                        refFn({ asset: 'BTC', quote: 'USDT', exchange: 'Binance' })
+                            .then((live) => {
+                                if (!live || !Number.isFinite(live.price)) return;
+                                const livePrice = live.price;
+                                const cached = data.symbols.BTCUSDT.binance_price || data.symbols.BTCUSDT.best_buy?.price;
+                                if (cached == null) return;
+                                const diffPct = Math.abs(cached - livePrice) / livePrice;
+                                if (diffPct > 0.05) {
+                                    const bannerEl = document.getElementById('data-freshness-banner');
+                                    if (!bannerEl) return;
+                                    const existing = bannerEl.textContent || '';
+                                    const priceMsg = ` Table shows BTC ~$${cached.toLocaleString(undefined, { maximumFractionDigits: 0 })} but current Binance price is ~$${livePrice.toLocaleString(undefined, { maximumFractionDigits: 0 })}.`;
+                                    bannerEl.className = 'data-freshness-banner';
+                                    bannerEl.innerHTML = `<i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>${existing ? existing + ' ' : ''}Price mismatch:${priceMsg}</span>`;
+                                }
+                            })
+                            .catch(() => {});
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Detailed Error:', error);
+                document.getElementById('spread-body').innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 4rem;">
+                    <div style="margin-bottom: 10px;">Sync Error: ${error.message}</div>
+                    <div style="font-size: 0.6rem; opacity: 0.7;">Make sure data/spread_data.json exists on GitHub</div>
+                </td></tr>`;
+            }
+        }
+
+  global.TARGET_TICKERS = TARGET_TICKERS;
+  global.TARGET_SYMBOLS = TARGET_SYMBOLS;
+  global.CoinNavigatorDashboard = {
+    boot: function () {
+      initDashboardControls();
+      updateDashboard();
+      setInterval(updateDashboard, AUTO_REFRESH_MS);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') updateDashboard();
+      });
+    }
+  };
+})(window);
+ + afterTradingFees.toFixed(1) + ' / $1k' : '—';
                             const tradeBtn = document.getElementById('opp-trade-btn');
                             if (tradeBtn) {
                                 const aff = (window.AFFILIATE_LINKS_GLOBAL || {})[best.buy] || (window.AFFILIATE_LINKS_GLOBAL || {}).Binance;
