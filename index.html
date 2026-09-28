@@ -1374,17 +1374,11 @@
 
     <header class="hero">
         <h1>Crypto Arbitrage Opportunities, Calculated After Real Costs</h1>
-        <p>Compare exchange prices and estimate trading fees, withdrawal costs and slippage before deciding whether a spread may be worth executing.</p>
-                <p class="muted" style="max-width: 700px; margin: 0.5rem auto 0; font-size: 0.95rem;">
-            Live scanner refreshes frequently while this page is open. Always verify live order books, fees and transfer availability before acting — informational only, not financial advice.
+        <p class="muted" style="max-width: 700px; margin: 0.5rem auto 0; font-size: 0.95rem;">
+            Best route right now is the line below. Live prices load when the saved snapshot is older than a few minutes. Verify order books and fees before acting — informational only, not financial advice.
         </p>
 
-        <div class="hero-cta" id="start">
-            <a class="btn btn-primary" href="#dashboard" data-track="hero_start"><i class="fas fa-bolt"></i> Start Exploring Spreads</a>
-            <a class="btn btn-ghost" href="#email-alerts" data-track="hero_alerts"><i class="fas fa-bell"></i> Get Free Alerts</a>
-        </div>
-
-        <!-- Best Opportunity Now card — populated by JS from spread_data.json -->
+        <!-- Best opportunity is the first thing after the headline. -->
         <div class="opp-card" id="opp-card" style="display:none" aria-live="polite">
             <div>
                 <div class="opp-badge"><span class="pulse"></span> Best opportunity right now</div>
@@ -1410,6 +1404,11 @@
         </div>
         <div class="opp-card opp-empty" id="opp-empty" style="display:none; justify-content:center; text-align:center;">
             <span><i class="fas fa-clock"></i> No spreads above fees right now — <a href="#dashboard" style="color:var(--primary-light)">monitor the table</a> for when they appear, or <a href="#email-alerts" style="color:var(--primary-light)">get an alert</a>.</span>
+        </div>
+
+        <div class="hero-cta" id="start">
+            <a class="btn btn-primary" href="#dashboard" data-track="hero_start"><i class="fas fa-bolt"></i> Open the live table</a>
+            <a class="btn btn-ghost" href="#email-alerts" data-track="hero_alerts"><i class="fas fa-bell"></i> Get Free Alerts</a>
         </div>
 
         <div class="hero-viz" id="hero-viz" aria-live="polite">
@@ -1447,6 +1446,109 @@
             <a class="pill focus-ring" href="/methodology/#freshness" data-track="trust_freshness"><i class="fas fa-clock"></i> Live scanner · frequent refresh</a>
         </div>
     </header>
+
+    <div class="container" id="live-monitor" style="padding-top:0.5rem;">
+        <div class="dashboard-card" id="dashboard">
+            <div class="table-header">
+                <h2>Live Spread Monitor</h2>
+                <div class="live-indicator">
+                    <div class="dot"></div>
+                    LIVE DATA
+                </div>
+            </div>
+            <div class="dashboard-controls" aria-label="Table controls">
+                <div class="dc-left">
+                    <div class="dc-field" title="Search a coin (e.g., BTC, ETH, SOL)">
+                        <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                        <input id="coin-search" type="search" placeholder="Search coin (BTC, ETH, SOL…)" autocomplete="off" list="coin-list" />
+                        <button class="dc-clear" id="coin-clear" type="button" title="Clear search">Clear</button>
+                    </div>
+                    <datalist id="coin-list"></datalist>
+                    <label class="dc-check" title="Show only spreads above 0.10%">
+                        <input id="only-gt-01" type="checkbox" />
+                        Only &gt;0.1%
+                    </label>
+                    <label class="dc-check" title="Show only spreads above 0.30% — profitable after standard 0.10% fees per leg" style="border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);">
+                        <input id="only-profitable" type="checkbox" />
+                        <span style="color:#34d399;font-weight:800;">✓ Profitable</span> &gt;0.3%
+                    </label>
+                    <label class="dc-check" title="Show only USDT quoted pairs">
+                        <input id="only-usdt" type="checkbox" checked />
+                        Only USDT pairs
+                    </label>
+                    <label class="dc-check" title="All venues here are centralized exchanges today (DEX filter is future-proofing).">
+                        <input id="only-cex" type="checkbox" checked />
+                        Only CEX
+                    </label>
+                    <label class="dc-check" title="Hide coins where we have no data yet">
+                        <input id="hide-missing" type="checkbox" checked />
+                        Hide missing data
+                    </label>
+                </div>
+                <div class="dc-right">
+                    <select class="dc-select" id="sort-by" title="Sort table">
+                        <option value="spread_desc">Sort: spread (high → low)</option>
+                        <option value="spread_asc">Sort: spread (low → high)</option>
+                        <option value="alpha">Sort: A → Z</option>
+                        <option value="volume_desc" disabled>Sort: volume (coming soon)</option>
+                        <option value="updated_desc" disabled>Sort: last update (coming soon)</option>
+                    </select>
+                    <button type="button" class="dc-clear" id="refresh-spreads" title="Refresh live prices via CoinNavigator market-data gateway" data-track="table_refresh_live">
+                        <i class="fas fa-rotate"></i> Refresh
+                    </button>
+                    <div class="dc-status" id="table-status">—</div>
+                </div>
+            </div>
+            <div id="data-freshness-banner" class="data-freshness-banner hidden" role="alert" aria-live="polite"></div>
+            <div id="spread-quiet-banner" class="data-freshness-banner hidden" role="status" aria-live="polite" style="margin-top:0.75rem;border-color:rgba(251,191,36,0.35);background:rgba(251,191,36,0.06);"></div>
+
+            <div class="table-wrap">
+                <table>
+                    <colgroup>
+                        <col class="col-asset" />
+                        <col class="col-buy" />
+                        <col class="col-sell" />
+                        <col class="col-spread" />
+                        <col class="col-action" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Best Buy</th>
+                            <th>Best Sell</th>
+                            <th>Best Spread</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spread-body">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 4rem;">
+                                <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="revenue-cta-banner" class="revenue-cta-banner hidden" aria-hidden="true">
+                <div>
+                    <h3 id="revenue-cta-title">Top spread ready to trade</h3>
+                    <p id="revenue-cta-sub">Partner link — same fees, often lower with our referral.</p>
+                </div>
+                <a id="revenue-cta-btn" class="btn btn-primary" href="#" target="_blank" rel="noopener nofollow"
+                   data-track="revenue_banner_trade" data-cn-affiliate="Binance" data-cn-medium="revenue_banner" data-cn-campaign="profitable_spread"
+                   style="white-space:nowrap;font-size:0.95rem;padding:0.85rem 1.35rem;">
+                    <i class="fas fa-bolt"></i> Open exchange &amp; trade
+                </a>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;flex-wrap:wrap;gap:0.5rem;">
+                <div id="timestamp" style="color: var(--text-muted); font-size: 0.8rem;"></div>
+                <div id="next-update-timer" style="display:none;align-items:center;gap:0.4rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--primary-light);">
+                    <i class="fas fa-clock"></i> Next update in <span id="next-update-countdown" style="font-variant-numeric:tabular-nums;min-width:38px;display:inline-block;">—</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <!-- Trust Bar -->
     <div style="max-width:1200px;margin:0 auto 0;padding:0 2rem;">
@@ -1548,106 +1650,6 @@
         </div>
     </section>
     
-        <div class="dashboard-card" id="dashboard">
-            <div class="table-header">
-                <h2>Live Spread Monitor</h2>
-                <div class="live-indicator">
-                    <div class="dot"></div>
-                    LIVE DATA
-                </div>
-            </div>
-            <div class="dashboard-controls" aria-label="Table controls">
-                <div class="dc-left">
-                    <div class="dc-field" title="Search a coin (e.g., BTC, ETH, SOL)">
-                        <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
-                        <input id="coin-search" type="search" placeholder="Search coin (BTC, ETH, SOL…)" autocomplete="off" list="coin-list" />
-                        <button class="dc-clear" id="coin-clear" type="button" title="Clear search">Clear</button>
-                    </div>
-                    <datalist id="coin-list"></datalist>
-                    <label class="dc-check" title="Show only spreads above 0.10%">
-                        <input id="only-gt-01" type="checkbox" />
-                        Only &gt;0.1%
-                    </label>
-                    <label class="dc-check" title="Show only spreads above 0.30% — profitable after standard 0.10% fees per leg" style="border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);">
-                        <input id="only-profitable" type="checkbox" />
-                        <span style="color:#34d399;font-weight:800;">✓ Profitable</span> &gt;0.3%
-                    </label>
-                    <label class="dc-check" title="Show only USDT quoted pairs">
-                        <input id="only-usdt" type="checkbox" checked />
-                        Only USDT pairs
-                    </label>
-                    <label class="dc-check" title="All venues here are centralized exchanges today (DEX filter is future-proofing).">
-                        <input id="only-cex" type="checkbox" checked />
-                        Only CEX
-                    </label>
-                    <label class="dc-check" title="Hide coins where we have no data yet">
-                        <input id="hide-missing" type="checkbox" checked />
-                        Hide missing data
-                    </label>
-                </div>
-                <div class="dc-right">
-                    <select class="dc-select" id="sort-by" title="Sort table">
-                        <option value="spread_desc">Sort: spread (high → low)</option>
-                        <option value="spread_asc">Sort: spread (low → high)</option>
-                        <option value="alpha">Sort: A → Z</option>
-                        <option value="volume_desc" disabled>Sort: volume (coming soon)</option>
-                        <option value="updated_desc" disabled>Sort: last update (coming soon)</option>
-                    </select>
-                    <button type="button" class="dc-clear" id="refresh-spreads" title="Refresh live prices via CoinNavigator market-data gateway" data-track="table_refresh_live">
-                        <i class="fas fa-rotate"></i> Refresh
-                    </button>
-                    <div class="dc-status" id="table-status">—</div>
-                </div>
-            </div>
-            <div id="data-freshness-banner" class="data-freshness-banner hidden" role="alert" aria-live="polite"></div>
-            <div id="spread-quiet-banner" class="data-freshness-banner hidden" role="status" aria-live="polite" style="margin-top:0.75rem;border-color:rgba(251,191,36,0.35);background:rgba(251,191,36,0.06);"></div>
-
-            <div class="table-wrap">
-                <table>
-                    <colgroup>
-                        <col class="col-asset" />
-                        <col class="col-buy" />
-                        <col class="col-sell" />
-                        <col class="col-spread" />
-                        <col class="col-action" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>Best Buy</th>
-                            <th>Best Sell</th>
-                            <th>Best Spread</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="spread-body">
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 4rem;">
-                                <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="revenue-cta-banner" class="revenue-cta-banner hidden" aria-hidden="true">
-                <div>
-                    <h3 id="revenue-cta-title">Top spread ready to trade</h3>
-                    <p id="revenue-cta-sub">Partner link — same fees, often lower with our referral.</p>
-                </div>
-                <a id="revenue-cta-btn" class="btn btn-primary" href="#" target="_blank" rel="noopener nofollow"
-                   data-track="revenue_banner_trade" data-cn-affiliate="Binance" data-cn-medium="revenue_banner" data-cn-campaign="profitable_spread"
-                   style="white-space:nowrap;font-size:0.95rem;padding:0.85rem 1.35rem;">
-                    <i class="fas fa-bolt"></i> Open exchange &amp; trade
-                </a>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;flex-wrap:wrap;gap:0.5rem;">
-                <div id="timestamp" style="color: var(--text-muted); font-size: 0.8rem;"></div>
-                <div id="next-update-timer" style="display:none;align-items:center;gap:0.4rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--primary-light);">
-                    <i class="fas fa-clock"></i> Next update in <span id="next-update-countdown" style="font-variant-numeric:tabular-nums;min-width:38px;display:inline-block;">—</span>
-                </div>
-            </div>
-        </div>
-
         <!-- Ad slot: mid-content (hidden until ad-enabled) -->
         <div class="ad-slot" data-ad-slot="mid">
             <div class="ad-slot-label">Advertisement</div>

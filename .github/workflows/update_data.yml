@@ -7,7 +7,18 @@ on:
     - cron: '*/15 * * * *'
   push:
     branches: [main]
+    # Automated snapshot commits must not retrigger this job.
+    # That loop queued runs for hours and left production data stale.
+    paths-ignore:
+      - 'data/spread_data.json'
+      - 'spread_data.json'
+      - 'data/polymarket_hot.json'
+      - 'polymarket_hot.json'
   workflow_dispatch:
+
+concurrency:
+  group: update-spread-data
+  cancel-in-progress: false
 
 jobs:
   update:

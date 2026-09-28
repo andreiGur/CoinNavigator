@@ -350,6 +350,7 @@
     <div style="margin-top:1rem;opacity:.75;">Not financial advice. Data may be delayed or incomplete.</div>
   </footer>
 
+  <script src="/assets/js/spread-snapshot-loader.js"></script>
   <script>
     const TARGET_TICKERS = [
       'BTC','ETH','SOL','XRP','TON',
@@ -410,6 +411,9 @@
       return await res.json();
     }
     async function fetchWithFallback() {
+      if (window.CoinNavigatorSpreadSnapshot && typeof window.CoinNavigatorSpreadSnapshot.load === 'function') {
+        return window.CoinNavigatorSpreadSnapshot.load();
+      }
       const origins = [window.location.origin, 'https://coinnavigator.net'];
       const candidates = [];
       origins.forEach((o) => {

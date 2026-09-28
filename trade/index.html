@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Best Crypto Arbitrage Trade Right Now — CoinNavigator Live</title>
-  <meta name="description" content="See the single best crypto arbitrage spread available right now. Live data. Buy low on one exchange, sell high on another — we show you exactly where." />
+  <meta name="description" content="See the single best crypto arbitrage spread available right now. Buy low on one exchange, sell high on another. Live prices when the saved snapshot is older than a few minutes." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://coinnavigator.net/trade/" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
@@ -158,7 +160,7 @@
   <div class="hero">
     <div class="live-dot">Live</div>
     <h1>Best Arbitrage Trade<br/>Available Right Now</h1>
-    <p>We scan 6 exchanges, 20 coins, every 15 minutes. This is the highest-spread opportunity at this moment.</p>
+    <p>The highest-spread route across 6 exchanges and 20 coins. Live prices load when the saved snapshot is older than a few minutes.</p>
   </div>
 
   <!-- Top opportunity -->
@@ -228,8 +230,8 @@
   </div>
 
   <footer>
-    Data updates every ~15 minutes. Spreads shown are indicative; always verify on live order books before trading.
-    Not financial advice. <a href="/methodology/" style="color:#818cf8;">Methodology</a> · <a href="/blog/" style="color:#818cf8;">Guides</a>
+    This page loads live prices when the saved file is older than a few minutes. Spreads are estimates — verify order books and fees before trading.
+    Not financial advice. <a href="/arbitrage-calculator/" style="color:#818cf8;">Profit calculator</a> · <a href="/binance-vs-mexc/" style="color:#818cf8;">Binance vs MEXC</a> · <a href="/methodology/" style="color:#818cf8;">Methodology</a>
   </footer>
 </div>
 
@@ -420,7 +422,30 @@
     });
   });
 
-  fetchData().then(render).catch(function(err) {
+  function snapshotAgeMinutes(data) {
+    if (!data || !data.timestamp) return Infinity;
+    var t = Date.parse(data.timestamp);
+    if (!isFinite(t)) return Infinity;
+    return (Date.now() - t) / 60000;
+  }
+
+  function fetchLive() {
+    return fetch('/api/market-data?operation=spread_snapshot', {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' }
+    }).then(function(r) { return r.json(); }).then(function(body) {
+      if (!body || body.ok !== true || !body.data || !body.data.symbols) throw new Error('live');
+      if (!body.data.source) body.data.source = 'live_gateway';
+      return body.data;
+    });
+  }
+
+  fetchData().then(function(data) {
+    if (snapshotAgeMinutes(data) > 3) {
+      return fetchLive().catch(function() { return data; });
+    }
+    return data;
+  }).then(render).catch(function(err) {
     document.getElementById('opp-coin').textContent = 'Unable to load live data. Please refresh.';
     var tbody = document.getElementById('all-body');
     if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Could not load data — please refresh the page.</td></tr>';

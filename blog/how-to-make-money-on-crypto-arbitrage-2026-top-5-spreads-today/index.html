@@ -311,6 +311,9 @@
 
   <script>
     async function fetchJsonWithFallback() {
+      if (window.CoinNavigatorSpreadSnapshot && typeof window.CoinNavigatorSpreadSnapshot.load === 'function') {
+        return window.CoinNavigatorSpreadSnapshot.load();
+      }
       const origins = [window.location.origin, 'https://coinnavigator.net'];
       const candidates = [];
       origins.forEach((o) => {
@@ -392,16 +395,15 @@
       });
     })();
   </script>
-  <script>
+  <script src="/assets/js/spread-snapshot-loader.js"></script>
+<script>
     (function(){
-      var paths = ['/data/spread_data.json', '/spread_data.json'];
-      var idx = 0;
       function tryNext(){
-        if(idx >= paths.length) return;
-        fetch(paths[idx++] + '?t=' + Date.now())
-          .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
-          .then(renderWidget)
-          .catch(tryNext);
+        var load = window.CoinNavigatorSpreadSnapshot && window.CoinNavigatorSpreadSnapshot.load;
+        if (typeof load === 'function') {
+          load().then(renderWidget).catch(function(){});
+          return;
+        }
       }
       function renderWidget(data){
         var el = document.getElementById('blog-lw-rows');
