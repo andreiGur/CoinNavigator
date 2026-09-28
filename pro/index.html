@@ -333,7 +333,10 @@
     initAnalytics();
     document.querySelectorAll('[data-track]').forEach(function(el) {
       el.addEventListener('click', function() {
-        track(el.getAttribute('data-track'), { page: 'pro', price: 9, currency: 'USD' });
+        var eventName = el.getAttribute('data-track');
+        track(eventName, { page: 'pro', source_page: 'pro', price: 9, currency: 'USD' });
+        var mapped = mapToConversionEvent(eventName, el, { source_page: 'pro' });
+        if (mapped) track(mapped.event, mapped.payload);
       });
     });
   </script>
