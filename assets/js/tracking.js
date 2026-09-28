@@ -99,6 +99,34 @@
       };
     }
 
+    if (lower.includes('pro_buy')) {
+      return {
+        event: 'starter_pack_checkout_click',
+        payload: {
+          product: 'crypto_arbitrage_starter_pack',
+          price: 9,
+          currency: 'USD',
+          source_page: sourcePage,
+          cta_name: name,
+          destination: href
+        }
+      };
+    }
+
+    if (lower.includes('scanner') || lower.includes('hero_start') || lower.includes('nav_monitor')) {
+      return {
+        event: 'scanner_open',
+        payload: { source_page: sourcePage, cta_name: name, region: params.region || undefined }
+      };
+    }
+
+    if (lower.includes('calc')) {
+      return {
+        event: 'calculator_open',
+        payload: { source_page: sourcePage, cta_name: name, region: params.region || undefined }
+      };
+    }
+
     const isAffiliateClick = lower.includes('aff') || lower.includes('trade') || lower.includes('exchange') || lower.includes('open_') || lower.includes('rec_');
     const isOutbound = href && /^https?:\/\//i.test(href);
     if (isAffiliateClick && isOutbound) {
