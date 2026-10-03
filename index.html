@@ -1290,9 +1290,37 @@
             .viz-row { grid-template-columns: 88px 1fr 72px; gap: 0.6rem; }
             .viz-sub { font-size: 0.85rem; }
 
-            /* On mobile: compact table (no horizontal scroll) */
-            th:nth-child(2), td:nth-child(2) { display: none; } /* Buy */
-            th:nth-child(3), td:nth-child(3) { display: none; } /* Sell */
+            /* Hide the matching columns as well as their cells: fixed table
+               layout otherwise reserves 44% of the viewport for hidden prices. */
+            #live-monitor col.col-buy, #live-monitor col.col-sell { display: none; }
+            #live-monitor col.col-asset { width: 27%; }
+            #live-monitor col.col-spread { width: 31%; }
+            #live-monitor col.col-action { width: 42%; }
+            #live-monitor th:nth-child(2), #spread-body > tr > td:nth-child(2) { display: none; }
+            #live-monitor th:nth-child(3), #spread-body > tr > td:nth-child(3) { display: none; }
+            .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+            .opp-card > * { min-width: 0; max-width: 100%; }
+            .opp-badge, .opp-route, .opp-sub { overflow-wrap: anywhere; }
+            .opp-numbers { gap: 0.75rem; }
+            .email-signup-gift { min-width: 0 !important; flex: 1 1 200px !important; }
+            .email-form .email-input { min-width: 0 !important; }
+            #live-monitor th { padding: 0.65rem 0.3rem; font-size: 0.6rem; letter-spacing: 0; white-space: normal; }
+            #spread-body > tr > td { padding: 0.8rem 0.3rem; }
+            #spread-body .symbol-box { flex-wrap: wrap; gap: 0.3rem; }
+            #spread-body .symbol-box > .fa-coins { display: none; }
+            #spread-body .symbol-box .name { font-size: 0.8rem; }
+            #spread-body .spread-cell { flex-direction: column; align-items: flex-start; }
+            #spread-body .spread-val { font-size: 0.75rem; padding: 0.3rem; white-space: nowrap; }
+            #spread-body .hot-badge { font-size: 0.55rem; padding: 0.25rem; white-space: normal; }
+            #spread-body .row-actions { grid-template-columns: minmax(0, 1fr); }
+            #spread-body .row-actions .btn-mini { min-height: 44px; font-size: 0.75rem; padding: 0.5rem 0.3rem; }
+
+            #sticky-spread-bar { gap: 0.5rem; padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom, 0px)); }
+            .ssb-left { width: 100%; min-width: 0; gap: 0.5rem; }
+            .ssb-route { overflow-wrap: anywhere; }
+            .ssb-right { width: 100%; min-width: 0; }
+            #ssb-cta { flex: 1; min-width: 0; white-space: normal !important; text-align: center; justify-content: center; }
+            .ssb-close { min-width: 44px; min-height: 44px; }
 
             .edu-grid { grid-template-columns: 1fr; }
 
@@ -1676,7 +1704,7 @@
                     <h3><i class="fas fa-bell" style="color:var(--primary-light)"></i> Get alerted when spreads widen</h3>
                     <p>Choose <strong style="color:var(--text-main);">instant alerts</strong> when spreads exceed 0.3%, or a <strong style="color:var(--text-main);">weekly top-5 digest</strong>. Free forever — one-click unsubscribe. Always verify costs before trading.</p>
                 </div>
-                <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:14px;padding:0.9rem 1.1rem;min-width:200px;flex:0 0 auto;">
+                <div class="email-signup-gift" style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:14px;padding:0.9rem 1.1rem;min-width:200px;flex:0 0 auto;">
                     <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#fbbf24;margin-bottom:0.35rem;"><i class="fas fa-gift"></i> Free with signup</div>
                     <div style="font-weight:800;font-size:0.88rem;color:var(--text-main);">Arbitrage Checklist PDF</div>
                     <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.2rem;">15-point pre-trade checklist to avoid common mistakes</div>
