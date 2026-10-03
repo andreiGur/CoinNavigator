@@ -1305,14 +1305,26 @@
             .email-signup-gift { min-width: 0 !important; flex: 1 1 200px !important; }
             .email-form .email-input { min-width: 0 !important; }
             #live-monitor th { padding: 0.65rem 0.3rem; font-size: 0.6rem; letter-spacing: 0; white-space: normal; }
-            #spread-body > tr > td { padding: 0.8rem 0.3rem; }
+            #live-monitor .table-wrap table, #spread-body { display: block; }
+            #live-monitor .table-wrap colgroup, #live-monitor .table-wrap thead { display: none; }
+            #spread-body > tr {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                align-items: center;
+                gap: 0.65rem;
+                padding: 0.8rem 0.3rem;
+                border-bottom: 1px solid var(--border);
+            }
+            #spread-body > tr > td { display: block; min-width: 0; padding: 0; border: 0; overflow: visible; }
+            #spread-body > tr > td.col-action, #spread-body > tr > td[colspan] { grid-column: 1 / -1; }
+            #spread-body > tr.details-row { grid-template-columns: minmax(0, 1fr); }
             #spread-body .symbol-box { flex-wrap: wrap; gap: 0.3rem; }
             #spread-body .symbol-box > .fa-coins { display: none; }
             #spread-body .symbol-box .name { font-size: 0.8rem; }
-            #spread-body .spread-cell { flex-direction: column; align-items: flex-start; }
+            #spread-body .spread-cell { justify-content: flex-end; gap: 0.3rem; }
             #spread-body .spread-val { font-size: 0.75rem; padding: 0.3rem; white-space: nowrap; }
             #spread-body .hot-badge { font-size: 0.55rem; padding: 0.25rem; white-space: normal; }
-            #spread-body .row-actions { grid-template-columns: minmax(0, 1fr); }
+            #spread-body .row-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
             #spread-body .row-actions .btn-mini { min-height: 44px; font-size: 0.75rem; padding: 0.5rem 0.3rem; }
 
             #sticky-spread-bar { gap: 0.5rem; padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom, 0px)); }
