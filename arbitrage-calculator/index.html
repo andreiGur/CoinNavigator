@@ -439,39 +439,77 @@
 </script>
 <script src="/assets/js/site-analytics-boot.js" defer></script>
 <script>
-  // Fire calculator_open once after analytics boot (skip if a CTA click just recorded it).
+  // Fire calculator_open exactly once per navigation (direct, CTA click→load, reload, back/forward).
   (function () {
-    function fireOpen() {
+    var sent = false;
+
+    function emit(payload) {
       try {
-        var skip = false;
-        try {
-          var ts = parseInt(sessionStorage.getItem('cn_funnel_calculator_open') || '0', 10);
-          if (ts && Date.now() - ts < 8000) skip = true;
-        } catch (_e) {}
-        if (skip) return;
-        if (typeof trackOnce === 'function') {
-          trackOnce('calculator_open_page', 'calculator_open', {
-            source_page: 'arbitrage-calculator',
-            cta_name: 'page_load',
-            interaction_type: 'navigation'
-          });
-        } else if (typeof track === 'function') {
-          track('calculator_open', {
-            source_page: 'arbitrage-calculator',
-            cta_name: 'page_load',
-            interaction_type: 'navigation'
-          });
+        if (typeof track === 'function') {
+          track('calculator_open', payload);
         } else if (typeof gtag === 'function') {
-          gtag('event', 'calculator_open', {
-            source_page: 'arbitrage-calculator',
-            cta_name: 'page_load',
-            interaction_type: 'navigation'
-          });
+          gtag('event', 'calculator_open', payload);
         }
       } catch (_err) {}
     }
-    if (window.CoinNavigatorTracking) fireOpen();
-    else window.addEventListener('load', function () { setTimeout(fireOpen, 50); });
+
+    function fireOpen(bfCacheRestore) {
+      try {
+        var T = window.CoinNavigatorTracking || {};
+        var shouldEmit = typeof T.shouldEmitCalculatorOpenOnArrival === 'function'
+          ? T.shouldEmitCalculatorOpenOnArrival({ alreadySentThisDocument: sent, bfCacheRestore: !!bfCacheRestore })
+          : (bfCacheRestore || !sent);
+        if (!shouldEmit) return;
+        sent = true;
+        var cta = typeof T.consumeCalculatorOpenCta === 'function'
+          ? T.consumeCalculatorOpenCta()
+          : (function () {
+              try {
+                var v = sessionStorage.getItem('cn_calc_open_cta');
+                if (v) { sessionStorage.removeItem('cn_calc_open_cta'); return v; }
+              } catch (_e) {}
+              return null;
+            })();
+        var payload = typeof T.buildCalculatorOpenPayload === 'function'
+          ? T.buildCalculatorOpenPayload(cta)
+          : {
+              source_page: 'arbitrage-calculator',
+              cta_name: cta || 'page_load',
+              interaction_type: 'navigation'
+            };
+        emit(payload);
+      } catch (_err2) {}
+    }
+
+    function onReady() {
+      // Prefer helpers from tracking.js when present; gtag fallback still emits once.
+      if (window.CoinNavigatorTracking) {
+        fireOpen(false);
+        return;
+      }
+      var tries = 0;
+      (function wait() {
+        if (window.CoinNavigatorTracking || tries >= 40) {
+          fireOpen(false);
+          return;
+        }
+        tries += 1;
+        setTimeout(wait, 50);
+      })();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', onReady);
+    } else {
+      onReady();
+    }
+
+    window.addEventListener('pageshow', function (e) {
+      if (e && e.persisted) {
+        sent = false;
+        fireOpen(true);
+      }
+    });
   })();
 </script>
 </body>

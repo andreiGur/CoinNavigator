@@ -24,12 +24,25 @@ const AFFILIATE_HOSTS = [
   'gumroad.com',
 ];
 
+/** Canonical Starter Pack Gumroad product path. */
+const STARTER_PACK_PATH_RE = /\/l\/tzynyo\/?$/i;
+
 const SCANNER_PATH_RE =
   /\/(#dashboard|crypto-arbitrage-scanner\/?|bitcoin-arbitrage-scanner\/?|ethereum-arbitrage-scanner\/?|solana-arbitrage-scanner\/?|trade\/?)/i;
+
+export const CALC_OPEN_CTA_KEY = 'cn_calc_open_cta';
 
 function hostnameOf(href: string): string {
   try {
     return new URL(href, 'https://coinnavigator.net').hostname.toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function pathnameOf(href: string): string {
+  try {
+    return new URL(href, 'https://coinnavigator.net').pathname;
   } catch {
     return '';
   }
@@ -44,6 +57,16 @@ export function isAffiliateHost(href: string): boolean {
 function isGumroad(href: string): boolean {
   const host = hostnameOf(href);
   return host === 'gumroad.com' || host.endsWith('.gumroad.com');
+}
+
+/** True only for the real Starter Pack checkout URL (not any Gumroad link). */
+export function isStarterPackCheckoutHref(href: string): boolean {
+  if (!href || !isGumroad(href)) return false;
+  return STARTER_PACK_PATH_RE.test(pathnameOf(href));
+}
+
+function isExternalHttp(href: string): boolean {
+  return !!href && /^https?:\/\//i.test(href);
 }
 
 function isScannerHref(href: string): boolean {
@@ -74,30 +97,9 @@ function isCalculatorName(lower: string): boolean {
   );
 }
 
-function isAffiliateName(lower: string): boolean {
-  return (
-    lower.includes('aff') ||
-    lower.includes('rec_') ||
-    lower.includes('open_binance') ||
-    lower.includes('open_mexc') ||
-    lower.includes('open_bybit') ||
-    lower.includes('cta_binance') ||
-    lower.includes('cta_mexc') ||
-    lower.includes('cta_bybit') ||
-    lower.includes('hero_opp_trade') ||
-    lower.includes('revenue_banner_trade') ||
-    lower.includes('sticky_bar_trade') ||
-    lower.includes('trade_buy') ||
-    lower.includes('trade_sell') ||
-    lower.includes('blog_cta_') ||
-    lower.includes('blog_open_') ||
-    lower.includes('final_cta_')
-  );
-}
-
 /**
  * Resolve a user click to exactly one analytics event.
- * Funnel CTAs emit the canonical funnel name; other tracked clicks keep their data-track name.
+ * Actual link destinations take priority over broad data-track name matching.
  */
 export function resolveClickEvent(
   trackName: string | null | undefined,
@@ -113,12 +115,8 @@ export function resolveClickEvent(
     region: params.region,
   };
 
-  // Starter Pack checkout (Gumroad only — not /pro/ landing visits)
-  if (
-    isGumroad(href) ||
-    lower.includes('pro_buy') ||
-    lower === 'starter_pack_checkout_click'
-  ) {
+  // 1) Real Starter Pack Gumroad product URL only (never name-only / generic Gumroad).
+  if (isStarterPackCheckoutHref(href)) {
     return {
       event: 'starter_pack_checkout_click',
       payload: {
@@ -126,12 +124,37 @@ export function resolveClickEvent(
         product: 'crypto_arbitrage_starter_pack',
         price: 9,
         currency: 'USD',
+        destination: href,
+      },
+    };
+  }
+
+  // 2) Outbound affiliate destinations win over track-name heuristics
+  //    (e.g. calc_cta_binance / *scanner* names must not become calculator_open / scanner_open).
+  if (isExternalHttp(href) && isAffiliateHost(href)) {
+    return {
+      event: 'affiliate_click',
+      payload: {
+        ...base,
+        exchange: params.ex || undefined,
+        symbol: params.sym || undefined,
+        destination: href,
+      },
+    };
+  }
+
+  // 3) Internal destinations by href
+  if (isCalculatorHref(href)) {
+    return {
+      event: 'calculator_open',
+      payload: {
+        ...base,
         destination: href || undefined,
       },
     };
   }
 
-  if (isScannerName(lower) || (name && isScannerHref(href))) {
+  if (isScannerHref(href)) {
     return {
       event: 'scanner_open',
       payload: {
@@ -142,7 +165,8 @@ export function resolveClickEvent(
     };
   }
 
-  if (isCalculatorName(lower) || (name && isCalculatorHref(href))) {
+  // 4) Name-based fallback only when href is not an affiliate / calc / scanner destination
+  if (name && isCalculatorName(lower)) {
     return {
       event: 'calculator_open',
       payload: {
@@ -152,23 +176,29 @@ export function resolveClickEvent(
     };
   }
 
-  if (href && /^https?:\/\//i.test(href) && isAffiliateHost(href) && !isGumroad(href)) {
-    if (isAffiliateName(lower) || !name) {
-      return {
-        event: 'affiliate_click',
-        payload: {
-          ...base,
-          exchange: params.ex || undefined,
-          symbol: params.sym || undefined,
-          destination: href,
-        },
-      };
-    }
+  if (name && isScannerName(lower)) {
+    return {
+      event: 'scanner_open',
+      payload: {
+        ...base,
+        destination: href || undefined,
+        asset: params.sym || undefined,
+      },
+    };
   }
 
   if (name) {
+    // Do not allow data-track alone to forge reserved funnel event names.
+    const reserved = {
+      starter_pack_checkout_click: true,
+      calculator_open: true,
+      scanner_open: true,
+      affiliate_click: true,
+      calculator_used: true,
+    } as Record<string, boolean>;
+    const eventName = reserved[lower] ? 'cta_click' : name;
     return {
-      event: name,
+      event: eventName,
       payload: {
         ...base,
         exchange: params.ex || undefined,
@@ -179,4 +209,68 @@ export function resolveClickEvent(
   }
 
   return null;
+}
+
+/** calculator_open is emitted on the calculator page (once per navigation), not on the CTA click. */
+export function shouldDeferCalculatorOpenTrack(eventName: string): boolean {
+  return eventName === 'calculator_open';
+}
+
+export function rememberCalculatorOpenCta(
+  ctaName: string | null | undefined,
+  storage: Pick<Storage, 'setItem'> = sessionStorage
+): void {
+  try {
+    storage.setItem(CALC_OPEN_CTA_KEY, (ctaName || 'cta_click').trim() || 'cta_click');
+  } catch {
+    /* ignore */
+  }
+}
+
+export function consumeCalculatorOpenCta(
+  storage: Pick<Storage, 'getItem' | 'removeItem'> = sessionStorage
+): string | null {
+  try {
+    const v = storage.getItem(CALC_OPEN_CTA_KEY);
+    if (v) {
+      storage.removeItem(CALC_OPEN_CTA_KEY);
+      return v;
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+/**
+ * Decide whether this arrival should emit calculator_open.
+ * - Click→navigate: CTA was remembered; still emit once here (sole emitter).
+ * - Direct / reload / back-forward: emit once per arrival.
+ * `alreadySentThisDocument` guards double-binding on the same document.
+ * `bfCacheRestore` forces a new emission after back/forward restore.
+ */
+export function shouldEmitCalculatorOpenOnArrival(opts: {
+  alreadySentThisDocument: boolean;
+  bfCacheRestore?: boolean;
+}): boolean {
+  if (opts.bfCacheRestore) return true;
+  return !opts.alreadySentThisDocument;
+}
+
+export function buildCalculatorOpenPayload(ctaName: string | null | undefined): Record<string, unknown> {
+  return {
+    source_page: 'arbitrage-calculator',
+    cta_name: ctaName || 'page_load',
+    interaction_type: 'navigation',
+  };
+}
+
+/** Ignore programmatic / auto-refresh clicks for engagement analytics. */
+export function shouldIgnoreAnalyticsClick(opts: {
+  isTrusted: boolean | undefined;
+  cnAuto?: string | null;
+}): boolean {
+  if (opts.isTrusted === false) return true;
+  if (opts.cnAuto === '1') return true;
+  return false;
 }

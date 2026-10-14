@@ -116,9 +116,29 @@
     });
   }
 
+  var CALC_OPEN_CTA_KEY = 'cn_calc_open_cta';
+  var STARTER_PACK_PATH_RE = /\/l\/tzynyo\/?$/i;
+
   function isGumroad(href) {
     var host = hostnameOf(href);
     return host === 'gumroad.com' || host.endsWith('.gumroad.com');
+  }
+
+  function pathnameOf(href) {
+    try {
+      return new URL(href, global.location.origin).pathname;
+    } catch (_e) {
+      return '';
+    }
+  }
+
+  function isStarterPackCheckoutHref(href) {
+    if (!href || !isGumroad(href)) return false;
+    return STARTER_PACK_PATH_RE.test(pathnameOf(href));
+  }
+
+  function isExternalHttp(href) {
+    return !!href && /^https?:\/\//i.test(href);
   }
 
   function isScannerHref(href) {
@@ -145,27 +165,9 @@
       lower === 'sg_calculator_cta';
   }
 
-  function isAffiliateName(lower) {
-    return lower.indexOf('aff') !== -1 ||
-      lower.indexOf('rec_') !== -1 ||
-      lower.indexOf('open_binance') !== -1 ||
-      lower.indexOf('open_mexc') !== -1 ||
-      lower.indexOf('open_bybit') !== -1 ||
-      lower.indexOf('cta_binance') !== -1 ||
-      lower.indexOf('cta_mexc') !== -1 ||
-      lower.indexOf('cta_bybit') !== -1 ||
-      lower.indexOf('hero_opp_trade') !== -1 ||
-      lower.indexOf('revenue_banner_trade') !== -1 ||
-      lower.indexOf('sticky_bar_trade') !== -1 ||
-      lower.indexOf('trade_buy') !== -1 ||
-      lower.indexOf('trade_sell') !== -1 ||
-      lower.indexOf('blog_cta_') !== -1 ||
-      lower.indexOf('blog_open_') !== -1 ||
-      lower.indexOf('final_cta_') !== -1;
-  }
-
   /**
    * Resolve a user click to exactly one analytics event.
+   * Actual link destinations take priority over broad data-track name matching.
    */
   function resolveClickEvent(trackName, href, params) {
     var name = (trackName || '').trim();
@@ -177,19 +179,42 @@
       region: params && params.region
     };
 
-    if (isGumroad(href) || lower.indexOf('pro_buy') !== -1 || lower === 'starter_pack_checkout_click') {
+    // 1) Real Starter Pack Gumroad product URL only.
+    if (isStarterPackCheckoutHref(href)) {
       return {
         event: 'starter_pack_checkout_click',
         payload: Object.assign({}, base, {
           product: 'crypto_arbitrage_starter_pack',
           price: 9,
           currency: 'USD',
+          destination: href
+        })
+      };
+    }
+
+    // 2) Outbound affiliate destinations win over track-name heuristics.
+    if (isExternalHttp(href) && isAffiliateHost(href)) {
+      return {
+        event: 'affiliate_click',
+        payload: Object.assign({}, base, {
+          exchange: (params && params.ex) || undefined,
+          symbol: (params && params.sym) || undefined,
+          destination: href
+        })
+      };
+    }
+
+    // 3) Internal destinations by href.
+    if (isCalculatorHref(href)) {
+      return {
+        event: 'calculator_open',
+        payload: Object.assign({}, base, {
           destination: href || undefined
         })
       };
     }
 
-    if (isScannerName(lower) || (name && isScannerHref(href))) {
+    if (isScannerHref(href)) {
       return {
         event: 'scanner_open',
         payload: Object.assign({}, base, {
@@ -199,7 +224,8 @@
       };
     }
 
-    if (isCalculatorName(lower) || (name && isCalculatorHref(href))) {
+    // 4) Name-based fallback only when href is not affiliate / calc / scanner.
+    if (name && isCalculatorName(lower)) {
       return {
         event: 'calculator_open',
         payload: Object.assign({}, base, {
@@ -208,22 +234,28 @@
       };
     }
 
-    if (href && /^https?:\/\//i.test(href) && isAffiliateHost(href) && !isGumroad(href)) {
-      if (isAffiliateName(lower) || !name) {
-        return {
-          event: 'affiliate_click',
-          payload: Object.assign({}, base, {
-            exchange: (params && params.ex) || undefined,
-            symbol: (params && params.sym) || undefined,
-            destination: href
-          })
-        };
-      }
+    if (name && isScannerName(lower)) {
+      return {
+        event: 'scanner_open',
+        payload: Object.assign({}, base, {
+          destination: href || undefined,
+          asset: (params && params.sym) || undefined
+        })
+      };
     }
 
     if (name) {
+      // Do not allow data-track alone to forge reserved funnel event names.
+      var reserved = {
+        starter_pack_checkout_click: true,
+        calculator_open: true,
+        scanner_open: true,
+        affiliate_click: true,
+        calculator_used: true
+      };
+      var eventName = reserved[lower] ? 'cta_click' : name;
       return {
-        event: name,
+        event: eventName,
         payload: Object.assign({}, base, {
           exchange: (params && params.ex) || undefined,
           symbol: (params && params.sym) || undefined,
@@ -233,6 +265,48 @@
     }
 
     return null;
+  }
+
+  function shouldDeferCalculatorOpenTrack(eventName) {
+    return eventName === 'calculator_open';
+  }
+
+  function rememberCalculatorOpenCta(ctaName) {
+    try {
+      global.sessionStorage.setItem(CALC_OPEN_CTA_KEY, (ctaName || 'cta_click').trim() || 'cta_click');
+    } catch (_e) {}
+  }
+
+  function consumeCalculatorOpenCta() {
+    try {
+      var v = global.sessionStorage.getItem(CALC_OPEN_CTA_KEY);
+      if (v) {
+        global.sessionStorage.removeItem(CALC_OPEN_CTA_KEY);
+        return v;
+      }
+    } catch (_e) {}
+    return null;
+  }
+
+  function shouldEmitCalculatorOpenOnArrival(opts) {
+    opts = opts || {};
+    if (opts.bfCacheRestore) return true;
+    return !opts.alreadySentThisDocument;
+  }
+
+  function buildCalculatorOpenPayload(ctaName) {
+    return {
+      source_page: 'arbitrage-calculator',
+      cta_name: ctaName || 'page_load',
+      interaction_type: 'navigation'
+    };
+  }
+
+  function shouldIgnoreAnalyticsClick(opts) {
+    opts = opts || {};
+    if (opts.isTrusted === false) return true;
+    if (opts.cnAuto === '1') return true;
+    return false;
   }
 
   // Back-compat: old callers expected a "conversion" companion event.
@@ -250,6 +324,13 @@
     mapToConversionEvent: mapToConversionEvent,
     resolveClickEvent: resolveClickEvent,
     isAffiliateHost: isAffiliateHost,
+    isStarterPackCheckoutHref: isStarterPackCheckoutHref,
+    shouldDeferCalculatorOpenTrack: shouldDeferCalculatorOpenTrack,
+    rememberCalculatorOpenCta: rememberCalculatorOpenCta,
+    consumeCalculatorOpenCta: consumeCalculatorOpenCta,
+    shouldEmitCalculatorOpenOnArrival: shouldEmitCalculatorOpenOnArrival,
+    buildCalculatorOpenPayload: buildCalculatorOpenPayload,
+    shouldIgnoreAnalyticsClick: shouldIgnoreAnalyticsClick,
     bucketAmountUsd: bucketAmountUsd,
     getSourcePage: getSourcePage
   };
@@ -260,4 +341,10 @@
   global.trackOnce = trackOnce;
   global.mapToConversionEvent = mapToConversionEvent;
   global.resolveClickEvent = resolveClickEvent;
+  global.shouldDeferCalculatorOpenTrack = shouldDeferCalculatorOpenTrack;
+  global.rememberCalculatorOpenCta = rememberCalculatorOpenCta;
+  global.consumeCalculatorOpenCta = consumeCalculatorOpenCta;
+  global.shouldEmitCalculatorOpenOnArrival = shouldEmitCalculatorOpenOnArrival;
+  global.buildCalculatorOpenPayload = buildCalculatorOpenPayload;
+  global.shouldIgnoreAnalyticsClick = shouldIgnoreAnalyticsClick;
 })(window);

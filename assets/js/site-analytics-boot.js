@@ -37,8 +37,18 @@
     document.documentElement.dataset.cnAnalyticsBound = '1';
 
     document.addEventListener('click', function (e) {
-      // Ignore programmatic / non-user clicks (auto refresh, scripts).
-      if (!e || e.isTrusted === false) return;
+      var ignoreFn = global.shouldIgnoreAnalyticsClick ||
+        (global.CoinNavigatorTracking && global.CoinNavigatorTracking.shouldIgnoreAnalyticsClick);
+      if (typeof ignoreFn === 'function') {
+        var elProbe = e && e.target && e.target.closest ? e.target.closest('[data-track], a[href]') : null;
+        if (ignoreFn({
+          isTrusted: e ? e.isTrusted : undefined,
+          cnAuto: elProbe ? elProbe.getAttribute('data-cn-auto') : null
+        })) return;
+      } else {
+        // Ignore programmatic / non-user clicks (auto refresh, scripts).
+        if (!e || e.isTrusted === false) return;
+      }
 
       var el = e.target && e.target.closest ? e.target.closest('[data-track], a[href]') : null;
       if (!el) return;
@@ -71,11 +81,14 @@
 
       var resolved = global.resolveClickEvent(trackName, href, params);
       if (resolved && resolved.event) {
-        if (resolved.event === 'calculator_open') {
-          try { sessionStorage.setItem('cn_funnel_calculator_open', String(Date.now())); } catch (_e) {}
-        }
-        if (resolved.event === 'scanner_open') {
-          try { sessionStorage.setItem('cn_funnel_scanner_open', String(Date.now())); } catch (_e2) {}
+        // calculator_open is counted once on the calculator page arrival, not on the CTA click.
+        var deferCalc = global.shouldDeferCalculatorOpenTrack ||
+          (global.CoinNavigatorTracking && global.CoinNavigatorTracking.shouldDeferCalculatorOpenTrack);
+        if (typeof deferCalc === 'function' ? deferCalc(resolved.event) : resolved.event === 'calculator_open') {
+          var remember = global.rememberCalculatorOpenCta ||
+            (global.CoinNavigatorTracking && global.CoinNavigatorTracking.rememberCalculatorOpenCta);
+          if (typeof remember === 'function') remember(trackName);
+          return;
         }
         global.track(resolved.event, resolved.payload || {});
       }
