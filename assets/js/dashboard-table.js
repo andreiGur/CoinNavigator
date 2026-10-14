@@ -25,6 +25,7 @@
         const STALE_SNAPSHOT_MINUTES = 3;
         const AUTO_REFRESH_MS = 90 * 1000;
         let bestOpportunityViewed = false;
+        let dashboardRenderTracked = false;
         const SUPPORTED_EXCHANGES = new Set(['Binance', 'MEXC', 'Bybit', 'OKX', 'KuCoin', 'Gate']);
         let _alertDeepLinkHandled = false;
 
@@ -892,7 +893,14 @@
                 renderDashboardTable(data);
                 maybeOpenAlertEmailDeepLink(data);
 
-                global.track('dashboard_render', { assets: TARGET_SYMBOLS.length });
+                // One render impression per page load — auto-refresh must not inflate engagement.
+                if (!dashboardRenderTracked && typeof global.track === 'function') {
+                    dashboardRenderTracked = true;
+                    global.track('dashboard_render', {
+                        assets: TARGET_SYMBOLS.length,
+                        interaction_type: 'system',
+                    });
+                }
                 if (typeof window._stickyBarPopulate === 'function') window._stickyBarPopulate(data);
 
                 // Hero snapshot (top spreads)
@@ -1093,6 +1101,10 @@
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') updateDashboard();
       });
+    },
+    refresh: function (opts) {
+      if (opts && opts.forceLive) global._forceLiveSpreadRefresh = true;
+      return updateDashboard();
     }
   };
 })(window);

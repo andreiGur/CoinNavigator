@@ -226,7 +226,7 @@
     }
   </style>
 </head>
-<body>
+<body data-cn-page="blog">
   <div class="bg-grid"></div>
   <div class="bg-glow"></div>
   
@@ -580,39 +580,7 @@
     </p>
   </footer>
 
-  <script>
-    // GA4 tracking
-    (function() {
-      const ga4Id = document.querySelector('meta[name="coinnavigator-ga4"]')?.content || 
-                    new URLSearchParams(window.location.search).get('ga4') ||
-                    localStorage.getItem('coinnavigator_ga4');
-      if (ga4Id && ga4Id.trim()) {
-        if (!localStorage.getItem('coinnavigator_ga4')) {
-          localStorage.setItem('coinnavigator_ga4', ga4Id.trim());
-        }
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', ga4Id.trim());
-        const script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id.trim();
-        script.async = true;
-        document.head.appendChild(script);
-      }
-    })();
-
-    // Track clicks
-    document.querySelectorAll('[data-track]').forEach(el => {
-      el.addEventListener('click', function() {
-        if (window.gtag) {
-          gtag('event', this.getAttribute('data-track'), {
-            'event_category': 'blog',
-            'event_label': this.href || this.textContent
-          });
-        }
-      });
-    });
-  </script>
-    <script src="/assets/js/site-analytics-boot.js" defer></script>
+  <!-- GA4: head tag + site-analytics-boot.js (single click delegate) -->
+  <script src="/assets/js/site-analytics-boot.js" defer></script>
 </body>
 </html>

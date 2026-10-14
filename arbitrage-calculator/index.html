@@ -96,7 +96,7 @@
     @media(max-width:680px){.calc-grid{grid-template-columns:1fr;}.results-grid{grid-template-columns:1fr 1fr;}}
   </style>
 </head>
-<body>
+<body data-cn-page="arbitrage-calculator">
 <nav>
   <a class="nav-brand" href="/"><i class="fas fa-chart-line" style="color:var(--primary-light)"></i> CoinNavigator</a>
   <ul class="nav-links" id="nav-links">
@@ -282,8 +282,8 @@
     <h3>Open accounts to execute these trades</h3>
     <p>Use partner links to open accounts — same exchange. Offers vary by region.</p>
     <div class="cta-btns">
-      <a class="btn-bnb" href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=calculator&utm_campaign=arb_calc" target="_blank" rel="noopener nofollow"><i class="fas fa-building-columns"></i> Open Binance — 20% fee off</a>
-      <a class="btn-mexc" href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=calculator&utm_campaign=arb_calc" target="_blank" rel="noopener nofollow"><i class="fas fa-building-columns"></i> Open MEXC Account</a>
+      <a class="btn-bnb" href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=calculator&utm_campaign=arb_calc" target="_blank" rel="noopener nofollow" data-track="calc_cta_binance" data-ex="Binance"><i class="fas fa-building-columns"></i> Open Binance — 20% fee off</a>
+      <a class="btn-mexc" href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=calculator&utm_campaign=arb_calc" target="_blank" rel="noopener nofollow" data-track="calc_cta_mexc" data-ex="MEXC"><i class="fas fa-building-columns"></i> Open MEXC Account</a>
     </div>
     <p style="font-size:0.7rem;color:#64748b;margin-top:0.8rem;">Partner links — we may earn a commission at no extra cost to you.</p>
   </div>
@@ -390,19 +390,34 @@
     });
   }
 
+  /* ── User-interaction tracking (not the initial auto-calc) ── */
+  var calcUsed = false;
+  function emitCalcEvent(name, params) {
+    try {
+      if (typeof track === 'function') { track(name, params); return; }
+      if (typeof gtag === 'function') gtag('event', name, params || {});
+    } catch (_) {}
+  }
+  function trackCalculatorUsed() {
+    if (calcUsed) return;
+    calcUsed = true;
+    emitCalcEvent('calculator_used', {
+      source_page: 'arbitrage-calculator',
+      interaction_type: 'user'
+    });
+  }
+
   /* ── Preset Buttons ── */
   document.querySelectorAll('.preset-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      trackCalculatorUsed();
       const targetId = btn.dataset.target;
       if (!targetId) return;
-      // fee percentage preset
       if (btn.dataset.fee !== undefined) {
         document.getElementById(targetId).value = btn.dataset.fee;
-        // deactivate siblings in same row
         btn.closest('.preset-row').querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       }
-      // fixed fee preset
       if (btn.dataset.feeFixed !== undefined) {
         document.getElementById(targetId).value = btn.dataset.feeFixed;
         btn.closest('.preset-row').querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
@@ -412,14 +427,52 @@
     });
   });
 
-  /* ── Live recalc on input ── */
   document.querySelectorAll('input[type="number"]').forEach(inp => {
-    inp.addEventListener('input', calc);
+    inp.addEventListener('input', function () {
+      trackCalculatorUsed();
+      calc();
+    });
   });
 
-  /* ── Initial calculation ── */
+  /* ── Initial calculation (not a user interaction) ── */
   calc();
 </script>
-    <script src="/assets/js/site-analytics-boot.js" defer></script>
+<script src="/assets/js/site-analytics-boot.js" defer></script>
+<script>
+  // Fire calculator_open once after analytics boot (skip if a CTA click just recorded it).
+  (function () {
+    function fireOpen() {
+      try {
+        var skip = false;
+        try {
+          var ts = parseInt(sessionStorage.getItem('cn_funnel_calculator_open') || '0', 10);
+          if (ts && Date.now() - ts < 8000) skip = true;
+        } catch (_e) {}
+        if (skip) return;
+        if (typeof trackOnce === 'function') {
+          trackOnce('calculator_open_page', 'calculator_open', {
+            source_page: 'arbitrage-calculator',
+            cta_name: 'page_load',
+            interaction_type: 'navigation'
+          });
+        } else if (typeof track === 'function') {
+          track('calculator_open', {
+            source_page: 'arbitrage-calculator',
+            cta_name: 'page_load',
+            interaction_type: 'navigation'
+          });
+        } else if (typeof gtag === 'function') {
+          gtag('event', 'calculator_open', {
+            source_page: 'arbitrage-calculator',
+            cta_name: 'page_load',
+            interaction_type: 'navigation'
+          });
+        }
+      } catch (_err) {}
+    }
+    if (window.CoinNavigatorTracking) fireOpen();
+    else window.addEventListener('load', function () { setTimeout(fireOpen, 50); });
+  })();
+</script>
 </body>
 </html>
