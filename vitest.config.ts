@@ -7,6 +7,7 @@ export default defineConfig({
       'src/alerts/**/*.test.ts',
       'src/route-validator/**/*.test.ts',
       'src/market-data/**/*.test.ts',
+      'src/analytics/**/*.test.ts',
     ],
     environment: 'node',
   },

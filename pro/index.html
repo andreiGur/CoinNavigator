@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="coinnavigator-ga4" content="G-9L1137PQ6P" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crypto Arbitrage Starter Pack — $9 | CoinNavigator</title>
@@ -328,18 +329,6 @@
     <p style="margin-top:0.5rem;">Crypto arbitrage involves risk. This is educational content, not financial advice.</p>
   </footer>
 
-  <script src="/assets/js/tracking.js"></script>
-  <script>
-    initAnalytics();
-    document.querySelectorAll('[data-track]').forEach(function(el) {
-      el.addEventListener('click', function() {
-        var eventName = el.getAttribute('data-track');
-        track(eventName, { page: 'pro', source_page: 'pro', price: 9, currency: 'USD' });
-        var mapped = mapToConversionEvent(eventName, el, { source_page: 'pro' });
-        if (mapped) track(mapped.event, mapped.payload);
-      });
-    });
-  </script>
-
+  <script src="/assets/js/site-analytics-boot.js" defer></script>
 </body>
 </html>

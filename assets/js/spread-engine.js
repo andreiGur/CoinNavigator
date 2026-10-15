@@ -65,8 +65,16 @@
 
   function trackGatewayFailed(props) {
     try {
+      // At most once per page load — auto-refresh must not inflate engagement metrics.
+      var key = 'market_data_gateway_failed:' + ((props && props.failure_category) || 'unknown');
+      if (typeof global.trackOnce === 'function') {
+        global.trackOnce(key, 'market_data_gateway_failed', Object.assign({ interaction_type: 'system' }, props || {}));
+        return;
+      }
+      if (global.__CN_GATEWAY_FAIL_TRACKED) return;
+      global.__CN_GATEWAY_FAIL_TRACKED = 1;
       if (typeof global.track === 'function') {
-        global.track('market_data_gateway_failed', props || {});
+        global.track('market_data_gateway_failed', Object.assign({ interaction_type: 'system' }, props || {}));
       }
     } catch (_e) {}
   }

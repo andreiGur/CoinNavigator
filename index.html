@@ -2413,8 +2413,8 @@
             });
         }
 
-        // Analytics init (optional) - do this early so we can track region_set and other startup events.
-        initAnalytics();
+        // GA4 is initialized once by site-analytics-boot / tracking.js (head tag already present).
+        if (typeof initAnalytics === 'function') initAnalytics();
 
         window.CoinNavigatorDashboard.boot();
 
@@ -2455,22 +2455,7 @@
             setRegion(region);
         })();
 
-        // Minimal click tracking for elements that have data-track=""
-        document.addEventListener('click', (e) => {
-            const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
-            if (!el) return;
-            const name = el.getAttribute('data-track');
-            const params = {
-                region: getRegion(),
-                ex: el.getAttribute('data-ex') || undefined,
-                sym: el.getAttribute('data-sym') || undefined,
-                slug: el.getAttribute('data-slug') || undefined,
-                href: (el.tagName === 'A' && el.getAttribute('href')) ? el.getAttribute('href') : undefined,
-            };
-            track(name, params);
-            const mapped = mapToConversionEvent(name, el, params);
-            if (mapped) track(mapped.event, mapped.payload);
-        });
+        // Click analytics: single delegated listener in site-analytics-boot.js
 
         // Mobile navigation toggle
         (function initMobileNav() {

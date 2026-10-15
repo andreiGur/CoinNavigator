@@ -1,88 +1,96 @@
-// Site-wide click tracking: loads tracking.js and delegates [data-track] + outbound affiliate links.
+// Site-wide click tracking: loads tracking.js and fires exactly one event per trusted user click.
 (function (global) {
   'use strict';
 
-  const AFFILIATE_HOSTS = [
-    'binance.com', 'mexc.com', 'bybit.com', 'okx.com',
-    'kucoin.com', 'gate.io', 'polymarket.com'
-  ];
-
   function getSourcePage() {
-    const fromBody = document.body && document.body.getAttribute('data-cn-page');
+    if (global.CoinNavigatorTracking && typeof global.CoinNavigatorTracking.getSourcePage === 'function') {
+      return global.CoinNavigatorTracking.getSourcePage();
+    }
+    var fromBody = document.body && document.body.getAttribute('data-cn-page');
     if (fromBody) return fromBody;
-    const p = (global.location.pathname || '/').replace(/\/$/, '') || '/';
+    var p = (global.location.pathname || '/').replace(/\/$/, '') || '/';
     if (p === '/' || p === '/index.html') return 'home';
     return p.replace(/^\//, '');
   }
 
   function guessExchange(href) {
-    const h = (href || '').toLowerCase();
-    if (h.includes('binance')) return 'Binance';
-    if (h.includes('mexc')) return 'MEXC';
-    if (h.includes('bybit')) return 'Bybit';
-    if (h.includes('okx')) return 'OKX';
-    if (h.includes('kucoin')) return 'KuCoin';
-    if (h.includes('gate.io')) return 'Gate';
-    if (h.includes('polymarket')) return 'Polymarket';
+    var h = (href || '').toLowerCase();
+    if (h.indexOf('binance') !== -1) return 'Binance';
+    if (h.indexOf('mexc') !== -1) return 'MEXC';
+    if (h.indexOf('bybit') !== -1) return 'Bybit';
+    if (h.indexOf('okx') !== -1) return 'OKX';
+    if (h.indexOf('kucoin') !== -1) return 'KuCoin';
+    if (h.indexOf('gate.io') !== -1) return 'Gate';
+    if (h.indexOf('polymarket') !== -1) return 'Polymarket';
     return undefined;
   }
 
   function isAffiliateHost(href) {
-    try {
-      const host = new URL(href, global.location.origin).hostname.toLowerCase();
-      return AFFILIATE_HOSTS.some((d) => host === d || host.endsWith('.' + d));
-    } catch (_e) {
-      return false;
+    if (global.CoinNavigatorTracking && typeof global.CoinNavigatorTracking.isAffiliateHost === 'function') {
+      return global.CoinNavigatorTracking.isAffiliateHost(href);
     }
+    return false;
   }
 
   function bindDelegates() {
     if (document.documentElement.dataset.cnAnalyticsBound === '1') return;
     document.documentElement.dataset.cnAnalyticsBound = '1';
 
-    document.addEventListener('click', (e) => {
-      const el = e.target && e.target.closest ? e.target.closest('[data-track], a[href]') : null;
-      if (!el) return;
+    document.addEventListener('click', function (e) {
+      var ignoreFn = global.shouldIgnoreAnalyticsClick ||
+        (global.CoinNavigatorTracking && global.CoinNavigatorTracking.shouldIgnoreAnalyticsClick);
+      if (typeof ignoreFn === 'function') {
+        var elProbe = e && e.target && e.target.closest ? e.target.closest('[data-track], a[href]') : null;
+        if (ignoreFn({
+          isTrusted: e ? e.isTrusted : undefined,
+          cnAuto: elProbe ? elProbe.getAttribute('data-cn-auto') : null
+        })) return;
+      } else {
+        // Ignore programmatic / non-user clicks (auto refresh, scripts).
+        if (!e || e.isTrusted === false) return;
+      }
 
-      const trackName = el.getAttribute('data-track');
-      const href = el.tagName === 'A' ? (el.getAttribute('href') || '') : '';
-      const sourcePage = getSourcePage();
-      const region = typeof global.getRegion === 'function' ? global.getRegion() : undefined;
-      const params = {
+      var el = e.target && e.target.closest ? e.target.closest('[data-track], a[href]') : null;
+      if (!el) return;
+      if (el.getAttribute('data-cn-auto') === '1') return;
+
+      var trackName = el.getAttribute('data-track');
+      var href = el.tagName === 'A' ? (el.getAttribute('href') || '') : '';
+      var sourcePage = getSourcePage();
+      var region = typeof global.getRegion === 'function' ? global.getRegion() : undefined;
+      var params = {
         ex: el.getAttribute('data-ex') || guessExchange(href),
         sym: el.getAttribute('data-sym'),
         region: region,
         source_page: sourcePage
       };
 
-      if (trackName && typeof global.track === 'function') {
-        global.track(trackName, Object.assign({ source_page: sourcePage }, params));
-        if (typeof global.mapToConversionEvent === 'function') {
-          const mapped = global.mapToConversionEvent(trackName, el, params);
-          if (mapped && mapped.event) {
-            global.track(mapped.event, Object.assign({ source_page: sourcePage }, mapped.payload || {}));
-          }
-        }
+      if (typeof global.resolveClickEvent !== 'function' || typeof global.track !== 'function') return;
+
+      // Untracked internal links: ignore (prevents noise).
+      if (!trackName && href && !/^https?:\/\//i.test(href)) return;
+
+      // Untracked outbound affiliate: still count as affiliate_click.
+      if (!trackName && href && /^https?:\/\//i.test(href) && isAffiliateHost(href)) {
+        var aff = global.resolveClickEvent(null, href, params);
+        if (aff) global.track(aff.event, aff.payload);
         return;
       }
 
-      if (href && /^https?:\/\//i.test(href) && isAffiliateHost(href) && typeof global.track === 'function') {
-        global.track('outbound_exchange_click', {
-          source_page: sourcePage,
-          cta_name: 'implicit_outbound',
-          destination: href,
-          exchange: params.ex,
-          region: region
-        });
-        if (el.matches('[data-track*="aff"], [data-track*="exchange"], [data-track*="trade"], [data-track*="rec_"]') ||
-            el.classList.contains('btn-primary')) {
-          global.track('affiliate_click', {
-            source_page: sourcePage,
-            destination: href,
-            exchange: params.ex,
-            region: region
-          });
+      if (!trackName) return;
+
+      var resolved = global.resolveClickEvent(trackName, href, params);
+      if (resolved && resolved.event) {
+        // calculator_open is counted once on the calculator page arrival, not on the CTA click.
+        var deferCalc = global.shouldDeferCalculatorOpenTrack ||
+          (global.CoinNavigatorTracking && global.CoinNavigatorTracking.shouldDeferCalculatorOpenTrack);
+        if (typeof deferCalc === 'function' ? deferCalc(resolved.event) : resolved.event === 'calculator_open') {
+          var remember = global.rememberCalculatorOpenCta ||
+            (global.CoinNavigatorTracking && global.CoinNavigatorTracking.rememberCalculatorOpenCta);
+          if (typeof remember === 'function') remember(trackName);
+          return;
         }
+        global.track(resolved.event, resolved.payload || {});
       }
     }, true);
   }
@@ -97,9 +105,8 @@
       boot();
       return;
     }
-    const s = document.createElement('script');
+    var s = document.createElement('script');
     s.src = '/assets/js/tracking.js';
-    s.defer = true;
     s.onload = function () {
       if (typeof global.initAnalytics === 'function') global.initAnalytics();
       boot();
