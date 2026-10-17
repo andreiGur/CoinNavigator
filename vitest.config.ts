@@ -8,6 +8,7 @@ export default defineConfig({
       'src/route-validator/**/*.test.ts',
       'src/market-data/**/*.test.ts',
       'src/analytics/**/*.test.ts',
+      'src/funnel/**/*.test.ts',
     ],
     environment: 'node',
   },
