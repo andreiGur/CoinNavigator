@@ -182,3 +182,35 @@ describe('engagement guards', () => {
     expect(shouldIgnoreAnalyticsClick({ isTrusted: true, cnAuto: null })).toBe(false);
   });
 });
+
+describe('growth funnel CTA identifiers', () => {
+  it('maps article tool scanner CTA to scanner_open once', () => {
+    const r = resolveClickEvent('article_tool_scanner', '/#dashboard', { source_page: 'blog' });
+    expect(r?.event).toBe('scanner_open');
+    expect(r?.payload.cta_name).toBe('article_tool_scanner');
+  });
+
+  it('maps article tool calculator CTA to calculator_open once', () => {
+    const r = resolveClickEvent('article_tool_calc', '/arbitrage-calculator/', {
+      source_page: 'blog',
+    });
+    expect(r?.event).toBe('calculator_open');
+    expect(r?.payload.cta_name).toBe('article_tool_calc');
+  });
+
+  it('maps scanner-to-calculator primary CTA with asset query to calculator_open', () => {
+    const r = resolveClickEvent('btc_scanner_to_calc', '/arbitrage-calculator/?asset=BTC', {
+      source_page: 'bitcoin-arbitrage-scanner',
+    });
+    expect(r?.event).toBe('calculator_open');
+  });
+
+  it('maps calc next Binance compare to affiliate_click only', () => {
+    const r = resolveClickEvent(
+      'calc_next_binance',
+      'https://accounts.binance.com/register?ref=308417308',
+      { source_page: 'arbitrage-calculator', ex: 'Binance' }
+    );
+    expect(r?.event).toBe('affiliate_click');
+  });
+});
