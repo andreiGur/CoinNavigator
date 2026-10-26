@@ -556,18 +556,6 @@
   </footer>
 
   <script>
-    // Track clicks
-    document.querySelectorAll('[data-track]').forEach(el => {
-      el.addEventListener('click', function() {
-        if (window.gtag) {
-          gtag('event', this.getAttribute('data-track'), {
-            'event_category': 'blog',
-            'event_label': this.href || this.textContent,
-            'ex': this.getAttribute('data-ex') || undefined
-          });
-        }
-      });
-    });
   </script>
   <script>
     (function(){

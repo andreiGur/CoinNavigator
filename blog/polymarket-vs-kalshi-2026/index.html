@@ -399,12 +399,6 @@
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
     })();
-    document.addEventListener('click', function(e){
-      var el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
-      if (!el) return;
-      var name = el.getAttribute('data-track');
-      try { if (typeof window.gtag === 'function') window.gtag('event', name, { source_page: 'pm_vs_kalshi_article' }); } catch {}
-    });
   </script>
     <script src="/assets/js/site-analytics-boot.js" defer></script>
 </body>
