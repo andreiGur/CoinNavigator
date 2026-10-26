@@ -315,6 +315,7 @@
     ]
   }
   </script>
+  <link rel="stylesheet" href="/assets/css/funnel-cta.css">
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -486,6 +487,7 @@
       <p>See <a href="/#dashboard">live spreads</a> on our dashboard and <a href="/polymarket/">hot Polymarket events</a> on our prediction markets page.</p>
       <div class="cta-row">
         <a href="/#dashboard" class="btn btn-primary" data-track="blog_open_dashboard"><i class="fas fa-table"></i> Check Live Spreads</a>
+            <a href="/arbitrage-calculator/" class="btn btn-ghost" data-track="article_tool_calc"><i class="fas fa-calculator"></i> Calculate Profit After Fees</a>
         <a href="/terms/" class="btn btn-ghost" data-track="open_terms"><i class="fas fa-shield-halved"></i> Risk & disclosure</a>
       </div>
     
@@ -554,18 +556,6 @@
   </footer>
 
   <script>
-    // Track clicks
-    document.querySelectorAll('[data-track]').forEach(el => {
-      el.addEventListener('click', function() {
-        if (window.gtag) {
-          gtag('event', this.getAttribute('data-track'), {
-            'event_category': 'blog',
-            'event_label': this.href || this.textContent,
-            'ex': this.getAttribute('data-ex') || undefined
-          });
-        }
-      });
-    });
   </script>
   <script>
     (function(){

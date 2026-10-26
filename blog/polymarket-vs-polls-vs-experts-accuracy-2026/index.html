@@ -249,11 +249,6 @@
     <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">This website is for informational purposes only. Some links are partner links and may generate commissions at no extra cost to you.</p>
   </footer>
   <script>
-    document.querySelectorAll('[data-track]').forEach(el => {
-      el.addEventListener('click', function() {
-        if (window.gtag) gtag('event', this.getAttribute('data-track'), { 'event_category': 'blog', 'event_label': this.href || this.textContent });
-      });
-    });
   </script>
   <script>
     (function(){

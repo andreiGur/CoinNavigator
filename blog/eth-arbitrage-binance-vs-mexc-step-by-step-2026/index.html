@@ -131,6 +131,7 @@
     }
     @media (min-width: 769px) { .mobile-menu-btn { display: none; } }
   </style>
+  <link rel="stylesheet" href="/assets/css/funnel-cta.css">
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -316,6 +317,7 @@
           <p>CoinNavigator tracks ETH across 6 exchanges . Open the table and use Check Real Profit to estimate whether today's spread may be worth executing after costs.</p>
           <div class="btn-group">
             <a href="/#dashboard" class="btn btn-primary" data-track="blog_cta_dashboard"><i class="fas fa-chart-line"></i> View Live ETH Spread</a>
+            <a href="/arbitrage-calculator/?asset=ETH" class="btn btn-ghost" data-track="article_tool_calc"><i class="fas fa-calculator"></i> Calculate Profit After Fees</a>
             <a href="https://www.mexc.com/acquisition/custom-sign-up?shareCode=mexc-3ksU2&utm_source=coinnavigator&utm_medium=blog&utm_campaign=eth_arb_article" class="btn btn-ghost" target="_blank" rel="noopener nofollow" data-track="blog_open_mexc"><i class="fas fa-user-plus"></i> Open MEXC Account</a>
             <a href="https://accounts.binance.com/register?ref=308417308&utm_source=coinnavigator&utm_medium=blog&utm_campaign=eth_arb_article" class="btn btn-ghost" target="_blank" rel="noopener nofollow" data-track="blog_open_binance"><i class="fas fa-user-plus"></i> Open Binance Account</a>
           </div>
@@ -420,11 +422,6 @@
       function renderWidget(data){ var el=document.getElementById('blog-lw-rows'); if(!el)return; var syms=data&&data.symbols?data.symbols:{}; var rows=Object.keys(syms).map(function(s){var info=syms[s];var sp=typeof info.spread_percent==='number'?info.spread_percent*100:null;return{sym:s.replace('USDT',''),sp:sp,buy:info.best_buy,sell:info.best_sell};}).filter(function(r){return r.sp!==null;}).sort(function(a,b){return b.sp-a.sp;}).slice(0,5); if(!rows.length){el.innerHTML='<span style="color:#94a3b8;font-size:.85rem">No data yet</span>';return;} el.innerHTML=rows.map(function(r){var cls=r.sp>=0.3?'hi':(r.sp>=0.1?'mid':'lo');var exch=r.buy&&r.sell?r.buy.exchange+' → '+r.sell.exchange:'';return'<div class="lw-row"><span class="sym">'+r.sym+'</span><span class="spread '+cls+'">'+r.sp.toFixed(3)+'%</span><span class="exch">'+exch+'</span></div>';}).join(''); }
       tryNext();
     })();
-    document.addEventListener('click', function(e) {
-      var el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
-      if (!el) return;
-      if (typeof gtag === 'function') gtag('event', el.getAttribute('data-track'), { page: 'eth-arbitrage-article' });
-    });
   </script>
     <script src="/assets/js/site-analytics-boot.js" defer></script>
 </body>
