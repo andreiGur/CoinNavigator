@@ -1,7 +1,31 @@
 {
-  "timestamp": "2026-10-27T02:47:19.705818Z",
+  "timestamp": "2026-10-28T02:55:35.260010Z",
   "source": "gamma-api.polymarket.com",
   "markets": [
+    {
+      "id": "561250",
+      "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "question": "Will Elon Musk win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-elon-musk-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Elon_Musk.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 691840.7835000001,
+      "volume": 28277454.89705,
+      "liquidity": 993400.00697,
+      "yes": 0.0035,
+      "no": 0.9965,
+      "oneDayPriceChange": 0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0035
+        },
+        {
+          "name": "No",
+          "price": 0.9965
+        }
+      ]
+    },
     {
       "id": "559651",
       "slug": "xi-jinping-out-before-2027",
@@ -9,20 +33,20 @@
       "url": "https://polymarket.com/event/xi-jinping-out-before-2027",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/xi-jinping-out-in-2025-EjF4SM20eaa3.jpg",
       "endDate": "2027-01-01T04:59:00Z",
-      "volume24hr": 448383.54204999993,
-      "volume": 16182828.026494,
-      "liquidity": 275683.64796,
-      "yes": 0.0365,
-      "no": 0.9635,
-      "oneDayPriceChange": 0.008,
+      "volume24hr": 87563.292909,
+      "volume": 16270559.473829001,
+      "liquidity": 336071.32882,
+      "yes": 0.0425,
+      "no": 0.9575,
+      "oneDayPriceChange": 0.006,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0365
+          "price": 0.0425
         },
         {
           "name": "No",
-          "price": 0.9635
+          "price": 0.9575
         }
       ]
     },
@@ -33,476 +57,20 @@
       "url": "https://polymarket.com/event/putin-out-before-2027/putin-out-before-2027-346",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/putin-out-as-president-of-russia-in-2025-nWuurkC8qfbi.jpg",
       "endDate": "2027-01-01T04:59:00Z",
-      "volume24hr": 94990.693016,
-      "volume": 26611497.62106,
-      "liquidity": 647256.37074,
-      "yes": 0.0215,
-      "no": 0.9785,
-      "oneDayPriceChange": null,
+      "volume24hr": 69677.866461,
+      "volume": 26683732.042469,
+      "liquidity": 670584.23631,
+      "yes": 0.0195,
+      "no": 0.9805,
+      "oneDayPriceChange": -0.002,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0215
+          "price": 0.0195
         },
         {
           "name": "No",
-          "price": 0.9785
-        }
-      ]
-    },
-    {
-      "id": "559699",
-      "slug": "will-elissa-slotkin-win-the-2028-democratic-presidential-nomination",
-      "question": "Will Elissa Slotkin win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-elissa-slotkin-win-the-2028-democratic-presidential-nomination",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/slotkin-81c21567c3.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 71127.105,
-      "volume": 1726303.4987809998,
-      "liquidity": 1021810.01398,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "559660",
-      "slug": "will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
-      "question": "Will Andy Beshear win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-andy-beshear-win-the-2028-us-presidential-election-gHwMpj0k-Xon.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 47308.843118,
-      "volume": 13506729.513651,
-      "liquidity": 361043.56927,
-      "yes": 0.0355,
-      "no": 0.9645,
-      "oneDayPriceChange": 0.002,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0355
-        },
-        {
-          "name": "No",
-          "price": 0.9645
-        }
-      ]
-    },
-    {
-      "id": "561250",
-      "slug": "will-elon-musk-win-the-2028-us-presidential-election",
-      "question": "Will Elon Musk win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-elon-musk-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Elon_Musk.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 30181.959,
-      "volume": 27585430.113550004,
-      "liquidity": 1464542.20566,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "561234",
-      "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
-      "question": "Will Marco Rubio win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-marco-rubio-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-marco-rubio-win-the-2028-us-presidential-election-snF_pVUw4Ymx.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 25853.821447,
-      "volume": 13085286.130870003,
-      "liquidity": 247353.26089,
-      "yes": 0.0985,
-      "no": 0.9015,
-      "oneDayPriceChange": 0.0045,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0985
-        },
-        {
-          "name": "No",
-          "price": 0.9015
-        }
-      ]
-    },
-    {
-      "id": "561231",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election-eX2nG09sPJUu.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 23087.203723000002,
-      "volume": 14013727.826907001,
-      "liquidity": 357229.47138,
-      "yes": 0.129,
-      "no": 0.871,
-      "oneDayPriceChange": 0.0035,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.129
-        },
-        {
-          "name": "No",
-          "price": 0.871
-        }
-      ]
-    },
-    {
-      "id": "559663",
-      "slug": "will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
-      "question": "Will J.B. Pritzker win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-jb-pritzker-win-the-2028-us-presidential-election-iASug1bJ5kub.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 17781.435133999996,
-      "volume": 15876192.395555997,
-      "liquidity": 355216.93615,
-      "yes": 0.0145,
-      "no": 0.9855,
-      "oneDayPriceChange": 0.002,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0145
-        },
-        {
-          "name": "No",
-          "price": 0.9855
-        }
-      ]
-    },
-    {
-      "id": "559658",
-      "slug": "will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
-      "question": "Will Kamala Harris win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-kamala-harris-win-the-2028-us-presidential-election-9XuXzOE7K1B1.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 15563.737659,
-      "volume": 14212640.497518,
-      "liquidity": 431649.23053,
-      "yes": 0.0625,
-      "no": 0.9375,
-      "oneDayPriceChange": -0.003,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0625
-        },
-        {
-          "name": "No",
-          "price": 0.9375
-        }
-      ]
-    },
-    {
-      "id": "561235",
-      "slug": "will-wes-moore-win-the-2028-us-presidential-election",
-      "question": "Will Wes Moore win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-wes-moore-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-wes-moore-win-the-2028-us-presidential-election-XPjvhtcLdoZV.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 13831.957235,
-      "volume": 12814341.291381996,
-      "liquidity": 237055.29198,
-      "yes": 0.0105,
-      "no": 0.9895,
-      "oneDayPriceChange": 0.001,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0105
-        },
-        {
-          "name": "No",
-          "price": 0.9895
-        }
-      ]
-    },
-    {
-      "id": "561236",
-      "slug": "will-gretchen-whitmer-win-the-2028-us-presidential-election",
-      "question": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-gretchen-whitmer-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-gretchen-whitmer-win-the-2028-us-presidential-election-l1zZ4pOvvoCN.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 12404.083658,
-      "volume": 15725909.526222,
-      "liquidity": 269362.68207,
-      "yes": 0.0035,
-      "no": 0.9965,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0035
-        },
-        {
-          "name": "No",
-          "price": 0.9965
-        }
-      ]
-    },
-    {
-      "id": "559652",
-      "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
-      "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-gavin-newsom-win-the-2028-us-presidential-election-x9lPL7_gXn--.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 9992.901535,
-      "volume": 28093725.615252,
-      "liquidity": 360080.09694,
-      "yes": 0.1645,
-      "no": 0.8355,
-      "oneDayPriceChange": 0.01,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.1645
-        },
-        {
-          "name": "No",
-          "price": 0.8355
-        }
-      ]
-    },
-    {
-      "id": "561232",
-      "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
-      "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-pete-buttigieg-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-pete-buttigieg-win-the-2028-us-presidential-election-jPrwim0rDJDu.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 9166.850916,
-      "volume": 8608765.287937999,
-      "liquidity": 429346.09217,
-      "yes": 0.0255,
-      "no": 0.9745,
-      "oneDayPriceChange": 0.0005,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0255
-        },
-        {
-          "name": "No",
-          "price": 0.9745
-        }
-      ]
-    },
-    {
-      "id": "559653",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election-eX2nG09sPJUu.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 9087.258688,
-      "volume": 15594581.307493003,
-      "liquidity": 301251.86118,
-      "yes": 0.1645,
-      "no": 0.8355,
-      "oneDayPriceChange": -0.007,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.1645
-        },
-        {
-          "name": "No",
-          "price": 0.8355
-        }
-      ]
-    },
-    {
-      "id": "559682",
-      "slug": "will-person-a-win-the-2028-democratic-presidential-nomination",
-      "question": "Will Hunter Biden win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-person-a-win-the-2028-democratic-presidential-nomination",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/huter+biden.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 8552.043833,
-      "volume": 44793555.790035,
-      "liquidity": 1279141.44854,
-      "yes": 0.0025,
-      "no": 0.9975,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0025
-        },
-        {
-          "name": "No",
-          "price": 0.9975
-        }
-      ]
-    },
-    {
-      "id": "559672",
-      "slug": "will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
-      "question": "Will Roy Cooper win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Roy_Cooper.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 8243.64633,
-      "volume": 31831267.948785994,
-      "liquidity": 1678081.77526,
-      "yes": 0.0035,
-      "no": 0.9965,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0035
-        },
-        {
-          "name": "No",
-          "price": 0.9965
-        }
-      ]
-    },
-    {
-      "id": "561229",
-      "slug": "will-jd-vance-win-the-2028-us-presidential-election",
-      "question": "Will JD Vance win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-jd-vance-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-jd-vance-win-the-2028-us-presidential-election-P-zEgXjCWbdY.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 6968.747247,
-      "volume": 17219369.052773,
-      "liquidity": 425243.6507,
-      "yes": 0.1915,
-      "no": 0.8085,
-      "oneDayPriceChange": -0.0095,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.1915
-        },
-        {
-          "name": "No",
-          "price": 0.8085
-        }
-      ]
-    },
-    {
-      "id": "561238",
-      "slug": "will-glenn-youngkin-win-the-2028-us-presidential-election",
-      "question": "Will Glenn Youngkin win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-glenn-youngkin-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-glenn-youngkin-win-the-2028-us-presidential-election-XKzgYYMAs2zz.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 6524.019999999998,
-      "volume": 28602342.758018,
-      "liquidity": 630525.47115,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "561253",
-      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
-      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-tucker-carlson-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/tucker.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 6220.389643,
-      "volume": 14428729.291528007,
-      "liquidity": 296192.02343,
-      "yes": 0.0135,
-      "no": 0.9865,
-      "oneDayPriceChange": 0.002,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0135
-        },
-        {
-          "name": "No",
-          "price": 0.9865
-        }
-      ]
-    },
-    {
-      "id": "559675",
-      "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
-      "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Jon_Stewart.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 5944.777499999999,
-      "volume": 24841993.042912003,
-      "liquidity": 301408.53893,
-      "yes": 0.006,
-      "no": 0.994,
-      "oneDayPriceChange": 0.0005,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.006
-        },
-        {
-          "name": "No",
-          "price": 0.994
-        }
-      ]
-    },
-    {
-      "id": "561241",
-      "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
-      "question": "Will JB Pritzker win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-jb-pritzker-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-jb-pritzker-win-the-2028-us-presidential-election-iASug1bJ5kub.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 5169.211848,
-      "volume": 13219438.304284997,
-      "liquidity": 371487.8369,
-      "yes": 0.0075,
-      "no": 0.9925,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0075
-        },
-        {
-          "name": "No",
-          "price": 0.9925
+          "price": 0.9805
         }
       ]
     },
@@ -513,9 +81,9 @@
       "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-andrew-yang-win-the-2028-democratic-presidential-nomination",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/andrew+yang.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 5071.0,
-      "volume": 48904309.57289,
-      "liquidity": 2614780.51362,
+      "volume24hr": 29304.23,
+      "volume": 48933613.802889995,
+      "liquidity": 2625728.9195,
       "yes": 0.0005,
       "no": 0.9995,
       "oneDayPriceChange": null,
@@ -531,66 +99,138 @@
       ]
     },
     {
-      "id": "559661",
-      "slug": "will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
-      "question": "Will Jon Ossoff win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Jon_Ossoff.png",
+      "id": "559695",
+      "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
+      "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-james-talarico-win-the-2028-democratic-presidential-nomination",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-james-talarico-win-the-2028-democratic-presidential-nomination-j09xGObKdUkH.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 5027.839306,
-      "volume": 13569041.166551,
-      "liquidity": 295348.11691,
-      "yes": 0.1465,
-      "no": 0.8535,
-      "oneDayPriceChange": -0.007,
+      "volume24hr": 25038.885887,
+      "volume": 11201359.554138001,
+      "liquidity": 784345.34176,
+      "yes": 0.0245,
+      "no": 0.9755,
+      "oneDayPriceChange": -0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.1465
+          "price": 0.0245
         },
         {
           "name": "No",
-          "price": 0.8535
+          "price": 0.9755
         }
       ]
     },
     {
-      "id": "559687",
-      "slug": "will-oprah-winfrey-win-the-2028-democratic-presidential-nomination",
-      "question": "Will Oprah Winfrey win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-oprah-winfrey-win-the-2028-democratic-presidential-nomination",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/oprah+winfrey.png",
+      "id": "561229",
+      "slug": "will-jd-vance-win-the-2028-us-presidential-election",
+      "question": "Will JD Vance win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-jd-vance-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-jd-vance-win-the-2028-us-presidential-election-P-zEgXjCWbdY.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 4990.0,
-      "volume": 54448216.035758,
-      "liquidity": 2840993.83577,
-      "yes": 0.0005,
-      "no": 0.9995,
-      "oneDayPriceChange": null,
+      "volume24hr": 24238.320563999994,
+      "volume": 17243612.373337,
+      "liquidity": 497347.64958,
+      "yes": 0.183,
+      "no": 0.817,
+      "oneDayPriceChange": -0.0085,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0005
+          "price": 0.183
         },
         {
           "name": "No",
-          "price": 0.9995
+          "price": 0.817
         }
       ]
     },
     {
-      "id": "561244",
-      "slug": "will-donald-trump-jr-win-the-2028-us-presidential-election",
-      "question": "Will Donald Trump Jr. win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-donald-trump-jr-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-donald-trump-jr-win-the-2028-us-presidential-election-DyQTRbm48dfH.png",
+      "id": "561239",
+      "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
+      "question": "Will Kamala Harris win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-kamala-harris-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-kamala-harris-win-the-2028-us-presidential-election-9XuXzOE7K1B1.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 4893.72175,
-      "volume": 14098096.534257,
-      "liquidity": 956578.46889,
+      "volume24hr": 20728.536556,
+      "volume": 9353989.754972,
+      "liquidity": 317632.92176,
+      "yes": 0.0405,
+      "no": 0.9595,
+      "oneDayPriceChange": 0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0405
+        },
+        {
+          "name": "No",
+          "price": 0.9595
+        }
+      ]
+    },
+    {
+      "id": "559656",
+      "slug": "will-wes-moore-win-the-2028-democratic-presidential-nomination-714",
+      "question": "Will Wes Moore win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-wes-moore-win-the-2028-democratic-presidential-nomination-714",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-wes-moore-win-the-2028-us-presidential-election-XPjvhtcLdoZV.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 18117.550000000003,
+      "volume": 18632932.954054996,
+      "liquidity": 413642.40191,
+      "yes": 0.02,
+      "no": 0.98,
+      "oneDayPriceChange": -0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.02
+        },
+        {
+          "name": "No",
+          "price": 0.98
+        }
+      ]
+    },
+    {
+      "id": "559658",
+      "slug": "will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
+      "question": "Will Kamala Harris win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-kamala-harris-win-the-2028-us-presidential-election-9XuXzOE7K1B1.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 13721.917140000001,
+      "volume": 14226362.414657999,
+      "liquidity": 456294.44391,
+      "yes": 0.0585,
+      "no": 0.9415,
+      "oneDayPriceChange": -0.004,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0585
+        },
+        {
+          "name": "No",
+          "price": 0.9415
+        }
+      ]
+    },
+    {
+      "id": "559659",
+      "slug": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
+      "question": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-gretchen-whitmer-win-the-2028-us-presidential-election-l1zZ4pOvvoCN.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 10594.1758,
+      "volume": 12159473.795281997,
+      "liquidity": 251548.78076,
       "yes": 0.0055,
       "no": 0.9945,
-      "oneDayPriceChange": 0.001,
+      "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
@@ -603,39 +243,543 @@
       ]
     },
     {
+      "id": "561230",
+      "slug": "will-gavin-newsom-win-the-2028-us-presidential-election",
+      "question": "Will Gavin Newsom win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-gavin-newsom-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-gavin-newsom-win-the-2028-us-presidential-election-x9lPL7_gXn--.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 9380.114687999998,
+      "volume": 18782404.956196006,
+      "liquidity": 336004.93386,
+      "yes": 0.1195,
+      "no": 0.8805,
+      "oneDayPriceChange": 0.0045,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.1195
+        },
+        {
+          "name": "No",
+          "price": 0.8805
+        }
+      ]
+    },
+    {
+      "id": "561234",
+      "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
+      "question": "Will Marco Rubio win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-marco-rubio-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-marco-rubio-win-the-2028-us-presidential-election-snF_pVUw4Ymx.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 6557.822829,
+      "volume": 13091843.953699002,
+      "liquidity": 246598.40858,
+      "yes": 0.097,
+      "no": 0.903,
+      "oneDayPriceChange": -0.0015,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.097
+        },
+        {
+          "name": "No",
+          "price": 0.903
+        }
+      ]
+    },
+    {
+      "id": "559653",
+      "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
+      "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election-eX2nG09sPJUu.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 5627.117774,
+      "volume": 15600208.425267003,
+      "liquidity": 313795.95285,
+      "yes": 0.1595,
+      "no": 0.8405,
+      "oneDayPriceChange": -0.005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.1595
+        },
+        {
+          "name": "No",
+          "price": 0.8405
+        }
+      ]
+    },
+    {
+      "id": "561253",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-tucker-carlson-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/tucker.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 5531.498,
+      "volume": 14434260.789528007,
+      "liquidity": 306237.34187,
+      "yes": 0.013,
+      "no": 0.987,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.013
+        },
+        {
+          "name": "No",
+          "price": 0.987
+        }
+      ]
+    },
+    {
+      "id": "559652",
+      "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
+      "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-gavin-newsom-win-the-2028-us-presidential-election-x9lPL7_gXn--.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 4687.434701,
+      "volume": 28098413.049953,
+      "liquidity": 386010.54763,
+      "yes": 0.1655,
+      "no": 0.8345,
+      "oneDayPriceChange": 0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.1655
+        },
+        {
+          "name": "No",
+          "price": 0.8345
+        }
+      ]
+    },
+    {
+      "id": "561238",
+      "slug": "will-glenn-youngkin-win-the-2028-us-presidential-election",
+      "question": "Will Glenn Youngkin win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-glenn-youngkin-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-glenn-youngkin-win-the-2028-us-presidential-election-XKzgYYMAs2zz.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 4593.516999999999,
+      "volume": 28606933.825017996,
+      "liquidity": 632899.45412,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "561242",
+      "slug": "will-tulsi-gabbard-win-the-2028-us-presidential-election",
+      "question": "Will Tulsi Gabbard win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-tulsi-gabbard-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-tulsi-gabbard-win-the-2028-us-presidential-election-0cQT8aWX-zIp.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 3167.9399999999996,
+      "volume": 35541552.954926,
+      "liquidity": 1589991.72574,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "561231",
+      "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
+      "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election-eX2nG09sPJUu.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 2673.8702399999997,
+      "volume": 14016401.697147,
+      "liquidity": 351369.70949,
+      "yes": 0.13,
+      "no": 0.87,
+      "oneDayPriceChange": 0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.13
+        },
+        {
+          "name": "No",
+          "price": 0.87
+        }
+      ]
+    },
+    {
+      "id": "559675",
+      "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
+      "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Jon_Stewart.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 2589.545831,
+      "volume": 24844582.588742997,
+      "liquidity": 342623.74178,
+      "yes": 0.0065,
+      "no": 0.9935,
+      "oneDayPriceChange": -0.0005,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0065
+        },
+        {
+          "name": "No",
+          "price": 0.9935
+        }
+      ]
+    },
+    {
+      "id": "561249",
+      "slug": "will-greg-abbott-win-the-2028-us-presidential-election",
+      "question": "Will Greg Abbott win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-greg-abbott-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-greg-abbott-win-the-2028-us-presidential-election-iIx0UUNSJ5QB.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 2530.306,
+      "volume": 35433350.25588202,
+      "liquidity": 2326920.11349,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "561252",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/the+rock.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 2162.103715,
+      "volume": 8487223.936622001,
+      "liquidity": 190621.18841,
+      "yes": 0.013,
+      "no": 0.987,
+      "oneDayPriceChange": -0.0025,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.013
+        },
+        {
+          "name": "No",
+          "price": 0.987
+        }
+      ]
+    },
+    {
+      "id": "559667",
+      "slug": "will-michelle-obama-win-the-2028-democratic-presidential-nomination-777",
+      "question": "Will Michelle Obama win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-michelle-obama-win-the-2028-democratic-presidential-nomination-777",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Michelle_Obama.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 2134.992,
+      "volume": 26432049.305451,
+      "liquidity": 2071076.05344,
+      "yes": 0.0065,
+      "no": 0.9935,
+      "oneDayPriceChange": -0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0065
+        },
+        {
+          "name": "No",
+          "price": 0.9935
+        }
+      ]
+    },
+    {
+      "id": "559660",
+      "slug": "will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
+      "question": "Will Andy Beshear win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-andy-beshear-win-the-2028-us-presidential-election-gHwMpj0k-Xon.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1914.933082,
+      "volume": 13508644.446732998,
+      "liquidity": 389036.22671,
+      "yes": 0.0365,
+      "no": 0.9635,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0365
+        },
+        {
+          "name": "No",
+          "price": 0.9635
+        }
+      ]
+    },
+    {
+      "id": "559698",
+      "slug": "will-hakeem-jeffries-win-the-2028-democratic-presidential-nomination",
+      "question": "Will Hakeem Jeffries win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-hakeem-jeffries-win-the-2028-democratic-presidential-nomination",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/jeffries-7cbd13c40d.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1695.498,
+      "volume": 2205039.0511660003,
+      "liquidity": 782316.86149,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "559686",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-democratic-presidential-nomination",
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-dwayne-the-rock-johnson-win-the-2028-democratic-presidential-nomination",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/the+rock.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1652.239679,
+      "volume": 12541653.508359002,
+      "liquidity": 640683.93022,
+      "yes": 0.0085,
+      "no": 0.9915,
+      "oneDayPriceChange": -0.0035,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0085
+        },
+        {
+          "name": "No",
+          "price": 0.9915
+        }
+      ]
+    },
+    {
+      "id": "559655",
+      "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
+      "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-josh-shapiro-win-the-2028-us-presidential-election-h3nL-gpVkam1.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1648.574743,
+      "volume": 10321819.450847,
+      "liquidity": 305853.63127,
+      "yes": 0.052,
+      "no": 0.948,
+      "oneDayPriceChange": 0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.052
+        },
+        {
+          "name": "No",
+          "price": 0.948
+        }
+      ]
+    },
+    {
       "id": "559668",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Mark_Kelly.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 4236.074481,
-      "volume": 17821012.897071004,
-      "liquidity": 305536.46663,
-      "yes": 0.021,
-      "no": 0.979,
-      "oneDayPriceChange": 0.0015,
+      "volume24hr": 1526.16665,
+      "volume": 17822539.063721005,
+      "liquidity": 334400.02393,
+      "yes": 0.022,
+      "no": 0.978,
+      "oneDayPriceChange": 0.0005,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.021
+          "price": 0.022
         },
         {
           "name": "No",
-          "price": 0.979
+          "price": 0.978
         }
       ]
     },
     {
-      "id": "561240",
-      "slug": "will-stephen-smith-win-the-2028-us-presidential-election",
-      "question": "Will Stephen Smith win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-stephen-smith-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-stephen-smith-win-the-2028-us-presidential-election-TLNFUsNkT8yf.png",
+      "id": "561237",
+      "slug": "will-andy-beshear-win-the-2028-us-presidential-election",
+      "question": "Will Andy Beshear win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-andy-beshear-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-andy-beshear-win-the-2028-us-presidential-election-gHwMpj0k-Xon.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 4000.0,
-      "volume": 33699073.244911,
-      "liquidity": 1252656.04722,
+      "volume24hr": 1287.467246,
+      "volume": 19425308.531712,
+      "liquidity": 258820.20558,
+      "yes": 0.0185,
+      "no": 0.9815,
+      "oneDayPriceChange": -0.002,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0185
+        },
+        {
+          "name": "No",
+          "price": 0.9815
+        }
+      ]
+    },
+    {
+      "id": "559697",
+      "slug": "will-abigail-spanberger-win-the-2028-democratic-presidential-nomination",
+      "question": "Will Abigail Spanberger win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-abigail-spanberger-win-the-2028-democratic-presidential-nomination",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/spanberger-2f60d94c40.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1176.233,
+      "volume": 3097080.830166,
+      "liquidity": 456987.52785,
+      "yes": 0.0015,
+      "no": 0.9985,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0015
+        },
+        {
+          "name": "No",
+          "price": 0.9985
+        }
+      ]
+    },
+    {
+      "id": "559661",
+      "slug": "will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
+      "question": "Will Jon Ossoff win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Jon_Ossoff.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1133.196532,
+      "volume": 13570174.363082998,
+      "liquidity": 306240.58035,
+      "yes": 0.1465,
+      "no": 0.8535,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.1465
+        },
+        {
+          "name": "No",
+          "price": 0.8535
+        }
+      ]
+    },
+    {
+      "id": "559654",
+      "slug": "will-pete-buttigieg-win-the-2028-democratic-presidential-nomination-687",
+      "question": "Will Pete Buttigieg win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-pete-buttigieg-win-the-2028-democratic-presidential-nomination-687",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-pete-buttigieg-win-the-2028-us-presidential-election-jPrwim0rDJDu.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1097.977318,
+      "volume": 12267250.274282997,
+      "liquidity": 450664.76393,
+      "yes": 0.05,
+      "no": 0.95,
+      "oneDayPriceChange": -0.001,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.05
+        },
+        {
+          "name": "No",
+          "price": 0.95
+        }
+      ]
+    },
+    {
+      "id": "561235",
+      "slug": "will-wes-moore-win-the-2028-us-presidential-election",
+      "question": "Will Wes Moore win the 2028 US Presidential Election?",
+      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-wes-moore-win-the-2028-us-presidential-election",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-wes-moore-win-the-2028-us-presidential-election-XPjvhtcLdoZV.png",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1078.3154,
+      "volume": 12815421.061281998,
+      "liquidity": 250157.05689,
+      "yes": 0.0105,
+      "no": 0.9895,
+      "oneDayPriceChange": null,
+      "outcomes": [
+        {
+          "name": "Yes",
+          "price": 0.0105
+        },
+        {
+          "name": "No",
+          "price": 0.9895
+        }
+      ]
+    },
+    {
+      "id": "559696",
+      "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
+      "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-graham-platner-win-the-2028-democratic-presidential-nomination",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-graham-platner-win-the-2028-democratic-presidential-nomination-9DMrUzD3p7MR.jpg",
+      "endDate": "2028-11-08T04:59:00Z",
+      "volume24hr": 1020.0,
+      "volume": 8544352.789158002,
+      "liquidity": 2473894.26935,
       "yes": 0.0005,
       "no": 0.9995,
       "oneDayPriceChange": null,
@@ -651,207 +795,63 @@
       ]
     },
     {
-      "id": "559655",
-      "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
-      "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-josh-shapiro-win-the-2028-us-presidential-election-h3nL-gpVkam1.png",
+      "id": "559700",
+      "slug": "will-adam-schiff-win-the-2028-democratic-presidential-nomination",
+      "question": "Will Adam Schiff win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-adam-schiff-win-the-2028-democratic-presidential-nomination",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/schiff-ffd4cd4d01.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 3812.23252,
-      "volume": 10320170.876104003,
-      "liquidity": 269672.94043,
-      "yes": 0.05,
-      "no": 0.95,
-      "oneDayPriceChange": -0.0015,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.05
-        },
-        {
-          "name": "No",
-          "price": 0.95
-        }
-      ]
-    },
-    {
-      "id": "561242",
-      "slug": "will-tulsi-gabbard-win-the-2028-us-presidential-election",
-      "question": "Will Tulsi Gabbard win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-tulsi-gabbard-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-tulsi-gabbard-win-the-2028-us-presidential-election-0cQT8aWX-zIp.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 3780.372000000001,
-      "volume": 35538385.014926,
-      "liquidity": 1578178.01296,
-      "yes": 0.0015,
-      "no": 0.9985,
+      "volume24hr": 1020.0,
+      "volume": 704059.486833,
+      "liquidity": 1824106.55332,
+      "yes": 0.0005,
+      "no": 0.9995,
       "oneDayPriceChange": null,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.0015
+          "price": 0.0005
         },
         {
           "name": "No",
-          "price": 0.9985
+          "price": 0.9995
         }
       ]
     },
     {
-      "id": "561230",
-      "slug": "will-gavin-newsom-win-the-2028-us-presidential-election",
-      "question": "Will Gavin Newsom win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-gavin-newsom-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-gavin-newsom-win-the-2028-us-presidential-election-x9lPL7_gXn--.png",
+      "id": "559669",
+      "slug": "will-rahm-emanuel-win-the-2028-democratic-presidential-nomination-299",
+      "question": "Will Rahm Emanuel win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-rahm-emanuel-win-the-2028-democratic-presidential-nomination-299",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/rahm.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 3773.013903,
-      "volume": 18773024.841508,
-      "liquidity": 315590.25568,
-      "yes": 0.115,
-      "no": 0.885,
-      "oneDayPriceChange": 0.002,
+      "volume24hr": 899.6483979999999,
+      "volume": 14707889.599214999,
+      "liquidity": 910212.51785,
+      "yes": 0.017,
+      "no": 0.983,
+      "oneDayPriceChange": 0.001,
       "outcomes": [
         {
           "name": "Yes",
-          "price": 0.115
+          "price": 0.017
         },
         {
           "name": "No",
-          "price": 0.885
+          "price": 0.983
         }
       ]
     },
     {
-      "id": "559677",
-      "slug": "will-hillary-clinton-win-the-2028-democratic-presidential-nomination",
-      "question": "Will Hillary Clinton win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-hillary-clinton-win-the-2028-democratic-presidential-nomination",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Hillary_Clinton.png",
+      "id": "559671",
+      "slug": "will-zohran-mamdani-win-the-2028-democratic-presidential-nomination-445",
+      "question": "Will Zohran Mamdani win the 2028 Democratic presidential nomination?",
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-zohran-mamdani-win-the-2028-democratic-presidential-nomination-445",
+      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Zohran_Mamdani.png",
       "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 3732.427,
-      "volume": 44324583.901838996,
-      "liquidity": 2669317.27551,
-      "yes": 0.0025,
-      "no": 0.9975,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0025
-        },
-        {
-          "name": "No",
-          "price": 0.9975
-        }
-      ]
-    },
-    {
-      "id": "559680",
-      "slug": "will-phil-murphy-win-the-2028-democratic-presidential-nomination-611",
-      "question": "Will Phil Murphy win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-phil-murphy-win-the-2028-democratic-presidential-nomination-611",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-phil-murphy-win-the-2028-democratic-presidential-nomination-611-TSpDwU2ocX34.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 3485.388,
-      "volume": 42952609.546866,
-      "liquidity": 2605970.58086,
-      "yes": 0.0015,
-      "no": 0.9985,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0015
-        },
-        {
-          "name": "No",
-          "price": 0.9985
-        }
-      ]
-    },
-    {
-      "id": "559694",
-      "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
-      "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-ro-khanna-win-the-2028-democratic-presidential-nomination",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Ro_Khanna1.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 2984.0072819999996,
-      "volume": 11565256.016585998,
-      "liquidity": 373825.66824,
-      "yes": 0.014,
-      "no": 0.986,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.014
-        },
-        {
-          "name": "No",
-          "price": 0.986
-        }
-      ]
-    },
-    {
-      "id": "559676",
-      "slug": "will-barack-obama-win-the-2028-democratic-presidential-nomination-265",
-      "question": "Will Barack Obama win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-barack-obama-win-the-2028-democratic-presidential-nomination-265",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Barack_Obama.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 2863.744,
-      "volume": 34403410.769361,
-      "liquidity": 2309974.51515,
-      "yes": 0.0025,
-      "no": 0.9975,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0025
-        },
-        {
-          "name": "No",
-          "price": 0.9975
-        }
-      ]
-    },
-    {
-      "id": "559662",
-      "slug": "will-mark-cuban-win-the-2028-democratic-presidential-nomination-329",
-      "question": "Will Mark Cuban win the 2028 Democratic presidential nomination?",
-      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028/will-mark-cuban-win-the-2028-democratic-presidential-nomination-329",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/Mark_Cuban.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 2374.7015,
-      "volume": 23269165.003906,
-      "liquidity": 1773720.49239,
-      "yes": 0.0025,
-      "no": 0.9975,
-      "oneDayPriceChange": null,
-      "outcomes": [
-        {
-          "name": "Yes",
-          "price": 0.0025
-        },
-        {
-          "name": "No",
-          "price": 0.9975
-        }
-      ]
-    },
-    {
-      "id": "561249",
-      "slug": "will-greg-abbott-win-the-2028-us-presidential-election",
-      "question": "Will Greg Abbott win the 2028 US Presidential Election?",
-      "url": "https://polymarket.com/event/presidential-election-winner-2028/will-greg-abbott-win-the-2028-us-presidential-election",
-      "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-greg-abbott-win-the-2028-us-presidential-election-iIx0UUNSJ5QB.png",
-      "endDate": "2028-11-08T04:59:00Z",
-      "volume24hr": 1219.84,
-      "volume": 35430819.949882016,
-      "liquidity": 2322081.46401,
+      "volume24hr": 862.625,
+      "volume": 39022126.75661,
+      "liquidity": 2620932.90239,
       "yes": 0.0015,
       "no": 0.9985,
       "oneDayPriceChange": null,
