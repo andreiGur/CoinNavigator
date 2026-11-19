@@ -355,7 +355,7 @@
     const TARGET_TICKERS = [
       'BTC','ETH','SOL','XRP','TON',
       'DOGE','ADA','BNB','TRX','DOT',
-      'LINK','LTC','AVAX','MATIC','SHIB',
+      'LINK','LTC','AVAX','POL','SHIB',
       'UNI','XLM','NEAR','ATOM','APT',
     ];
     const HISTORY_KEY = 'coinnavigator_spread_history_v1';
@@ -364,7 +364,7 @@
       try {
         const raw = localStorage.getItem('coinnavigator_favs') || '[]';
         const arr = JSON.parse(raw);
-        return Array.isArray(arr) ? arr.filter(Boolean) : [];
+        return Array.isArray(arr) ? arr.map((s) => (s === 'MATICUSDT' || s === 'MATIC' ? 'POLUSDT' : s)).filter(Boolean) : [];
       } catch { return []; }
     }
     function setFavs(arr) {

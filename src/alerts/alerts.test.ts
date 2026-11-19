@@ -2,6 +2,7 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { MemoryAlertStorage } from './memory-storage.js';
 import { createAlertSubscription, unsubscribeAlert } from './service.js';
 import { validateCreateAlertInput } from './validate.js';
+import { normalizeAsset } from './allowlist.js';
 import { createUnsubscribeToken, normalizeEmail, hashUserAgent } from './tokens.js';
 import { checkRateLimit, resetRateLimits } from './rate-limit.js';
 import { handleCreateAlertRequest, handleUnsubscribeRequest } from './http.js';
@@ -81,6 +82,15 @@ describe('alert validation', () => {
     const result = validateCreateAlertInput(baseBody({ asset: 'DOGECOINMAX' }));
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.reason).toBe('unsupported_asset');
+  });
+
+  it('maps legacy MATIC ticker to POL', () => {
+    expect(normalizeAsset('MATIC')).toBe('POL');
+    expect(normalizeAsset('MATICUSDT')).toBe('POL');
+    expect(normalizeAsset('POL')).toBe('POL');
+    const result = validateCreateAlertInput(baseBody({ asset: 'MATIC' }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.value.asset).toBe('POL');
   });
 
   it('rejects missing or out-of-range trade amount', () => {

@@ -425,6 +425,69 @@ function calculateNetProfit(input) {
   };
 }
 
+// src/alerts/allowlist.ts
+var SUPPORTED_EXCHANGES2 = [
+  "Binance",
+  "MEXC",
+  "Bybit",
+  "OKX",
+  "KuCoin",
+  "Gate"
+];
+var SUPPORTED_ASSETS = [
+  "BTC",
+  "ETH",
+  "SOL",
+  "XRP",
+  "TON",
+  "DOGE",
+  "ADA",
+  "BNB",
+  "TRX",
+  "DOT",
+  "LINK",
+  "LTC",
+  "AVAX",
+  "POL",
+  "SHIB",
+  "UNI",
+  "XLM",
+  "NEAR",
+  "ATOM",
+  "APT"
+];
+var EXCHANGE_SET = new Set(SUPPORTED_EXCHANGES2);
+var ASSET_SET = new Set(SUPPORTED_ASSETS);
+var ASSET_ALIASES = {
+  MATIC: "POL"
+};
+var EXCHANGE_ALIASES = {
+  gate: "Gate",
+  "gate.io": "Gate",
+  gateio: "Gate",
+  binance: "Binance",
+  mexc: "MEXC",
+  bybit: "Bybit",
+  okx: "OKX",
+  kucoin: "KuCoin"
+};
+function normalizeAsset(raw) {
+  if (typeof raw !== "string") return null;
+  let s = raw.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if (!s) return null;
+  if (s.endsWith("USDT") && s.length > 4) s = s.slice(0, -4);
+  if (ASSET_SET.has(s)) return s;
+  return ASSET_ALIASES[s] ?? null;
+}
+function normalizeExchange(raw) {
+  if (typeof raw !== "string") return null;
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  if (EXCHANGE_SET.has(trimmed)) return trimmed;
+  const alias = EXCHANGE_ALIASES[trimmed.toLowerCase()];
+  return alias ?? null;
+}
+
 // src/alerts/match/policies.ts
 var MATCHER_STALE_MS = 20 * 60 * 1e3;
 var DEFAULT_MIN_NET_PROFIT_PCT = 0.25;
@@ -458,10 +521,11 @@ function evaluateOpportunity(alert, opp, opts = {}) {
     if (opp.buyExchange !== alert.buy_exchange || opp.sellExchange !== alert.sell_exchange) {
       return { ok: false, reason: "no_matching_opportunity" };
     }
-  } else if (alert.asset !== opp.asset) {
+  }
+  const alertAsset = normalizeAsset(alert.asset);
+  if (!alertAsset || alertAsset !== opp.asset) {
     return { ok: false, reason: "no_matching_opportunity" };
   }
-  if (alert.asset !== opp.asset) return { ok: false, reason: "no_matching_opportunity" };
   const buyFee = getEstimatedTakerFeePct(opp.buyExchange);
   const sellFee = getEstimatedTakerFeePct(opp.sellExchange);
   if (buyFee == null || sellFee == null) {
@@ -502,7 +566,7 @@ function evaluateOpportunity(alert, opp, opts = {}) {
     ok: true,
     match: {
       matched: true,
-      asset: alert.asset,
+      asset: opp.asset,
       buyExchange: opp.buyExchange,
       sellExchange: opp.sellExchange,
       tradeAmountUsd: amount,
@@ -564,58 +628,6 @@ function opportunityImprovementFingerprint(input) {
     input.netPctRounded
   ].join("|");
   return createHash2("sha256").update(raw).digest("hex").slice(0, 40);
-}
-
-// src/alerts/allowlist.ts
-var SUPPORTED_EXCHANGES2 = [
-  "Binance",
-  "MEXC",
-  "Bybit",
-  "OKX",
-  "KuCoin",
-  "Gate"
-];
-var SUPPORTED_ASSETS = [
-  "BTC",
-  "ETH",
-  "SOL",
-  "XRP",
-  "TON",
-  "DOGE",
-  "ADA",
-  "BNB",
-  "TRX",
-  "DOT",
-  "LINK",
-  "LTC",
-  "AVAX",
-  "MATIC",
-  "SHIB",
-  "UNI",
-  "XLM",
-  "NEAR",
-  "ATOM",
-  "APT"
-];
-var EXCHANGE_SET = new Set(SUPPORTED_EXCHANGES2);
-var ASSET_SET = new Set(SUPPORTED_ASSETS);
-var EXCHANGE_ALIASES = {
-  gate: "Gate",
-  "gate.io": "Gate",
-  gateio: "Gate",
-  binance: "Binance",
-  mexc: "MEXC",
-  bybit: "Bybit",
-  okx: "OKX",
-  kucoin: "KuCoin"
-};
-function normalizeExchange(raw) {
-  if (typeof raw !== "string") return null;
-  const trimmed = raw.trim();
-  if (!trimmed) return null;
-  if (EXCHANGE_SET.has(trimmed)) return trimmed;
-  const alias = EXCHANGE_ALIASES[trimmed.toLowerCase()];
-  return alias ?? null;
 }
 
 // src/alerts/match/opportunities.ts
@@ -872,10 +884,12 @@ async function runAlertMatcher(deps) {
       summary.missing_trade_amount += 1;
       continue;
     }
-    let candidates = oppCache.get(alert.asset);
+    const asset = normalizeAsset(alert.asset);
+    if (!asset) continue;
+    let candidates = oppCache.get(asset);
     if (!candidates) {
-      candidates = extractOpportunitiesForAsset(deps.snapshot, alert.asset);
-      oppCache.set(alert.asset, candidates);
+      candidates = extractOpportunitiesForAsset(deps.snapshot, asset);
+      oppCache.set(asset, candidates);
       summary.opportunities_checked += candidates.length;
     }
     const evaluated = pickBestCandidate(alert, candidates, { now: nowFn });
@@ -1007,7 +1021,8 @@ async function fetchJson(url, fetchImpl) {
   try {
     const res = await fetchImpl(url, {
       method: "GET",
-      headers: { Accept: "application/json" }
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(8e3)
     });
     if (!res.ok) return null;
     return await res.json();
@@ -1015,30 +1030,57 @@ async function fetchJson(url, fetchImpl) {
     return null;
   }
 }
+function parseMaybeWrappedSnapshot(raw) {
+  const direct = parseSpreadSnapshot(raw);
+  if (direct) return direct;
+  if (!raw || typeof raw !== "object") return null;
+  const body = raw;
+  if (body.data && typeof body.data === "object") {
+    return parseSpreadSnapshot(body.data);
+  }
+  return null;
+}
+function pickBestSnapshot(candidates, now) {
+  if (!candidates.length) return null;
+  const fresh = candidates.filter((c) => snapshotAgeMs(c.snapshot, now) <= MATCHER_STALE_MS);
+  const pool = fresh.length ? fresh : candidates;
+  pool.sort((a, b) => Date.parse(b.snapshot.timestamp) - Date.parse(a.snapshot.timestamp));
+  return pool[0] ?? null;
+}
 async function loadSpreadSnapshot(opts) {
   if (opts.injected !== void 0) {
-    const parsed = parseSpreadSnapshot(opts.injected);
+    const parsed = parseMaybeWrappedSnapshot(opts.injected);
     return parsed ? { ok: true, snapshot: parsed, source: "injected" } : { ok: false, reason: "malformed" };
   }
   const env = opts.env ?? process.env;
-  const localCandidates = ["data/spread_data.json", "spread_data.json"];
-  for (const rel of localCandidates) {
-    const raw = await readLocalJson(rel);
-    if (raw == null) continue;
-    const parsed = parseSpreadSnapshot(raw);
-    if (parsed) return { ok: true, snapshot: parsed, source: rel };
-    return { ok: false, reason: "malformed" };
-  }
-  const origin = (env.ALERTS_SITE_ORIGIN || "https://coinnavigator.net").replace(/\/$/, "");
+  const now = opts.now ?? Date.now();
   const fetchImpl = opts.fetchImpl ?? fetch;
-  for (const path of ["/data/spread_data.json", "/spread_data.json"]) {
-    const raw = await fetchJson(`${origin}${path}`, fetchImpl);
+  const readLocal = opts.readLocal ?? readLocalJson;
+  const origin = (env.ALERTS_SITE_ORIGIN || "https://www.coinnavigator.net").replace(/\/$/, "");
+  const candidates = [];
+  const liveRaw = await fetchJson(
+    `${origin}/api/market-data?operation=spread_snapshot`,
+    fetchImpl
+  );
+  const liveParsed = parseMaybeWrappedSnapshot(liveRaw);
+  if (liveParsed) candidates.push({ snapshot: liveParsed, source: "live_gateway" });
+  for (const rel of ["data/spread_data.json", "spread_data.json"]) {
+    const raw = await readLocal(rel);
     if (raw == null) continue;
-    const parsed = parseSpreadSnapshot(raw);
-    if (parsed) return { ok: true, snapshot: parsed, source: `http:${path}` };
-    return { ok: false, reason: "malformed" };
+    const parsed = parseMaybeWrappedSnapshot(raw);
+    if (parsed) candidates.push({ snapshot: parsed, source: rel });
   }
-  return { ok: false, reason: "unavailable" };
+  if (!candidates.some((c) => c.source === "live_gateway")) {
+    for (const path of ["/data/spread_data.json", "/spread_data.json"]) {
+      const raw = await fetchJson(`${origin}${path}`, fetchImpl);
+      if (raw == null) continue;
+      const parsed = parseMaybeWrappedSnapshot(raw);
+      if (parsed) candidates.push({ snapshot: parsed, source: `http:${path}` });
+    }
+  }
+  const best = pickBestSnapshot(candidates, now);
+  if (!best) return { ok: false, reason: "unavailable" };
+  return { ok: true, snapshot: best.snapshot, source: best.source };
 }
 
 // src/alerts/storage.ts

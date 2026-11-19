@@ -25,7 +25,7 @@ export const MARKET_DATA_ASSETS = [
   'LINK',
   'LTC',
   'AVAX',
-  'MATIC',
+  'POL',
   'SHIB',
   'UNI',
   'XLM',
@@ -47,6 +47,11 @@ export const HOMEPAGE_SYMBOLS: readonly string[] = MARKET_DATA_ASSETS.map(
 
 const EXCHANGE_SET = new Set<string>(MARKET_DATA_EXCHANGES);
 const ASSET_SET = new Set<string>(MARKET_DATA_ASSETS);
+
+/** Polygon rebranded MATIC → POL. */
+const ASSET_ALIASES: Record<string, MarketDataAsset> = {
+  MATIC: 'POL',
+};
 
 const EXCHANGE_ALIASES: Record<string, MarketDataExchange> = {
   binance: 'Binance',
@@ -72,7 +77,7 @@ export function normalizeMarketAsset(raw: unknown): MarketDataAsset | null {
   if (!s) return null;
   if (s.endsWith('USDT') && s.length > 4) s = s.slice(0, -4);
   if (ASSET_SET.has(s)) return s as MarketDataAsset;
-  return null;
+  return ASSET_ALIASES[s] ?? null;
 }
 
 export function toSpotSymbol(asset: MarketDataAsset): string {

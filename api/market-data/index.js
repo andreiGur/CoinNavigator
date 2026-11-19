@@ -42,7 +42,7 @@ var MARKET_DATA_ASSETS = [
   "LINK",
   "LTC",
   "AVAX",
-  "MATIC",
+  "POL",
   "SHIB",
   "UNI",
   "XLM",
@@ -57,6 +57,9 @@ var HOMEPAGE_SYMBOLS = MARKET_DATA_ASSETS.map(
 );
 var EXCHANGE_SET = new Set(MARKET_DATA_EXCHANGES);
 var ASSET_SET = new Set(MARKET_DATA_ASSETS);
+var ASSET_ALIASES = {
+  MATIC: "POL"
+};
 var EXCHANGE_ALIASES = {
   binance: "Binance",
   bybit: "Bybit",
@@ -79,7 +82,7 @@ function normalizeMarketAsset(raw) {
   if (!s) return null;
   if (s.endsWith("USDT") && s.length > 4) s = s.slice(0, -4);
   if (ASSET_SET.has(s)) return s;
-  return null;
+  return ASSET_ALIASES[s] ?? null;
 }
 function toSpotSymbol(asset) {
   return `${asset}${MARKET_DATA_QUOTE}`;

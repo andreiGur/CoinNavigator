@@ -26,7 +26,7 @@ export const SUPPORTED_ASSETS = [
   'LINK',
   'LTC',
   'AVAX',
-  'MATIC',
+  'POL',
   'SHIB',
   'UNI',
   'XLM',
@@ -39,6 +39,11 @@ export type SupportedAsset = (typeof SUPPORTED_ASSETS)[number];
 
 const EXCHANGE_SET = new Set<string>(SUPPORTED_EXCHANGES);
 const ASSET_SET = new Set<string>(SUPPORTED_ASSETS);
+
+/** Polygon rebranded MATIC → POL; keep the old ticker working for stored alerts. */
+const ASSET_ALIASES: Record<string, SupportedAsset> = {
+  MATIC: 'POL',
+};
 
 const EXCHANGE_ALIASES: Record<string, SupportedExchange> = {
   gate: 'Gate',
@@ -57,7 +62,7 @@ export function normalizeAsset(raw: unknown): SupportedAsset | null {
   if (!s) return null;
   if (s.endsWith('USDT') && s.length > 4) s = s.slice(0, -4);
   if (ASSET_SET.has(s)) return s as SupportedAsset;
-  return null;
+  return ASSET_ALIASES[s] ?? null;
 }
 
 export function normalizeExchange(raw: unknown): SupportedExchange | null {

@@ -6,7 +6,7 @@
         const TARGET_TICKERS = [
             'BTC','ETH','SOL','XRP','TON',
             'DOGE','ADA','BNB','TRX','DOT',
-            'LINK','LTC','AVAX','MATIC','SHIB',
+            'LINK','LTC','AVAX','POL','SHIB',
             'UNI','XLM','NEAR','ATOM','APT',
         ];
         const TARGET_SYMBOLS = TARGET_TICKERS.map(t => t + 'USDT');
@@ -222,7 +222,8 @@
             try {
                 const raw = localStorage.getItem('coinnavigator_favs') || '[]';
                 const arr = JSON.parse(raw);
-                return Array.isArray(arr) ? arr.filter(Boolean) : [];
+                if (!Array.isArray(arr)) return [];
+                return arr.map((s) => (s === 'MATICUSDT' || s === 'MATIC' ? 'POLUSDT' : s)).filter(Boolean);
             } catch {
                 return [];
             }
@@ -790,7 +791,7 @@
             LINK: 'chainlink',
             LTC: 'litecoin',
             AVAX: 'avalanche-2',
-            MATIC: 'polygon-ecosystem-token',
+            POL: 'polygon-ecosystem-token',
             SHIB: 'shiba-inu',
             UNI: 'uniswap',
             XLM: 'stellar',

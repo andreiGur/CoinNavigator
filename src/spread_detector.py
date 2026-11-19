@@ -15,7 +15,7 @@ class SpreadDetector:
             "XRPUSDT", "TONUSDT",
             "DOGEUSDT", "ADAUSDT", "BNBUSDT", "TRXUSDT",
             "DOTUSDT", "LINKUSDT", "LTCUSDT", "AVAXUSDT",
-            "MATICUSDT", "SHIBUSDT", "UNIUSDT", "XLMUSDT",
+            "POLUSDT", "SHIBUSDT", "UNIUSDT", "XLMUSDT",
             "NEARUSDT", "ATOMUSDT", "APTUSDT",
         ]
 
@@ -158,7 +158,10 @@ class SpreadDetector:
             return None, err
         try:
             if str(data.get("code")) == "200000":
-                return float(data["data"]["price"]), None
+                payload = data.get("data")
+                if not isinstance(payload, dict) or payload.get("price") is None:
+                    return None, "Symbol not listed"
+                return float(payload["price"]), None
             return None, f"code={data.get('code')} msg={data.get('msg')}"
         except Exception as e:
             return None, f"{type(e).__name__}: {e}"

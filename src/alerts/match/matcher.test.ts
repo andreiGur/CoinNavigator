@@ -716,3 +716,38 @@ describe('cron security + smoke', () => {
     expect(failStore.getDeliveries()[0]!.failure_category).toBe('provider_rejected');
   });
 });
+
+describe('loadSpreadSnapshot prefers a fresh live gateway', () => {
+  it('unwraps { ok, data } and ignores a stale committed JSON file', async () => {
+    const { loadSpreadSnapshot, parseMaybeWrappedSnapshot } = await import('./snapshot.js');
+    const liveTs = '2026-08-18T11:55:00.000Z';
+    const wrapped = {
+      ok: true,
+      data: {
+        timestamp: liveTs,
+        symbols: { BTCUSDT: { prices: { Binance: 100, MEXC: 101 } } },
+      },
+    };
+    expect(parseMaybeWrappedSnapshot(wrapped)?.timestamp).toBe(liveTs);
+
+    const result = await loadSpreadSnapshot({
+      now: Date.parse(NOW.toISOString()),
+      readLocal: async () => ({
+        timestamp: STALE_TS,
+        symbols: { BTCUSDT: { prices: { Binance: 1, MEXC: 2 } } },
+      }),
+      fetchImpl: async (input) => {
+        const url = String(input);
+        if (url.includes('operation=spread_snapshot')) {
+          return new Response(JSON.stringify(wrapped), { status: 200 });
+        }
+        return new Response('missing', { status: 404 });
+      },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.source).toBe('live_gateway');
+      expect(result.snapshot.timestamp).toBe(liveTs);
+    }
+  });
+});

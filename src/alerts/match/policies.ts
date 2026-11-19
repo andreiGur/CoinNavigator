@@ -2,7 +2,7 @@
  * Matcher policy constants — documented, testable, conservative MVP.
  */
 
-/** Homepage snapshot refreshes ~every 15 min; matcher skips older than this. */
+/** Skip snapshots older than this. Live gateway timestamps are seconds old; committed JSON can lag. */
 export const MATCHER_STALE_MS = 20 * 60 * 1000;
 
 /**

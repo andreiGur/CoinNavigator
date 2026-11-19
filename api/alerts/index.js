@@ -196,7 +196,7 @@ var SUPPORTED_ASSETS = [
   "LINK",
   "LTC",
   "AVAX",
-  "MATIC",
+  "POL",
   "SHIB",
   "UNI",
   "XLM",
@@ -206,6 +206,9 @@ var SUPPORTED_ASSETS = [
 ];
 var EXCHANGE_SET = new Set(SUPPORTED_EXCHANGES);
 var ASSET_SET = new Set(SUPPORTED_ASSETS);
+var ASSET_ALIASES = {
+  MATIC: "POL"
+};
 var EXCHANGE_ALIASES = {
   gate: "Gate",
   "gate.io": "Gate",
@@ -222,7 +225,7 @@ function normalizeAsset(raw) {
   if (!s) return null;
   if (s.endsWith("USDT") && s.length > 4) s = s.slice(0, -4);
   if (ASSET_SET.has(s)) return s;
-  return null;
+  return ASSET_ALIASES[s] ?? null;
 }
 function normalizeExchange(raw) {
   if (typeof raw !== "string") return null;

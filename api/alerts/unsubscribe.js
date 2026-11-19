@@ -59,7 +59,7 @@ var SUPPORTED_ASSETS = [
   "LINK",
   "LTC",
   "AVAX",
-  "MATIC",
+  "POL",
   "SHIB",
   "UNI",
   "XLM",

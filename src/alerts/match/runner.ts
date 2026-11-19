@@ -18,6 +18,7 @@ import {
   opportunityEmailSubject,
   opportunityEmailText,
 } from './opportunity-email.js';
+import { normalizeAsset } from '../allowlist.js';
 import {
   ALERT_BATCH_SIZE,
   EMAIL_CONCURRENCY,
@@ -143,10 +144,12 @@ export async function runAlertMatcher(deps: RunMatcherDeps): Promise<MatcherRunS
       summary.missing_trade_amount += 1;
       continue;
     }
-    let candidates = oppCache.get(alert.asset);
+    const asset = normalizeAsset(alert.asset);
+    if (!asset) continue;
+    let candidates = oppCache.get(asset);
     if (!candidates) {
-      candidates = extractOpportunitiesForAsset(deps.snapshot, alert.asset);
-      oppCache.set(alert.asset, candidates);
+      candidates = extractOpportunitiesForAsset(deps.snapshot, asset);
+      oppCache.set(asset, candidates);
       summary.opportunities_checked += candidates.length;
     }
     const evaluated = pickBestCandidate(alert, candidates, { now: nowFn });

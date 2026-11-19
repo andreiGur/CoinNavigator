@@ -1,4 +1,5 @@
 import { calculateNetProfit, getEstimatedTakerFeePct } from '../../net-profit/index.js';
+import { normalizeAsset } from '../allowlist.js';
 import type { AlertSubscription } from '../types.js';
 import type { OpportunityCandidate } from './opportunities.js';
 import { DEFAULT_MIN_NET_PROFIT_PCT } from './policies.js';
@@ -80,11 +81,12 @@ export function evaluateOpportunity(
     if (opp.buyExchange !== alert.buy_exchange || opp.sellExchange !== alert.sell_exchange) {
       return { ok: false, reason: 'no_matching_opportunity' };
     }
-  } else if (alert.asset !== opp.asset) {
-    return { ok: false, reason: 'no_matching_opportunity' };
   }
 
-  if (alert.asset !== opp.asset) return { ok: false, reason: 'no_matching_opportunity' };
+  const alertAsset = normalizeAsset(alert.asset);
+  if (!alertAsset || alertAsset !== opp.asset) {
+    return { ok: false, reason: 'no_matching_opportunity' };
+  }
 
   const buyFee = getEstimatedTakerFeePct(opp.buyExchange);
   const sellFee = getEstimatedTakerFeePct(opp.sellExchange);
@@ -131,7 +133,7 @@ export function evaluateOpportunity(
     ok: true,
     match: {
       matched: true,
-      asset: alert.asset,
+      asset: opp.asset,
       buyExchange: opp.buyExchange,
       sellExchange: opp.sellExchange,
       tradeAmountUsd: amount,
